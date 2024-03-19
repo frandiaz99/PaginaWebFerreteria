@@ -1,0 +1,21 @@
+Empresa -> Empleados[(FK)], Duenos[(FK):Empleados],  Sucursales [(FK)], Trueques[(FK)] 
+
+Sucursal -> Empleados[(FK)], direccion: String(link maps), Trueques[(FK)]
+
+Usuario -> DNI, email, contrasena, publicaciones [(FK)],  trueques [(FK)], SuscriptoNovedades:Boolean, Puntos:int, Valoracion[(FK)], Intentos_Desbloqueo:1..4, 
+    Prodria ir tambien una variable de token pero tengo que ver como funca eso
+
+Empleado -> Usuario(FK), Trueques_Cerrados [(FK): Trueques], VentasProductos [(FK): Ventas]
+
+Trueques -> User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Fecha_Venta?, Publicacion(FK), Estado(Pendiente/Confirmado), Opinion_Publica(FK)?, Opinion_Compra(FK)?
+    Cuando un empleado termina el trueque pasa a estado de Confirmado
+
+Publicacion -> Imagen, Titulo, Descripcion, RangoPrecio?, Estado(LIbre/Pendiente), Fecha, Promocionado:Boolean
+    Cuando se arregla un trueque pasaria a estado de pendiente para que no se muestre
+
+Promociones -> Imagen, Texto, Estado(Pendiente/Aprovado), Fecha, Dumracion(Dias)
+
+Ventas  -> Cod_Producto, Nombre_Producto, Precio, Empleado(FK), Usuario(FK), Trueques(FK)?
+
+Valoracion -> Nombre_Usuario:String, Opinion:String, Puntos:1..5, Trueques(FK), Usuario(FK)
+  El Nombre_Usuario seria el nombre del que opina, no guardo su id xq me parece alp2 y no tiene por que. Se podria poner hasta que el que opina elija el nombre con el que aparecece
