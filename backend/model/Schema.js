@@ -1,16 +1,18 @@
-const uniqueValidator = require("mongoose-unique-validator");
+const mongodb = require ("mongodb");
 
-import mongoose from "mongoose";
-import autopopulate from "mongoose-autoPopulate";
-import { Double } from "mongodb";
+const autopopulate = require("mongoose-autopopulate");
+
+const mongoose = require ("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = mongoose.Schema({
   email: {type: String, required: true, unique: true},
-  dni: {type: int, required: true, unique: true},
-  password: { type: String, required: true},
+  dni: {type: Number, required: true, unique: true},
+  password: { type: String, required: true, minlength: 8},
+  rol: {type: Number, required: true},   //1 usuario, 2 empleado 3 administrador
   suscripto: {type: Boolean},
-  puntos: {type: int},
-  intento_desbloqueo: {type: int},
+  puntos: {type: Number},
+  intento_desbloqueo: {type: Number},
 
 
   publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true, required: true},
@@ -36,7 +38,7 @@ const empleadoSchema = mongoose.Schema({
 const publicacionSchema = mongoose.Schema({
   titulo: {type: String, required: true},
   descripcion: {type: String, required: true},
-  rango_precio: {type: Double},
+  rango_precio: {type: Number},
   estado_libre: {type: Boolean, default: true},
   fecha: {type: Date},
   promocionado: {type: Boolean, default: false},
@@ -71,16 +73,16 @@ const promocionSchema = mongoose.Schema({
   texto: {type: String},
   aprobado: {type: Boolean, default: false},
   fecha: {type: Date, required: true},
-  duracion: {type: int, required: true}
+  duracion: {type: Number, required: true}
   //Promociones -> Imagen,
 });
 
 
 
 const ventaSchema = mongoose.Schema({
-  codigo_producto: {required: true, type: int},
+  codigo_producto: {required: true, type: Number},
   nombre_producto: {required: true, type: String},
-  precio_producto: {required: true, type: Double}
+  precio_producto: {required: true, type: Number}
   
   //Empleado(FK), Usuario(FK), Trueques(FK)?
 });
@@ -89,7 +91,7 @@ const ventaSchema = mongoose.Schema({
 const valoracionSchema = mongoose.Schema({
   nombre: {type: String, required: true, default:'Anonimo'},
   opinion: {type: String, required: true},
-  valoracion: {type: int, required: true},
+  valoracion: {type: Number, required: true},
   
   usuario: {type: [mongoose.Schema.Types.ObjectId], ref: "Usuario", autopopulate: true, required: true},
 
@@ -102,6 +104,19 @@ const valoracionSchema = mongoose.Schema({
 
 userSchema.plugin(uniqueValidator);
 
+
+//MONGOOSE AUTO-POPULATE
+userSchema.plugin(autopopulate);
+empleadoSchema.plugin(autopopulate);
+sucursalSchema.plugin(autopopulate);
+truequeSchema.plugin(autopopulate);
+publicacionSchema.plugin(autopopulate);
+promocionSchema.plugin(autopopulate);
+ventaSchema.plugin(autopopulate);
+valoracionSchema.plugin(autopopulate);
+
+
+
 //EXPORTING MODELS
 
 const DataUser = mongoose.model("User",userSchema);
@@ -109,12 +124,12 @@ const DataEmpleado = mongoose.model("Empleado", empleadoSchema);
 const DataSucursal = mongoose.model("Sucursal", sucursalSchema);
 const DataTrueque = mongoose.model("Trueque", truequeSchema);
 const DataPublicacion = mongoose.model("Publicacion", publicacionSchema);
-const DataPromocion = mongoose.Schema("Promocion", promocionSchema);
-const DataVenta = mongoose.Schema("Venta", ventaSchema);
-const DataValoracion = mongoose.Schema("Valoracion", valoracionSchema);
+const DataPromocion = mongoose.model("Promocion", promocionSchema);
+const DataVenta = mongoose.model("Venta", ventaSchema);
+const DataValoracion = mongoose.model("Valoracion", valoracionSchema);
 
 
-export {DataEmpleado, DataPromocion, DataPublicacion, DataSucursal, DataTrueque, DataUser, DataValoracion, DataVenta};
+module.exports = {DataEmpleado, DataPromocion, DataPublicacion, DataSucursal, DataTrueque, DataUser, DataValoracion, DataVenta};
 
 
 
