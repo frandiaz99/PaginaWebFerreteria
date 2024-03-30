@@ -7,6 +7,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = mongoose.Schema({
   email: {type: String, required: true, unique: true},
+  /*
   dni: {type: Number, required: true, unique: true},
   password: { type: String, required: true, minlength: 8},
   rol: {type: Number, required: true},   //1 usuario, 2 empleado 3 administrador
@@ -14,9 +15,8 @@ const userSchema = mongoose.Schema({
   puntos: {type: Number},
   intento_desbloqueo: {type: Number},
 
-
   publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true, required: true},
-
+  */
   //publicaciones [(FK)],  trueques [(FK)], Valoracion[(FK)]
 });
 

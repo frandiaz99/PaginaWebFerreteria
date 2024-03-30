@@ -1,4 +1,4 @@
-const {User} = require("../model/Schema")
+const {DataUser} = require("../model/Schema")
 
 exports.register = async (req, res, next) => {
   const { username, password } = req.body
@@ -6,7 +6,7 @@ exports.register = async (req, res, next) => {
     return res.status(400).json({ message: "Password less than 6 characters" })
   }
   try {
-    await User.create({
+    await DataUser.create({
       username,
       password,
     }).then(user =>
