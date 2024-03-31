@@ -7,9 +7,10 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = mongoose.Schema({
   email: {type: String, required: true, unique: true},
+  rawPassword: { type: String, required: true, minlength: 8},
+  password: { type: String, required: true}
   /*
   dni: {type: Number, required: true, unique: true},
-  password: { type: String, required: true, minlength: 8},
   rol: {type: Number, required: true},   //1 usuario, 2 empleado 3 administrador
   suscripto: {type: Boolean},
   puntos: {type: Number},

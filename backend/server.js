@@ -9,7 +9,6 @@ const {DataUser} = require("./model/Schema")
 app.use(express.json())
 //fin pruebas
 
-//app.use("/api/auth", require("./auth/route"))       comentado momentaneamente para ver que no sea lo q ue causa error
 
 
 
@@ -50,6 +49,10 @@ process.on("unhandledRejection", err => {
   server.close(() => process.exit(1))
 })
 
+
+
+//comentado momentaneamente para ver que no sea lo q ue causa error
+app.use("/api/auth", require("./auth/route"))
 
 ///prueba
 app.get ('/home' , (req, res) => {
