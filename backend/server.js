@@ -2,13 +2,10 @@ const express = require("express")
 const app = express()
 //const connectDB = require("./database/db");
 const PORT = 5000
+const cookieParser = require ("cookie-parser");
+const mongoose = require("mongoose");
 
-//pruebas
-
-const {DataUser} = require("./model/Schema")
-app.use(express.json())
-//fin pruebas
-
+const {adminAuth, workerAuth, userAuth} = require ("./middleware/auth.js");
 
 
 
@@ -17,7 +14,6 @@ app.use(express.json())
 
 //prueba
 
-const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/DB");
 //mongoose.connect("mongodb://0.0.0.0:27017/");
 const database = mongoose.connection;
@@ -38,6 +34,16 @@ database.on("disconected", () => {
 //fin prueba
 
 
+
+//pruebas
+
+const {DataUser} = require("./model/Schema")
+app.use(express.json())
+app.use(cookieParser());
+//fin pruebas
+
+
+
 console.log('Conexion established');
 
 const server = app.listen(PORT, () =>
@@ -51,8 +57,18 @@ process.on("unhandledRejection", err => {
 
 
 
-//comentado momentaneamente para ver que no sea lo q ue causa error
+//
 app.use("/api/auth", require("./auth/route"))
+
+
+
+app.get("/admin", adminAuth, (req, res) => res.send("Admin Route"));
+app.get("/worker", workerAuth, (req, res) => res.send("Admin Route"));
+app.get("/user", userAuth, (req, res) => res.send("User Route"));
+
+
+
+
 
 ///prueba
 app.get ('/home' , (req, res) => {
