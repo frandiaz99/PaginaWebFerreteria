@@ -1,0 +1,20 @@
+import { Link } from 'react-router-dom'
+import'../styles/Articulo.css'
+import routes from '../routes'
+
+function Articulo ({articulo}){
+    return (
+        <Link to={routes.unArticulo} style= {{color:'inherit', textDecoration:'none'}}>
+            <div className='articulo'>
+                <img src={articulo.src} alt="" />
+                <div className='articulo-contenido'>
+                    <h2>{articulo.nombre}</h2>
+                    <p>{articulo.descripcion}. Definir un maximo de caracteres.</p>
+                    <span className='span'>${articulo.tasacion}</span>
+                </div>
+            </div>
+        </Link>
+    )
+}
+
+export default Articulo

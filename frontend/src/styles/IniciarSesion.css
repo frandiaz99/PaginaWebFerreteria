@@ -1,0 +1,36 @@
+.main{
+    display: flex;
+    height: 50%;
+    gap: 10px;
+}
+
+.labels{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.iniciar{
+    background-color: #F9C615;
+    color:black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.iniciar:hover{
+    background-color: #f1cf52;
+}
+
+h1{
+    font-size: 18px;
+}
+span{
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+}

@@ -1,0 +1,59 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forms{
+    display: flex;
+    gap: 40px;
+    width: 55%;
+    max-width: 55%;
+}
+
+.form1{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    width: 50%;
+    gap: 5px;
+}
+
+.form2{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    width: 50%;
+    gap: 10px;
+}
+
+.form2__labels{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+h1{
+    margin:0;
+}
+
+.registrarse{
+    background-color: #F9C615;
+    color:black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.registrarse:hover{
+    background-color: #f1cf52;
+}
+
+.condicionContrasenia{
+    font-size: small;
+    color: #6d6d6dd5;    
+}
+
+.suscripcion{
+    display: flex;
+    gap: 5px;
+    font-size: small;
+    color: #6d6d6dd5;
+}

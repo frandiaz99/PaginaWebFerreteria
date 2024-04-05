@@ -1,0 +1,35 @@
+.header{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.header__section1{
+  background-color: #ffb700;
+  display: flex;
+  justify-content: space-between;
+}
+
+.section1__logo{
+  display: flex;
+  align-items: center;
+}
+.logo__soloLogo{
+  width: 100px;
+}
+.logo__soloTexto{
+  width: 280px;
+}
+
+.header__section2{
+  background-color: #D9D9D9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.volver{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
