@@ -1,0 +1,10 @@
+.unaNotificacion{
+    display: flex;
+    flex-direction: column;
+}
+.fotoNotificacion{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    overflow: clip;
+}

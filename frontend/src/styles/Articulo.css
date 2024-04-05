@@ -1,0 +1,34 @@
+.articulo{
+    display: flex;
+    background-color: #f9f9f9;
+    width: 100%;
+    border-radius: 5px;
+    overflow: clip;
+    max-height: 100%;
+}
+
+img{
+    width: 22%;
+}
+
+.articulo-contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+h2{
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+p{
+    margin: 0;
+}
+
+.span{
+    color:#2A4BA0;
+    font-size:15px;
+    font-weight: bold;
+}

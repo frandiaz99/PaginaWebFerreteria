@@ -1,0 +1,55 @@
+.container{
+    display: flex;
+    gap: 80px;
+    min-width: 1349px;
+    max-width: 1349px;
+}
+
+.ultimosTrueques{
+    background-color: #f9f9f9;
+    width: 320px;
+    height: 420px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.ultimosTrueques-lista{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 80%;
+    justify-content: space-evenly;
+}
+
+.articulos{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    max-width: 40%;
+    gap: 10px;
+}
+
+.orden-y-filtros{
+    display: flex;
+    min-width: 250px;
+    min-height: 100px;
+    max-height: 100px;
+    flex-direction: column;
+    gap: 30px
+}
+.orden{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.filtros{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+h4{
+    margin-top: 5px;
+}

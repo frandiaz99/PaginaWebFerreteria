@@ -1,0 +1,17 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #F3F3F3;
+  color: #333;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  min-width: 1349px;
+  min-height: 100vh;
+  gap: 50px;
+  overflow-y: auto;
+  align-items: center;
+}
+

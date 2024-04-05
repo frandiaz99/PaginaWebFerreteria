@@ -1,0 +1,9 @@
+.sucursales_promociones{
+    display: flex;
+    gap: 10px;
+}
+
+.art_trueques{
+    display: flex;
+    gap: 10px;
+}

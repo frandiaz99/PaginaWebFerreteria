@@ -1,0 +1,35 @@
+
+    {
+      "nombre": "Nicolas",
+      "apellido": "Arditi",
+      "email": "nicoarditi12@gmail.com",
+      "contrasenia": "Ab+123",
+      "dni": "4379",
+      "nacimiento":"2001-12-02",
+      "sucursal": 2,
+      "suscripcion":true,
+      "foto": "https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
+      "rol":3,
+      "notificaciones":[
+        {
+        "tipo":"noti1",
+        "foto":"https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
+        "nombre":"Juancitooo"
+        },
+        {
+          "tipo":"noti2",
+          "foto":"https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
+          "nombre":"Pepe"
+        },
+        {
+          "tipo":"noti4",
+          "foto":"https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
+          "nombre":"Hernan"
+        },
+        {
+          "tipo":"noti3",
+          "foto":"https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
+          "nombre":"Nicolas"
+        }
+      ]
+    }

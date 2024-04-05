@@ -1,0 +1,83 @@
+[
+      {
+        "nombre": "Martillo Clásico",
+        "descripcion": "Martillo de carpintero robusto y confiable para uso general.",
+        "tasacion": 1200,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria": "c2",
+        "puntaje":5
+      },
+      {
+        "nombre": "Martillo Moderno",
+        "descripcion": "Diseño ergonómico y moderno, ideal para trabajos prolongados sin fatiga.",
+        "tasacion": 1500,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria": "c2",
+        "puntaje":2
+      },
+      {
+        "nombre": "Martillo Antiguo",
+        "descripcion": "Pieza de colección, martillo de más de 50 años, perfecto estado.",
+        "tasacion": 3000,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c2",
+        "puntaje":1
+      },
+      {
+        "nombre": "Martillo Miniatura",
+        "descripcion": "Martillo en miniatura, ideal para trabajos de joyería y modelismo.",
+        "tasacion": 800,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c1",
+        "puntaje":3
+      },
+      {
+        "nombre": "Martillo de Guerra",
+        "descripcion": "Réplica de martillo de guerra medieval, perfecto para coleccionistas.",
+        "tasacion": 4500,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c2",
+        "puntaje":4
+      },
+      {
+        "nombre": "Martillo Neumático",
+        "descripcion": "Herramienta potente para trabajos industriales, alta durabilidad.",
+        "tasacion": 11000,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c3",
+        "puntaje":5
+      },
+      {
+        "nombre": "Martillo de Goma",
+        "descripcion": "Ideal para trabajos que requieren golpe suave sin dañar la superficie.",
+        "tasacion": 950,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c1",
+        "puntaje":2
+      },
+      {
+        "nombre": "Martillo de Latón",
+        "descripcion": "Perfecto para trabajos en metal donde no se pueden generar chispas.",
+        "tasacion": 2000,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c2",
+        "puntaje": 1
+      },
+      {
+        "nombre": "Martillo de Carpintero Profesional",
+        "descripcion": "Alta calidad y durabilidad, diseñado para el profesional.",
+        "tasacion": 1600,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c2",
+        "puntaje":5
+      },
+      {
+        "nombre": "Martillo de X",
+        "descripcion": "Alta calidad y durabilidad, diseñado para el profesional.",
+        "tasacion": 52000,
+        "src": "https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg",
+        "categoria":"c4",
+        "puntaje":4
+      }
+    ]
+  

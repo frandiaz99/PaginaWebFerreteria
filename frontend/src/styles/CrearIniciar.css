@@ -1,0 +1,36 @@
+.section1__crear_inicar{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    margin-right: 2px;
+  }
+  .crear_inicar__crearCuenta{
+    font-size: small;
+    font-family: sans-serif;
+    color: #003687;
+  }
+  
+  .boton_iniciar{
+    background-color: #003687;
+    border-radius: 5px;
+    color: #ffffff;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    padding: 8px 10px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  .boton_iniciar:hover{
+    background-color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .volver{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+  }
+  
