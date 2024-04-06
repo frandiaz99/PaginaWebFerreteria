@@ -10,6 +10,7 @@
       "suscripcion":true,
       "foto": "https://img.freepik.com/fotos-premium/mono-fumando-cigarrillo-traje-corbata_727939-2011.jpg?w=360",
       "rol":3,
+      "bloqueado": false,
       "notificaciones":[
         {
         "tipo":"noti1",

@@ -5,6 +5,7 @@ import { useState } from "react"
 import usuario from "../data/usuario.json"  //prueba
 
 function IniciarSesion() {
+    const [intento,setIntento]= useState(1)  //se obtiene del back??
     const [datos,setDatos]= useState({
         dni:'',
         contrasenia:''
@@ -19,26 +20,29 @@ function IniciarSesion() {
         })
     }
 
-    const handleKeyDown= (e)=>{
-        if (e.key === 'Enter'){
-            if (e.target.name === 'dni'){
-                document.getElementById('contrasenia').focus()
-            }else if (e.target.name === 'contrasenia'){
-                handleIniciar()
+    const handleIniciar= () =>{ 
+        //Se obtiene datos del usuario mediante su dni con un Fetch
+        if (usuario){
+            if (usuario.bloqueado){
+                alert('Tu cuenta está bloqueada, por favor comunicate con blabla')
+            } else if (usuario.dni === datos.dni && usuario.contrasenia === datos.contrasenia){ //La condicion de que coincidan los dni se elimina, ya que ya fue verificada al obtener al usuario desde el back, esto es solo de prueba
+                localStorage.setItem('user', JSON.stringify(usuario))
+                navigate(routes.userPrincipal)
+            }else if(usuario.contrasenia !== datos.contrasenia){
+                setIntento(intento+1)
+                if (intento == 3){
+                    //fetch para bloquear cuenta
+                    alert('Contraseña incorrecta, tu cuenta fue bloqueada blabla')
+                }else{
+                    alert('Contraseña incorrecta')
+                }
             }
+        } else{
+            alert('El DNI no está registrado')
         }
     }
 
-    const handleIniciar= () =>{ //fetch para obtener datos de usuario
-        console.log(datos)
-        if (usuario.dni === datos.dni && usuario.contrasenia === datos.contrasenia){
-            alert('bien')
-            localStorage.setItem('user', JSON.stringify(usuario)) //Almacenar lo que llegue por el back
-            navigate(routes.userPrincipal)
-        }else{
-            alert('datos errones')
-        }
-    }
+
 
     return(
         <main className="main">
@@ -55,7 +59,6 @@ function IniciarSesion() {
                         type="text"
                         placeholder="Ingresá tu DNI"
                         onChange={handleChange}
-                        onKeyDown={handleKeyDown}
                         /> 
                     </div>
                     
@@ -67,8 +70,8 @@ function IniciarSesion() {
                         type="password"
                         placeholder="Ingresá tu contraseña"
                         onChange={handleChange}
-                        onKeyDown={handleKeyDown}
                         />
+                        {(intento > 1 && intento < 4) && <p>Te quedan {4- intento} intentos</p>}
                     </div> 
 
                     <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>

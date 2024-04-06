@@ -139,7 +139,7 @@ function CrearCuenta(){
                             onChange={handleChange}
                         />
                         <p className="condicionContrasenia">
-                            Ingresa una combinación de más de 6 caracteres, con un caracter especial y una mayúscula.
+                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
                         </p>
                         {cumpleContrasenia== false && <p>La contraseña no cumple las condiciones</p>}
 
