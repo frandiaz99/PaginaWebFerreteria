@@ -3,43 +3,60 @@ import '../styles/PaginaPrincipal.css'
 import Articulo from '../components/Articulo'
 import UltimoTrueque from '../components/UltimoTrueque'
 import Paginacion from '../components/Paginacion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import articulos from '../data/articulos.json' //Esto seria con un fetch en un useEffect
 
 function PaginaPrincipal() {
   //var articulos; hay que leerlos del back
   const [pagActual,setPagActual]= useState(1);
-  const [articulosFiltrados,setArticulosFiltrados]= useState(articulos) //setear esto en useEffect cuando se lee articulos del back
+  const [articulosActuales,setArticulosActuales]= useState(articulos) //setear esto en useEffect cuando se lee articulos del back
+  const [filtro,setFiltro]= useState('todo')
+  const[orden,setOrden]= useState('nada')
+  
   const articulosXPag= 5 //en cada pagina mostrar 5 articulos
   const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
  
+
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
   } 
 
   const handleFiltros = (event) => {
-    setArticulosFiltrados(articulos.filter(art => {
-      return event.target.value === 'todo' || art.categoria === event.target.value;
-    }))
+    setFiltro(event.target.value)
   }
   const handleOrden = (event) =>{
-    var articulosOrdenados=[]
-    if (event.target.value == 'nada'){
-      articulosOrdenados= articulos
-    }else if(event.target.value == 'tasacion'){
-      articulosOrdenados= [...articulosFiltrados].sort((a1,a2) => {return a2.tasacion - a1.tasacion}) //[...] para crear copia
-    }else if (event.target.value == 'puntaje'){
-      articulosOrdenados= [...articulosFiltrados].sort((a1,a2) => {return a2.puntaje - a1.puntaje})
-    }
-    setArticulosFiltrados(articulosOrdenados)
+    setOrden(event.target.value)
   }
   
   function mostrarArticulos(){  
     const ultimoarticulo= pagActual * articulosXPag
     const primerArticulo= ultimoarticulo - articulosXPag
-    return articulosFiltrados.slice(primerArticulo,ultimoarticulo)
+    return articulosActuales.slice(primerArticulo,ultimoarticulo)
   }
   
+  //Cada vez que cambia filtro u orden hay que filtrar y ordenar de nuevo
+  useEffect(() => {
+    let resultados = [...articulos];
+
+    // Filtrar
+    if (filtro !== 'todo') {
+      resultados = resultados.filter(articulo => articulo.categoria == filtro);
+    }
+
+    // Ordenar 
+    if (orden !== 'nada'){
+      resultados.sort((a, b) => {
+        if (orden === 'tasacion') {
+            return b.tasacion - a.tasacion
+        } else if (orden === 'puntaje'){ 
+            return b.puntaje - a.puntaje
+        }
+    })
+    }
+
+    setArticulosActuales(resultados);
+}, [filtro, orden])
+
   return (
     <>
       <main className='container'>
@@ -81,7 +98,7 @@ function PaginaPrincipal() {
         </div>
         
       </main>
-      <Paginacion totalItems= {articulosFiltrados.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>
+      <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>
     </>
   );
 }

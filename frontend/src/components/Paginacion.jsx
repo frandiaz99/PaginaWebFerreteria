@@ -1,5 +1,5 @@
 import '../styles/Paginacion.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Paginacion({totalItems, itemsXPag, onPageChange}) {
   const [pagActual,setPagActual]= useState(1); 
@@ -12,6 +12,11 @@ function Paginacion({totalItems, itemsXPag, onPageChange}) {
 
   const mostrarAnterior= pagActual > 1
   const mostrarSiguiente = pagActual < totalPaginas
+
+  useEffect(() => {  //Si cambia el total de páginas por las dudas ir a la pagina 1 para no tener errores de que pagina mostrar
+    setPagActual(1)
+    handlePageChange(1)
+  }, [totalPaginas]) 
 
   return (
     <div className='paginas'>
