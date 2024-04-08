@@ -1,9 +1,9 @@
-.sucursales_promociones{
+.navIzquierda{
     display: flex;
     gap: 10px;
 }
 
-.art_trueques{
+.navDerecha{
     display: flex;
     gap: 10px;
 }

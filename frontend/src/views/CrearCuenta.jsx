@@ -172,7 +172,7 @@ function CrearCuenta(){
                             />  
                             {esMayor == false && <p>Debes ser mayor de edad</p>}
 
-                            <label htmlFor="sucursal">Sucursal</label>
+                            <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
                             <select name="sucursal" id="sucursal" onChange={handleChange}>
                                 <option value="s1">Sucursal 1</option>
                                 <option value="s2">Sucursal 2</option>

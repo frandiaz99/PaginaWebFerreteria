@@ -21,7 +21,7 @@ function RutasInvitado() {
       {rutaDefinida() && <Header/>}
       <Routes>
           <Route path='crear_cuenta' element={<CrearCuenta/>}/>
-          <Route path='/iniciar_sesion' element={<IniciarSesion/>}/>
+          <Route path='iniciar_sesion' element={<IniciarSesion/>}/>
           
           <Route path='*' element={<div>404 not found</div>}/>
       </Routes>

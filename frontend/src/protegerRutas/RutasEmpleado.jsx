@@ -1,6 +1,10 @@
 import React from 'react'
 import Header from '../components/Header/Header'
 import {Routes, Route, useLocation} from 'react-router-dom'
+import Promociones from '../views/Promociones.jsx'
+import PrincipalAdminYEmple from '../views/PrincipalAdminYEmple.jsx'
+import EstadisticasArticulos from '../views/EstadisticasArticulos.jsx'
+import Tasar from '../views/Tasar.jsx'
 
 function RutasEmpleado() {
     const location= useLocation()
@@ -8,7 +12,9 @@ function RutasEmpleado() {
     const rutaDefinida = () => {
       return (
           [
-          'futuroURLEmpleado',
+          'promociones',
+          'estadisticas',
+          'tasar'
           ].includes(location.pathname.split('/')[2]) || location.pathname === '/empleado'
       )
     }
@@ -17,8 +23,10 @@ function RutasEmpleado() {
       <>
         {rutaDefinida() && <Header/>}
         <Routes>
-            <Route path='' element={<div>Cuenta Empleado</div>}/>
-            
+            <Route path='' element={<PrincipalAdminYEmple/>}/>
+            <Route path='promociones' element={<Promociones/>}/>
+            <Route path='estadisticas' element={<EstadisticasArticulos/>}/>
+            <Route path='tasar' element={<Tasar/>}/>
             <Route path='*' element={<div>404 not found</div>}/>
         </Routes>
       </>
