@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 import '../../styles/NavBar.css'
 import routes from '../../routes'
 
-const modoUser= () =>{ 
+const estaEnModoUser= () =>{ 
   return (
     location.pathname.startsWith('/user')
     )
 }
 
-const modoAdmin= () =>{
+const estaEnModoAdmin= () =>{
   return (
     location.pathname.startsWith('/admin')
     )
 }
 
-const modoEmple= () =>{
+const estaEnModoEmple= () =>{
   return (
     location.pathname.startsWith('/empleado')
     )
@@ -26,13 +26,14 @@ function NavBar() {
   return (
     <>
     <div className='navIzquierda'>
-      {modoUser() ?
+      {estaEnModoUser() ?
       <>
       <Link to={routes.sucursalesLogin} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>
       <Link to={routes.promociones} style={{textDecoration:'none'}}><span>Ver Promociones</span></Link>
       </> :
       <>
-      {((modoAdmin() || modoEmple()) && user.rol == 3) && <Link to={routes.adminSucursales} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>}
+      {(user.rol == 3 && (estaEnModoAdmin() || estaEnModoEmple())) && <Link to={routes.adminSucursales} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>}
+
       <Link to={routes.empleadoPromociones} style={{textDecoration:'none'}}><span>Ver Promociones</span></Link>
       <Link to={routes.empleadoEstadisticas} style={{textDecoration:'none'}}><span>Estadísticas Artículos</span></Link>
       </>
@@ -40,25 +41,25 @@ function NavBar() {
       
     </div>
 
-    {modoUser() &&
+    {estaEnModoUser() &&
     <div className='subirArt'>
       <Link to={routes.subirArticulo}><button>Subir Articulo</button></Link>
     </div>}
 
-    {(modoAdmin() || modoEmple()) &&
+    {(estaEnModoAdmin() || estaEnModoEmple()) &&
     <div className='subirArt'>
       <Link to={routes.empleadoTasar}><button>Tasar Artículo</button></Link>
     </div>
     }
 
     <div className='navDerecha'>
-      {modoUser() &&
+      {estaEnModoUser() &&
       <>
       <Link to={routes.misArticulos} style={{textDecoration:'none'}}><span>Mis Articulos</span></Link>
       <Link to={routes.misTrueques} style={{textDecoration:'none'}}><span>Mis Trueques</span></Link>
       </>}
 
-      {(!modoUser() && user.rol === 3) &&
+      {(!estaEnModoUser() && user.rol === 3) &&
       <>
       <Link to={routes.adminUsuarios} style={{textDecoration:'none'}}><span>Usuarios</span></Link>
       <Link to={routes.adminEmpleados} style={{textDecoration:'none'}}><span>Empleados</span></Link>

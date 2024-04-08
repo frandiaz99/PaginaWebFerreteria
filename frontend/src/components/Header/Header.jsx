@@ -12,19 +12,19 @@ const esInvitado= () =>{
     )
 }
 
-const modoUser= () =>{ 
+const estaEnModoUser= () =>{ 
   return (
     location.pathname.startsWith('/user')
     )
 }
 
-const modoAdmin= () =>{
+const estaEnModoAdmin= () =>{
   return (
     location.pathname.startsWith('/admin')
     )
 }
 
-const modoEmpleado= () =>{
+const estaEnModoEmpleado= () =>{
   return (
     location.pathname.startsWith('/empleado')
     )
@@ -43,9 +43,9 @@ function Header() {
 
   const handleHome = () =>{
     if (user){
-      if (modoUser()){
+      if (estaEnModoUser()){
         navigate(routes.userPrincipal)
-      }else if (modoEmpleado() && user.rol == 2){
+      }else if (estaEnModoEmpleado() && user.rol == 2){
         navigate(routes.empleadoPrincipal)
       }else{
         navigate(routes.adminPrincipal)
@@ -65,7 +65,7 @@ function Header() {
             <img src="Fedeteria_Solo_Texto.png" alt="Fedeteria" className='logo__soloTexto' />
           </div>
 
-        {(modoUser() || modoEmpleado() || modoAdmin()) && <OpcionesUser/>}
+        {(estaEnModoUser() || estaEnModoEmpleado() || estaEnModoAdmin()) && <OpcionesUser/>}
 
         {esInvitado() && <CrearIniciar />}
 
@@ -75,9 +75,9 @@ function Header() {
 
         {(esPaginaPrincipal() ||
         location.pathname === routes.sucursales
-         )&& <Link to={routes.sucursales}><p>Ver Sucursales</p></Link>}
+         ) && <Link to={routes.sucursales}><p>Ver Sucursales</p></Link>}
 
-        {(modoUser() || modoEmpleado() || modoAdmin()) &&  <NavBar/>}
+        {(estaEnModoUser() || estaEnModoEmpleado() || estaEnModoAdmin()) &&  <NavBar/>}
 
       </div>
 

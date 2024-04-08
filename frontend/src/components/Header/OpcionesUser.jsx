@@ -4,17 +4,17 @@ import { Link , useNavigate, useLocation} from 'react-router-dom'
 import routes from '../../routes'
 import DropNotificaciones from './DropNotificaciones'
 
-const modoUser= () =>{ 
+const estaEnModoUser= () =>{ 
   return (
     location.pathname.startsWith('/user')
     )
 }
-const modoAdmin= () =>{
+const estaEnModoAdmin= () =>{
   return (
     location.pathname.startsWith('/admin')
     )
 }
-const modoEmpleado= () =>{
+const estaEnModoEmpleado= () =>{
   return (
     location.pathname.startsWith('/empleado')
     )
@@ -32,9 +32,9 @@ function OpcionesUser() {
   }
 
   const handleHome = () =>{
-    if (modoUser()){
+    if (estaEnModoUser()){
       navigate(routes.userPrincipal)
-    }else if (modoEmpleado() && user.rol == 2){
+    }else if (estaEnModoEmpleado() && user.rol == 2){
       navigate(routes.empleadoPrincipal)
     }else{
       navigate(routes.adminPrincipal)
@@ -63,7 +63,7 @@ function OpcionesUser() {
             <ion-icon name="home-outline" size='small'></ion-icon>
         </div>
 
-        {modoUser() &&
+        {estaEnModoUser() &&
         <div className='containersDrop'>
 
           <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
@@ -102,7 +102,7 @@ function OpcionesUser() {
               <p>Ver perfil</p>
             </div>
 
-            {(user.rol === 2 && modoUser()) &&
+            {(user.rol === 2 && estaEnModoUser()) &&
             <Link to={routes.empleadoPrincipal} style={{textDecoration:'none'}}>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
@@ -110,7 +110,7 @@ function OpcionesUser() {
             </div>
             </Link>}
             
-            {(user.rol === 3 && modoUser()) && 
+            {(user.rol === 3 && estaEnModoUser()) && 
             <Link to={routes.adminPrincipal} style={{textDecoration:'none'}}>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
@@ -118,7 +118,7 @@ function OpcionesUser() {
               </div>
             </Link>}
 
-            {!modoUser() &&
+            {!estaEnModoUser() &&
             <Link to={routes.userPrincipal} style={{textDecoration:'none'}}>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
