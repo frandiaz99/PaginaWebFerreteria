@@ -97,10 +97,13 @@ function OpcionesUser() {
 
             <hr />
 
-            <div className='dropCuenta__items'>
-              <ion-icon name="person-outline"></ion-icon>
-              <p>Ver perfil</p>
-            </div>
+            {estaEnModoUser() && 
+            <Link to={routes.perfil}>
+              <div className='dropCuenta__items'>
+                <ion-icon name="person-outline"></ion-icon>
+                <p>Ver perfil</p>
+              </div>            
+            </Link>}
 
             {(user.rol === 2 && estaEnModoUser()) &&
             <Link to={routes.empleadoPrincipal} style={{textDecoration:'none'}}>
