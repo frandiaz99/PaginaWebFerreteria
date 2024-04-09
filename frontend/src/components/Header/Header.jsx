@@ -8,32 +8,8 @@ import NavBar from './NavBar.jsx'
 
 const esInvitado= () =>{
   return (
-    location.pathname.startsWith('/invitado') || esPaginaPrincipal()
+    location.pathname.startsWith('/invitado') || location.pathname === '/'
     )
-}
-
-const estaEnModoUser= () =>{ 
-  return (
-    location.pathname.startsWith('/user')
-    )
-}
-
-const estaEnModoAdmin= () =>{
-  return (
-    location.pathname.startsWith('/admin')
-    )
-}
-
-const estaEnModoEmpleado= () =>{
-  return (
-    location.pathname.startsWith('/empleado')
-    )
-}
-
-const esPaginaPrincipal= () =>{
-  return( 
-    location.pathname === routes.pagPrincipal
-  )
 }
 
 function Header() {
@@ -65,19 +41,15 @@ function Header() {
             <img src="Fedeteria_Solo_Texto.png" alt="Fedeteria" className='logo__soloTexto' />
           </div>
 
-        {(estaEnModoUser() || estaEnModoEmpleado() || estaEnModoAdmin()) && <OpcionesUser/>}
-
-        {esInvitado() && <CrearIniciar />}
+        {esInvitado() ? <CrearIniciar/> : <OpcionesUser/>}
 
       </div>
 
+
+
       <div className='header__section2'> {/*Header parte gris*/}
 
-        {(esPaginaPrincipal() ||
-        location.pathname === routes.sucursales
-         ) && <Link to={routes.sucursales}><p>Ver Sucursales</p></Link>}
-
-        {(estaEnModoUser() || estaEnModoEmpleado() || estaEnModoAdmin()) &&  <NavBar/>}
+        {esInvitado() ? <Link to={routes.sucursales}><p>Ver Sucursales</p></Link> : <NavBar/>}
 
       </div>
 
