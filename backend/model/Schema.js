@@ -7,17 +7,17 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = mongoose.Schema({
   email: {type: String, required: true, unique: true},
+  dni: {type: Number, required: true, unique: true},
   rawPassword: { type: String, required: true, minlength: 8},
   password: { type: String, required: true},
-  role: {type: Number, required: true, default: "1"},   //1 User, 2 Worker, 3 Admin
-  /*
-  dni: {type: Number, required: true, unique: true},
-  suscripto: {type: Boolean},
-  puntos: {type: Number},
-  intento_desbloqueo: {type: Number},
+  role: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
+  
+  suscripto: {type: Boolean, default: false}, 
+  puntos: {type: Number, default: 0},
+  intento_desbloqueo: {type: Number, default: 0},
 
-  publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true, required: true},
-  */
+  //publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true},
+
   //publicaciones [(FK)],  trueques [(FK)], Valoracion[(FK)]
 });
 
@@ -37,14 +37,15 @@ const empleadoSchema = mongoose.Schema({
 
 
 const publicacionSchema = mongoose.Schema({
+  usuario: {type: mongoose.Schema.Types.ObjectId, ref:"User", autopopulate: true},
   titulo: {type: String, required: true},
   descripcion: {type: String, required: true},
-  rango_precio: {type: Number},
-  estado_libre: {type: Boolean, default: true},
-  fecha: {type: Date},
+  fecha: {type: Date},  //debe recibir JS date (yyyy-mm-dd) es decir (2024-12-31) se le puede poner hora tambien
+  rango_precio: {type: Number, default: 0},
+  estado_libre: {type: Boolean, default: true}, //en falso cuando se relizo la vent
   promocionado: {type: Boolean, default: false},
+  borrado: {type: Boolean, default: false},
   
-  trueque: {type: mongoose.Schema.Types.ObjectId, ref: 'Trueque', autopopulate: true}
   //User (fk),    Cuando se arregla un trueque pasaria a estado de pendiente para que no se muestre
 });
 
@@ -55,14 +56,15 @@ const truequeSchema = mongoose.Schema({
   venta_confirmada: {type: Boolean, default: false},
 
   
-  user_publica: {type: [mongoose.Schema.Types.ObjectId], ref: "User", autopopulate: true, required: true},
-  user_compra: {type: [mongoose.Schema.Types.ObjectId], ref: "User", autopopulate: true},
-  empleado_cierra: {type: [mongoose.Schema.Types.ObjectId], ref: "Empleado", autopopulate: true},
-  sucursal: {type: [mongoose.Schema.Types.ObjectId], ref: "Sucursal", autopopulate: true},
+  user_publica: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, required: true},
+  user_compra: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true},
+  empleado_cierra: {type: mongoose.Schema.Types.ObjectId, ref: "Empleado", autopopulate: true},
+  sucursal: {type: mongoose.Schema.Types.ObjectId, ref: "Sucursal", autopopulate: true},
   
   valoracion_publica: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   valoracion_compra: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   
+  publicacion: {type: mongoose.Schema.Types.ObjectId, ref: "Publicacion", autopopulate: true}
 
   //User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Publicacion(FK), Opinion_Publica(FK)?, Opinion_Compra(FK)?
 })
