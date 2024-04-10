@@ -2,6 +2,7 @@ const express = require("express")
 //const connectDB = require("./database/db");
 const cookieParser = require ("cookie-parser");
 const mongoose = require("mongoose");
+const cors = require ("cors");
 //const fs = require("fs");
 //const https = require"https";
 
@@ -76,8 +77,16 @@ database.on("disconected", () => {
 
 //configurando e iniciando la api
 
-app.use(express.json())
+app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: [ 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // enable credentials (cookies, authorization headers, etc.)
+  preflightContinue: false, // if true, the request will continue even if not handled by CORS middleware
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 
 console.log('Conexion established');
 
@@ -110,7 +119,7 @@ app.use("/publicacion", require("./routes/publicacion"))
 const {DataUser} = require("./model/Schema")
 
 app.get ('/home' , (req, res) => {
-  res.send({hi: 'there'});
+  res.json({hi: 'there'});
 });
 
 app.post('/create',  (req, res) => {

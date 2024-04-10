@@ -64,7 +64,8 @@ const borrarPublicacion = async (req, res, next) => {
 
 //Direcciones 
 router.route("/crearPublicacion").post(userAuth, crearPublicacion);
-router.route("/getPublicaciones").get(userAuth, getPublicaciones);
+//router.route("/getPublicaciones").get(userAuth, getPublicaciones);
+router.route("/getPublicaciones").get( getPublicaciones);
 router.route("/borrarPublicacion").delete(userAuth, borrarPublicacion);
 
 module.exports = router
