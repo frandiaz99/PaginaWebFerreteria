@@ -8,10 +8,14 @@ html, body {
 #root {
   display: flex;
   flex-direction: column;
-  min-width: 1349px;
-  min-height: 100vh;
-  gap: 50px;
-  overflow-y: auto;
   align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container{
+  height: 100vh;
+  width: 100vw;
 }
 

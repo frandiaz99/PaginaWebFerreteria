@@ -61,44 +61,47 @@ function PaginaPrincipal() {
     <>
       <main className='container'>
         
-        <div className='ultimosTrueques'>
-          <h4>Últimos Trueques</h4>
-          <div className='ultimosTrueques-lista'>
-            {ultimosTrueques.map((unTrueque) =>(
-              <UltimoTrueque/>
+        <div className='body-trueques'>
+          <div className='ultimosTrueques'>
+            <h4>Últimos Trueques</h4>
+            <div className='ultimosTrueques-lista'>
+              {ultimosTrueques.map((unTrueque) =>(
+                <UltimoTrueque/>
+              ))}
+            </div>
+          </div>
+
+          <div className='articulos'>
+            {mostrarArticulos().map((art) =>(
+              <Articulo articulo={art}/>
             ))}
           </div>
-        </div>
 
-        <div className='articulos'>
-          {mostrarArticulos().map((art) =>(
-            <Articulo articulo={art}/>
-          ))}
-        </div>
-
-        <div className='orden-y-filtros'>
-          <div className='orden'>
-            <label htmlFor="ordenar">Ordenar por</label>
-            <select name="selector" id="ordenar" onChange={handleOrden}>
-              <option value="nada">Sin orden</option>
-              <option value="tasacion">Mayor Tasación</option>
-              <option value="puntaje">Mayor puntaje</option>
-            </select>
-          </div>
-          <div className='filtros'>
-          <label htmlFor='filtrar'>Filtros</label>
-            <select name="selector" id="filtrar" onChange={handleFiltros}>
-              <option value="todo">Todo</option>
-              <option value="c1">$0-$1000</option>
-              <option value="c2">$1000-$10000</option>
-              <option value="c3">$10000-$50000</option>
-              <option value="c4">+$50000</option>
-            </select>
+          <div className='orden-y-filtros'>
+            <div className='orden'>
+              <label htmlFor="ordenar">Ordenar por</label>
+              <select name="selector" id="ordenar" onChange={handleOrden}>
+                <option value="nada">Sin orden</option>
+                <option value="tasacion">Mayor Tasación</option>
+                <option value="puntaje">Mayor puntaje</option>
+              </select>
+            </div>
+            <div className='filtros'>
+              <label htmlFor='filtrar'>Filtros</label>
+              <select name="selector" id="filtrar" onChange={handleFiltros}>
+                <option value="todo">Todo</option>
+                <option value="c1">$0-$1000</option>
+                <option value="c2">$1000-$10000</option>
+                <option value="c3">$10000-$50000</option>
+                <option value="c4">+$50000</option>
+              </select>
+            </div>
           </div>
         </div>
-        
+
+        <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>
+
       </main>
-      <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>
     </>
   );
 }

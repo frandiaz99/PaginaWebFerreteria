@@ -45,6 +45,8 @@ function IniciarSesion() {
 
 
     return(
+        <div className="container">
+
         <main className="main">
                 <h1>Iniciar Sesion</h1>
                 <div className="labels">
@@ -77,6 +79,7 @@ function IniciarSesion() {
                     <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                 </div>
         </main>
+        </div>
     )
 }
 

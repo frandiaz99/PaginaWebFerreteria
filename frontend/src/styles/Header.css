@@ -1,12 +1,25 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+img{
+  height: fit-content;
+  align-self: center;
+}
+
 .header{
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: sticky;
+  top: 0;
 }
 .header__section1{
   background-color: #ffb700;
   display: flex;
   justify-content: space-between;
+  padding: 0px 10px;
+  
 }
 
 .section1__logo{
@@ -25,6 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0px 10px;
 }
 
 .volver{
