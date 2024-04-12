@@ -10,7 +10,6 @@
 
 .fotoUser{
     height: 100%;
-    width: 15%;
 }
 
 
@@ -20,7 +19,7 @@
     flex-direction: column;
     width: 85%;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
 .articulosCambiados{
@@ -30,14 +29,12 @@
     align-items: center;
 }
 .fotoArticulo{
-    height: 25px;
-    width: 25px;
+    width: 30%;
     border-radius: 2px;
 }
 
 .simbolo{
-    height: 20px;
-    width: 20px;
+    width: 20%;
     border-radius: 100px;
 }
 

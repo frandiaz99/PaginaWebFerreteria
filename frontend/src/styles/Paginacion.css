@@ -1,11 +1,10 @@
 .paginas{
+
     display: flex;
-    width: 50%;
     justify-content: center;
-    margin-bottom: 10px;
-    margin-left: 20px;
     align-items: center;
     gap: 10px;
+    margin-top: 1vh;
 }
 
 .paginaCambio {

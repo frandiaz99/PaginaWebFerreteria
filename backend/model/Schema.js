@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
   suscripto: {type: Boolean, default: false}, 
   puntos: {type: Number, default: 0},
   intento_desbloqueo: {type: Number, default: 0},
-
+  //nombre y apellido, sucursal, fecha nacimiento
   //publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true},
 
   //publicaciones [(FK)],  trueques [(FK)], Valoracion[(FK)]
@@ -41,8 +41,8 @@ const publicacionSchema = mongoose.Schema({
   titulo: {type: String, required: true},
   descripcion: {type: String, required: true},
   fecha: {type: Date},  //debe recibir JS date (yyyy-mm-dd) es decir (2024-12-31) se le puede poner hora tambien
-  rango_precio: {type: Number, default: 0},
-  estado_libre: {type: Boolean, default: true}, //en falso cuando se relizo la vent
+  precio: {type: Number, default: 0},
+  vendido: {type: Boolean, default: false}, //en true cuando se relizo la vent
   promocionado: {type: Boolean, default: false},
   borrado: {type: Boolean, default: false},
   
@@ -54,19 +54,24 @@ const publicacionSchema = mongoose.Schema({
 const truequeSchema = mongoose.Schema({
   fecha_venta: {type: Date},
   venta_confirmada: {type: Boolean, default: false},
-
+  
   
   user_publica: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, required: true},
   user_compra: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true},
   empleado_cierra: {type: mongoose.Schema.Types.ObjectId, ref: "Empleado", autopopulate: true},
   sucursal: {type: mongoose.Schema.Types.ObjectId, ref: "Sucursal", autopopulate: true},
   
+  
   valoracion_publica: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   valoracion_compra: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   
-  publicacion: {type: mongoose.Schema.Types.ObjectId, ref: "Publicacion", autopopulate: true}
-
+  publicacion: {type: mongoose.Schema.Types.ObjectId, ref: "Publicacion", autopopulate: true},
+  
   //User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Publicacion(FK), Opinion_Publica(FK)?, Opinion_Compra(FK)?
+  trueque_aceptado: {type: Boolean, default: false},      //
+  // dia
+
+
 })
 
 
