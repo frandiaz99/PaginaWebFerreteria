@@ -8,9 +8,9 @@ function Articulo ({articulo}){
             <div className='articulo'>
                 <img src={articulo.src} alt="" />
                 <div className='articulo-contenido'>
-                    <h2>{articulo.nombre}</h2>
+                    <h2>{articulo.titulo}</h2>
                     <p>{articulo.descripcion}. Definir un maximo de caracteres.</p>
-                    <span className='span'>${articulo.tasacion}</span>
+                    <span className='span'>${articulo.rango_precio}</span>
                 </div>
             </div>
         </Link>

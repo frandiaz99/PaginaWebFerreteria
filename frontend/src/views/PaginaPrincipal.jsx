@@ -4,19 +4,17 @@ import Articulo from '../components/Articulo'
 import UltimoTrueque from '../components/UltimoTrueque'
 import Paginacion from '../components/Paginacion'
 import { useState, useEffect } from 'react'
-import articulos from '../data/articulos.json' //Esto seria con un fetch en un useEffect
 
 function PaginaPrincipal() {
-  //var articulos; hay que leerlos del back
+  var articulos= []
   const [pagActual,setPagActual]= useState(1);
-  const [articulosActuales,setArticulosActuales]= useState(articulos) //setear esto en useEffect cuando se lee articulos del back
+  const [articulosActuales,setArticulosActuales]= useState(articulos)
   const [filtro,setFiltro]= useState('todo')
   const[orden,setOrden]= useState('nada')
   
   const articulosXPag= 5 //en cada pagina mostrar 5 articulos
   const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
- 
-
+  
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
   } 
@@ -56,6 +54,23 @@ function PaginaPrincipal() {
 
     setArticulosActuales(resultados);
 }, [filtro, orden])
+
+useEffect(() => {
+  fetch('http://localhost:5000/publicacion/getPublicaciones')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Hubo un problema con la solicitud');
+    }
+    return response.json();
+  })
+  .then(data => {
+    articulos= data;
+    setArticulosActuales(articulos)
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}, [])
 
   return (
     <>
