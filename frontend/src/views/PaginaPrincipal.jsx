@@ -5,15 +5,15 @@ import UltimoTrueque from '../components/UltimoTrueque'
 import Paginacion from '../components/Paginacion'
 import { useState, useEffect } from 'react'
 
+const articulosXPag= 5 //en cada pagina mostrar 5 articulos
+const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
+
 function PaginaPrincipal() {
-  var articulos= []
+  const [totalArticulos, setTotalArticulos]= useState([])
+  const [articulosActuales,setArticulosActuales]= useState(totalArticulos)
   const [pagActual,setPagActual]= useState(1);
-  const [articulosActuales,setArticulosActuales]= useState(articulos)
   const [filtro,setFiltro]= useState('todo')
   const[orden,setOrden]= useState('nada')
-  
-  const articulosXPag= 5 //en cada pagina mostrar 5 articulos
-  const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
   
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
@@ -32,10 +32,30 @@ function PaginaPrincipal() {
     return articulosActuales.slice(primerArticulo,ultimoarticulo)
   }
   
+  useEffect(() =>{ //para mostrar la primera vez
+    setArticulosActuales(totalArticulos)
+  }, [totalArticulos])
+
+  useEffect(() => {
+    fetch('http://localhost:5000/publicacion/getPublicaciones')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Hubo un problema con la solicitud');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setTotalArticulos(data)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }, [])
+
+
   //Cada vez que cambia filtro u orden hay que filtrar y ordenar de nuevo
   useEffect(() => {
-    let resultados = [...articulos];
-
+    let resultados = [...totalArticulos];
     // Filtrar
     if (filtro !== 'todo') {
       resultados = resultados.filter(articulo => articulo.categoria == filtro);
@@ -54,23 +74,6 @@ function PaginaPrincipal() {
 
     setArticulosActuales(resultados);
 }, [filtro, orden])
-
-useEffect(() => {
-  fetch('http://localhost:5000/publicacion/getPublicaciones')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Hubo un problema con la solicitud');
-    }
-    return response.json();
-  })
-  .then(data => {
-    articulos= data;
-    setArticulosActuales(articulos)
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}, [])
 
   return (
     <>
@@ -102,12 +105,12 @@ useEffect(() => {
           </div>
           <div className='filtros'>
           <label htmlFor='filtrar'>Filtros</label>
-            <select name="selector" id="filtrar" onChange={handleFiltros}>
-              <option value="todo">Todo</option>
-              <option value="c1">$0-$1000</option>
-              <option value="c2">$1000-$10000</option>
-              <option value="c3">$10000-$50000</option>
-              <option value="c4">+$50000</option>
+            <select name='selector' id='filtrar' onChange={handleFiltros}>
+              <option value='todo'>Todo</option>
+              <option value='c1'>$0-$1000</option>
+              <option value='c3'>$10000-$50000</option>
+              <option value='c2'>$1000-$10000</option>
+              <option value='c4'>+$50000</option>
             </select>
           </div>
         </div>
