@@ -12,6 +12,18 @@ const esInvitado= () =>{
     )
 }
 
+const estaEnModoUser= () =>{ 
+  return (
+    location.pathname.startsWith('/user')
+    )
+}
+
+const estaEnModoEmpleado= () =>{
+  return (
+    location.pathname.startsWith('/empleado')
+    )
+}
+
 function Header() {
   const location= useLocation()
   const navigate= useNavigate()
