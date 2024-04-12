@@ -34,12 +34,14 @@ function App(){
             }/>
 
 
-            <Route path={routes.sucursales} element= {<ProtegerSucursales>
+            <Route path={routes.sucursales} element= {
+            <ProtegerSucursales>
                 <Header/>
                 <Sucursales/>
             </ProtegerSucursales>}/>
 
-            <Route path={routes.sucursalesLogin} element= {<ProtegerSucursalesLogin>
+            <Route path={routes.sucursalesLogin} element= {
+            <ProtegerSucursalesLogin>
                 <Header/>
                 <Sucursales/>
             </ProtegerSucursalesLogin>}/>

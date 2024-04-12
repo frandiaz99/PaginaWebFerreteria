@@ -14,8 +14,14 @@ const routes={
     perfil:'/user/perfil',
 
     empleadoPrincipal:'/empleado',
-
-    adminPrincipal:'/admin'
+    empleadoPromociones:'/empleado/promociones',
+    empleadoEstadisticas:'/empleado/estadisticas',
+    empleadoTasar: '/empleado/tasar',
+    
+    adminPrincipal:'/admin',
+    adminSucursales:'/admin/sucursales',
+    adminUsuarios:'/admin/usuarios',
+    adminEmpleados:'/admin/empleados'
 }
 
 export default routes

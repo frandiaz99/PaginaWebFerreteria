@@ -9,12 +9,14 @@ exports.adminAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      console.log (decodedToken);
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.role < 3) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
+          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
           next()
         }
       }
@@ -34,12 +36,14 @@ exports.workerAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      console.log (decodedToken);
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.role < 2) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
+          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
           next()
         }
       }
@@ -65,12 +69,14 @@ exports.userAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      console.log (decodedToken);
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.role < 1) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
+          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
           next()
         }
       }

@@ -1,8 +1,24 @@
 import React, { useState } from 'react'
 import '../../styles/OpcionesUser.css'
-import { Link , useNavigate} from 'react-router-dom'
+import { Link , useNavigate, useLocation} from 'react-router-dom'
 import routes from '../../routes'
 import DropNotificaciones from './DropNotificaciones'
+
+const estaEnModoUser= () =>{ 
+  return (
+    location.pathname.startsWith('/user')
+    )
+}
+const estaEnModoAdmin= () =>{
+  return (
+    location.pathname.startsWith('/admin')
+    )
+}
+const estaEnModoEmpleado= () =>{
+  return (
+    location.pathname.startsWith('/empleado')
+    )
+}
 
 function OpcionesUser() {
   const navigate= useNavigate()
@@ -13,6 +29,16 @@ function OpcionesUser() {
 
   if (user){  //esto es para no leer un null que solo pasa si borras el storage manualmente
     srcFotoPerfil= user.foto
+  }
+
+  const handleHome = () =>{
+    if (estaEnModoUser()){
+      navigate(routes.userPrincipal)
+    }else if (estaEnModoEmpleado() && user.rol == 2){
+      navigate(routes.empleadoPrincipal)
+    }else{
+      navigate(routes.adminPrincipal)
+    }
   }
 
   const handleNotificaciones = () =>{
@@ -33,12 +59,11 @@ function OpcionesUser() {
   return (
     <div className='opcionesUser'>
 
-        <div className='homeIcon'>
-          <Link to={routes.pagPrincipal}>
+        <div className='homeIcon' onClick={handleHome} style={{cursor:'pointer'}}>
             <ion-icon name="home-outline" size='small'></ion-icon>
-          </Link>
         </div>
 
+        {estaEnModoUser() &&
         <div className='containersDrop'>
 
           <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
@@ -46,10 +71,9 @@ function OpcionesUser() {
           </div>
 
           {dropNotificacionesOpen && <DropNotificaciones/>}
-        </div>
+        </div>}
 
         <div className='containersDrop'>
-
           <div className='cuenta' onClick={handleCuenta} style={{cursor:'pointer'}}>
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
             {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
@@ -57,7 +81,6 @@ function OpcionesUser() {
 
           {dropCuentaOpen && 
           <div className='dropCuenta'>
-
             <div className='dropCuenta__mail'>
 
                 <div className='cuenta'>
@@ -74,24 +97,35 @@ function OpcionesUser() {
 
             <hr />
 
-            <div className='dropCuenta__items'>
-              <ion-icon name="person-outline"></ion-icon>
-              <p>Ver perfil</p>
-            </div>
+            {estaEnModoUser() && 
+            <Link to={routes.perfil}>
+              <div className='dropCuenta__items'>
+                <ion-icon name="person-outline"></ion-icon>
+                <p>Ver perfil</p>
+              </div>            
+            </Link>}
 
-            {user.rol === 2 && 
-            <Link to={routes.empleadoPrincipal}>
+            {(user.rol === 2 && estaEnModoUser()) &&
+            <Link to={routes.empleadoPrincipal} style={{textDecoration:'none'}}>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Empleado</p>
             </div>
             </Link>}
             
-            {user.rol === 3 && 
-            <Link to={routes.adminPrincipal}>
+            {(user.rol === 3 && estaEnModoUser()) && 
+            <Link to={routes.adminPrincipal} style={{textDecoration:'none'}}>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Administrador</p>
+              </div>
+            </Link>}
+
+            {!estaEnModoUser() &&
+            <Link to={routes.userPrincipal} style={{textDecoration:'none'}}>
+              <div className='dropCuenta__items'>
+                <ion-icon name="key-outline"></ion-icon>
+                <p>Cuenta Usuario</p>
               </div>
             </Link>}
 
