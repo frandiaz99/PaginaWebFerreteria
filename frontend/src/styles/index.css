@@ -14,8 +14,12 @@ html, body {
   height: 100vh;
 }
 
-.container{
-  height: 100vh;
+.main{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100vw;
-}
+  height: -webkit-fill-available;
+  align-items: center;
 
+}

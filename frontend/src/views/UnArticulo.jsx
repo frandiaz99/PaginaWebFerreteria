@@ -2,7 +2,10 @@ import React from 'react'
 
 function UnArticulo() {
   return (
-    <div>UnArticulo</div>
+    <main className='main'>
+
+      <div>UnArticulo</div>
+    </main>
   )
 }
 

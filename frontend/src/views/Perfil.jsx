@@ -2,7 +2,10 @@ import React from 'react'
 
 function Perfil() {
   return (
-    <div>Perfil</div>
+    <main className='main'>
+      <div>Perfil</div>
+
+    </main>
   )
 }
 

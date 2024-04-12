@@ -77,7 +77,7 @@ function PaginaPrincipal() {
 
   return (
     <>
-      <main className='container'>
+      <main className='main'>
         
         <div className='body-trueques'>
           <div className='ultimosTrueques'>

@@ -1,8 +1,10 @@
 import React from 'react'
 
 function Promociones() {
-  return (
+  return (<main className='main'>
+
     <div>Promociones</div>
+  </main>
   )
 }
 

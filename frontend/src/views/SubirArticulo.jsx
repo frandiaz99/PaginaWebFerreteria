@@ -2,7 +2,10 @@ import React from 'react'
 
 function SubirArticulo() {
   return (
-    <div>SubirArticulo</div>
+    <main className='main'>
+
+      <div>SubirArticulo</div>
+    </main>
   )
 }
 

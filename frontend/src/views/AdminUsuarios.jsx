@@ -2,7 +2,10 @@ import React from 'react'
 
 function AdminUsuarios() {
   return (
-    <div>AdminUsuarios</div>
+    <main className='main'>
+
+      <div>AdminUsuarios</div>
+    </main>
   )
 }
 

@@ -2,7 +2,10 @@ import React from 'react'
 
 function EstadisticasArticulos() {
   return (
-    <div>EstadisticasArticulos</div>
+    <main className='main'>
+
+      <div>EstadisticasArticulos</div>
+    </main>
   )
 }
 

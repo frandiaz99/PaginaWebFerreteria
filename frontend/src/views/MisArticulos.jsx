@@ -1,8 +1,10 @@
 import React from 'react'
 
 function MisArticulos() {
-  return (
+  return (<main className='main'>
+
     <div>MisArticulos</div>
+  </main>
   )
 }
 

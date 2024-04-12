@@ -11,7 +11,7 @@ img{
   display: flex;
   flex-direction: column;
   width: 100%;
-  position: sticky;
+  position: fixed;
   top: 0;
 }
 .header__section1{

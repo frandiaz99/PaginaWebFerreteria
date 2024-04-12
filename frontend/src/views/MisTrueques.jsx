@@ -1,8 +1,10 @@
 import React from 'react'
 
 function MisTrueques() {
-  return (
+  return (<main className='main'>
+
     <div>MisTrueques</div>
+  </main>
   )
 }
 
