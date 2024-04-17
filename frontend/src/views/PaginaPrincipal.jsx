@@ -13,7 +13,7 @@ function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos]= useState([])
   const [articulosActuales,setArticulosActuales]= useState(totalArticulos) //aca se guardan los filtrados
   const [pagActual,setPagActual]= useState(1);
-
+  console.log(totalArticulos.length)
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
   } 
@@ -64,11 +64,9 @@ function PaginaPrincipal() {
             </div>
           </div>
 
-          <div className='articulos'>
-            {mostrarArticulos().map((art) =>(
-              <Articulo articulo={art}/>
-            ))}
-          </div>
+          {(totalArticulos.length == 0 || articulosActuales == 0)? <div className='cargando'> No hay articulos disponibles aún </div> //Podria ser un componente
+          : <div className='articulos'>{mostrarArticulos().map((art) =>(<Articulo articulo={art}/>))}</div>
+          }
 
           <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/>
         </div>

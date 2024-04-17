@@ -23,3 +23,8 @@ html, body {
   align-items: center;
 
 }
+
+.cargando{
+  display: flex;
+  
+}
