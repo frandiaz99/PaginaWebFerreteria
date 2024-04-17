@@ -3,6 +3,7 @@ import '../styles/PaginaPrincipal.css'
 import Articulo from '../components/Articulo'
 import UltimoTrueque from '../components/UltimoTrueque'
 import Paginacion from '../components/Paginacion'
+import Filtros from '../components/Filtros'
 import { useState, useEffect } from 'react'
 
 const articulosXPag= 5 //en cada pagina mostrar 5 articulos
@@ -10,37 +11,33 @@ const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch pa
 
 function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos]= useState([])
-  const [articulosActuales,setArticulosActuales]= useState(totalArticulos)
+  const [articulosActuales,setArticulosActuales]= useState(totalArticulos) //aca se guardan los filtrados
   const [pagActual,setPagActual]= useState(1);
-  const [filtro,setFiltro]= useState('todo')
-  const[orden,setOrden]= useState('nada')
-  
+
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
   } 
 
-  const handleFiltros = (event) => {
-    setFiltro(event.target.value)
-  }
-  const handleOrden = (event) =>{
-    setOrden(event.target.value)
+  const handleFiltros= (resultado) =>{
+    setArticulosActuales(resultado)
   }
   
-  function mostrarArticulos(){  
+  function mostrarArticulos(){ 
     const ultimoarticulo= pagActual * articulosXPag
     const primerArticulo= ultimoarticulo - articulosXPag
     return articulosActuales.slice(primerArticulo,ultimoarticulo)
   }
   
-  useEffect(() =>{ //para mostrar la primera vez
+  useEffect(() =>{ 
     setArticulosActuales(totalArticulos)
-  }, [totalArticulos])
+  }, [totalArticulos]) //Solo cambia la primera vez
 
-  useEffect(() => {
+
+  useEffect(() => { //Se obtienen los articulos
     fetch('http://localhost:5000/publicacion/getPublicaciones')
     .then(response => {
       if (!response.ok) {
-        throw new Error('Hubo un problema con la solicitud');
+        throw new Error('Hubo un problema al obtener los articulos');
       }
       return response.json();
     })
@@ -52,28 +49,6 @@ function PaginaPrincipal() {
     });
   }, [])
 
-
-  //Cada vez que cambia filtro u orden hay que filtrar y ordenar de nuevo
-  useEffect(() => {
-    let resultados = [...totalArticulos];
-    // Filtrar
-    if (filtro !== 'todo') {
-      resultados = resultados.filter(articulo => articulo.categoria == filtro);
-    }
-
-    // Ordenar 
-    if (orden !== 'nada'){
-      resultados.sort((a, b) => {
-        if (orden === 'tasacion') {
-            return b.tasacion - a.tasacion
-        } else if (orden === 'puntaje'){ 
-            return b.puntaje - a.puntaje
-        }
-    })
-    }
-
-    setArticulosActuales(resultados);
-}, [filtro, orden])
 
   return (
     <>
@@ -95,29 +70,10 @@ function PaginaPrincipal() {
             ))}
           </div>
 
-          <div className='orden-y-filtros'>
-            <div className='orden'>
-              <label htmlFor="ordenar">Ordenar por</label>
-              <select name="selector" id="ordenar" onChange={handleOrden}>
-                <option value="nada">Sin orden</option>
-                <option value="tasacion">Mayor Tasación</option>
-                <option value="puntaje">Mayor puntaje</option>
-              </select>
-            </div>
-            <div className='filtros'>
-              <label htmlFor='filtrar'>Filtros</label>
-              <select name="selector" id="filtrar" onChange={handleFiltros}>
-                <option value="todo">Todo</option>
-                <option value="c1">$0-$1000</option>
-                <option value="c2">$1000-$10000</option>
-                <option value="c3">$10000-$50000</option>
-                <option value="c4">+$50000</option>
-              </select>
-            </div>
-          </div>
+          <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/>
         </div>
 
-        <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>
+        {articulosActuales.length > 0 && <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>}
 
       </main>
     </>
