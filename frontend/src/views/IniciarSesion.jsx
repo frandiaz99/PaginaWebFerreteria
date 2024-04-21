@@ -25,20 +25,20 @@ function IniciarSesion() {
         if (usuario){
             if (usuario.bloqueado){
                 alert('Tu cuenta está bloqueada, por favor comunicate con blabla')
-            } else if (usuario.dni === datos.dni && usuario.contrasenia === datos.contrasenia){ //La condicion de que coincidan los dni se elimina, ya que ya fue verificada al obtener al usuario desde el back, esto es solo de prueba
+            } else if (usuario.dni === datos.dni && usuario.contrasenia === datos.contrasenia){ 
                 localStorage.setItem('user', JSON.stringify(usuario))
                 navigate(routes.userPrincipal)
             }else if(usuario.contrasenia !== datos.contrasenia){
                 setIntento(intento+1)
                 if (intento == 3){
                     //fetch para bloquear cuenta
-                    alert('Contraseña incorrecta, tu cuenta fue bloqueada blabla')
+                    alert('Contraseña incorrecta, tu cuenta fue bloqueada comunicate con blabla')
                 }else{
-                    alert('Contraseña incorrecta')
+                    alert('El DNI o la contraseña son incorrectas')
                 }
             }
         } else{
-            alert('El DNI no está registrado')
+            alert('El DNI o la contraseña son incorrectas')
         }
     }
 
@@ -56,7 +56,7 @@ function IniciarSesion() {
                         <input
                         id="dni"
                         name="dni"
-                        type="text"
+                        type="number"
                         placeholder="Ingresá tu DNI"
                         onChange={handleChange}
                         /> 
@@ -71,7 +71,6 @@ function IniciarSesion() {
                         placeholder="Ingresá tu contraseña"
                         onChange={handleChange}
                         />
-                        {(intento > 1 && intento < 4) && <p>Te quedan {4- intento} intentos</p>}
                     </div> 
 
                     <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>

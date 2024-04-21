@@ -24,8 +24,8 @@ function Filtros({totalItems, actualizar}) {
         // Ordenar 
         if (orden !== 'nada'){
             resultados.sort((a, b) => {
-            if (orden === 'tasacion') {
-                return b.tasacion - a.tasacion
+            if (orden === 'precio') {
+                return b.precio - a.precio
             } else if (orden === 'puntaje'){ 
                 return b.puntaje - a.puntaje
             }
@@ -41,7 +41,7 @@ function Filtros({totalItems, actualizar}) {
               <label htmlFor="ordenar">Ordenar por</label>
               <select name="selector" id="ordenar" onChange={handleOrden}>
                 <option value="nada">Sin orden</option>
-                <option value="tasacion">Mayor Tasación</option>
+                <option value="precio">Mayor Tasación</option>
                 <option value="puntaje">Mayor puntaje</option>
               </select>
             </div>

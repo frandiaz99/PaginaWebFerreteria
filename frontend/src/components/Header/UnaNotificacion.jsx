@@ -3,10 +3,11 @@ import '../../styles/UnaNotificacion.css'
 
 function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back cada vez que se abra el drop o q onda
     const tipos={
-        'noti1': 'quiere intercambiarte un artículo',
-        'noti2': 'aceptó tu artículo, tienen un trueque pendiente. Revisá tu mail para ponerte en contacto',
+        'noti1': 'quiere intercambiarte un artículo.',
+        'noti2': 'aceptó tu artículo, tienen un trueque pendiente. Revisá tu mail para ponerte en contacto.',
         'noti3': 'rechazó tu artículo.',
-        'noti4': 'Tu artículo fue tasado, ya está disponible para realizar trueques'
+        'noti4': 'Tu artículo fue tasado, ya está disponible para realizar trueques.',
+        'noti5': 'Se canceló el trueque que tenías pendiente.'
     }
     return (
         <div className='unaNotificacion'>

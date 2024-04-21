@@ -44,22 +44,23 @@ const todosLosCamposCompletos= (datos) =>{
 } 
 
 function CrearCuenta(){
+    const navigate = useNavigate();
     const [cumpleContrasenia, setCumpleContrasenia]= useState(false)
     const [coincidenContrasenias,setCoincidenContrasenias]= useState(null)
+    const [dniValido, setDniValido]= useState(false)
     const [esMayor,setEsMayor]= useState(false)
     const [datos, setDatos] = useState({
         nombre: '',
         apellido: '',
         email: '',
-        contrasenia: '',
+        password: '',
         repetirContrasenia:'',
         dni:'',
         nacimiento:'',
         sucursal:'s1',
-        suscripcion: false
+        suscripto: false
       });
-      const navigate = useNavigate();
-
+      
     const handleChange = (e) => {
         setDatos({
           ...datos,
@@ -75,119 +76,146 @@ function CrearCuenta(){
     }
 
     const handleRegistro= () =>{    //fetch para crear usuario en BD
-        if (coincidenContrasenias && esMayor && cumpleContrasenia && todosLosCamposCompletos(datos)){
-            console.log(datos)
-            navigate(routes.iniciarSesion)
-        }else{
-            alert('Datos erroneos')
+        if (coincidenContrasenias && esMayor && cumpleContrasenia && dniValido && todosLosCamposCompletos(datos)){
+            fetch("http://localhost:5000/user/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/JSON" },
+                body: JSON.stringify({ User: datos }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || "Error en el registro");
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Registro exitoso:", data)
+                //Podría ir una pantalla de carga
+                navigate(routes.iniciarSesion);
+            })
+            .catch(error => {
+                console.error("Error en el registro:", error.message);
+                //Depende si no se pudo por dni repetido o por mail repetido informar
+                alert('No se pudo realizar el registro');
+            });            
         }
     }
 
-    useEffect(() =>{  //Verificar que la contraseña cumpla las condiciones 
-        const cumple= verificarCondicionContrasenia(datos.contrasenia)
-        setCumpleContrasenia(cumple)
-    }, [datos.contrasenia])
-
-    useEffect(() => {  //Verificar que coincidan las contraseñas
-        const coinciden = verificarContrasenias(datos.contrasenia, datos.repetirContrasenia);
+    useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña
+        const coinciden = verificarContrasenias(datos.password, datos.repetirContrasenia);
+        const cumpleRequisitos= verificarCondicionContrasenia(datos.password)
+        
         setCoincidenContrasenias(coinciden);
-    }, [datos.contrasenia, datos.repetirContrasenia])
+        setCumpleContrasenia(cumpleRequisitos)
+    }, [datos.password, datos.repetirContrasenia])
 
     useEffect(() => {  //Verificar que sea mayor de edad
         const mayor = verificarEdad(datos.nacimiento);
         setEsMayor(mayor);
     }, [datos.nacimiento])
 
+    useEffect(() => {  //Verificar DNI valido
+        let dniCumple= false
+        if (datos.dni.length == 8){
+            dniCumple= true;
+        }
+        setDniValido(dniCumple);
+    }, [datos.dni])
+
     return(
         
-            <main className="main">
+        <main className="main">
 
-                <h1>Registrarse</h1>
+            <h1>Registrarse</h1>
 
-                <div className="forms">
-                    <div className="form1">
-                        <label htmlFor="nombre">Nombre</label>
-                        <input
-                            id="nombre"
-                            name="nombre"
-                            type="text"
-                            placeholder="Ingresá tu nombre"
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="apellido">Apellido</label>
-                        <input
-                            id="apellido"
-                            name="apellido"
-                            type="text"
-                            placeholder="Ingresá tu apellido"
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            name="email"
-                            type="text"
-                            placeholder="Ingresá tu email"
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="contrasenia">Contraseña</label>
-                        <input
-                            id="contrasenia"
-                            name="contrasenia"
-                            type="text"
-                            placeholder="Crea una contraseña"
-                            onChange={handleChange}
-                        />
-                        <p className="condicionContrasenia">
-                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
-                        </p>
-                        {cumpleContrasenia== false && <p>La contraseña no cumple las condiciones</p>}
+            <div className="forms">
+                <div className="form1">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input
+                        id="nombre"
+                        name="nombre"
+                        type="text"
+                        placeholder="Ingresá tu nombre"
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="apellido">Apellido</label>
+                    <input
+                        id="apellido"
+                        name="apellido"
+                        type="text"
+                        placeholder="Ingresá tu apellido"
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Ingresá tu email"
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="contrasenia">Contraseña</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="text"
+                        placeholder="Crea una contraseña"
+                        onChange={handleChange}
+                    />
+                    <p className="textoBajoLabelRegistro">
+                        Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
+                    </p>
+                    {!cumpleContrasenia && <p style={{color:'red'}}>La contraseña no cumple las condiciones</p>}
 
-                        <label htmlFor="repetirContrasenia">Repetir contraseña</label>
+                    <label htmlFor="repetirContrasenia">Repetir contraseña</label>
+                    <input
+                        id="repetirContrasenia"
+                        name="repetirContrasenia"
+                        type="text"
+                        placeholder="Repetí la contraseña"
+                        onChange={handleChange}
+                    />  
+                    {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}                                                                    
+                </div>
+                <div className="form2">
+                    <div className="form2__labels">
+                        <label htmlFor="dni">DNI</label>
                         <input
-                            id="repetirContrasenia"
-                            name="repetirContrasenia"
-                            type="text"
-                            placeholder="Repetí la contraseña"
+                            id="dni"
+                            name="dni"
+                            type="number"
+                            placeholder="Ingresá tu DNI"
                             onChange={handleChange}
                         />  
-                        {coincidenContrasenias== false && <p>Las contraseñas no coinciden</p>}                                                                    
-                    </div>
-                    <div className="form2">
-                        <div className="form2__labels">
-                            <label htmlFor="dni">DNI</label>
-                            <input
-                                id="dni"
-                                name="dni"
-                                type="text"
-                                placeholder="Ingresá tu DNI"
-                                onChange={handleChange}
-                            />  
-                            <label htmlFor="nacimiento">Nacimiento</label>
-                            <input
-                                id="nacimiento"
-                                name="nacimiento"
-                                type="date"
-                                onChange={handleChange}
-                            />  
-                            {esMayor == false && <p>Debes ser mayor de edad</p>}
+                        {!dniValido && <p className="textoNoCumple">DNI inválido</p>}
 
-                            <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
-                            <select name="sucursal" id="sucursal" onChange={handleChange}>
-                                <option value="s1">Sucursal 1</option>
-                                <option value="s2">Sucursal 2</option>
-                                <option value="s3">Sucursal 3</option>
-                            </select> 
-                            <div className="suscripcion">
-                                <input type="checkbox" id="checkbox" name="suscripcion" onChange={handleCheckbox}/>
-                                <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
-                            </div>
+                        <label htmlFor="nacimiento">Nacimiento</label>
+                        <input
+                            id="nacimiento"
+                            name="nacimiento"
+                            type="date"
+                            onChange={handleChange}
+                        />  
+                        {!esMayor && <p className="textoNoCumple">Debes ser mayor de edad</p>}
+
+                        <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
+                        <select name="sucursal" id="sucursal" onChange={handleChange}>
+                            <option value="s1">Sucursal 1</option>
+                            <option value="s2">Sucursal 2</option>
+                            <option value="s3">Sucursal 3</option>
+                        </select> 
+                        <div className="suscripcion">
+                            <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
+                            <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
                         </div>
-                        
-                        <button type="button" onClick={handleRegistro} className="registrarse">Registrarse</button>
                     </div>
+                        
+                    <button type="button" onClick={handleRegistro} className="registrarse">Registrarse</button>
                 </div>
-            </main>
+            </div>
+        </main>
     )
 }
 

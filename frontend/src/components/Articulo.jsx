@@ -10,7 +10,7 @@ function Articulo ({articulo}){
                 <div className='articulo-contenido'>
                     <h2>{articulo.titulo}</h2>
                     <p>{articulo.descripcion}. Definir un maximo de caracteres.</p>
-                    <span className='span'>${articulo.rango_precio}</span>
+                    <span className='span'>${articulo.precio}</span>
                 </div>
             </div>
         </Link>
