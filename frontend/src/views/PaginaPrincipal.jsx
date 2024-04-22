@@ -63,8 +63,14 @@ function PaginaPrincipal() {
             </div>
           </div>
 
-          {(totalArticulos.length == 0 || articulosActuales == 0)? <div className='cargando'> No hay articulos disponibles aún </div> //Podria ser un componente
-          : <div className='articulos'>{mostrarArticulos().map((art) =>(<Articulo articulo={art}/>))}</div>
+          {(totalArticulos.length == 0 || articulosActuales == 0)? 
+            <div className='cargando'>
+              No hay articulos disponibles aún
+            </div> //Podria ser un componente
+            
+          : <div className='articulos'>
+              {mostrarArticulos().map((art) =>(<Articulo articulo={art}/>))}
+            </div>
           }
 
           <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/>

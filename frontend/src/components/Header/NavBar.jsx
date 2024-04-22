@@ -35,7 +35,7 @@ function NavBar() {
       {(user.rol == 3 && (estaEnModoAdmin() || estaEnModoEmple())) && <Link to={routes.adminSucursales} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>}
 
       <Link to={routes.empleadoPromociones} style={{textDecoration:'none'}}><span>Ver Promociones</span></Link>
-      <Link to={routes.empleadoEstadisticas} style={{textDecoration:'none'}}><span>Estadísticas Artículos</span></Link>
+      <Link to={routes.empleadoEstadisticas} style={{textDecoration:'none'}}><span>Artículos destacados</span></Link>
       </>
       }
       

@@ -59,7 +59,7 @@ function CrearCuenta(){
         nacimiento:'',
         sucursal:'s1',
         suscripto: false
-      });
+      })
       
     const handleChange = (e) => {
         setDatos({
@@ -129,71 +129,35 @@ function CrearCuenta(){
             <div className="forms">
                 <div className="form1">
                     <label htmlFor="nombre">Nombre</label>
-                    <input
-                        id="nombre"
-                        name="nombre"
-                        type="text"
-                        placeholder="Ingresá tu nombre"
-                        onChange={handleChange}
-                    />
+                    <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
+
                     <label htmlFor="apellido">Apellido</label>
-                    <input
-                        id="apellido"
-                        name="apellido"
-                        type="text"
-                        placeholder="Ingresá tu apellido"
-                        onChange={handleChange}
-                    />
+                    <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
+
                     <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="text"
-                        placeholder="Ingresá tu email"
-                        onChange={handleChange}
-                    />
+                    <input name="email" type="text" placeholder="Ingresá tu email" onChange={handleChange}/>
+
                     <label htmlFor="contrasenia">Contraseña</label>
-                    <input
-                        id="password"
-                        name="password"
-                        type="text"
-                        placeholder="Crea una contraseña"
-                        onChange={handleChange}
-                    />
+                    <input name="password" type="text" placeholder="Crea una contraseña" onChange={handleChange}/>
+
                     <p className="textoBajoLabelRegistro">
                         Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
                     </p>
                     {!cumpleContrasenia && <p style={{color:'red'}}>La contraseña no cumple las condiciones</p>}
 
                     <label htmlFor="repetirContrasenia">Repetir contraseña</label>
-                    <input
-                        id="repetirContrasenia"
-                        name="repetirContrasenia"
-                        type="text"
-                        placeholder="Repetí la contraseña"
-                        onChange={handleChange}
-                    />  
-                    {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}                                                                    
+                    <input name="repetirContrasenia" type="text" placeholder="Repetí la contraseña" onChange={handleChange}/>  
+                    {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
+
                 </div>
                 <div className="form2">
                     <div className="form2__labels">
                         <label htmlFor="dni">DNI</label>
-                        <input
-                            id="dni"
-                            name="dni"
-                            type="number"
-                            placeholder="Ingresá tu DNI"
-                            onChange={handleChange}
-                        />  
+                        <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
                         {!dniValido && <p className="textoNoCumple">DNI inválido</p>}
 
                         <label htmlFor="nacimiento">Nacimiento</label>
-                        <input
-                            id="nacimiento"
-                            name="nacimiento"
-                            type="date"
-                            onChange={handleChange}
-                        />  
+                        <input name="nacimiento" type="date" onChange={handleChange}/>  
                         {!esMayor && <p className="textoNoCumple">Debes ser mayor de edad</p>}
 
                         <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
@@ -202,13 +166,16 @@ function CrearCuenta(){
                             <option value="s2">Sucursal 2</option>
                             <option value="s3">Sucursal 3</option>
                         </select> 
+
                         <div className="suscripcion">
                             <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
                             <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
                         </div>
+
                     </div>
                         
                     <button type="button" onClick={handleRegistro} className="registrarse">Registrarse</button>
+
                 </div>
             </div>
         </main>

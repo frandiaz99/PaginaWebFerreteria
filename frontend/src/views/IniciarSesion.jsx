@@ -76,7 +76,6 @@ function IniciarSesion() {
                     <div className="label">
                         <label htmlFor="dni">DNI</label>
                         <input
-                        id="dni"
                         name="dni"
                         type="number"
                         placeholder="Ingresá tu DNI"
@@ -87,7 +86,6 @@ function IniciarSesion() {
                     <div className="label">
                         <label htmlFor="password">Contraseña</label>
                         <input
-                        id="password"
                         name="password"
                         type="password"
                         placeholder="Ingresá tu contraseña"
