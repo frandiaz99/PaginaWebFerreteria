@@ -3,7 +3,7 @@
       "nombre": "Nicolas",
       "apellido": "Arditi",
       "email": "nicoarditi12@gmail.com",
-      "contrasenia": "Ab+123",
+      "password": "Ab+123",
       "dni": "4379",
       "nacimiento":"2001-12-02",
       "sucursal": 2,

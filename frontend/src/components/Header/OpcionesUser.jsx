@@ -64,14 +64,16 @@ function OpcionesUser() {
         </div>
 
         {estaEnModoUser() &&
-        <div className='containersDrop'>
+          <div className='containersDrop'>
 
-          <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
-            <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
-          </div>
+              <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
+                  <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
+              </div>
 
           {dropNotificacionesOpen && <DropNotificaciones/>}
-        </div>}
+
+          </div>
+        }
 
         <div className='containersDrop'>
           <div className='cuenta' onClick={handleCuenta} style={{cursor:'pointer'}}>

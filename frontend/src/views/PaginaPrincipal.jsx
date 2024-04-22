@@ -13,7 +13,6 @@ function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos]= useState([])
   const [articulosActuales,setArticulosActuales]= useState(totalArticulos) //aca se guardan los filtrados
   const [pagActual,setPagActual]= useState(1);
-  console.log(totalArticulos.length)
   const handlePageChange= (pagina) =>{
     setPagActual(pagina)
   } 

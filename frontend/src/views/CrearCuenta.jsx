@@ -103,17 +103,13 @@ function CrearCuenta(){
         }
     }
 
-    useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña
-        const coinciden = verificarContrasenias(datos.password, datos.repetirContrasenia);
-        const cumpleRequisitos= verificarCondicionContrasenia(datos.password)
-        
-        setCoincidenContrasenias(coinciden);
-        setCumpleContrasenia(cumpleRequisitos)
+    useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
+        setCoincidenContrasenias(verificarContrasenias(datos.password, datos.repetirContrasenia))
+        setCumpleContrasenia(verificarCondicionContrasenia(datos.password))
     }, [datos.password, datos.repetirContrasenia])
 
     useEffect(() => {  //Verificar que sea mayor de edad
-        const mayor = verificarEdad(datos.nacimiento);
-        setEsMayor(mayor);
+        setEsMayor(verificarEdad(datos.nacimiento));
     }, [datos.nacimiento])
 
     useEffect(() => {  //Verificar DNI valido

@@ -2,13 +2,12 @@ import "../styles/IniciarSesion.css"
 import { Link , useNavigate} from "react-router-dom"
 import routes from "../routes"
 import { useState } from "react"
-import usuario from "../data/usuario.json"  //prueba
 
 function IniciarSesion() {
     const [intento,setIntento]= useState(1)  //se obtiene del back??
     const [datos,setDatos]= useState({
         dni:'',
-        contrasenia:''
+        password:''
     })
 
     const navigate= useNavigate()
@@ -21,14 +20,39 @@ function IniciarSesion() {
     }
 
     const handleIniciar= () =>{ 
-        //Se obtiene datos del usuario mediante su dni con un Fetch
-        if (usuario){
+        if (datos.dni !== '' && datos.password !== ''){
+            //Podría ir una pantalla de carga
+            fetch("http://localhost:5000/user/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/JSON" },
+                body: JSON.stringify({ User: datos }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || "Error al iniciar");
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Inicio exitoso:", data)
+                localStorage.setItem('user', JSON.stringify(data))
+               //Tengo que saber el rol para ver si mandar a pagPrincipal de user o pagPrincipal de admin (si es emple igual lo mado a pag principal de user)
+                navigate(routes.pagPrincipal);
+            })
+            .catch(error => { //Hay que informar cuando se bloquea la cuenta y que se comunique con un administrador
+                console.error("Error en el inicio:", error.message);
+                alert('El DNI o la contraseña son incorrectas')
+            });
+        }
+        /*if (usuario){
             if (usuario.bloqueado){
                 alert('Tu cuenta está bloqueada, por favor comunicate con blabla')
-            } else if (usuario.dni === datos.dni && usuario.contrasenia === datos.contrasenia){ 
+            } else if (usuario.dni === datos.dni && usuario.password === datos.password){ 
                 localStorage.setItem('user', JSON.stringify(usuario))
                 navigate(routes.userPrincipal)
-            }else if(usuario.contrasenia !== datos.contrasenia){
+            }else if(usuario.password !== datos.password){
                 setIntento(intento+1)
                 if (intento == 3){
                     //fetch para bloquear cuenta
@@ -37,9 +61,7 @@ function IniciarSesion() {
                     alert('El DNI o la contraseña son incorrectas')
                 }
             }
-        } else{
-            alert('El DNI o la contraseña son incorrectas')
-        }
+        } */
     }
 
 
@@ -63,10 +85,10 @@ function IniciarSesion() {
                     </div>
                     
                     <div className="label">
-                        <label htmlFor="contrasenia">Contraseña</label>
+                        <label htmlFor="password">Contraseña</label>
                         <input
-                        id="contrasenia"
-                        name="contrasenia"
+                        id="password"
+                        name="password"
                         type="password"
                         placeholder="Ingresá tu contraseña"
                         onChange={handleChange}
