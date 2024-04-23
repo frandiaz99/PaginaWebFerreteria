@@ -55,7 +55,7 @@ function PaginaPrincipal() {
         
         <div className='body-trueques'>
           <div className='ultimosTrueques'>
-            <h4>Últimos Trueques</h4>
+            <h4 className='tituloUltimoTrueques'>Últimos Trueques</h4>
             <div className='ultimosTrueques-lista'>
               {ultimosTrueques.map((unTrueque) =>(
                 <UltimoTrueque/>

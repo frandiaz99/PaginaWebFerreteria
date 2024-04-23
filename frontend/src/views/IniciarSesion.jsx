@@ -39,7 +39,7 @@ function IniciarSesion() {
             .then(data => {
                 console.log("Inicio exitoso:", data)
                 localStorage.setItem('user', JSON.stringify(data.User))
-                navigate(routes.userPrincipal);
+                navigate(routes.userPrincipal)
             })
             .catch(error => { //Hay que informar como manejar lo de los bloqueos para informarlo
                 console.error("Error en el inicio:", error.message);

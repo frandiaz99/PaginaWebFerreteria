@@ -114,16 +114,8 @@ function OpcionesUser() {
                 <p>Cuenta Empleado</p>
             </div>
             </Link>}
-            
-            {(user.rol === 3 && estaEnModoUser()) && 
-            <Link to={routes.adminPrincipal} className='link'>
-              <div className='dropCuenta__items'>
-                <ion-icon name="key-outline"></ion-icon>
-                <p>Cuenta Administrador</p>
-              </div>
-            </Link>}
 
-            {!estaEnModoUser() &&
+            {estaEnModoEmpleado() &&
             <Link to={routes.userPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>

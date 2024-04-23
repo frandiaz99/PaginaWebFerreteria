@@ -6,7 +6,8 @@ function ProtegerAdmin({children}) {
     const user= JSON.parse(localStorage.getItem('user')) || null
 
     if (user !== null){
-        if (user.rol === 3){
+        if (user.rol == 3){
+          console.log('hola')
             return children
         }
     }

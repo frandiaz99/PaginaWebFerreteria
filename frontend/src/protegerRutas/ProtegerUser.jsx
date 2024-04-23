@@ -7,7 +7,7 @@ function ProtegerUser({children}) {
       if(user.rol < 3){
         return children
       }
-      <Navigate to={routes.adminPrincipal}/>
+      return <Navigate to={routes.adminPrincipal}/>
     }
   return (
     <Navigate to={routes.iniciarSesion}/>

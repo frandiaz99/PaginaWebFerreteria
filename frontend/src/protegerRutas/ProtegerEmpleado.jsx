@@ -7,7 +7,7 @@ function ProtegerEmpleado({children}) {
 
     if (user !== null){
         if (user.rol === 2 || user.rol === 3){
-            return children
+          return children
         }
     }
   return (
