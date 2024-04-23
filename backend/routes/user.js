@@ -1,14 +1,15 @@
-const {DataUser} = require("../model/Schema")
+const {DataUser, DataNotificacion} = require("../model/Schema")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 const jwtSecret = 'daa1dc6519bff687520b8dd1e6c0fd60cfbb06d7693be9cfbcea56053a52f5f5482701';
 
+const {getNotificacionesNuevas} = require ("./notificacion");
 //
 const express = require("express")
 const {adminAuth, workerAuth, userAuth} = require ("../middleware/auth");
 const router = express.Router();
 //
-const password_min_leght = 8;
+const password_min_leght = 6;
 
 const register = async (req, res, next) => {
 
@@ -100,7 +101,7 @@ const register = async (req, res, next) => {
           message: "User not successful created",
           error: error.message,
           error_values: Object.keys(error.errors),
-  
+          //faltaria hacer codigos de erro para ver desde el front xq fue el problema
         })
       }
       );
@@ -173,11 +174,11 @@ const login = async (req, res, next) => {
             maxAge: maxAge * 1000, // 3hrs en ms
           });
           
-          
-          
+          const notificaciones = getNotificacionesNuevas(user._id);
+          const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
           console.log("Correct password")
-          res.status(201).json({ message: "Login successful", User: user._id})      //tambien se deberia cambiar user por user._id
+          res.status(201).json({ message: "Login successful", User: resp})      //tambien se deberia cambiar user por user._id
         } else {
           console.log("Incorrect password")
           DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1} }).catch(

@@ -1,9 +1,31 @@
+.boton{
+    width: auto;
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+}
+
+.nav{
+    gap: 15px;
+    text-decoration: none;
+}
+
+.boton:hover{
+    background-color: #e8e7e7;
+    text-decoration: underline;
+}
+
 .navIzquierda{
     display: flex;
-    gap: 10px;
 }
 
 .navDerecha{
     display: flex;
-    gap: 10px;
+}
+
+.subirArt{
+    align-self: center;
 }

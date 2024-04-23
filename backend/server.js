@@ -110,7 +110,9 @@ app.get("/user", userAuth, (req, res) => res.send("User Route"));
 
 //routes
 app.use("/user", require("./routes/user.js"))
-app.use("/publicacion", require("./routes/publicacion"))
+app.use("/articulo", require("./routes/articulo"))
+
+//app.use("/pay", require("./routes/pagar"))
 
 
 
@@ -136,6 +138,10 @@ app.post('/create',  (req, res) => {
     res.status(500).json({error: "Internal error"});
   }
 })
+
+
+
+
 
 ///fin prueba
 

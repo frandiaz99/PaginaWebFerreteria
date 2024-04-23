@@ -1,11 +1,27 @@
+.articulo-link{
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 15vh;
+    border-radius: 15px;
+}
+
+a{
+    width: 100%;
+}
+
 .articulo{
     display: flex;
     background-color: #f9f9f9;
     width: 100%;
+    height: auto;
     border-radius: 15px;
-    overflow: clip;
-    max-height: 100%;
-}
+    
+ 
+} 
 
 img{
     width: 22%;
@@ -15,7 +31,7 @@ img{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 16px;
+    width: 76%;
 }
 
 h2{

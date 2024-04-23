@@ -4,21 +4,27 @@ const autopopulate = require("mongoose-autopopulate");
 
 const mongoose = require ("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const { type } = require("os");
 
 const userSchema = mongoose.Schema({
   email: {type: String, required: true, unique: true},
   dni: {type: Number, required: true, unique: true},
   rawPassword: { type: String, required: true, minlength: 8},
   password: { type: String, required: true},
-  role: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
+  rol: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
   
+  nombre: {type: String, required: true},
+  foto: {type:String},
   suscripto: {type: Boolean, default: false}, 
   puntos: {type: Number, default: 0},
   intento_desbloqueo: {type: Number, default: 0},
+  sucursal_preferida: {type: mongoose.Schema.Types.ObjectId, ref:"Sucursal", autopopulate: true}
   //nombre y apellido, sucursal, fecha nacimiento
-  //publicaciones: {type: [mongoose.Schema.Types.ObjectId], ref: "Publicacion", autopopulate: true},
+  //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
-  //publicaciones [(FK)],  trueques [(FK)], Valoracion[(FK)]
+  //articulos [(FK)],  trueques [(FK)], Valoracion[(FK)]
+  //foto perfil 
+  //sucursal
 });
 
 const sucursalSchema = mongoose.Schema({
@@ -30,13 +36,15 @@ const sucursalSchema = mongoose.Schema({
 });
 
 const empleadoSchema = mongoose.Schema({
-  
+  user: {type: [mongoose.Schema.Types.ObjectId], ref: "User", autopopulate: true},
+
   //Usuario(FK), Trueques_Cerrados [(FK): Trueques], VentasProductos [(FK): Ventas]
+  trabaja: {type: [mongoose.Schema.Types.ObjectId], ref: "Sucursal", autopopulate: true},
 });
 
 
 
-const publicacionSchema = mongoose.Schema({
+const articuloSchema = mongoose.Schema({
   usuario: {type: mongoose.Schema.Types.ObjectId, ref:"User", autopopulate: true},
   titulo: {type: String, required: true},
   descripcion: {type: String, required: true},
@@ -65,9 +73,9 @@ const truequeSchema = mongoose.Schema({
   valoracion_publica: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   valoracion_compra: {type: [mongoose.Schema.Types.ObjectId], ref: "Valoracion", autopopulate: true},
   
-  publicacion: {type: mongoose.Schema.Types.ObjectId, ref: "Publicacion", autopopulate: true},
+  articulo: {type: mongoose.Schema.Types.ObjectId, ref: "Articulo", autopopulate: true},
   
-  //User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Publicacion(FK), Opinion_Publica(FK)?, Opinion_Compra(FK)?
+  //User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Articulo(FK), Opinion_Publica(FK)?, Opinion_Compra(FK)?
   trueque_aceptado: {type: Boolean, default: false},      //
   // dia
 
@@ -101,12 +109,20 @@ const valoracionSchema = mongoose.Schema({
   opinion: {type: String, required: true},
   valoracion: {type: Number, required: true},
   
-  usuario: {type: [mongoose.Schema.Types.ObjectId], ref: "Usuario", autopopulate: true, required: true},
+  usuario: {type: [mongoose.Schema.Types.ObjectId], ref: "User", autopopulate: true, required: true},
 
   //Trueques(FK), Usuario(FK)
   //El Nombre_Usuario seria el nombre del que opina, no guardo su id xq me parece alp2 y no tiene por que. Se podria poner hasta que el que opina elija el nombre con el que aparecece
 })
 
+
+const notificacionSchema = mongoose.Schema({
+  usuario: {type: [mongoose.Schema.Types.ObjectId], ref: "User", required: true},
+  objeto: {type: [mongoose.Schema.Types.ObjectId], required: true},
+  tipo: {type: Number, required: true},
+  visto: {type: Boolean, default: false}
+});
+//notificacion
 
 //UNIQUE VALIDAATOR
 
@@ -118,10 +134,11 @@ userSchema.plugin(autopopulate);
 empleadoSchema.plugin(autopopulate);
 sucursalSchema.plugin(autopopulate);
 truequeSchema.plugin(autopopulate);
-publicacionSchema.plugin(autopopulate);
+articuloSchema.plugin(autopopulate);
 promocionSchema.plugin(autopopulate);
 ventaSchema.plugin(autopopulate);
 valoracionSchema.plugin(autopopulate);
+notificacionSchema.plugin(autopopulate);
 
 
 
@@ -131,13 +148,14 @@ const DataUser = mongoose.model("User",userSchema);
 const DataEmpleado = mongoose.model("Empleado", empleadoSchema);
 const DataSucursal = mongoose.model("Sucursal", sucursalSchema);
 const DataTrueque = mongoose.model("Trueque", truequeSchema);
-const DataPublicacion = mongoose.model("Publicacion", publicacionSchema);
+const DataArticulo = mongoose.model("Articulo", articuloSchema);
 const DataPromocion = mongoose.model("Promocion", promocionSchema);
 const DataVenta = mongoose.model("Venta", ventaSchema);
 const DataValoracion = mongoose.model("Valoracion", valoracionSchema);
+const DataNotificacion = mongoose.model("Notificacion", notificacionSchema);
 
 
-module.exports = {DataEmpleado, DataPromocion, DataPublicacion, DataSucursal, DataTrueque, DataUser, DataValoracion, DataVenta};
+module.exports = {DataEmpleado, DataPromocion, DataArticulo, DataSucursal, DataTrueque, DataUser, DataValoracion, DataVenta, DataNotificacion};
 
 
 

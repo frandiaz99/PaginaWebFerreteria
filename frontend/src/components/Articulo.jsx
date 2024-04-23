@@ -4,6 +4,8 @@ import routes from '../routes'
 
 function Articulo ({articulo}){
     return (
+        <div className='articulo-link'>
+
         <Link to={routes.unArticulo} style= {{color:'inherit', textDecoration:'none'}}>
             <div className='articulo'>
                 <img src={articulo.src} alt="" />
@@ -14,6 +16,7 @@ function Articulo ({articulo}){
                 </div>
             </div>
         </Link>
+        </div>
     )
 }
 

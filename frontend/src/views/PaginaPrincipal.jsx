@@ -21,19 +21,19 @@ function PaginaPrincipal() {
     setArticulosActuales(resultado)
   }
   
-  function mostrarArticulos(){ 
+  function mostrarArticulos(){  
     const ultimoarticulo= pagActual * articulosXPag
     const primerArticulo= ultimoarticulo - articulosXPag
     return articulosActuales.slice(primerArticulo,ultimoarticulo)
   }
   
-  useEffect(() =>{ 
+  useEffect(() =>{
     setArticulosActuales(totalArticulos)
   }, [totalArticulos]) //Solo cambia la primera vez
 
 
   useEffect(() => { //Se obtienen los articulos
-    fetch('http://localhost:5000/publicacion/getPublicaciones')
+    fetch('http://localhost:5000/articulo/getArticulos')
     .then(response => {
       if (!response.ok) {
         throw new Error('Hubo un problema al obtener los articulos');
@@ -63,21 +63,22 @@ function PaginaPrincipal() {
             </div>
           </div>
 
-          {(totalArticulos.length == 0 || articulosActuales == 0)? 
-            <div className='cargando'>
-              No hay articulos disponibles aún
-            </div> //Podria ser un componente
+          <div className='main-articulos'>
+           <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/> 
             
-          : <div className='articulos'>
+            {(totalArticulos.length == 0 || articulosActuales == 0)? 
+              <div className='cargando'>
+                No hay articulos disponibles aún
+              </div> //Podria ser un componente
+            
+            : <div className='articulos'>
               {mostrarArticulos().map((art) =>(<Articulo articulo={art}/>))}
             </div>
-          }
+            }
 
-          <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/>
+            {articulosActuales.length > 0 && <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>}
+          </div>
         </div>
-
-        {articulosActuales.length > 0 && <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>}
-
       </main>
     </>
   );

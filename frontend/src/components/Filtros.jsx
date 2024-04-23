@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/Filtros.css'
 import { useState, useEffect } from 'react'
 
 function Filtros({totalItems, actualizar}) {
@@ -38,23 +39,23 @@ function Filtros({totalItems, actualizar}) {
   return (
     <div className='orden-y-filtros'>
         <div className='orden'>
-              <label htmlFor="ordenar">Ordenar por</label>
-              <select name="selector" id="ordenar" onChange={handleOrden}>
-                <option value="nada">Sin orden</option>
-                <option value="precio">Mayor Tasación</option>
-                <option value="puntaje">Mayor puntaje</option>
-              </select>
-            </div>
-            <div className='filtros'>
-              <label htmlFor='filtrar'>Filtros</label>
-              <select name="selector" id="filtrar" onChange={handleFiltros}>
-                <option value="todo">Todo</option>
-                <option value="c1">$0-$1000</option>
-                <option value="c2">$1000-$10000</option>
-                <option value="c3">$10000-$50000</option>
-                <option value="c4">+$50000</option>
-              </select>
-            </div>
+            <label htmlFor="ordenar">Ordenar por</label>
+            <select name="selector" id="ordenar" onChange={handleOrden}>
+              <option value="nada">Sin orden</option>
+              <option value="precio">Mayor Tasación</option>
+              <option value="puntaje">Mayor puntaje</option>
+            </select>
+          </div>
+        <div className='filtros'>
+            <label htmlFor='filtrar'>Filtros</label>
+            <select name="selector" id="filtrar" onChange={handleFiltros}>
+              <option value="todo">Todo</option>
+              <option value="c1">$0-$1000</option>
+              <option value="c2">$1000-$10000</option>
+              <option value="c3">$10000-$50000</option>
+              <option value="c4">+$50000</option>
+            </select>
+          </div>
     </div>
   )
 }

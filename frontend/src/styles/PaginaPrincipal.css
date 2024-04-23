@@ -1,13 +1,21 @@
 
-.body-trueques{
+/*.body-trueques{
     display: flex;
     justify-content: space-evenly;
     align-items: baseline;
+    width: 80%;
+} */
+
+.body-trueques{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    /*gap: 20px;*/
+    align-items: center;
+    justify-items: center;
 }
 
-
-
 .ultimosTrueques{
+    grid-column: 1;
     background-color: #f9f9f9;
     width: 15vw;
     height: 50vh;
@@ -26,30 +34,17 @@
     justify-content: space-evenly;
 }
 
-.articulos{
+.main-articulos{
+    grid-column: 2;
     display: flex;
     flex-direction: column;
-    width: 40%;
-    overflow-y: auto;
-    max-height: 80vh;
-    gap: 15px;
+    justify-content: space-around;
+    align-items: center;
+    height: 70vh;
+    width: 50vw;
 }
 
-.orden-y-filtros{
-    display: flex;
-    flex-direction: column;
-    gap: 30px
-}
-.orden{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.filtros{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
 h4{
     margin-top: 5px;
-}
+  }
+

@@ -25,44 +25,44 @@ function NavBar() {
   const user= JSON.parse(localStorage.getItem('user')) || null
   return (
     <>
-    <div className='navIzquierda'>
+    <div className='navIzquierda nav'>
       {estaEnModoUser() ?
       <>
-      <Link to={routes.sucursalesLogin} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>
-      <Link to={routes.promociones} style={{textDecoration:'none'}}><span>Ver Promociones</span></Link>
+      <Link className='boton' to={routes.sucursalesLogin} ><span>Ver Sucursales</span></Link>
+      <Link className='boton' to={routes.promociones} ><span>Ver Promociones</span></Link>
       </> :
       <>
-      {(user.rol == 3 && (estaEnModoAdmin() || estaEnModoEmple())) && <Link to={routes.adminSucursales} style={{textDecoration:'none'}}><span>Ver Sucursales</span></Link>}
+      {(user.rol == 3 && (estaEnModoAdmin() || estaEnModoEmple())) && <Link className='boton' to={routes.adminSucursales}><span>Ver Sucursales</span></Link>}
 
-      <Link to={routes.empleadoPromociones} style={{textDecoration:'none'}}><span>Ver Promociones</span></Link>
-      <Link to={routes.empleadoEstadisticas} style={{textDecoration:'none'}}><span>Artículos destacados</span></Link>
+      <Link className='boton' to={routes.empleadoPromociones} ><span>Ver Promociones</span></Link>
+      <Link className='boton' to={routes.empleadoEstadisticas} ><span>Artículos destacados</span></Link>
       </>
       }
       
     </div>
 
     {estaEnModoUser() &&
-    <div className='subirArt'>
-      <Link to={routes.subirArticulo}><button>Subir Articulo</button></Link>
+    <div className='subirArt nav'>
+      <Link className='boton' to={routes.subirArticulo}><button className='boton'>Subir Articulo</button></Link>
     </div>}
 
     {(estaEnModoAdmin() || estaEnModoEmple()) &&
-    <div className='subirArt'>
-      <Link to={routes.empleadoTasar}><button>Tasar Artículo</button></Link>
+    <div className='subirArt nav'>
+      <Link className='boton' to={routes.empleadoTasar}><button className='boton'>Tasar Artículo</button></Link>
     </div>
     }
 
-    <div className='navDerecha'>
+    <div className='navDerecha nav'>
       {estaEnModoUser() &&
       <>
-      <Link to={routes.misArticulos} style={{textDecoration:'none'}}><span>Mis Articulos</span></Link>
-      <Link to={routes.misTrueques} style={{textDecoration:'none'}}><span>Mis Trueques</span></Link>
+      <Link className='boton' to={routes.misArticulos} ><span>Mis Articulos</span></Link>
+      <Link className='boton' to={routes.misTrueques} ><span>Mis Trueques</span></Link>
       </>}
 
       {(!estaEnModoUser() && user.rol === 3) &&
       <>
-      <Link to={routes.adminUsuarios} style={{textDecoration:'none'}}><span>Usuarios</span></Link>
-      <Link to={routes.adminEmpleados} style={{textDecoration:'none'}}><span>Empleados</span></Link>
+      <Link className='boton' to={routes.adminUsuarios} ><span>Usuarios</span></Link>
+      <Link className='boton' to={routes.adminEmpleados} ><span>Empleados</span></Link>
       </>}
     </div>
 

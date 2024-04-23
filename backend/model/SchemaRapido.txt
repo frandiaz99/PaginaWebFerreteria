@@ -2,15 +2,15 @@ Empresa -> Empleados[(FK)], Duenos[(FK):Empleados],  Sucursales [(FK)], Trueques
 
 Sucursal -> Empleados[(FK)], direccion: String(link maps), Trueques[(FK)]
 
-Usuario -> DNI, email, contrasena, publicaciones [(FK)],  trueques [(FK)], SuscriptoNovedades:Boolean, Puntos:int, Valoracion[(FK)], Intentos_Desbloqueo:1..4, 
+Usuario -> DNI, email, contrasena, articulos [(FK)],  trueques [(FK)], SuscriptoNovedades:Boolean, Puntos:int, Valoracion[(FK)], Intentos_Desbloqueo:1..4, 
     Prodria ir tambien una variable de token pero tengo que ver como funca eso
 
 Empleado -> Usuario(FK), Trueques_Cerrados [(FK): Trueques], VentasProductos [(FK): Ventas]
 
-Trueques -> User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Fecha_Venta?, Publicacion(FK), Estado(Pendiente/Confirmado), Opinion_Publica(FK)?, Opinion_Compra(FK)?
+Trueques -> User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Fecha_Venta?, Articulo(FK), Estado(Pendiente/Confirmado), Opinion_Publica(FK)?, Opinion_Compra(FK)?
     Cuando un empleado termina el trueque pasa a estado de Confirmado
 
-Publicacion -> Imagen, Titulo, Descripcion, RangoPrecio?, Estado(LIbre/Pendiente), Fecha, Promocionado:Boolean
+Articulo -> Imagen, Titulo, Descripcion, RangoPrecio?, Estado(LIbre/Pendiente), Fecha, Promocionado:Boolean
     Cuando se arregla un trueque pasaria a estado de pendiente para que no se muestre
 
 Promociones -> Imagen, Texto, Estado(Pendiente/Aprovado), Fecha, Dumracion(Dias)
