@@ -28,7 +28,7 @@ function NavBar() {
     <div className='navIzquierda nav'>
       {estaEnModoUser() ?
       <>
-      <Link className='boton' to={routes.sucursalesLogin} ><span>Ver Sucursales</span></Link>
+      <Link className='boton' to={routes.sucursalesLogin}><span>Ver Sucursales</span></Link>
       <Link className='boton' to={routes.promociones} ><span>Ver Promociones</span></Link>
       </> :
       <>

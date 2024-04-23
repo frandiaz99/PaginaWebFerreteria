@@ -10,7 +10,7 @@ function CrearIniciar() {
         <div className='section1__crear_inicar'>
 
           {location.pathname === routes.pagPrincipal &&
-          <Link to={routes.crearCuenta} style={{ textDecoration: 'none' }}>
+          <Link to={routes.crearCuenta} className='link'>
             <p className='crear_inicar__crearCuenta'>
               Crear cuenta
             </p>
@@ -19,14 +19,14 @@ function CrearIniciar() {
 
           {location.pathname !== routes.pagPrincipal && 
           <div className='volver'>
-            <Link to={routes.pagPrincipal}>
+            <Link to={routes.pagPrincipal} className='link'>
               <ion-icon name="home-outline" size='small'></ion-icon>
             </Link> 
           </div>}
 
 
           {location.pathname !== routes.iniciarSesion &&
-          <Link to={routes.iniciarSesion}>
+          <Link to={routes.iniciarSesion} className='link'>
           <button className='boton_iniciar'>Iniciar Sesión</button>
           </Link>}
 

@@ -100,7 +100,7 @@ function OpcionesUser() {
             <hr />
 
             {estaEnModoUser() && 
-            <Link to={routes.perfil}>
+            <Link to={routes.perfil} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="person-outline"></ion-icon>
                 <p>Ver perfil</p>
@@ -108,7 +108,7 @@ function OpcionesUser() {
             </Link>}
 
             {(user.rol === 2 && estaEnModoUser()) &&
-            <Link to={routes.empleadoPrincipal} style={{textDecoration:'none'}}>
+            <Link to={routes.empleadoPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Empleado</p>
@@ -116,7 +116,7 @@ function OpcionesUser() {
             </Link>}
             
             {(user.rol === 3 && estaEnModoUser()) && 
-            <Link to={routes.adminPrincipal} style={{textDecoration:'none'}}>
+            <Link to={routes.adminPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Administrador</p>
@@ -124,7 +124,7 @@ function OpcionesUser() {
             </Link>}
 
             {!estaEnModoUser() &&
-            <Link to={routes.userPrincipal} style={{textDecoration:'none'}}>
+            <Link to={routes.userPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Usuario</p>

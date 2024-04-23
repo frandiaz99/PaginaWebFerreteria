@@ -6,7 +6,7 @@ function Articulo ({articulo}){
     return (
         <div className='articulo-link'>
 
-        <Link to={routes.unArticulo} style= {{color:'inherit', textDecoration:'none'}}>
+        <Link to={routes.unArticulo} className='link'>
             <div className='articulo'>
                 <img src={articulo.src} alt="" />
                 <div className='articulo-contenido'>

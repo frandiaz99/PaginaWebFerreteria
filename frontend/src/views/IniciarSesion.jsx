@@ -72,7 +72,7 @@ function IniciarSesion() {
                 <h1>Iniciar Sesion</h1>
                 <div className="labels">
 
-                    <p>Si no tenes una cuenta podes registrarte <Link to={routes.crearCuenta} style={{textDecoration:'none'}}><span>acá</span></Link></p>
+                    <p>Si no tenes una cuenta podes registrarte <Link to={routes.crearCuenta} className="link"><span>acá</span></Link></p>
 
                     <div className="label">
                         <label htmlFor="dni">DNI</label>

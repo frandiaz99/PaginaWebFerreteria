@@ -26,5 +26,10 @@ html, body {
 
 .cargando{
   display: flex;
-  
+}
+
+.link{
+  text-decoration: none;
+  color: black;
+  width: auto;
 }

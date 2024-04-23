@@ -61,7 +61,11 @@ function Header() {
 
       <div className='header__section2'> {/*Header parte gris*/}
 
-        {esInvitado() ? <Link to={routes.sucursales}><p>Ver Sucursales</p></Link> : <NavBar/>}
+        {esInvitado() ? 
+          <Link to={routes.sucursales} className='link'><p>Ver Sucursales</p></Link>
+        : 
+          <NavBar/>
+        }
 
       </div>
 
