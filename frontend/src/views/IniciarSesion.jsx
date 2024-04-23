@@ -38,11 +38,10 @@ function IniciarSesion() {
             })
             .then(data => {
                 console.log("Inicio exitoso:", data)
-                localStorage.setItem('user', JSON.stringify(data))
-               //Tengo que saber el rol para ver si mandar a pagPrincipal de user o pagPrincipal de admin (si es emple igual lo mado a pag principal de user)
-                navigate(routes.pagPrincipal);
+                localStorage.setItem('user', JSON.stringify(data.User))
+                navigate(routes.userPrincipal);
             })
-            .catch(error => { //Hay que informar cuando se bloquea la cuenta y que se comunique con un administrador
+            .catch(error => { //Hay que informar como manejar lo de los bloqueos para informarlo
                 console.error("Error en el inicio:", error.message);
                 alert('El DNI o la contraseña son incorrectas')
             });

@@ -4,7 +4,10 @@ function ProtegerUser({children}) {
     const user= JSON.parse(localStorage.getItem('user')) || null
     
     if (user){
-      return children
+      if(user.rol < 3){
+        return children
+      }
+      <Navigate to={routes.adminPrincipal}/>
     }
   return (
     <Navigate to={routes.iniciarSesion}/>
