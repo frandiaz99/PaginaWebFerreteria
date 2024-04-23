@@ -16,8 +16,8 @@ const register = async (req, res, next) => {
   if (!req.body.User){
     return res.status(400).json({message: "Object User not recibed"})
   }
-  const { email, dni, password, suscripto} = req.body.User;
-  if (!email || !dni || !password){
+  const { email, dni, password, suscripto, nombre, foto} = req.body.User;
+  if (!email || !dni || !password || !nombre || !foto){
     return res.status(400).json({message: "Los parametros recibidos no son valido"})
   }
   if (password.length < password_min_leght) {
@@ -79,12 +79,14 @@ const register = async (req, res, next) => {
       dni,
       rawPassword: password,
       password: hash,
-      suscripto
+      suscripto,
+      nombre,
+      foto,
     })
       .then((user) =>{
         // es igual a 3hs, va a ser el tiempo en hacer un timeout osea se va a tener que volver a logear
         const maxAge = 3 * 60 * 60
-        const token = jwt.sign({id: user._id, email, dni, role: user.role}, jwtSecret, {expiresIn: maxAge /* 3hrs en segundos */});
+        const token = jwt.sign({id: user._id, email, dni, rol: user.rol}, jwtSecret, {expiresIn: maxAge /* 3hrs en segundos */});
 
         res.cookie ("jwt", token, {
           httpOnly: true, maxAge: maxAge * 1000,    //3hs en milisegundos
@@ -163,7 +165,7 @@ const login = async (req, res, next) => {
           //nuevo
           const maxAge = 3 * 60 * 60;
           const token = jwt.sign(
-            { id: user._id, email: user.email, dni: user.dni, role: user.role },
+            { id: user._id, email: user.email, dni: user.dni, rol: user.rol },
             jwtSecret,
             {
               expiresIn: maxAge, // 3hrs en sec

@@ -13,10 +13,10 @@ exports.adminAuth = (req, res, next) => {
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
-        if (decodedToken.role < 3) {
+        if (decodedToken.rol < 3) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
-          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
+          req.body.Auth = {"_id": decodedToken.id, "rol": decodedToken.rol };
           next()
         }
       }
@@ -40,10 +40,10 @@ exports.workerAuth = (req, res, next) => {
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
-        if (decodedToken.role < 2) {
+        if (decodedToken.rol < 2) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
-          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
+          req.body.Auth = {"_id": decodedToken.id, "rol": decodedToken.rol };
           next()
         }
       }
@@ -73,10 +73,10 @@ exports.userAuth = (req, res, next) => {
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
-        if (decodedToken.role < 1) {
+        if (decodedToken.rol < 1) {
           return res.status(401).json({ message: "Not authorized" })
         } else {
-          req.body.Auth = {"_id": decodedToken.id, "role": decodedToken.role };
+          req.body.Auth = {"_id": decodedToken.id, "rol": decodedToken.rol };
           next()
         }
       }

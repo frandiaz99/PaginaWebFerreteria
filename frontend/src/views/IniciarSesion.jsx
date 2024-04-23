@@ -28,6 +28,7 @@ function IniciarSesion() {
                 body: JSON.stringify({ User: datos }),
             })
             .then(response => {
+                console.log(response);
                 if (!response.ok) {
                     return response.json().then(data => {
                         throw new Error(data.message || "Error al iniciar");

@@ -46,7 +46,7 @@ const borrarArticulo = async (req, res, next) => {
       console.log("Articulo not found");
       return res.status(404).json({ message: "Articulo not found" });
     }
-    if (!((User.role == 3) || (Publi.usuario._id == User._id))){
+    if (!((User.rol == 3) || (Publi.usuario._id == User._id))){
       console.log("No es el creador del articulo ni administrador");
       res.status(401).json({message: "No posee permisos para borrar el articulo"})
     }
