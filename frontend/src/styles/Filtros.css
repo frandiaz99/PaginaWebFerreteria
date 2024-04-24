@@ -21,14 +21,3 @@
   align-items: center;
   gap: 5px;
 }
-
-.articulos{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  max-width: 1000px;
-  overflow-y: scroll;
-  height: 70%;
-  gap: 15px;
-}

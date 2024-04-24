@@ -1,15 +1,16 @@
 .unTrueque{
     display: flex;
     background-color: #D9D9D9;
-    width: 100%;
-    height: 15%;
+    /* width: 100%; */
+    /* height: 15%; */
     border-radius: 10px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     overflow: clip;
+    gap: 10px;
 }
 
 .fotoUser{
-    height: 100%;
+    width: 50px;
 }
 
 
@@ -17,24 +18,21 @@
 .contenido{
     display: flex;
     flex-direction: column;
-    width: 85%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .articulosCambiados{
     display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    align-items: center;
+    gap: 5px;
 }
 .fotoArticulo{
-    width: 30%;
-    border-radius: 2px;
+    width: 30px;
+    border-radius: 7px;
 }
 
 .simbolo{
-    width: 20%;
+    width: 20px;
     border-radius: 100px;
 }
 
