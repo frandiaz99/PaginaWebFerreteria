@@ -33,7 +33,12 @@ function PaginaPrincipal() {
 
 
   useEffect(() => { //Se obtienen los articulos
-    fetch('http://localhost:5000/articulo/getArticulos')
+    fetch('http://localhost:5000/articulo/getArticulos', 
+    {method: "GET", 
+    headers: {
+      "Content-Type": "application/JSON",
+      //"Cookie": localStorage.getItem('jwt')
+    },credentials: "include"})
     .then(response => {
       if (!response.ok) {
         throw new Error('Hubo un problema al obtener los articulos');
