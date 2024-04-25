@@ -26,6 +26,7 @@ function IniciarSesion() {
                 method: "POST",
                 headers: { "Content-Type": "application/JSON" },
                 body: JSON.stringify({ User: datos }),
+                credentials: "include"
             })
             .then(response => {
                 console.log(response);
