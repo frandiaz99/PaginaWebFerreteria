@@ -130,7 +130,7 @@ function OpcionesUser() {
             </div>
             </Link>}
 
-            {estaEnModoEmpleado() &&
+            {(estaEnModoEmpleado() && user.rol === 2) &&
             <Link to={routes.userPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>
