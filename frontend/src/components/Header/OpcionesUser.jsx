@@ -54,6 +54,7 @@ function OpcionesUser() {
   const handleCerrarSesion = () => {
     fetch('http://localhost:5000/user/logout', {
       method: "POST",
+      credentials: "include"
     })
     .then(response => {
       if (response.ok) {

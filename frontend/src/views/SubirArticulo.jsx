@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import routes from '../routes'
 import '../styles/SubirArticulo.css'
@@ -8,6 +9,7 @@ function SubirArticulo() {
   const descripcionRef = useRef(null)
   const interesadoEnRef = useRef(null)
   const fotoRef = useRef(null)
+  const navigate= useNavigate();
 
   const handleSubirArt = () =>{
     const art = {
@@ -18,6 +20,7 @@ function SubirArticulo() {
       method: "POST",
       headers: { "Content-Type": "application/JSON" },
       body: JSON.stringify({Articulo: art}),
+      credentials: "include"
     })
     .then(response => {
       if (!response.ok) {
