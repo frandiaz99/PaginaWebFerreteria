@@ -51,10 +51,24 @@ function OpcionesUser() {
     setDropCuentaOpen(!dropCuentaOpen)
   }
 
-  const handleCerrarSesion = () =>{
-    localStorage.removeItem('user')
-    navigate(routes.pagPrincipal)
+  const handleCerrarSesion = () => {
+    fetch('http://localhost:5000/user/logout', {
+      method: "POST",
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('La sesión se cerró correctamente');
+        localStorage.removeItem('user');
+        navigate(routes.pagPrincipal);
+      } else {
+        throw new Error('Hubo un problema al cerrar sesión');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   }
+  
 
   return (
     <div className='opcionesUser'>

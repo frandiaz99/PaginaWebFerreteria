@@ -1,0 +1,40 @@
+.main_subir_articulo{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-height: 80vh;
+    min-height: 80vh;
+    width: 50%;
+    overflow: auto;
+}
+
+.titulo_descripcion{
+    background-color: #FFFFFFFF;
+    border-radius: 10px;
+    padding: 4px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.interesadoEn{
+    background-color: #FFFFFFFF;
+    border-radius: 10px;
+    padding: 4px;
+    min-height: 150px;
+}
+
+.foto{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFFFF;
+    border-radius: 10px;
+    padding: 4px;
+    min-height: 150px;
+}
+
+.boton_subirArt{
+    margin-top: 5px;
+}

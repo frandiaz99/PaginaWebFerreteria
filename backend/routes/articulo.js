@@ -66,7 +66,7 @@ const borrarArticulo = async (req, res, next) => {
 //Direcciones 
 router.route("/crearArticulo").post(userAuth, crearArticulo);
 //router.route("/getArticulos").get(userAuth, getArticulos);
-router.route("/getArticulos").get( getArticulos);
+router.route("/getArticulos").get(getArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);
 
 module.exports = router

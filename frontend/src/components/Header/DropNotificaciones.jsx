@@ -22,7 +22,7 @@ function DropNotificaciones() {
         {!tiene &&
         <>
           <hr />
-          <p>No tenes ninguna notificación</p>
+          <p>No tenés notificaciones</p>
         </>
         }
 

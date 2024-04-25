@@ -41,7 +41,7 @@ function IniciarSesion() {
                 localStorage.setItem('user', JSON.stringify(data.User))
                 navigate(routes.userPrincipal)
             })
-            .catch(error => { //Hay que informar como manejar lo de los bloqueos para informarlo
+            .catch(error => { //Hay que ver como manejar lo de los bloqueos para informarlo
                 console.error("Error en el inicio:", error.message);
                 alert('El DNI o la contraseña son incorrectas')
             });
