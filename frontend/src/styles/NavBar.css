@@ -26,6 +26,6 @@
     display: flex;
 }
 
-.subirArt{
-    align-self: center;
+.relleno{
+    width: 200px
 }

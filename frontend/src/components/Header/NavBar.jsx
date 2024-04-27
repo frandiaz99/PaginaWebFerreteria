@@ -64,6 +64,12 @@ function NavBar() {
       <Link className='boton' to={routes.adminUsuarios} ><span>Usuarios</span></Link>
       <Link className='boton' to={routes.adminEmpleados} ><span>Empleados</span></Link>
       </>}
+
+      
+      {(user.rol === 2 && estaEnModoEmple()) &&  //Esta es la mayor fisureada que se me ocurrio para centrar el tasar articulo
+      <>
+      <div className='relleno'></div>
+      </>}
     </div>
 
     </>
