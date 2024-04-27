@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import '../../styles/OpcionesUser.css'
 import { Link , useNavigate} from 'react-router-dom'
 import routes from '../../routes'
@@ -19,6 +19,9 @@ function OpcionesUser() {
   const navigate= useNavigate()
   const [dropCuentaOpen,setDropCuentaOpen]= useState(false)
   const [dropNotificacionesOpen, setDropNotificacionesOpen]= useState(false)
+  const dropNotificacionesRef= useRef(null)
+  const dropCuentaRef= useRef(null)
+
   const user=JSON.parse(localStorage.getItem('user')) || null
   var srcFotoPerfil;
 
@@ -37,14 +40,48 @@ function OpcionesUser() {
   }
 
   const handleNotificaciones = () =>{
-    setDropCuentaOpen(false)
     setDropNotificacionesOpen(!dropNotificacionesOpen)
   }
 
   const handleCuenta = () =>{
-    setDropNotificacionesOpen(false)
     setDropCuentaOpen(!dropCuentaOpen)
   }
+
+  const handleClickOutsideCuenta = (event) => {
+    if (dropCuentaRef.current && !dropCuentaRef.current.contains(event.target)) {
+      setDropCuentaOpen(false);
+    }
+  }
+
+  const handleClickOutsideNotificaciones = (event) => {
+    if (dropNotificacionesRef.current && !dropNotificacionesRef.current.contains(event.target)) {
+      setDropNotificacionesOpen(false);
+    }
+  }
+
+  useEffect(() => { //Cerrar menu de cuenta al tocar fuera
+    // Agrega el listener cuando el menú está abierto
+    if (dropCuentaOpen) {
+        document.addEventListener('mousedown', handleClickOutsideCuenta);
+    }
+
+    // Cleanup que remueve el listener
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutsideCuenta);
+    };
+  }, [dropCuentaOpen]);
+
+useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
+  // Agrega el listener cuando el menú está abierto
+  if (dropNotificacionesOpen) {
+      document.addEventListener('mousedown', handleClickOutsideNotificaciones);
+  }
+
+  // Cleanup que remueve el listener
+  return () => {
+      document.removeEventListener('mousedown', handleClickOutsideNotificaciones);
+  };
+  }, [dropNotificacionesOpen]);
 
   const handleCerrarSesion = () => {
     fetch('http://localhost:5000/user/logout', {
@@ -74,7 +111,7 @@ function OpcionesUser() {
         </div>
 
         {estaEnModoUser() &&
-          <div className='containersDrop'>
+          <div className='containersDrop' ref={dropNotificacionesRef}>
 
               <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
                   <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
@@ -85,7 +122,7 @@ function OpcionesUser() {
           </div>
         }
 
-        <div className='containersDrop'>
+        <div className='containersDrop' ref={dropCuentaRef}>
           <div className='cuenta' onClick={handleCuenta} style={{cursor:'pointer'}}>
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
             {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
