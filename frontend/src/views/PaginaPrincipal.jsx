@@ -65,8 +65,8 @@ function PaginaPrincipal() {
           <div className='ultimosTrueques'>
             <h4 className='tituloUltimoTrueques'>Últimos Trueques</h4>
             <div className='ultimosTrueques-lista'>
-              {ultimosTrueques.map((unTrueque) =>(
-                <UltimoTrueque/>
+              {ultimosTrueques.map((unTrueque, indice) =>(
+                <UltimoTrueque key={indice}/>
               ))}
             </div>
           </div>
@@ -80,7 +80,7 @@ function PaginaPrincipal() {
                 No hay articulos disponibles aún
               </div> //Podria ser un componente
             :
-            mostrarArticulos().map((art) =>(<Articulo articulo={art}/>))
+            mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art}/>))
             }
           </div>
 

@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
 import '../../styles/OpcionesUser.css'
-import { Link , useNavigate, useLocation} from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 import routes from '../../routes'
 import DropNotificaciones from './DropNotificaciones'
 
 const estaEnModoUser= () =>{ 
   return (
     location.pathname.startsWith('/user')
-    )
-}
-const estaEnModoAdmin= () =>{
-  return (
-    location.pathname.startsWith('/admin')
     )
 }
 const estaEnModoEmpleado= () =>{
@@ -122,7 +117,7 @@ function OpcionesUser() {
               </div>            
             </Link>}
 
-            {(user.rol === 2 && estaEnModoUser()) &&
+            {(estaEnModoUser()&& user.rol === 2) &&
             <Link to={routes.empleadoPrincipal} className='link'>
               <div className='dropCuenta__items'>
                 <ion-icon name="key-outline"></ion-icon>

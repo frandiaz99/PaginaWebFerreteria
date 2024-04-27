@@ -5,8 +5,8 @@
     position: absolute;
     background: white;
     overflow: hidden;
-    border-top-left-radius: 10px;
+    border-radius: 10px;
     top: 182%;
-    right: -360%;
+    right: -400%;
     width: 16rem;
 }

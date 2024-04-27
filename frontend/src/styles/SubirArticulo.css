@@ -1,32 +1,78 @@
-.main_subir_articulo{
+.formSubirArt{
     display: flex;
     flex-direction: column;
     gap: 30px;
     max-height: 80vh;
     min-height: 80vh;
     width: 50%;
+}
+.main-subirArt{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     overflow: auto;
+    padding: 5px;
 }
 
-.titulo_descripcion{
+.titulo-subirArt{
+
+}
+
+.section1-subirArt{
     background-color: #FFFFFFFF;
     border-radius: 10px;
-    padding: 4px;
+    padding: 4px 8px;
     min-height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
+.titulo-section1-subirArt{
 
-.interesadoEn{
+}
+
+.nombreYdescripcion-section1{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.nombre-section1{
+    display: flex;
+    flex-direction: column;
+    width: 43%;
+    gap: 5px;
+}
+
+.descripcion-section1{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.section2-subirArt{
     background-color: #FFFFFFFF;
     border-radius: 10px;
     padding: 4px;
     min-height: 150px;
 }
 
-.foto{
+.titulo-section2{
+
+}
+
+.descripcion-section2{
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+    justify-content: center;
+}
+
+
+.section3-subirArt{
     display: flex;
     flex-direction: column;
     background-color: #FFFFFFFF;
@@ -35,6 +81,64 @@
     min-height: 150px;
 }
 
-.boton_subirArt{
-    margin-top: 5px;
+.titulo-section3{
+
 }
+
+.divBotonSubirArt{
+    display: flex;
+    justify-content: center;
+}
+
+.boton-subirArt{
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #646464;
+    background-color: #ccc;
+    font-weight: 600;
+}
+
+.boton-subirArt:hover{
+    background-color: #999999;
+}
+.boton-subirArt:active{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px) translateX(-1px);
+  }
+
+
+.label-subirArt{
+    font-weight: 500;
+}
+
+.input-subirArt{
+    border: 1px solid #999999;
+    border-radius: 5px;
+    outline: none;
+    font-size: 15px;
+}
+
+.input-subirArt[name="titulo"]{
+    max-width: 30%;
+}
+.input-subirArt[name="interesado"]{
+    max-width: 75%;
+}
+
+.input-subirArt:focus{
+    border-color: #ffb700;
+}
+
+.textArea-subirArt{
+    padding: 3px; 
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    resize: none; 
+    outline: none; 
+    font-family: system-ui;
+}
+
+textarea:focus {
+    border-color: #ffb700;
+  }

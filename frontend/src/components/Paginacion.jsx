@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/Paginacion.css'
 import { useEffect, useState } from 'react';
 
@@ -21,13 +22,12 @@ function Paginacion({totalItems, itemsXPag, onPageChange}) {
   return (
     <div className='paginas'>
       {mostrarAnterior ?(
-        <div className='paginaCambio' onClick={() => handlePageChange(pagActual-1)}>{'<'}</div>
+        <div className='paginaCambio' onClick={() => handlePageChange(pagActual-1)}><ion-icon name="caret-back-outline"></ion-icon></div>
       ) : null}
-
-      <div className='pagina'>{pagActual}/{totalPaginas}</div>
+      <div className='pagina'>{pagActual} de {totalPaginas}</div>
       
       {mostrarSiguiente ?(
-       <div className='paginaCambio' onClick={() => handlePageChange(pagActual+1)}>{'>'}</div> 
+       <div className='paginaCambio' onClick={() => handlePageChange(pagActual+1)}><ion-icon name="caret-forward-outline"></ion-icon></div> 
       ) : null}
     </div>
   );

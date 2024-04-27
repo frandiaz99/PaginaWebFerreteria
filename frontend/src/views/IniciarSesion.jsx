@@ -20,6 +20,7 @@ function IniciarSesion() {
     }
 
     const handleIniciar= () =>{ 
+        console.log(datos)
         if (datos.dni !== '' && datos.password !== ''){
             //Podría ir una pantalla de carga
             fetch("http://localhost:5000/user/login", {

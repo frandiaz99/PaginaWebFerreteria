@@ -6,7 +6,7 @@
   width: auto;
   border-radius: 20px;
   gap: 20px;
-  padding: 7px;
+  padding: 10px;
 }
 
 .orden{
@@ -14,10 +14,35 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  color: #808080;
+  font-weight: bold;
 }
 .filtros{
   width: auto;
   display: flex;
   align-items: center;
   gap: 5px;
+  color: #808080;
+  font-weight: bold;
+}
+
+select[data-select="filtros"]{
+  appearance: none;
+  padding: 3px; 
+  font-size: 15px; 
+  border: 2px solid #ccc; 
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer; 
+  outline: none;
+}
+
+select[data-select="filtros"]:hover{
+  border-color: #999;
+}
+
+select[data-select="filtros"] option{
+  background-color: #ffffff;
+  color: #1b4397;
+  font-weight: 300;
 }

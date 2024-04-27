@@ -4,7 +4,7 @@ html, body {
   height: 100%;
   background-color: #F3F3F3;
   color: #333;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 #root {
   display: flex;
@@ -12,8 +12,10 @@ html, body {
   align-items: center;
   justify-content: center;
   width: 100vw;
+  min-width: 750px;
   height: 100vh;
   min-height: 460px;
+  font-family: system-ui;
 }
 
 .main{

@@ -32,7 +32,7 @@ function NavBar() {
       <Link className='boton' to={routes.promociones} ><span>Ver Promociones</span></Link>
       </> :
       <>
-      {(user.rol == 3 && (estaEnModoAdmin() || estaEnModoEmple())) && <Link className='boton' to={routes.adminSucursales}><span>Ver Sucursales</span></Link>}
+      {user.rol == 3 && <Link className='boton' to={routes.adminSucursales}><span>Ver Sucursales</span></Link>}
 
       <Link className='boton' to={routes.empleadoPromociones} ><span>Ver Promociones</span></Link>
       <Link className='boton' to={routes.empleadoEstadisticas} ><span>Artículos destacados</span></Link>
@@ -59,7 +59,7 @@ function NavBar() {
       <Link className='boton' to={routes.misTrueques} ><span>Mis Trueques</span></Link>
       </>}
 
-      {(!estaEnModoUser() && user.rol === 3) &&
+      {user.rol === 3 &&
       <>
       <Link className='boton' to={routes.adminUsuarios} ><span>Usuarios</span></Link>
       <Link className='boton' to={routes.adminEmpleados} ><span>Empleados</span></Link>

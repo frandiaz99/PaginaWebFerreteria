@@ -5,15 +5,16 @@ import routes from '../routes'
 import '../styles/SubirArticulo.css'
 
 function SubirArticulo() {
-  const tituloRef = useRef(null)
+  const nombreRef = useRef(null)
   const descripcionRef = useRef(null)
   const interesadoEnRef = useRef(null)
   const fotoRef = useRef(null)
   const navigate= useNavigate();
 
-  const handleSubirArt = () =>{
+  const handleSubirArt = (event) =>{
+    event.preventDefault();
     const art = {
-      titulo: tituloRef.current.value,
+      titulo: nombreRef.current.value,
       descripcion: descripcionRef.current.value
     }
     fetch("http://localhost:5000/articulo/crearArticulo", {
@@ -42,40 +43,65 @@ function SubirArticulo() {
 
   return (
     <main className='main'>
-      <div className='main_subir_articulo'>
-        <h1>Completá los datos para tu publicación</h1>
+      <form className='formSubirArt' onSubmit={handleSubirArt}>
 
-        <div className='titulo_descripcion'>
-          <div>
-            <h4>Título y descripción de tu artículo</h4>
-            <hr />
+        <div className='main-subirArt'>
+          <h1 className='titulo-subirArt'>
+            Completá los datos para tu publicación
+          </h1>
+
+
+          <div className='section1-subirArt'>
+            <div className='titulo-section1-subirArt'>
+              <h4>Nombre y descripción de tu artículo</h4>
+              <hr />
+            </div>
+
+            <div className='nombreYdescripcion-section1'>
+
+              <div className='nombre-section1'>
+                <label className='label-subirArt' htmlFor="nombreArt">Nombre</label>
+                <input className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} ref={nombreRef}/>
+              </div>
+
+              <div className='descripcion-section1'>
+                <label className='label-subirArt' htmlFor="descripcionArt">Descripción</label>
+                <textarea className='textArea-subirArt' id='descripcionArt' name='descripcion' ref={descripcionRef}/>
+              </div>
+
+            </div>
           </div>
-          <label htmlFor="titulo">Título</label>
-          <input type="text" name='titulo' ref={tituloRef}/>
-          <label htmlFor="descripcion">Descripción</label>
-          <input type="text" name='descripcion' ref={descripcionRef}/>
+
+
+          <div className='section2-subirArt'>
+            <div className='titulo-section2'>
+              <h4>Estoy interesado en</h4>
+              <hr />
+            </div>
+
+            <div className='descripcion-section2'>
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' ref={interesadoEnRef}/>
+            </div>
+          </div>
+
+
+          <div className='section3-subirArt'>
+            <div className='titulo-section3'>
+              <h4>Foto de tu artículo</h4>
+              <hr />
+            </div>
+
+            <p>Aca se subiria una foto del articulo</p>
+          </div>
+
+
         </div>
 
-        <div className='interesadoEn'>
-          <div>
-            <h4>Estoy interesado en</h4>
-            <hr />
-          </div>
-          <label htmlFor="interesado">Descripción</label>
-          <input type="text" name='interesado' ref={interesadoEnRef}/>
+        <div className='divBotonSubirArt'>
+          <button className='boton-subirArt'>Subir artículo</button>
         </div>
 
-        <div className='foto'>
-          <div>
-            <h4>Foto de tu artículo</h4>
-            <hr />
-          </div>
-          <p>Aca se subiria una foto del articulo</p>
-          <p>a</p>
-        </div>
-
-      </div>
-      <button className='boton_subirArt' onClick={handleSubirArt}>Subir artículo</button>
+      </form>
     </main>
   )
 }
