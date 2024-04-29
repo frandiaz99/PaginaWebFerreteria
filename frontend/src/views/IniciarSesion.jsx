@@ -4,7 +4,7 @@ import routes from "../routes"
 import { useState } from "react"
 
 function IniciarSesion() {
-    const [intento,setIntento]= useState(1)  //se obtiene del back??
+    const [passCorrecta,setPassCorrecta]= useState(true)
     const [datos,setDatos]= useState({
         dni:'',
         password:''
@@ -45,25 +45,9 @@ function IniciarSesion() {
             })
             .catch(error => { //Hay que ver como manejar lo de los bloqueos para informarlo
                 console.error("Error en el inicio:", error.message);
-                alert('El DNI o la contraseña son incorrectas')
+                setPassCorrecta(false)
             });
         }
-        /*if (usuario){
-            if (usuario.bloqueado){
-                alert('Tu cuenta está bloqueada, por favor comunicate con blabla')
-            } else if (usuario.dni === datos.dni && usuario.password === datos.password){ 
-                localStorage.setItem('user', JSON.stringify(usuario))
-                navigate(routes.userPrincipal)
-            }else if(usuario.password !== datos.password){
-                setIntento(intento+1)
-                if (intento == 3){
-                    //fetch para bloquear cuenta
-                    alert('Contraseña incorrecta, tu cuenta fue bloqueada comunicate con blabla')
-                }else{
-                    alert('El DNI o la contraseña son incorrectas')
-                }
-            }
-        } */
     }
 
 
@@ -94,7 +78,7 @@ function IniciarSesion() {
                         onChange={handleChange}
                         />
                     </div> 
-
+                    {!passCorrecta && <p style={{color: 'red'}}>El DNI o la contraseña son incorrectos</p>}
                     <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                 </div>
         </main>

@@ -6,8 +6,8 @@ function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back
         'noti1': 'quiere intercambiarte un artículo.',
         'noti2': 'aceptó tu artículo, tienen un trueque pendiente. Revisá tu mail para ponerte en contacto.',
         'noti3': 'rechazó tu artículo.',
-        'noti4': 'Tu artículo fue tasado, ya está disponible para realizar trueques.',
-        'noti5': 'Se canceló el trueque que tenías pendiente.'
+        'noti4': 'Se canceló el trueque que tenías pendiente.',
+        'noti5': 'Tu artículo fue tasado, ya está disponible para realizar trueques.'
     }
     return (
         <div className='unaNotificacion'>

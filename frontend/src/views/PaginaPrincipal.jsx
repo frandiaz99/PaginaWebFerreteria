@@ -35,7 +35,7 @@ function PaginaPrincipal() {
   }, [totalArticulos]) //Solo cambia la primera vez
 
 
-  useEffect(() => { //Se obtienen los articulos
+  useEffect(() => {
     fetch('http://localhost:5000/articulo/getArticulos', 
     {method: "GET", 
     headers: {
