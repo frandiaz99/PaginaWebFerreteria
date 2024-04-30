@@ -23,10 +23,10 @@ function OpcionesUser() {
   const dropCuentaRef= useRef(null)
 
   const user=JSON.parse(localStorage.getItem('user')) || null
-  var srcFotoPerfil;
+  var srcFotoPerfil = "http://localhost:5000/img/Imagen_default.png";
 
   if (user){  //esto es para no leer un null que solo pasa si borras el storage manualmente
-    srcFotoPerfil= user.foto
+    srcFotoPerfil= ("http://localhost:5000/img/" + user.foto_perfil);
   }
 
   const handleHome = () =>{
