@@ -1,0 +1,35 @@
+[
+    {
+        "nombre": "Sucursal 1",
+        "provincia": "Buenos Aires",
+        "ciudad": "La Plata",
+        "direccion": "Calle 123",
+        "telefono": "123-456-7890", 
+        "src": "https://i.ytimg.com/vi/oGLwyYsSslE/hqdefault.jpg"
+    },
+    {
+        "nombre": "Sucursal 2",
+        "provincia": "Cordoba",
+        "ciudad": "Cordoba",
+        "direccion": "Calle 123",
+        "telefono": "123-456-7890",
+        "src": "https://i.ytimg.com/vi/oGLwyYsSslE/hqdefault.jpg"
+    }, 
+    {
+        "nombre": "Sucursal 3",
+        "provincia": "Rio Negro",
+        "ciudad": "Bariloche",
+        "direccion": "Calle 123",
+        "telefono": "123-456-7890",
+        "src": "https://i.ytimg.com/vi/oGLwyYsSslE/hqdefault.jpg"
+    }, 
+    {
+        "nombre": "Sucursal 4",
+        "provincia": "Santa Fe",
+        "ciudad": "Rosario",
+        "direccion": "Calle 123",
+        "telefono": "123-456-7890",
+        "src": "https://i.ytimg.com/vi/oGLwyYsSslE/hqdefault.jpg"
+    }
+
+]
