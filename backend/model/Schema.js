@@ -7,18 +7,19 @@ const uniqueValidator = require("mongoose-unique-validator");
 const { type } = require("os");
 
 const userSchema = mongoose.Schema({
+  nombre: {type: String, required: true},
+  apellido: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   dni: {type: Number, required: true, unique: true},
   rawPassword: { type: String, required: true, minlength: 8},
   password: { type: String, required: true},
-  rol: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
-  
-  nombre: {type: String, required: true},
-  foto: {type:String},
+  fecha_nacimiento: {type: Date}, 
+  sucursal: {type: mongoose.Schema.Types.ObjectId, ref:"Sucursal", autopopulate: true},
   suscripto: {type: Boolean, default: false}, 
+  foto_perfil: {type:String, required: true},
+  rol: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
   puntos: {type: Number, default: 0},
   intento_desbloqueo: {type: Number, default: 0},
-  sucursal_preferida: {type: mongoose.Schema.Types.ObjectId, ref:"Sucursal", autopopulate: true}
   //nombre y apellido, sucursal, fecha nacimiento
   //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
@@ -28,7 +29,7 @@ const userSchema = mongoose.Schema({
 });
 
 const sucursalSchema = mongoose.Schema({
-  nombre: {required: true, type:String},
+  nombre: {required: true, type:String, unique: true},
   direccion: {type: String, required: true}
 
 

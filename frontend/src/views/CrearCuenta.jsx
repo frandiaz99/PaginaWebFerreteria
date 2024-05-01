@@ -35,6 +35,7 @@ const verificarEdad= (fechaNacimiento) =>{
 
 const todosLosCamposCompletos= (datos) =>{
     return Object.values(datos).every(valor => {
+        console.log("Falta chekear que la imagen este eleegida tambien. O no depende, por default va a tenrer una");
         if (typeof valor === 'string') {
             return valor.replace(/\s/g, "") !== '';
         } else {
@@ -58,49 +59,113 @@ function CrearCuenta(){
         dni:'',
         nacimiento:'',
         sucursal:'s1',
-        suscripto: false
+        suscripto: false,
       })
+    const [imagen, setImagen] = useState({foto:""});
       
     const handleChange = (e) => {
+        //console.log(e);
         setDatos({
           ...datos,
           [e.target.name]: e.target.value,
         })
     };
 
+    /*const handleFoto = (f) => {
+        //console.log(f);
+        //console.log(f.target.name);
+        //console.log(f.target.files[0]);
+        setDatos ({...datos, [f.target.name]: f.target.files[0]});
+        console.log(datos.foto);
+    }*/
+
     const handleCheckbox = (c) =>{
         setDatos({
             ...datos,
             [c.target.name]: c.target.checked
-        })
+        });
     }
 
-    const handleRegistro= () =>{    //fetch para crear usuario en BD
+    const handleRegistro= async () =>{    //fetch para crear usuario en BD
+        
+        console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleContra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
+        console.log ({"datos": datos});
+        console.log ({"imagen": imagen});
+        //alert("Aguanta, entro");
         if (coincidenContrasenias && esMayor && cumpleContrasenia && dniValido && todosLosCamposCompletos(datos)){
-            fetch("http://localhost:5000/user/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/JSON" },
-                body: JSON.stringify({ User: datos }),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(data.message || "Error en el registro");
+            const formData = new FormData();
+            formData.append("User", JSON.stringify(datos));
+            formData.append("Imagen", imagen.foto);
+            console.log({"form Data": formData});
+                /*
+                fetch("http://localhost:5000/user/register", {
+                    method: "POST",
+                    //headers: { "Content-Type": "multipart/form-data" },
+                    //headers: { "Content-Type": "application/JSON" },
+                    //body: JSON.stringify({ User: datos, file: formData  }),
+                    body: formData,
+                    credentials: "include"
+                })
+                .then( response => {
+                    if (!response.ok) {
+                        return response.json().then(data => { 
+                            alert("RESPONSE");
+                            
+                            throw new Error(data.message || "Error en el registro");
+                        });
+                    }
+                    alert(" SALE RESPONSE");
+                    return response.json();
+                })
+                .then(data => {
+                    alert(" ENTRA RESPONSE");
+                    console.log("Registro exitoso:", data)
+                    //Podría ir una pantalla de carga
+                    //navigate(routes.iniciarSesion);
+                    alert(" sale RESPONSE");
+                })
+                .catch(error => {
+                    //console.error("Error en el registro:", error.message);
+                    console.log(error);
+                    console.error(error);
+                    alert(" CATCH");
+                    //Depende si no se pudo por dni repetido o por mail repetido informar
+                });            
+                */
+               
+               try {
+                   const response = await fetch("http://localhost:5000/user/register", {
+                       method: "POST",
+                       body: formData,
+                       credentials: "include"
                     });
+                    
+                    console.log({"response": response})
+                    alert(" response");
+                    if (!response.ok) {
+                        alert(" response no ok");
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    alert(" response OK");
+                    const data = await response.json();
+                    console.log("Registro exitoso:", data);
+                    // Do something after successful registration
+                    alert(" response OK sale");
+                    
+                } catch (error) {
+                    console.error("Error in registration:", error);
+                    console.error("Si ingresate bien lso datos se va a haber registrado el ussuario, pero no logro que devuevla bien");
+                    alert(" response registration");
+                    // Handle network errors or other unexpected issues
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Registro exitoso:", data)
-                //Podría ir una pantalla de carga
-                navigate(routes.iniciarSesion);
-            })
-            .catch(error => {
-                console.error("Error en el registro:", error.message);
-                //Depende si no se pudo por dni repetido o por mail repetido informar
-                alert('No se pudo realizar el registro');
-            });            
-        }
+                
+
+            } else {
+                
+                console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleCOntra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
+                alert(" ELSE");
+            }
     }
 
     useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
@@ -126,7 +191,9 @@ function CrearCuenta(){
 
             <h1>Registrarse</h1>
 
-            <div className="forms">
+            <div className="forms" encType="multipart/form-data">
+                <form onSubmit={handleRegistro}>
+
                 <div className="form1">
                     <label htmlFor="nombre">Nombre</label>
                     <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
@@ -167,6 +234,14 @@ function CrearCuenta(){
                             <option value="s3">Sucursal 3</option>
                         </select> 
 
+                        {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> */}
+                        <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={e => {
+                            console.log ({"name": e.target.name})
+                            console.log ( e.target.files[0])
+                            setImagen({[e.target.name]: e.target.files[0]})
+                            console.log ( imagen);
+                        }} />
+
                         <div className="suscripcion">
                             <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
                             <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
@@ -174,9 +249,12 @@ function CrearCuenta(){
 
                     </div>
                         
-                    <button type="button" onClick={handleRegistro} className="registrarse">Registrarse</button>
+                    
 
                 </div>
+                <input type="submit" className="registrarse" content="Registrarse"/>
+
+                </form>
             </div>
         </main>
     )

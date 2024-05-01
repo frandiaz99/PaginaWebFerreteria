@@ -1,0 +1,28 @@
+.confirmacion{
+    color: white;
+    position: fixed;
+    top: 27%;
+    left: 35%;
+    width: 26%;
+    background-color: rgba(0, 0, 0, 0.685);
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 8px;
+    overflow: auto;
+    font-size: larger;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.botonesConfirm{
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+}
+
+.botonConfirm{
+    width: 80px;
+    border-radius: 4px;
+}

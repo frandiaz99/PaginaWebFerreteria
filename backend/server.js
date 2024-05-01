@@ -111,6 +111,7 @@ app.get("/user", userAuth, (req, res) => res.send("User Route"));
 //routes
 app.use("/user", require("./routes/user.js"))
 app.use("/articulo", require("./routes/articulo"))
+app.use(express.static("imagenes"));
 
 //app.use("/pay", require("./routes/pagar"))
 

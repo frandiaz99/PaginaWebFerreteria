@@ -7,7 +7,6 @@ function ProtegerAdmin({children}) {
 
     if (user !== null){
         if (user.rol == 3){
-          console.log('hola')
             return children
         }
     }

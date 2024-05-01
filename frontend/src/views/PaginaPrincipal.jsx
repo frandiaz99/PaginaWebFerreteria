@@ -72,17 +72,17 @@ function PaginaPrincipal() {
           </div>
 
           <div className='main-articulos'>
-           <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/> 
+            <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/> 
             
-           <div className='articulos' ref={articulosRef}>
-            {(totalArticulos.length == 0 || articulosActuales == 0)? 
-              <div className='noHayItems'>
-                No hay articulos disponibles aún
-              </div> //Podria ser un componente
-            :
-            mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art}/>))
-            }
-          </div>
+            <div className='articulos' ref={articulosRef}>
+              {(totalArticulos.length == 0 || articulosActuales == 0)? 
+                <div className='noHayItems'>
+                  No hay articulos disponibles aún
+                </div> //Podria ser un componente
+              :
+              mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art}/>))
+              }
+            </div>
 
             {articulosActuales.length > 0 && <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>}
           </div>

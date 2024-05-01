@@ -22,6 +22,7 @@ html, body {
   flex-direction: column;
   justify-content: center;
   width: 100vw;
+  min-width: 700px;
   height: -webkit-fill-available;
   align-items: center;
   overflow-y: auto;
