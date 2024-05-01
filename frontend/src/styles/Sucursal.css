@@ -1,0 +1,45 @@
+.body-sucursales {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5%;
+    margin: 0 5%;
+    height: 100%;
+}
+
+/* Sucursal.css */
+
+.sucursal {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+  
+.sucursal-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.sucursal-img {
+    max-width: 100%;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 10px;
+}
+  
+.sucursal-nombre {
+    margin-top: 0;
+    text-align: center;
+}
+
+.sucursal-datos {
+    font-family: Arial, sans-serif; /* Change font family for better typography */
+  }
+  
+.sucursal-datos p {
+    margin-bottom: 5px;
+    font-size: 16px; /* Improve font size */
+}
+  
+
