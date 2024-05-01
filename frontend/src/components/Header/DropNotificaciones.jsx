@@ -5,7 +5,8 @@ import UnaNotificacion from './UnaNotificacion'
 function DropNotificaciones() {
   const notificaciones= JSON.parse(localStorage.getItem('user')).notificaciones
   var tiene= false;
-  if (notificaciones.length > 0){
+  
+  if (notificaciones){
     tiene= true;
   }
 
