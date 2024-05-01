@@ -5,37 +5,38 @@
     width: 55%;
     max-width: 55%;
     height: 95%;
+    justify-content: center;
 }
 
-.form1{
+.formPrincipal{
     display: flex;
     flex-direction: column;
-    max-width: 50%;
-    width: 50%;
-    gap: 5px;
-}
-
-.form2{
-    display: flex;
-    flex-direction: column;
-    max-width: 50%;
-    width: 50%;
+    align-items: stretch;
+    min-height: 780px;
     gap: 10px;
 }
 
-.form2__labels{
+.divSubirFoto{
     display: flex;
     flex-direction: column;
     gap: 5px;
+    height: 8%;
+    margin-top: 10px;
 }
-h1{
-    margin:0;
+
+.divRegistrarse{
+    min-height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .registrarse{
     background-color: #F9C615;
     color:black;
     font-family: 'Courier New', Courier, monospace;
+    padding: 5px;
+    border-radius: 3px;
 }
 
 .registrarse:hover{

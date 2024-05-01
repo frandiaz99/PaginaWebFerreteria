@@ -5,7 +5,7 @@ import Cuenta from '../components/Cuenta'
 import Paginacion from '../components/Paginacion'
 import empleados from '../data/empleados.json' //temporal hasta obtenerlo del back
 
-const cuentasXPag= 6 //en cada pagina mostrar 5 cuentas
+const cuentasXPag= 6 //en cada pagina mostrar x cuentas
 
 function AdminEmpleados() {
   const [totalCuentas, setTotalCuentas]= useState([])

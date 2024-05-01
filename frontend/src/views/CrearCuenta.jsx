@@ -192,9 +192,8 @@ function CrearCuenta(){
             <h1>Registrarse</h1>
 
             <div className="forms" encType="multipart/form-data">
-                <form onSubmit={handleRegistro}>
+                <form onSubmit={handleRegistro} className="formPrincipal">
 
-                <div className="form1">
                     <label htmlFor="nombre">Nombre</label>
                     <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
 
@@ -216,24 +215,23 @@ function CrearCuenta(){
                     <input name="repetirContrasenia" type="text" placeholder="Repetí la contraseña" onChange={handleChange}/>  
                     {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
 
-                </div>
-                <div className="form2">
-                    <div className="form2__labels">
-                        <label htmlFor="dni">DNI</label>
-                        <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
-                        {!dniValido && <p className="textoNoCumple">DNI inválido</p>}
+                    <label htmlFor="dni">DNI</label>
+                    <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
+                    {!dniValido && <p className="textoNoCumple">DNI inválido</p>}
 
-                        <label htmlFor="nacimiento">Nacimiento</label>
-                        <input name="nacimiento" type="date" onChange={handleChange}/>  
-                        {!esMayor && <p className="textoNoCumple">Debes ser mayor de edad</p>}
+                    <label htmlFor="nacimiento">Nacimiento</label>
+                    <input name="nacimiento" type="date" onChange={handleChange}/>  
+                    {!esMayor && <p className="textoNoCumple">Debes ser mayor de edad</p>}
 
-                        <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
-                        <select name="sucursal" id="sucursal" onChange={handleChange}>
-                            <option value="s1">Sucursal 1</option>
-                            <option value="s2">Sucursal 2</option>
-                            <option value="s3">Sucursal 3</option>
-                        </select> 
+                    <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
+                    <select name="sucursal" id="sucursal" onChange={handleChange}>
+                        <option value="s1">Sucursal 1</option>
+                        <option value="s2">Sucursal 2</option>
+                        <option value="s3">Sucursal 3</option>
+                    </select> 
 
+                    <div className="divSubirFoto">
+                        <label htmlFor="foto">Foto de perfil</label>
                         {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> */}
                         <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={e => {
                             console.log ({"name": e.target.name})
@@ -241,18 +239,16 @@ function CrearCuenta(){
                             setImagen({[e.target.name]: e.target.files[0]})
                             console.log ( imagen);
                         }} />
-
-                        <div className="suscripcion">
-                            <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
-                            <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
-                        </div>
-
                     </div>
-                        
-                    
 
-                </div>
-                <input type="submit" className="registrarse" content="Registrarse"/>
+                    <div className="suscripcion">
+                        <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
+                        <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
+                    </div>
+                            
+                    <div className="divRegistrarse">
+                        <input type="submit" className="registrarse" content="Registrarse"/>
+                    </div>
 
                 </form>
             </div>
