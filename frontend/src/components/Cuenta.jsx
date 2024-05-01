@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/Cuenta.css'
+import ModalConfirmacion from './ModalConfirmacion'
 
 function Cuenta({cuenta, setEliminado, eliminado}) {
   const [confirmacion, setConfirmacion]= useState(false)
@@ -53,16 +54,8 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
         <button className='boton-eliminarEmple' onClick={handleBoton}>Eliminar empleado</button>
       </div>
 
-      {confirmacion && 
-      <div className='confirmacionEliminarEmple'>
-        <p>
-          ¿Estás seguro que querés eliminar este empleado?
-        </p>
-        <div className='botonesConfirm'>
-          <button onClick={handleEliminar} className='botonConfirm'>Si</button>
-          <button onClick={() => {setConfirmacion(false)}} className='botonConfirm'>No</button>
-        </div>
-      </div>}
+      <ModalConfirmacion texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar}/>
+      
     </div>
   )
 }
