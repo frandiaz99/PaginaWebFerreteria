@@ -57,9 +57,13 @@ function AdminEmpleados() {
       <div className='main-empleados'>
 
         <div className='buscador-y-registrar'>
+        {(cuentasActuales.length > 0) 
+          ?
           <div className='buscador'>
             Aca iria el buscador
           </div>
+          :
+          <div className='buscador'> </div>}
 
           <div className='registrarEmple'>
             <button className='boton-registrarEmple'>Registrar Empleado</button>
