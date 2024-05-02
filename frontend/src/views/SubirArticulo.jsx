@@ -112,7 +112,7 @@ function SubirArticulo() {
           </div>
 
 
-          <div className='section3-subirArt'>
+          <div className='section3-subirArt'   >
             <div className='titulo-section3'>
               <h4>Foto de tu artículo</h4>
               <hr />
