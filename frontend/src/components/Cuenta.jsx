@@ -51,7 +51,7 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
 
       </div>
       <div className='eliminarEmple'>
-        <button className='boton-eliminarEmple' onClick={handleBoton}>Eliminar empleado</button>
+        
       </div>
 
       <ModalConfirmacion texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar}/>
