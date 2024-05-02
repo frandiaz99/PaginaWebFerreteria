@@ -47,12 +47,10 @@ function SubirArticulo() {
     })
     .then(response => {
       if (!response.ok) {
-        alert ("No OK response");
         return response.json().then(data => {
           throw new Error(data.message || "Error al crear articulo");
         });
       }
-      alert ("OK response");
       return response.json();
     })
     .then(data => {

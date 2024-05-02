@@ -28,14 +28,14 @@ function NavBar() {
     <div className='navIzquierda nav'>
       {estaEnModoUser() ?
       <>
-      <Link className='boton' to={routes.sucursalesLogin}><span>Ver Sucursales</span></Link>
-      <Link className='boton' to={routes.promociones} ><span>Ver Promociones</span></Link>
+      <Link className='boton' to={routes.sucursalesLogin}><span className='optionNav'>Ver Sucursales</span></Link>
+      <Link className='boton' to={routes.promociones} ><span className='optionNav'>Ver Promociones</span></Link>
       </> :
       <>
-      {user.rol == 3 && <Link className='boton' to={routes.adminSucursales}><span>Ver Sucursales</span></Link>}
+      {user.rol == 3 && <Link className='boton' to={routes.adminSucursales}><span className='optionNav'>Ver Sucursales</span></Link>}
 
-      <Link className='boton' to={routes.empleadoPromociones} ><span>Ver Promociones</span></Link>
-      <Link className='boton' to={routes.empleadoEstadisticas} ><span>Artículos destacados</span></Link>
+      <Link className='boton' to={routes.empleadoPromociones} ><span className='optionNav'>Ver Promociones</span></Link>
+      <Link className='boton' to={routes.empleadoEstadisticas} ><span className='optionNav'>Artículos destacados</span></Link>
       </>
       }
       
@@ -43,26 +43,26 @@ function NavBar() {
 
     {estaEnModoUser() &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.subirArticulo}><button className='boton'>Subir Articulo</button></Link>
+      <Link className='boton' to={routes.subirArticulo}><span className='optionNav'>Subir Articulo</span></Link>
     </div>}
 
     {(estaEnModoAdmin() || estaEnModoEmple()) &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.empleadoTasar}><button className='boton'>Tasar Artículo</button></Link>
+      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav'>Tasar Artículo</span></Link>
     </div>
     }
 
     <div className='navDerecha nav'>
       {estaEnModoUser() &&
       <>
-      <Link className='boton' to={routes.misArticulos} ><span>Mis Articulos</span></Link>
-      <Link className='boton' to={routes.misTrueques} ><span>Mis Trueques</span></Link>
+      <Link className='boton' to={routes.misArticulos} ><span className='optionNav'>Mis Articulos</span></Link>
+      <Link className='boton' to={routes.misTrueques} ><span className='optionNav'>Mis Trueques</span></Link>
       </>}
 
       {user.rol === 3 &&
       <>
-      <Link className='boton' to={routes.adminUsuarios} ><span>Usuarios</span></Link>
-      <Link className='boton' to={routes.adminEmpleados} ><span>Empleados</span></Link>
+      <Link className='boton' to={routes.adminUsuarios} ><span className='optionNav'>Usuarios</span></Link>
+      <Link className='boton' to={routes.adminEmpleados} ><span className='optionNav'>Empleados</span></Link>
       </>}
 
       

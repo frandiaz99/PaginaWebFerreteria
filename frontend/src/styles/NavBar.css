@@ -7,6 +7,7 @@
     font-size: 16px;
     color: black;
     cursor: pointer;
+    display: flex;
 }
 
 .nav{
@@ -28,4 +29,9 @@
 
 .relleno{
     width: 200px
+}
+
+.optionNav{
+    display: flex;
+    font-size: 18px;
 }
