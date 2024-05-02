@@ -9,7 +9,7 @@ exports.adminAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log (decodedToken);
+      console.log ({"Admin": decodedToken});
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
@@ -36,7 +36,7 @@ exports.workerAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log (decodedToken);
+      console.log ({"Worker": decodedToken});
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {
@@ -69,7 +69,7 @@ exports.userAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log (decodedToken);
+      console.log ({"User": decodedToken});
       if (err) {
         return res.status(401).json({ message: "Not authorized" })
       } else {

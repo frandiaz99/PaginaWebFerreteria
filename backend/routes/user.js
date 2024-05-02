@@ -25,7 +25,7 @@ const register = async (req, res, next) => {
   */
  let File;
  if (!req.file){
-  File = {filename: "Imagen_default.png"};
+  File = {filename: "Imagen_user_default.png"};
  } else {File = req.file};
  console.log({"File": File});
   

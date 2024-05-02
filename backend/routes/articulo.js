@@ -5,15 +5,30 @@ const {DataArticulo} = require ("../model/Schema");
 
 const router = express.Router();
 
+const upload = require("../imagenes/imagen.js")
+const multer = require("multer");
 
 
 
 const  crearArticulo = async (req, res, next) =>{
-  const body = req.body;
-  const usuario = body.Auth._id;  //auth lo genero yo desde el middleware del back no necesito que me lo pasen
-  const {titulo, descripcion}  = body.Articulo;
+  const articulo = JSON.parse(req.body.Articulo);
+  /*console.log({"Articulo":req.body.Articulo});
+  console.log({"file":req.file});
+  console.log({"Auth": req.body.Auth});*/
+  //console.log({"body": body});
+  const usuario = req.body.Auth._id;  //auth lo genero yo desde el middleware del back no necesito que me lo pasen
+  const {nombre, descripcion, interesado}  = articulo;
   
-  await DataArticulo.create({ usuario, titulo, descripcion, fecha: Date.now()})
+  //comprueba si subio foto, si no lo havce le asigna la defecto
+  let File;
+  if (!req.file){
+    File = {filename: "Imagen_publicacion_default.jpg"};
+  } else {File = req.file};
+  console.log({"File": File});
+
+
+
+  await DataArticulo.create({ usuario, nombre, descripcion, interesado, foto_articulo: File.filename, fecha: Date.now() })
   .then((Articulo) => {
     res.status(200).json(Articulo);
   })
@@ -64,7 +79,7 @@ const borrarArticulo = async (req, res, next) => {
 
 
 //Direcciones 
-router.route("/crearArticulo").post(userAuth, crearArticulo);
+router.route("/crearArticulo").post(upload.single("Imagen"), userAuth, crearArticulo);
 //router.route("/getArticulos").get(userAuth, getArticulos);
 router.route("/getArticulos").get(getArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);

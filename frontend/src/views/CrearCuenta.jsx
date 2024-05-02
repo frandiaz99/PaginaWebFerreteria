@@ -137,6 +137,7 @@ function CrearCuenta(){
                    const response = await fetch("http://localhost:5000/user/register", {
                        method: "POST",
                        body: formData,
+                       //headers: { "Content-Type": "multipart/form-data" },
                        credentials: "include"
                     });
                     
@@ -152,6 +153,7 @@ function CrearCuenta(){
                     console.log("Registro exitoso:", data);
                     // Do something after successful registration
                     alert(" response OK sale");
+                    navigate(routes.iniciarSesion);
                     
                 } catch (error) {
                     console.error("Error in registration:", error);
@@ -191,8 +193,8 @@ function CrearCuenta(){
 
             <h1>Registrarse</h1>
 
-            <div className="forms" encType="multipart/form-data">
-                <form onSubmit={handleRegistro} className="formPrincipal">
+            <div className="forms" >
+                <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
 
                     <label htmlFor="nombre">Nombre</label>
                     <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
@@ -201,10 +203,10 @@ function CrearCuenta(){
                     <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
 
                     <label htmlFor="email">Email</label>
-                    <input name="email" type="text" placeholder="Ingresá tu email" onChange={handleChange}/>
+                    <input name="email" type="email" placeholder="Ingresá tu email" onChange={handleChange}/>
 
                     <label htmlFor="contrasenia">Contraseña</label>
-                    <input name="password" type="text" placeholder="Crea una contraseña" onChange={handleChange}/>
+                    <input name="password" type="password" placeholder="Crea una contraseña" onChange={handleChange}/>
 
                     <p className="textoBajoLabelRegistro">
                         Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
@@ -212,7 +214,7 @@ function CrearCuenta(){
                     {!cumpleContrasenia && <p style={{color:'red'}}>La contraseña no cumple las condiciones</p>}
 
                     <label htmlFor="repetirContrasenia">Repetir contraseña</label>
-                    <input name="repetirContrasenia" type="text" placeholder="Repetí la contraseña" onChange={handleChange}/>  
+                    <input name="repetirContrasenia" type="password" placeholder="Repetí la contraseña" onChange={handleChange}/>  
                     {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
 
                     <label htmlFor="dni">DNI</label>
