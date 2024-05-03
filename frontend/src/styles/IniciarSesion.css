@@ -10,12 +10,33 @@
     gap: 10px;
 }
 
+.siNoTenesCuenta{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.linkAca{
+    color: black;
+    font-size: 20px;
+}
+
+.divIniciarSesion{
+    display: flex;
+    justify-content: center;
+}
+
 .iniciar{
     background-color: #F9C615;
-    color:black;
-    font-family: 'Courier New', Courier, monospace;
+    color: #2e2e2e;
+    padding: 8px 5px;
+    border-radius: 3px;
+    height: 2rem;
+    font-family: revert-layer;
+    font-weight: 600;
 }
 
 .iniciar:hover{
     background-color: #f1cf52;
 }
+

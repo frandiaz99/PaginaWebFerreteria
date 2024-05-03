@@ -57,10 +57,10 @@ function IniciarSesion() {
 
     return(
         <main className="main">
-                <h2>Iniciar Sesion</h2>
+                <h2 style={{marginBottom:'20px'}}>Iniciar Sesion</h2>
                 <div className="labels">
-
-                    <p>Si no tenes una cuenta podes registrarte <Link to={routes.crearCuenta} className="link"><span style={{fontSize:'20px'}}>acá</span></Link></p>
+                    
+                    <p className="siNoTenesCuenta">Si no tenes una cuenta podes registrarte<Link to={routes.crearCuenta} className="boton"><span className="linkAca">acá</span></Link></p>
 
                     <div className="label">
                         <label htmlFor="dni">DNI</label>
@@ -82,7 +82,10 @@ function IniciarSesion() {
                         />
                     </div> 
                     {!passCorrecta && <p style={{color: 'red'}}>El DNI o la contraseña son incorrectos</p>}
-                    <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
+
+                    <div className="divIniciarSesion">
+                        <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
+                    </div>
                 </div>
         </main>
     )

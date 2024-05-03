@@ -62,7 +62,7 @@ function Header() {
       <div className='header__section2'> {/*Header parte gris*/}
 
         {esInvitado() ? 
-          <Link to={routes.sucursales} className='link'><span className='optionNav'>Ver Sucursales</span></Link>
+          <Link to={routes.sucursales} className='boton'><span className='optionNav'>Ver Sucursales</span></Link>
         : 
           <NavBar/>
         }
