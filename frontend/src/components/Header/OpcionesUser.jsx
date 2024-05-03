@@ -59,6 +59,15 @@ function OpcionesUser() {
     }
   }
 
+  const cambiarAUsuario = () =>{
+    localStorage.setItem('cuentaActual', 'usuario')
+    navigate(routes.userPrincipal)
+  }
+
+  const cambiarAEmpleado = () =>{
+    localStorage.setItem('cuentaActual', 'empleado')
+    navigate(routes.empleadoPrincipal)
+  }
   useEffect(() => { //Cerrar menu de cuenta al tocar fuera
     // Agrega el listener cuando el menú está abierto
     if (dropCuentaOpen) {
@@ -92,6 +101,7 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
       if (response.ok) {
         console.log('La sesión se cerró correctamente');
         localStorage.removeItem('user');
+        localStorage.removeItem('cuentaActual')
         navigate(routes.pagPrincipal);
       } else {
         throw new Error('Hubo un problema al cerrar sesión');
@@ -155,20 +165,16 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
             </Link>}
 
             {(estaEnModoUser()&& user.rol === 2) &&
-            <Link to={routes.empleadoPrincipal} className='link'>
-              <div className='dropCuenta__items'>
+              <div className='dropCuenta__items' onClick={cambiarAEmpleado}>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Empleado</p>
-            </div>
-            </Link>}
+            </div>}
 
             {(estaEnModoEmpleado() && user.rol === 2) &&
-            <Link to={routes.userPrincipal} className='link'>
-              <div className='dropCuenta__items'>
+              <div className='dropCuenta__items' onClick={cambiarAUsuario}>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Usuario</p>
-              </div>
-            </Link>}
+              </div>}
 
             <hr />
 

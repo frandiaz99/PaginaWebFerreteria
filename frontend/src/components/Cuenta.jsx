@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/Cuenta.css'
-import ModalConfirmacion from './ModalConfirmacion'
+import Modal from './Modal'
 
 function Cuenta({cuenta, setEliminado, eliminado}) {
   const [confirmacion, setConfirmacion]= useState(false)
@@ -54,7 +54,7 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
         <button>Eliminar empleado</button>
       </div>
 
-      <ModalConfirmacion texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar}/>
+      <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar}/>
       
     </div>
   )

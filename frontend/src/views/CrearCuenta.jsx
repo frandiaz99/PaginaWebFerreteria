@@ -1,10 +1,10 @@
 import { useState , useEffect} from "react";
 import '../styles/CrearCuenta.css'
 import { useNavigate } from "react-router-dom"
-import routes from "../routes";
+import Modal from "../components/Modal";
 
 const verificarCondicionContrasenia= (contrasenia) =>{
-    if (contrasenia === ''){  //para que no aparezca el aviso la primera vez
+    if (contrasenia === ''){
         return null
     }
     const tieneMinimoCaracteres = contrasenia.length >= 6;
@@ -15,10 +15,14 @@ const verificarCondicionContrasenia= (contrasenia) =>{
 }
 
 const verificarContrasenias = (contrasenia, repetirContrasenia) => {
+    if (contrasenia === '' && repetirContrasenia === '') return null
     return contrasenia === repetirContrasenia;
 }
 
 const verificarEdad= (fechaNacimiento) =>{
+    if (fechaNacimiento === ''){
+        return null
+    }
     const fechaNacimientoObj = new Date(fechaNacimiento);
     const hoy = new Date();
     fechaNacimientoObj.setDate(fechaNacimientoObj.getDate() + 1); //lo que me costo darme cuenta que me restaba un dia dios mio
@@ -35,7 +39,7 @@ const verificarEdad= (fechaNacimiento) =>{
 
 const todosLosCamposCompletos= (datos) =>{
     return Object.values(datos).every(valor => {
-        console.log("Falta chekear que la imagen este eleegida tambien. O no depende, por default va a tenrer una");
+       //console.log("Falta chekear que la imagen este eleegida tambien. O no depende, por default va a tenrer una");
         if (typeof valor === 'string') {
             return valor.replace(/\s/g, "") !== '';
         } else {
@@ -45,9 +49,10 @@ const todosLosCamposCompletos= (datos) =>{
 } 
 
 function CrearCuenta(){
+    const {confirmacion, setConfirmacion}= useState(false)
     const navigate = useNavigate();
     const [cumpleContrasenia, setCumpleContrasenia]= useState(false)
-    const [coincidenContrasenias,setCoincidenContrasenias]= useState(null)
+    const [coincidenContrasenias,setCoincidenContrasenias]= useState(false)
     const [dniValido, setDniValido]= useState(false)
     const [esMayor,setEsMayor]= useState(false)
     const [datos, setDatos] = useState({
@@ -86,8 +91,8 @@ function CrearCuenta(){
         });
     }
 
-    const handleRegistro= async () =>{    //fetch para crear usuario en BD
-        
+    const handleRegistro= async (event) =>{    //fetch para crear usuario en BD
+        event.preventDefault(); //para evitar que se recargue la pagina
         console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleContra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
         console.log ({"datos": datos});
         console.log ({"imagen": imagen});
@@ -142,18 +147,12 @@ function CrearCuenta(){
                     });
                     
                     console.log({"response": response})
-                    alert(" response");
                     if (!response.ok) {
-                        alert(" response no ok");
                         throw new Error('Network response was not ok');
                     }
-                    
-                    alert(" response OK");
                     const data = await response.json();
                     console.log("Registro exitoso:", data);
-                    // Do something after successful registration
-                    alert(" response OK sale");
-                    navigate(routes.iniciarSesion);
+                    setConfirmacion(true)
                     
                 } catch (error) {
                     console.error("Error in registration:", error);
@@ -163,11 +162,11 @@ function CrearCuenta(){
                 }
                 
 
-            } else {
-                
-                console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleCOntra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
-                alert(" ELSE");
-            }
+        }
+    }
+
+    const handleOkRegistro = () =>{
+        navigate(routes.iniciarSesion)
     }
 
     useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
@@ -181,9 +180,8 @@ function CrearCuenta(){
 
     useEffect(() => {  //Verificar DNI valido
         let dniCumple= false
-        if (datos.dni.length == 8){
-            dniCumple= true;
-        }
+        if (datos.dni.length == 0) dniCumple=null
+        else if (datos.dni.length == 8) dniCumple= true
         setDniValido(dniCumple);
     }, [datos.dni])
 
@@ -191,69 +189,85 @@ function CrearCuenta(){
         
         <main className="main">
 
-            <h1>Registrarse</h1>
+            <h2>Registrarse</h2>
 
             <div className="forms" >
                 <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
 
-                    <label htmlFor="nombre">Nombre</label>
-                    <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
+                    <div className="divInputRegistro">
+                        <label htmlFor="nombre">Nombre</label>
+                        <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
+                    </div>
 
-                    <label htmlFor="apellido">Apellido</label>
-                    <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
+                    <div className="divInputRegistro">
+                        <label htmlFor="apellido">Apellido</label>
+                        <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
+                    </div>
 
-                    <label htmlFor="email">Email</label>
-                    <input name="email" type="email" placeholder="Ingresá tu email" onChange={handleChange}/>
+                    <div className="divInputRegistro">
+                        <label htmlFor="email">Email</label>
+                        <input name="email" type="email" placeholder="fedeteria@gmail.com" onChange={handleChange}/>
+                    </div>
 
-                    <label htmlFor="contrasenia">Contraseña</label>
-                    <input name="password" type="password" placeholder="Crea una contraseña" onChange={handleChange}/>
+                    <div className="divInputRegistro">
+                        <label htmlFor="contrasenia">Contraseña</label>
+                        <input name="password" type="password" placeholder="Crea una contraseña" onChange={handleChange}/>
+                        <p className="textoBajoLabelRegistro">
+                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
+                        </p>
+                        {(cumpleContrasenia== false) && <p className="textoNoCumple">La contraseña no cumple las condiciones</p>}
+                    </div>
 
-                    <p className="textoBajoLabelRegistro">
-                        Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
-                    </p>
-                    {!cumpleContrasenia && <p style={{color:'red'}}>La contraseña no cumple las condiciones</p>}
+                    <div className="divInputRegistro">
+                        <label htmlFor="repetirContrasenia">Repetir contraseña</label>
+                        <input name="repetirContrasenia" type="password" placeholder="Repetí la contraseña" onChange={handleChange}/>  
+                        {(coincidenContrasenias == false) && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
+                    </div>
 
-                    <label htmlFor="repetirContrasenia">Repetir contraseña</label>
-                    <input name="repetirContrasenia" type="password" placeholder="Repetí la contraseña" onChange={handleChange}/>  
-                    {!coincidenContrasenias && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
+                    <div className="divInputRegistro">
+                        <label htmlFor="dni">DNI</label>
+                        <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
+                        {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
+                    </div>
 
-                    <label htmlFor="dni">DNI</label>
-                    <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
-                    {!dniValido && <p className="textoNoCumple">DNI inválido</p>}
+                    <div className="divInputRegistro">
+                        <label htmlFor="nacimiento">Fecha de nacimiento</label>
+                        <input name="nacimiento" type="date" onChange={handleChange}/>  
+                        {(esMayor == false) && <p className="textoNoCumple">Debes ser mayor de edad</p>}
+                    </div>
+                    
+                    <div className="divInputRegistro">
+                        <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
+                        <select name="sucursal" id="sucursal" onChange={handleChange}>
+                            <option value="s1">Sucursal 1</option>
+                            <option value="s2">Sucursal 2</option>
+                            <option value="s3">Sucursal 3</option>
+                        </select> 
+                    </div>
 
-                    <label htmlFor="nacimiento">Nacimiento</label>
-                    <input name="nacimiento" type="date" onChange={handleChange}/>  
-                    {!esMayor && <p className="textoNoCumple">Debes ser mayor de edad</p>}
-
-                    <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
-                    <select name="sucursal" id="sucursal" onChange={handleChange}>
-                        <option value="s1">Sucursal 1</option>
-                        <option value="s2">Sucursal 2</option>
-                        <option value="s3">Sucursal 3</option>
-                    </select> 
-
-                    <div className="divSubirFoto">
+                    {/*<div className="divSubirFoto">
                         <label htmlFor="foto">Foto de perfil</label>
-                        {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> */}
+                        {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> 
                         <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={e => {
                             console.log ({"name": e.target.name})
                             console.log ( e.target.files[0])
                             setImagen({[e.target.name]: e.target.files[0]})
                             console.log ( imagen);
                         }} />
-                    </div>
+                    </div> */}
 
                     <div className="suscripcion">
                         <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
-                        <label htmlFor="checkbox">Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
+                        <label htmlFor="checkbox" style={{fontSize:'12px'}}>Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
                     </div>
                             
                     <div className="divRegistrarse">
-                        <input type="submit" className="registrarse" content="Registrarse"/>
+                        <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>
                     </div>
 
                 </form>
             </div>
+            <Modal texto={'¡Registro exitoso!'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro}/>
         </main>
     )
 }

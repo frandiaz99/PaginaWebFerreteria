@@ -6,7 +6,7 @@ function Sucursal ({sucursal}){
     return (
         
         <div className='sucursal'>
-            <h2 className='sucursal-nombre'>{sucursal.nombre}</h2>
+            <h3 className='sucursal-nombre'>{sucursal.nombre}</h3>
             <img src={sucursal.src} alt="" className='sucursal-img'/>
             <div className='sucursal-datos'>
                 <p className='sucursal-datos'>Direccion: {sucursal.direccion}, {sucursal.ciudad}, {sucursal.provincia}</p>

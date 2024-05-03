@@ -5,7 +5,6 @@
     background-color: transparent;
     font-weight: bold;
     font-size: 16px;
-    color: black;
     cursor: pointer;
     display: flex;
 }
@@ -34,4 +33,6 @@
 .optionNav{
     display: flex;
     font-size: 18px;
+    color: black;
+    font-weight: 600;
 }

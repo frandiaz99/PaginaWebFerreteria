@@ -1,7 +1,7 @@
 import React from 'react'
-import '../styles/ModalConfirmacion.css'
+import '../styles/Modal.css'
 
-function ModalConfirmacion({texto, confirmacion, setConfirmacion, handleYes}) {
+function Modal({texto, confirmacion, setConfirmacion, handleYes}) {
     if(confirmacion){
         return (
               <div className='confirmacion'>
@@ -19,4 +19,4 @@ function ModalConfirmacion({texto, confirmacion, setConfirmacion, handleYes}) {
     }
 }
 
-export default ModalConfirmacion
+export default Modal

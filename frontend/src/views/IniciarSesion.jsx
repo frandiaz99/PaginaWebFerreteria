@@ -41,6 +41,9 @@ function IniciarSesion() {
             .then(data => {
                 console.log("Inicio exitoso:", data)
                 localStorage.setItem('user', JSON.stringify(data.User))
+                if (data.User.rol == 2){
+                    localStorage.setItem('cuentaActual', 'usuario')
+                }
                 navigate(routes.userPrincipal)
             })
             .catch(error => { //Hay que ver como manejar lo de los bloqueos para informarlo
@@ -54,10 +57,10 @@ function IniciarSesion() {
 
     return(
         <main className="main">
-                <h1>Iniciar Sesion</h1>
+                <h2>Iniciar Sesion</h2>
                 <div className="labels">
 
-                    <p>Si no tenes una cuenta podes registrarte <Link to={routes.crearCuenta} className="link"><span>acá</span></Link></p>
+                    <p>Si no tenes una cuenta podes registrarte <Link to={routes.crearCuenta} className="link"><span style={{fontSize:'20px'}}>acá</span></Link></p>
 
                     <div className="label">
                         <label htmlFor="dni">DNI</label>

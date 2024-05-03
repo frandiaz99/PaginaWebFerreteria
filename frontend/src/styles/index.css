@@ -39,3 +39,12 @@ html, body {
   color: black;
   width: auto;
 }
+
+input{
+  height: 22px;
+  font-size: 15px;
+}
+
+select{
+  height: 25px;
+}
