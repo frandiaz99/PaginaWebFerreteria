@@ -2,13 +2,17 @@ import "../styles/IniciarSesion.css"
 import { Link , useNavigate} from "react-router-dom"
 import routes from "../routes"
 import { useState } from "react"
+import Modal from '../components/Modal'
 
 function IniciarSesion() {
-    const [passCorrecta,setPassCorrecta]= useState(true)
+    const [dni_pass_correctos,setDni_pass_correctos]= useState(true)
+    const [passIncorrecta, setPassIncorrecta]= useState(false)
+    const [userBloqued, setUserBloqued]= useState(false)
     const [datos,setDatos]= useState({
         dni:'',
         password:''
     })
+
 
     const navigate= useNavigate()
     
@@ -20,6 +24,9 @@ function IniciarSesion() {
     }
 
     const handleIniciar= () =>{ 
+        setDni_pass_correctos(true)
+        setPassIncorrecta(false)
+        setUserBloqued(false)
         console.log(datos)
         if (datos.dni !== '' && datos.password !== ''){
             //Podría ir una pantalla de carga
@@ -33,7 +40,7 @@ function IniciarSesion() {
                 console.log(response);
                 if (!response.ok) {
                     return response.json().then(data => {
-                        throw new Error(data.message || "Error al iniciar");
+                        throw new Error(`${data.message || ''}-${data.intento || ''}`);
                     });
                 }
                 return response.json();
@@ -46,9 +53,20 @@ function IniciarSesion() {
                 }
                 navigate(routes.userPrincipal)
             })
-            .catch(error => { //Hay que ver como manejar lo de los bloqueos para informarlo
-                console.error("Error en el inicio:", error.message);
-                setPassCorrecta(false)
+            .catch(error => {
+                const errorArray= error.message.split('-')
+                console.error("Error en el inicio:", errorArray);
+                if (errorArray[0] == 'User bloqued'){
+                    const intento= errorArray[1]
+                    if (intento == '2'){
+                        setPassIncorrecta(true)
+                        setUserBloqued(true)
+                    }else if(intento > '2'){
+                        setUserBloqued(true)
+                    }
+                }else{
+                    setDni_pass_correctos(false)
+                }
             });
         }
     }
@@ -81,8 +99,9 @@ function IniciarSesion() {
                         onChange={handleChange}
                         />
                     </div> 
-                    {!passCorrecta && <p style={{color: 'red'}}>El DNI o la contraseña son incorrectos</p>}
-
+                    {!dni_pass_correctos && <p style={{color: 'red'}}>El DNI o la contraseña son incorrectos</p>}
+                    {passIncorrecta && <p style={{color: 'red'}}>Contraseña incorrecta</p> }
+                    <Modal texto={'Tu cuenta se encuentra bloqueada, para desbloquearla comunicate con fedeteria@gmail.com'} confirmacion={userBloqued} setConfirmacion={setUserBloqued} />
                     <div className="divIniciarSesion">
                         <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                     </div>

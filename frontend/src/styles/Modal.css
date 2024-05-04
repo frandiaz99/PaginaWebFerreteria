@@ -1,19 +1,17 @@
 .confirmacion{
-    color: white;
     position: fixed;
-    top: 27%;
-    left: 35%;
-    width: 26%;
-    background-color: rgba(0, 0, 0, 0.685);
-    border-radius: 10px;
-    border: 2px solid black;
-    padding: 8px;
-    overflow: auto;
-    font-size: larger;
+    top: 30%;
+    left: 32%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 36%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    justify-content: center;
     align-items: center;
+    gap: 12px;
 }
 
 .botonesConfirm{

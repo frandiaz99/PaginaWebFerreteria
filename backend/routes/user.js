@@ -219,9 +219,12 @@ const login = async (req, res, next) => {
         error: "User not found",
       })
     } else {
-      if (user.intento_desbloqueo >= 3){
+      if (user.intento_desbloqueo >= 2){
         console.log("User bloqued")
-        return res.status(400).json({message: "User bloqued"})
+        DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1} }).catch(
+          //poner en caso de error(?
+        );
+        return res.status(400).json({message: "User bloqued", intento: user.intento_desbloqueo})
       }
 
       // comparing given password with hashed password

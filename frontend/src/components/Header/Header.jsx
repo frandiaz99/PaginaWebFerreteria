@@ -25,7 +25,6 @@ const estaEnModoEmpleado= () =>{
 }
 
 function Header() {
-  const location= useLocation()
   const navigate= useNavigate()
   const user= JSON.parse(localStorage.getItem('user')) || null
 
