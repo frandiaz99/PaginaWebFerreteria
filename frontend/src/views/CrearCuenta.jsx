@@ -245,16 +245,16 @@ function CrearCuenta(){
                         </select> 
                     </div>
 
-                    <div className="divSubirFoto">
+                    {/*<div className="divSubirFoto">
                         <label htmlFor="foto">Foto de perfil</label>
-                        {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> */}
+                        {/* <input type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={handleFoto} /> *
                         <input id="fotoRegistro" type="file" accept=".png, .jpg, .jpeg" name="foto" onChange={e => {
                             console.log ({"name": e.target.name})
                             console.log ( e.target.files[0])
                             setImagen({[e.target.name]: e.target.files[0]})
                             console.log ( imagen);
                         }} />
-                    </div>
+                    </div>*/}
 
                     <div className="suscripcion">
                         <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>

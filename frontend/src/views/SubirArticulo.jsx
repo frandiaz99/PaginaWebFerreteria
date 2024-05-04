@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRef } from 'react'
 import routes from '../routes'
 import '../styles/SubirArticulo.css'
+import Modal from '../components/Modal'
 
 function SubirArticulo() {
-  //const nombreRef = useRef(null)
-  //const descripcionRef = useRef(null)
-  //const interesadoEnRef = useRef(null)
-  //const fotoRef = useRef(null)
   const navigate= useNavigate();
+  const [artSubido, setArtSubido]= useState(false)
 
   const [datos, setDatos] = useState({
     nombre: '',
@@ -56,15 +53,16 @@ function SubirArticulo() {
     })
     .then(data => {
       console.log("Creacion articulo exitosa:", data)
-      alert ("OK data");
-      //Podría ir una pantalla de carga
-      navigate(routes.userPrincipal);
+      setArtSubido(true)
     })
     .catch(error => {
-      
       console.error("Error en la creacion del art:", error.message);
-      alert ("Catch");
     });   
+  }
+
+  const handleOk= () =>{
+    setArtSubido(false)
+    navigate(routes.userPrincipal)
   }
 
   return (
@@ -136,6 +134,7 @@ function SubirArticulo() {
         </div>
 
       </form>
+      <Modal texto={'¡Listo! Tu artículo estará disponible luego de que lo tasen.'} confirmacion={artSubido} setConfirmacion={setArtSubido} handleYes={handleOk} ok={true} />
     </main>
   )
 }

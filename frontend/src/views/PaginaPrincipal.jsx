@@ -6,7 +6,7 @@ import Paginacion from '../components/Paginacion'
 import Filtros from '../components/Filtros'
 import { useState, useEffect, useRef } from 'react'
 
-const articulosXPag= 100 //en cada pagina mostrar 5 articulos
+const articulosXPag= 4 //en cada pagina mostrar 5 articulos
 const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
 
 function PaginaPrincipal() {

@@ -35,6 +35,7 @@ select[data-select="filtros"]{
   background-color: #fff;
   cursor: pointer; 
   outline: none;
+  height: 100%;
 }
 
 select[data-select="filtros"]:hover{
