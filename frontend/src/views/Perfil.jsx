@@ -56,8 +56,6 @@ function Perfil() {
   return (
     <main className='main'>
 
-      <div>verPerfil</div>
-
       <div className='contendor-verPerfil'>
 
         <div className='contenedor-perfil'>

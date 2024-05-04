@@ -14,6 +14,7 @@ import RutasEmpleado from './protegerRutas/RutasEmpleado.jsx'
 import RutasAdmin from './protegerRutas/RutasAdmin.jsx'
 import RutasUser from './protegerRutas/RutasUser.jsx'
 import RutasInvitado from './protegerRutas/RutasInvitado.jsx'
+import NotFound from './views/NotFound.jsx'
 
 function App(){
   return (
@@ -64,7 +65,7 @@ function App(){
             </ProtegerAdmin>
             }/>
 
-            <Route path='*' element={<div>404 not found</div>}/>
+            <Route path='*' element={<NotFound/>}/>
 
         </Routes>
     </BrowserRouter>

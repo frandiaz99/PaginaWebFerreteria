@@ -5,6 +5,7 @@ import AdminUsuarios from '../views/AdminUsuarios.jsx'
 import AdminEmpleados from '../views/AdminEmpleados.jsx'
 import PrincipalAdminYEmple from '../views/PrincipalAdminYEmple.jsx'
 import Sucursales from '../views/Sucursales.jsx'
+import NotFound from '../views/NotFound.jsx'
 
 function RutasAdmin() {
     const location= useLocation()
@@ -27,7 +28,7 @@ function RutasAdmin() {
             <Route path='sucursales' element={<Sucursales/>}/>
             <Route path='usuarios' element={<AdminUsuarios/>}/>
             <Route path='empleados' element={<AdminEmpleados/>}/>
-            <Route path='*' element={<div>404 not found</div>}/>
+            <Route path='*' element={<NotFound/>}/>
         </Routes>
       </>
     )

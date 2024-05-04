@@ -8,6 +8,7 @@ import UnArticulo from "../views/UnArticulo"
 import Perfil from "../views/Perfil"
 import EditarPerfil from "../views/EditarPerfil"
 import Header from "../components/Header/Header"
+import NotFound from "../views/NotFound"
 
 const RutasUser = () =>{
     const location= useLocation()
@@ -39,7 +40,7 @@ const RutasUser = () =>{
             <Route path={'perfil'} element={<Perfil/>}/>
             <Route path={"editar_perfil"} element={<EditarPerfil/>}/>
 
-            <Route path="*" element={<div>404 not found</div>}/>
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
         </>
     )

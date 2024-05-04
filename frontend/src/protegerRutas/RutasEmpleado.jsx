@@ -5,6 +5,7 @@ import Promociones from '../views/Promociones.jsx'
 import PrincipalAdminYEmple from '../views/PrincipalAdminYEmple.jsx'
 import EstadisticasArticulos from '../views/EstadisticasArticulos.jsx'
 import Tasar from '../views/Tasar.jsx'
+import NotFound from '../views/NotFound.jsx'
 
 function RutasEmpleado() {
     const location= useLocation()
@@ -27,7 +28,7 @@ function RutasEmpleado() {
             <Route path='promociones' element={<Promociones/>}/>
             <Route path='estadisticas' element={<EstadisticasArticulos/>}/>
             <Route path='tasar' element={<Tasar/>}/>
-            <Route path='*' element={<div>404 not found</div>}/>
+            <Route path='*' element={<NotFound/>}/>
         </Routes>
       </>
     )
