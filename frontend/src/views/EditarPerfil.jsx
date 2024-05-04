@@ -30,7 +30,9 @@ function EditarPerfil() {
     }, [])
 
     return (
-        
+        <main className='main'>
+            <div>Editar Perfil</div>
+        </main>
     )
 
 
