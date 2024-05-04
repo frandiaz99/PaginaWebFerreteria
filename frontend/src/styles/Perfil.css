@@ -1,0 +1,127 @@
+.contenedor-verPerfil {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.contenedor-perfil {
+
+    margin-top: 20%;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-img,
+.col-perfil {
+
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.col-img img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.fila-nombre {
+    font-weight: bold;
+    /* Nombre en negrita */
+    font-size: 24px;
+    /* Tamaño de letra más grande */
+}
+
+.fila-email {
+    color: #666;
+    /* Color de texto más claro */
+}
+
+.fila-boton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.fila-boton button {
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 12px;
+    background-color: blue;
+}
+
+
+.col-img {
+    flex: 0 0 25%;
+    /* 25% de ancho */
+}
+
+.col-perfil {
+    flex: 0 0 75%;
+    /* 75% de ancho */
+}
+
+@media (max-width: 768px) {
+    .contenedor-perfil {
+        flex-direction: column;
+    }
+
+    .col-img,
+    .col-perfil {
+        flex: 0 0 100%;
+        /* 100% de ancho */
+    }
+
+    .fila-boton {
+        margin-top: 10px;
+        /* Agregamos espacio arriba del botón */
+    }
+}
+
+.contenedor-perfil-2 {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+
+    align-items: center;
+    width: 100%;
+}
+
+.cantidad-trueques,
+.titulo-comentario {
+    padding: 20px;
+
+    max-width: 800px;
+
+}
+
+.cantidad-trueques {
+    background-color: transparent;
+    font-size: 16px;
+}
+
+.titulo-comentario {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+}
+
+.contenedor-comentarios {
+    width: 100%;
+}
+
+/* Estilo para la caja de comentarios */
+.caja-comentarios {
+    height: 200px;
+    background-color: #f2f2f2;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    width: 100%;
+    margin-top: 20px;
+}

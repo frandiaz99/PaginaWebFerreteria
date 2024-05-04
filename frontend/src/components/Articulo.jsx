@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
-import'../styles/Articulo.css'
+import '../styles/Articulo.css'
 import routes from '../routes'
 
-function Articulo ({articulo}){
-    var srcFotoArt = "http://localhost:5000/img/"+ articulo.foto_articulo;
+function Articulo({ articulo }) {
+    var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
     return (
 
         <Link to={routes.unArticulo} className='link'>
             <div className='articulo'>
                 <div className='divImagenArt'>
-                    <img src={srcFotoArt} alt="" className='imagenArt'/>
+                    <img src={srcFotoArt} alt="" className='imagenArt' />
                 </div>
                 <div className='articulo-contenido'>
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
@@ -19,7 +19,7 @@ function Articulo ({articulo}){
                 </div>
             </div>
         </Link>
-        
+
     )
 }
 
