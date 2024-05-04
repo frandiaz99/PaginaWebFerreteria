@@ -6,6 +6,7 @@ import MisTrueques from "../views/MisTrueques"
 import Promociones from "../views/Promociones"
 import UnArticulo from "../views/UnArticulo"
 import Perfil from "../views/Perfil"
+import EditarPerfil from "../views/EditarPerfil"
 import Header from "../components/Header/Header"
 
 const RutasUser = () =>{
@@ -19,7 +20,8 @@ const RutasUser = () =>{
             'mis_trueques',
             'promociones',
             'un_articulo',
-            'perfil'
+            'perfil',
+            'editar_perfil'
             ].includes(location.pathname.split('/')[2]) || location.pathname === '/user'
         )
     }
@@ -35,6 +37,7 @@ const RutasUser = () =>{
             <Route path={'promociones'} element={<Promociones/>}/>
             <Route path={'un_articulo'} element={<UnArticulo/>}/>
             <Route path={'perfil'} element={<Perfil/>}/>
+            <Route path={"editar_perfil"} element={<EditarPerfil/>}/>
 
             <Route path="*" element={<div>404 not found</div>}/>
         </Routes>

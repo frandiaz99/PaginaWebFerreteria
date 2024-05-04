@@ -40,7 +40,10 @@
 
 .boton-eliminarEmple{
     border-radius: 5px;
-    border: 1px solid;
-    padding: 3px;
+    cursor: pointer;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid black;
+    padding: 5px;
 }
 

@@ -1,6 +1,6 @@
 .main-empleados{
     display: flex;
-    height: 98%;
+    height: 95%;
     width: 99%;
     flex-direction: column;
     justify-content: flex-start;
@@ -16,17 +16,24 @@
 }
 
 .buscador{
-    width: 90%;
+    width: 88%;
     display: flex;
     justify-content: center;
 }
 
 .registrarEmple{
-    width: 10%;
+    width: 12%;
 }
 
 .boton-registrarEmple{
-
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffb700;
+    color: rgb(0, 0, 0);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    padding: 6px 9px;
+    font-weight: 600;
+    border: 0px;
 }
 
 .cuentasEmpleados{

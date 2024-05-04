@@ -12,6 +12,7 @@ const routes={
     subirArticulo:'/user/subir_articulo',
     unArticulo:'/user/un_articulo',
     perfil:'/user/perfil',
+    editar_perfil: '/user/editar_perfil',
 
     empleadoPrincipal:'/empleado',
     empleadoPromociones:'/empleado/promociones',
