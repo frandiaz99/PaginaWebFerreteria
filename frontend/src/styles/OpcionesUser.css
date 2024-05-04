@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     margin-right: 5px;
-    gap: 20px;
+    gap: 5px;
 }
 
 .cuenta{
@@ -28,6 +28,19 @@
 .containersDrop{
     display: flex;
     position: relative;
+    cursor: pointer;
+}
+
+#containerNotificaciones{
+    width: 2rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#containerNotificaciones:hover{
+    background-color:#f3af04;
 }
 
 .dropCuenta{

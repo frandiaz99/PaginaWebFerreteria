@@ -116,14 +116,14 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
   return (
     <div className='opcionesUser'>
 
-        <div className='homeIcon' onClick={handleHome} style={{cursor:'pointer'}}>
+        <div className='volver' onClick={handleHome}>
             <ion-icon name="home-outline" size='small'></ion-icon>
         </div>
 
         {estaEnModoUser() &&
-          <div className='containersDrop' ref={dropNotificacionesRef}>
+          <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} onClick={handleNotificaciones}>
 
-              <div className='notificaciones' onClick={handleNotificaciones} style={{cursor:'pointer'}}>
+              <div className='notificaciones'>
                   <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
               </div>
 
@@ -133,7 +133,7 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
         }
 
         <div className='containersDrop' ref={dropCuentaRef}>
-          <div className='cuenta' onClick={handleCuenta} style={{cursor:'pointer'}}>
+          <div className='cuenta' onClick={handleCuenta}>
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
             {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
           </div>

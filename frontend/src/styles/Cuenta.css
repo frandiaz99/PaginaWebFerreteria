@@ -6,7 +6,6 @@
     display: flex;
     width: 99%;
     min-width: 600px;
-    height: 100px;
     justify-content: space-between;
     align-items: flex-end;
     flex-direction: row;
@@ -20,8 +19,8 @@
 }
 
 .datosCuenta-foto{
-    width: 12%;
-    height: 100%;
+    width: 5rem;
+    height: 6rem;
     border-radius: 10px;
     overflow: clip;
 }

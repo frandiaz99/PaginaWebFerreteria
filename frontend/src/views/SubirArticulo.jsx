@@ -26,7 +26,8 @@ function SubirArticulo() {
   }
 
 
-  const handleSubirArt = () =>{
+  const handleSubirArt = (event) =>{
+    event.preventDefault();
     const formData = new FormData();
     formData.append("Articulo", JSON.stringify(datos));
     formData.append("Imagen", imagen.foto);
@@ -71,9 +72,9 @@ function SubirArticulo() {
       <form className='formSubirArt' onSubmit={handleSubirArt} encType="multipart/form-data">
 
         <div className='main-subirArt'>
-          <h1 className='titulo-subirArt'>
+          <h2 className='titulo-subirArt'>
             Completá los datos para tu publicación
-          </h1>
+          </h2>
 
 
           <div className='section1-subirArt'>
@@ -100,29 +101,31 @@ function SubirArticulo() {
 
           <div className='section2-subirArt'>
             <div className='titulo-section2'>
-              <h4>Estoy interesado en</h4>
+              <h4>Artículos de tu interes</h4>
               <hr />
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange}/>
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange}/>
             </div>
           </div>
 
 
           <div className='section3-subirArt'   >
             <div className='titulo-section3'>
-              <h4>Foto de tu artículo</h4>
+              <h4>Fotos de tu artículo</h4>
               <hr />
             </div>
 
-            <input type="file" accept=".png, .jpg, .jpeg" name="foto" 
-            onChange={e => {
-                            console.log ({"name": e.target.name})
-                            console.log ( e.target.files[0])
-                            setImagen({[e.target.name]: e.target.files[0]})
-                            console.log ( imagen);
-            }} />
+            <div className='foto-section3'>
+              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" name="foto" 
+              onChange={e => {
+                              console.log ({"name": e.target.name})
+                              console.log ( e.target.files[0])
+                              setImagen({[e.target.name]: e.target.files[0]})
+                              console.log ( imagen);
+              }} />
+            </div>
           </div>
 
 

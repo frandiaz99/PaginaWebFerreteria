@@ -1,10 +1,11 @@
 import React from 'react'
 import '../../styles/CrearIniciar.css' 
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import routes from '../../routes.js'
 
 function CrearIniciar() {
   const location= useLocation()
+  const navigate= useNavigate();
 
   return (
         <div className='section1__crear_inicar'>
@@ -18,11 +19,9 @@ function CrearIniciar() {
 
 
           {location.pathname !== routes.pagPrincipal && 
-          <div className='volver'>
-            <Link to={routes.pagPrincipal} className='link'>
-              <ion-icon name="home-outline" size='small'></ion-icon>
-            </Link> 
-          </div>}
+            <div className='volver' onClick={ () => {navigate(routes.pagPrincipal)}}>
+              <ion-icon name="home-outline" size='small'></ion-icon> 
+            </div>}
 
 
           {location.pathname !== routes.iniciarSesion &&
