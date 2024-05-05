@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import '../styles/Cuenta.css'
 import Modal from './Modal'
 
-function Cuenta({cuenta, setEliminado, eliminado}) {
+function Cuenta({cuenta}) {
   const [confirmacion, setConfirmacion]= useState(false)
 
   const handleEliminar = () =>{
-    setEliminado(!eliminado)
-    setConfirmacion(false)
+    setConfirmacion(false)      //esto se borraria, va dentro del fetch
+    window.location.reload()
     /*fetch('http://localhost:5000/eliminarEmpleado',   //Esto iria cuando se cree el back
     {method: "POST", 
     headers: {
@@ -21,8 +21,8 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
       return response.json();
     })
     .then(data => {
-      setEliminado(!eliminado)
       setConfirmacion(false)
+      window.location.reload()
       //Informar que la eliminación fue exitosa
     })
     .catch(error => {

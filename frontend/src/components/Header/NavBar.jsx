@@ -46,9 +46,14 @@ function NavBar() {
       <Link className='boton' to={routes.subirArticulo}><span className='optionNav'>Subir Articulo</span></Link>
     </div>}
 
-    {(estaEnModoAdmin() || estaEnModoEmple()) &&
+    {(estaEnModoEmple() && user.rol == 2) &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav'>Tasar Artículo</span></Link>
+      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav' style={{marginRight:'13rem'}}>Tasar Artículo</span></Link>
+    </div>
+    }
+    {user.rol == 3 &&
+    <div className='subirArt nav'>
+      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav' style={{marginRight:'7rem'}}>Tasar Artículo</span></Link>
     </div>
     }
 
@@ -64,14 +69,7 @@ function NavBar() {
       <Link className='boton' to={routes.adminUsuarios} ><span className='optionNav'>Usuarios</span></Link>
       <Link className='boton' to={routes.adminEmpleados} ><span className='optionNav'>Empleados</span></Link>
       </>}
-
-      
-      {(user.rol === 2 && estaEnModoEmple()) &&  //Esta es la mayor fisureada que se me ocurrio para centrar el tasar articulo
-      <>
-      <div className='relleno'></div>
-      </>}
     </div>
-
     </>
   )
 }

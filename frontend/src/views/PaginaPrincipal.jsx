@@ -80,7 +80,7 @@ function PaginaPrincipal() {
                   No hay articulos disponibles aún
                 </div> //Podria ser un componente
               :
-              mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art}/>))
+              mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={false}/>))
               }
             </div>
 

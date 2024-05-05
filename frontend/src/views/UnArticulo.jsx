@@ -22,7 +22,7 @@ function UnArticulo() {
     <main className='main'>
       <div>UnArticulo</div>
 
-      <Pagar/>    
+      {/*<Pagar/>  */  }
       
     </main>
   )

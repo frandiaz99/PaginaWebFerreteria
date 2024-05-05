@@ -50,7 +50,7 @@ function AdminEmpleados() {
       console.error('Error:', error);
     });*/
     setTotalCuentas(empleados) //temporal hasta obtenerlo del back
-  }, [eliminado]) //cuando se elimina un empleado vuelvo a obtener las cuentas
+  }, [])
 
   return (
     <main className='main'>
@@ -77,7 +77,7 @@ function AdminEmpleados() {
               No hay ningún empleado
             </div> //Podria ser un componente
           :
-            mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta} setEliminado={setEliminado} eliminado={eliminado}/>))
+            mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta}/>))
           }
         </div>
         {cuentasActuales.length > 0 &&  <Paginacion totalItems={totalCuentas.length} itemsXPag={cuentasXPag} onPageChange={handlePageChange} />}
