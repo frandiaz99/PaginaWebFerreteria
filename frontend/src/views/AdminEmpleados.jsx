@@ -20,7 +20,6 @@ function AdminEmpleados() {
     setPagActual(pagina)
   }
 
-
   function mostrarCuentas(){
     const ultimaCuenta= pagActual * cuentasXPag
     const primerCuenta= ultimaCuenta - cuentasXPag

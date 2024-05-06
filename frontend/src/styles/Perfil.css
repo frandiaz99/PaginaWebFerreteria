@@ -52,7 +52,8 @@
     padding: 8px 16px;
     font-size: 16px;
     border-radius: 12px;
-    background-color: blue;
+    background-color: rgb(0, 0, 0);
+    color: white;
 }
 
 
