@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import '../styles/AdminEmpleados.css'
 import Cuenta from '../components/Cuenta'
 import Paginacion from '../components/Paginacion'
+import Buscador from '../components/Buscador'
 import empleados from '../data/empleados.json' //temporal hasta obtenerlo del back
 
 const cuentasXPag= 6 //en cada pagina mostrar x cuentas
@@ -59,9 +60,7 @@ function AdminEmpleados() {
         <div className='buscador-y-registrar'>
         {(cuentasActuales.length > 0) 
           ?
-          <div className='buscador'>
-            Aca iria el buscador
-          </div>
+          <Buscador/>
           :
           <div className='buscador'> </div>}
 
