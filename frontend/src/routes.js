@@ -22,7 +22,8 @@ const routes = {
     adminPrincipal: '/admin',
     adminSucursales: '/admin/sucursales',
     adminUsuarios: '/admin/usuarios',
-    adminEmpleados: '/admin/empleados'
+    adminEmpleados: '/admin/empleados',
+    adminRegistrarEmpleado: '/admin/registrar_empleado'
 }
 
 export default routes

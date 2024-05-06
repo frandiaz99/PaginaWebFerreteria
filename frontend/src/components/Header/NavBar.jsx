@@ -54,7 +54,7 @@ function NavBar() {
     }
     {user.rol == 3 &&
     <div className='subirArt nav'>
-      <span className='optionNav' style={{marginRight:'7rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
+      <span className='optionNav' style={{marginRight:'10rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
     </div>
     }
 

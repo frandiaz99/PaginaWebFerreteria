@@ -3,6 +3,9 @@ import '../styles/CrearCuenta.css'
 import { useNavigate } from "react-router-dom"
 import Modal from "../components/Modal";
 
+const soyAdmin= ()=>{
+    return location.pathname === '/admin/registrar_empleado'
+}
 const verificarCondicionContrasenia= (contrasenia) =>{
     if (contrasenia === ''){
         return null
@@ -188,20 +191,27 @@ function CrearCuenta(){
     return(
         
         <main className="main">
-
-            <h2>Registrarse</h2>
+            
+            {soyAdmin() && <h2>Registrar Empleado</h2>}
+            {!soyAdmin() &&<h2>Registrarse</h2>}
 
             <div className="forms" >
                 <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
 
                     <div className="divInputRegistro">
                         <label htmlFor="nombre">Nombre</label>
-                        <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
+                        {soyAdmin() ?
+                            <input name="nombre" type="text" placeholder="Ingresá nombre del empleado" onChange={handleChange}/>
+                        :
+                            <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>}
                     </div>
 
                     <div className="divInputRegistro">
                         <label htmlFor="apellido">Apellido</label>
-                        <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
+                        {soyAdmin() ?
+                            <input name="apellido" type="text" placeholder="Ingresá apellido del empleado" onChange={handleChange}/>
+                        :
+                            <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>}
                     </div>
 
                     <div className="divInputRegistro">
@@ -226,14 +236,20 @@ function CrearCuenta(){
 
                     <div className="divInputRegistro">
                         <label htmlFor="dni">DNI</label>
-                        <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
+                        {soyAdmin() ?
+                            <input name="dni" type="number" placeholder="Ingresá DNI del empleado" onChange={handleChange}/> 
+                        :
+                            <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>}
                         {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
                     </div>
 
                     <div className="divInputRegistro">
                         <label htmlFor="nacimiento">Fecha de nacimiento</label>
                         <input name="nacimiento" type="date" onChange={handleChange}/>  
-                        {(esMayor == false) && <p className="textoNoCumple">Debes ser mayor de edad</p>}
+                        {soyAdmin() ?
+                            (esMayor == false) && <p className="textoNoCumple">El empleado debe ser mayor de edad</p>
+                        :
+                            (esMayor == false) && <p className="textoNoCumple">Debes ser mayor de edad</p>}
                     </div>
                     
                     <div className="divInputRegistro">
@@ -262,7 +278,10 @@ function CrearCuenta(){
                     </div>
                             
                     <div className="divRegistrarse">
-                        <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>
+                        {soyAdmin() ?
+                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrar'}/>
+                        :
+                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>}
                     </div>
 
                 </form>

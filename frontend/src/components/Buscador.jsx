@@ -3,8 +3,8 @@ import '../styles/Buscador.css'
 
 function Buscador() {
 
-  const handleBuscar= () =>{
-
+  const handleBuscar= (e) =>{
+    e.preventDefault()
   }
   
   return (
