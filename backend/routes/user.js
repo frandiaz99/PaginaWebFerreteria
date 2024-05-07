@@ -407,7 +407,7 @@ router.route("/login").post(login);
 //user routes
 router.route("/logout").post(userAuth, logout);
 router.route("/getSelf").get(userAuth, getSelf);
-router.route("/editarPerfil").post(userAuth, editarPerfil)
+router.route("/editarPerfil").post(upload.single("Imagen"), userAuth, editarPerfil)
 
 //admin routes
 router.route("/deleteUser").delete(adminAuth, deleteUser);

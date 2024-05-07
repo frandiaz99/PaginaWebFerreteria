@@ -14,6 +14,7 @@ function EditarPerfil() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: '', apellido: '', sucursal: '' })
+    const [imagen, setImagen] = useState({ foto: "" })
 
 
     const [confirmacion, setConfirmacion] = useState(false);
@@ -47,14 +48,16 @@ function EditarPerfil() {
             apellido: nuevoUsuario.apellido !== '' ? nuevoUsuario.apellido : usuario.apellido
         }
 
+        const formData = new FormData();
+        formData.append("UsuarioModificado", JSON.stringify(usuarioModificado));
+        formData.append("Imagen", imagen.foto);
+        console.log({ "form Data": formData });
+
         fetch('http://localhost:5000/user/editarPerfil',
 
             {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(usuarioModificado),
+                body: FormData,
                 credentials: "include"
             })
             .then(response => {
@@ -65,7 +68,6 @@ function EditarPerfil() {
             })
             .then(data => {
                 console.log('Respuesta del servidor al editar perfil:', data);
-                setUsuario(usuarioModificado)
                 setConfirmacion(true);
 
                 localStorage.setItem('user', JSON.stringify(usuarioModificado))
@@ -113,7 +115,13 @@ function EditarPerfil() {
             <div className='contenedor-editar-perfil'>
                 <div className='cambios-perfil'>
                     <div className='foto-perfil' style={{ backgroundImage: `url(http://localhost:5000/img/${user.foto_perfil})` }}>
-                        <input type='file' id='input-foto' accept='image/*' />
+                        <input type='file' id='input-foto' accept='image/*' name='foto'
+                            onChange={e => {
+                                console.log({ "name": e.target.name })
+                                console.log(e.target.files[0])
+                                setImagen({ [e.target.name]: e.target.files[0] })
+                                console.log(imagen);
+                            }} />
                         <label htmlFor='input-foto' >Cambiar foto</label>
                     </div>
 
