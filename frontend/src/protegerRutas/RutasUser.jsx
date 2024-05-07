@@ -9,6 +9,7 @@ import Perfil from "../views/Perfil"
 import EditarPerfil from "../views/EditarPerfil"
 import Header from "../components/Header/Header"
 import NotFound from "../views/NotFound"
+import CambiarContrasenia from "../views/CambiarContrasenia"
 
 const RutasUser = () =>{
     const location= useLocation()
@@ -22,7 +23,8 @@ const RutasUser = () =>{
             'promociones',
             'un_articulo',
             'perfil',
-            'editar_perfil'
+            'editar_perfil',
+            'cambiar_contrasenia'
             ].includes(location.pathname.split('/')[2]) || location.pathname === '/user'
         )
     }
@@ -39,6 +41,7 @@ const RutasUser = () =>{
             <Route path={'un_articulo'} element={<UnArticulo/>}/>
             <Route path={'perfil'} element={<Perfil/>}/>
             <Route path={"editar_perfil"} element={<EditarPerfil/>}/>
+            <Route path={'cambiar_contrasenia'} element={<CambiarContrasenia/>}/>
 
             <Route path="*" element={<NotFound/>}/>
         </Routes>

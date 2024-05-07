@@ -13,6 +13,7 @@ const routes = {
     unArticulo: '/user/un_articulo',
     perfil: '/user/perfil',
     editarPerfil: '/user/editar_perfil',
+    cambiarContrasenia: 'user/cambiar_contrasenia',
 
     empleadoPrincipal: '/empleado',
     empleadoPromociones: '/empleado/promociones',
