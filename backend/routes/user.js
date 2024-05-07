@@ -373,6 +373,8 @@ const editarPerfil = async (req, res, next) => {
     const userId = req.body.Auth._id; // ID del usuario actual
     const currentUser = await DataUser.findById(userId);
 
+    console.log("current user: ", currentUser)
+
     if (!currentUser) {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }

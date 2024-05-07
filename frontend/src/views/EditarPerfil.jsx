@@ -44,17 +44,16 @@ function EditarPerfil() {
         const usuarioModificado = {
             ...usuario,
             nombre: nuevoUsuario.nombre !== '' ? nuevoUsuario.nombre : usuario.nombre,
-            apellido: nuevoUsuario.apellido !== '' ? nuevoUsuario.apellido : usuario.apellido,
-            sucursal: nuevoUsuario.sucursal !== '' ? nuevoUsuario.sucursal : usuario.sucursal
+            apellido: nuevoUsuario.apellido !== '' ? nuevoUsuario.apellido : usuario.apellido
         }
 
         fetch('http://localhost:5000/user/editarPerfil',
 
             {
                 method: 'POST',
-                //headers: {
-                //    'Content-Type': 'application/json'
-                //},
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(usuarioModificado),
                 credentials: "include"
             })
