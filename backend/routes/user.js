@@ -373,18 +373,26 @@ const editarPerfil = async (req, res, next) => {
     const userId = req.body.Auth._id; // ID del usuario actual
     const currentUser = await DataUser.findById(userId);
 
-    console.log("current user: ", currentUser)
-
     if (!currentUser) {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
 
+    // Manejo de la imagen de perfil
+    let foto_perfil;
+    if (!req.file) {
+      // Si no se proporciona una imagen, mantener la imagen actual del usuario
+      foto_perfil = currentUser.foto_perfil;
+    } else {
+      // Si se proporciona una imagen, usar la nueva imagen cargada
+      foto_perfil = req.file.filename; // Asigna el nombre del archivo generado por multer
+    }
+
     // Modificar los datos del usuario según lo proporcionado en la solicitud
-    const { nombre, apellido, sucursal, foto_perfil } = req.body;
+    const { nombre, apellido, sucursal } = req.body;
     if (nombre) currentUser.nombre = nombre;
     if (apellido) currentUser.apellido = apellido;
     if (sucursal) currentUser.sucursal = sucursal;
-    if (foto_perfil) currentUser.foto_perfil = foto_perfil;
+    currentUser.foto_perfil = foto_perfil; // Actualiza la foto de perfil
 
     // Guardar los cambios en la base de datos
     await currentUser.save();
@@ -395,6 +403,7 @@ const editarPerfil = async (req, res, next) => {
     return res.status(500).json({ message: "Ocurrió un error al editar el perfil", error: err.message });
   }
 }
+
 
 
 
