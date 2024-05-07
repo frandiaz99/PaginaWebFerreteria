@@ -1,4 +1,4 @@
-const {DataUser, DataNotificacion, DataSucursal} = require("../model/Schema")
+const { DataUser, DataNotificacion, DataSucursal } = require("../model/Schema")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 const jwtSecret = 'daa1dc6519bff687520b8dd1e6c0fd60cfbb06d7693be9cfbcea56053a52f5f5482701';
@@ -7,10 +7,10 @@ const upload = require("../imagenes/imagen.js")
 const multer = require("multer");
 
 
-const {getNotificacionesNuevas} = require ("./notificacion");
+const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express")
-const {adminAuth, workerAuth, userAuth} = require ("../middleware/auth");
+const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const router = express.Router();
 //
 const password_min_leght = 6;
@@ -23,22 +23,22 @@ const register = async (req, res, next) => {
   console.log(req.Imagen);
   console.log(req.file);
   */
- let File;
- if (!req.file){
-  File = {filename: "Imagen_user_default.png"};
- } else {File = req.file};
- console.log({"File": File});
-  
-  const User = JSON.parse(req.body.User);
-  console.log({"User": User});
+  let File;
+  if (!req.file) {
+    File = { filename: "Imagen_user_default.png" };
+  } else { File = req.file };
+  console.log({ "File": File });
 
-  if (!User){
-    return res.status(400).json({message: "Object User not recibed"})
+  const User = JSON.parse(req.body.User);
+  console.log({ "User": User });
+
+  if (!User) {
+    return res.status(400).json({ message: "Object User not recibed" })
   }
   //const { nombre, apellido, email, password, dni, nacimiento, suscripto} = req.body.User;
-  if (!User.nombre || !User.apellido || !User.email || !User.password || !User.dni || !User.nacimiento || !User.sucursal){
+  if (!User.nombre || !User.apellido || !User.email || !User.password || !User.dni || !User.nacimiento || !User.sucursal) {
     console.log("falta chekear que suba la foto");
-    return res.status(400).json({message: "Los parametros recibidos no son valido"})
+    return res.status(400).json({ message: "Los parametros recibidos no son valido" })
   }
   if (User.password.length < password_min_leght) {
     //return res.status(400).json({ message: `Password less than ${password_min_leght} characters` })
@@ -46,33 +46,33 @@ const register = async (req, res, next) => {
     return res.status(400)
   }
   var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-  var i=0;
-  var character='';
+  var i = 0;
+  var character = '';
   var upper, special = false;
-  while ((i <= User.password.length)  && !(upper && special)){
+  while ((i <= User.password.length) && !(upper && special)) {
     character = User.password.charAt(i);
     if (character == character.toUpperCase()) {
       upper = true;
     }
-    if(format.test(character)){
-      special=true;
+    if (format.test(character)) {
+      special = true;
     }
     i++;
   }
-  if (!upper || !special){
-    return res.status(400).json({message: "The password do not contain upper case or special character"})
-  }
-  
-  if (isNaN(User.dni)){
-    return res.status(400).json({message: "The DNI is not a number"})
+  if (!upper || !special) {
+    return res.status(400).json({ message: "The password do not contain upper case or special character" })
   }
 
-  if (User.dni.length != 8){
-    return res.status(400).json({message: "The DNI is shorten than 8 digits"})
+  if (isNaN(User.dni)) {
+    return res.status(400).json({ message: "The DNI is not a number" })
   }
- console.log("email y dni se unico, email sea valido,sucursal valida)");
+
+  if (User.dni.length != 8) {
+    return res.status(400).json({ message: "The DNI is shorten than 8 digits" })
+  }
+  console.log("email y dni se unico, email sea valido,sucursal valida)");
   console.log("Entra");
-  
+
   //chekaer mail y dni no already in system
   //FALTA CHEKEAR TODO EL RESTO DE VARIABLES OBLIGATORIA, PARA QUE NO HAYA ERROR (dNI , ETC)
   /*
@@ -95,36 +95,36 @@ const register = async (req, res, next) => {
   }*/
   //const URLfoto = upload(foto);
   //console.log(URLfoto);
-const nacimiento = new Date(User.nacimiento);
-if (isNaN(nacimiento.getTime())) {
-  res.status(400).json({ message: "Invalid date format for nacimiento" });
-}
+  const nacimiento = new Date(User.nacimiento);
+  if (isNaN(nacimiento.getTime())) {
+    res.status(400).json({ message: "Invalid date format for nacimiento" });
+  }
 
-const today = new Date();
-let edad = today.getFullYear() - nacimiento.getFullYear();
-const mes = today.getMonth() - nacimiento.getMonth();
-if (mes < 0 || (mes === 0 && today.getDate() < nacimiento.getDate())) {
-  edad--;
-}
-if (edad < 18) {
-  res.status(401).json({ message: "Es menor de edad" });
-}
+  const today = new Date();
+  let edad = today.getFullYear() - nacimiento.getFullYear();
+  const mes = today.getMonth() - nacimiento.getMonth();
+  if (mes < 0 || (mes === 0 && today.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  if (edad < 18) {
+    res.status(401).json({ message: "Es menor de edad" });
+  }
 
 
   console.log("Hay que pasarle el id de las sucursales para recibirlo y guardarlo en eel objeto");
-  let Sucursal = await DataSucursal.findOne ({"nombre": User.sucursal})
-  if (!Sucursal){
+  let Sucursal = await DataSucursal.findOne({ "nombre": User.sucursal })
+  if (!Sucursal) {
     console.log("Se deberia responder error por sucursal no identificada, por el momento pongo cualquiera");
     Sucursal = await DataSucursal.findOne();
   }
-/*
-  if (!File) {
-    console.log("Imagen no recibida");
-    File.filename = "Imagen_1714493186314.png";
-  } else {
-    console.log("Imagen recibida", File);
-
-  }*/
+  /*
+    if (!File) {
+      console.log("Imagen no recibida");
+      File.filename = "Imagen_1714493186314.png";
+    } else {
+      console.log("Imagen recibida", File);
+  
+    }*/
 
 
 
@@ -132,10 +132,10 @@ if (edad < 18) {
     await DataUser.create({
       //! || ! || !
       //  || !User.nacimiento || !User.sucursal
-      
+
       nombre: User.nombre,
       apellido: User.apellido,
-      email: User.email ,
+      email: User.email,
       dni: User.dni,
       rawPassword: User.password,   //esto se deberia borrar en version final
       password: hash,
@@ -144,24 +144,25 @@ if (edad < 18) {
       suscripto: User.suscripto,
       foto_perfil: File.filename
     })
-      .then((user) =>{
+      .then((user) => {
         console.log("Usuario creado correctamente");
         // es igual a 3hs, va a ser el tiempo en hacer un timeout osea se va a tener que volver a logear
         const maxAge = 3 * 60 * 60
-        const token = jwt.sign({id: user._id, email: user.email, dni: user.dni, rol: user.rol}, jwtSecret, {expiresIn: maxAge /* 3hrs en segundos */});
-        
-        res.cookie ("jwt", token, {
+        const token = jwt.sign({ id: user._id, email: user.email, dni: user.dni, rol: user.rol }, jwtSecret, { expiresIn: maxAge /* 3hrs en segundos */ });
+
+        res.cookie("jwt", token, {
           httpOnly: true, maxAge: maxAge * 1000,    //3hs en milisegundos
         });
-        
+
         console.log("Enviando al fron confirmacion de creacion de usuario con cookie");
-        return res.status(201).json({user/*
+        return res.status(201).json({
+          user/*
           message: "User successfully created", 
           //User: user._id,             //se deberia cambiar para no pasar el user completo solo el ID se deja asi por el momento para debugear mas facil
         */
         })
       })
-      .catch((error) =>{  
+      .catch((error) => {
         console.log("Usuario NO creado correctamente");
         console.log(error)
         return res.status(400).json({
@@ -171,7 +172,7 @@ if (edad < 18) {
           //faltaria hacer codigos de erro para ver desde el front xq fue el problema
         })
       }
-    );
+      );
   });
   console.log("4");
 }
@@ -179,36 +180,36 @@ if (edad < 18) {
 
 
 const login = async (req, res, next) => {
-  if (!req.body.User){
-      return res.status(400).json({message: "Object User not recibed"})
+  if (!req.body.User) {
+    return res.status(400).json({ message: "Object User not recibed" })
   }
   const { dni, password } = req.body.User;
   if (!dni || !password) {
-      return res.status(400).json({
+    return res.status(400).json({
       message: "Dni or Password not present",
     })
   }
-/*
-  try {
-    
-    const user = await DataUser.findOne({ email, password })
-    if (!user) {
-      res.status(401).json({
-        message: "Login not successful",
-        error: "User not found",
+  /*
+    try {
+      
+      const user = await DataUser.findOne({ email, password })
+      if (!user) {
+        res.status(401).json({
+          message: "Login not successful",
+          error: "User not found",
+        })
+      } else {
+        res.status(200).json({
+          message: "Login successful",
+          user,
+        })
+      }
+    } catch (error) {
+      res.status(400).json({
+        message: "An error occurred",
+        error: error.message,
       })
-    } else {
-      res.status(200).json({
-        message: "Login successful",
-        user,
-      })
-    }
-  } catch (error) {
-    res.status(400).json({
-      message: "An error occurred",
-      error: error.message,
-    })
-  }*/
+    }*/
 
   try {
     const user = await DataUser.findOne({ dni })
@@ -219,18 +220,18 @@ const login = async (req, res, next) => {
         error: "User not found",
       })
     } else {
-      if (user.intento_desbloqueo >= 2){
+      if (user.intento_desbloqueo >= 2) {
         console.log("User bloqued")
-        DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1} }).catch(
+        DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1 } }).catch(
           //poner en caso de error(?
         );
-        return res.status(400).json({message: "User bloqued", intento: user.intento_desbloqueo})
+        return res.status(400).json({ message: "User bloqued", intento: user.intento_desbloqueo })
       }
 
       // comparing given password with hashed password
       console.log("Comparing password")
       bcrypt.compare(password, user.password).then((result) => {
-        if (result){
+        if (result) {
           //nuevo
           const maxAge = 3 * 60 * 60;
           const token = jwt.sign(
@@ -244,15 +245,15 @@ const login = async (req, res, next) => {
             httpOnly: true,
             maxAge: maxAge * 1000, // 3hrs en ms
           });
-          
+
           const notificaciones = getNotificacionesNuevas(user._id);
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
           console.log("Correct password")
-          res.status(201).json({ message: "Login successful", User: user})      //tambien se deberia cambiar user por user._id
+          res.status(201).json({ message: "Login successful", User: user })      //tambien se deberia cambiar user por user._id
         } else {
           console.log("Incorrect password")
-          DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1} }).catch(
+          DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1 } }).catch(
             //poner en caso de error(?
           );
           res.status(400).json({ message: "Login not succesful" })
@@ -272,8 +273,8 @@ const login = async (req, res, next) => {
 
 
 const logout = async (req, res, next) => {
-  res.cookie("jwt", "", {maxAge: "1"});
-  res.status(201).json({message: "User loged out"});
+  res.cookie("jwt", "", { maxAge: "1" });
+  res.status(201).json({ message: "User loged out" });
 }
 
 
@@ -283,41 +284,41 @@ const logout = async (req, res, next) => {
 
 
 const deleteUser = async (req, res, next) => {
-  
+
   const id = req.body.deleteID;
-  if ( !id ) {
+  if (!id) {
     return res.status(400).json({
-    message: "ID not present",
-  })
+      message: "ID not present",
+    })
   }
   console.log(id);
-/*
- await DataUser.findById(id)
-    .then(user => user.deleteOne())
-    .then(user =>{
-      console.log("User found, deleting user");
-      res.status(201).json({ message: "User successfully deleted", user })
-    }
-    )
-    .catch(error => {
-      console.log ("An error ocurred");
-      res
-      .status(400)
-      .json({ message: "An error occurred", error: error.message })
-    }
-    ).catch(error => {
-        console.log ("User ID not founded");
-        res.status(400).json({message: "The id couldnt be found"})
-      })*/
+  /*
+   await DataUser.findById(id)
+      .then(user => user.deleteOne())
+      .then(user =>{
+        console.log("User found, deleting user");
+        res.status(201).json({ message: "User successfully deleted", user })
+      }
+      )
+      .catch(error => {
+        console.log ("An error ocurred");
+        res
+        .status(400)
+        .json({ message: "An error occurred", error: error.message })
+      }
+      ).catch(error => {
+          console.log ("User ID not founded");
+          res.status(400).json({message: "The id couldnt be found"})
+        })*/
 
-/*
-await DataUser.findByIdAndDelete(id).exec()
-.then( user => {
-  res.status(200).json({message: "User successfully deleted", user})
-}).catch(err => {
-  res.status(400).json({message: "The ID couldnt be found"})
-});
-*/
+  /*
+  await DataUser.findByIdAndDelete(id).exec()
+  .then( user => {
+    res.status(200).json({message: "User successfully deleted", user})
+  }).catch(err => {
+    res.status(400).json({message: "The ID couldnt be found"})
+  });
+  */
 
   try {
     const User = await DataUser.findById(id);
@@ -338,28 +339,14 @@ await DataUser.findByIdAndDelete(id).exec()
 
 
 const desbloquearUser = async (req, res, next) => {
-    const dni = req.body.User.dni;
-    if (!dni) {
-      console.log("No se recibio el DNI")
-      return res.status(400).json({message: "No se recibio DNI, expected User.dni:"})
-    }
-    try{
-      await DataUser.updateOne({ "dni": dni }, { intento_desbloqueo: 0 })
-      res.status(200).json({message: "User desbloqueado"});
-    } catch (err) {
-      console.error("An error occurred", err);
-      res.status(500).json({ message: "An error occurred", error: err.message });
-    }
-}
-
-
-const getSelf = async (req, res, next) => {
-    try {
-    const User = await DataUser.findById(req.body.Auth._id);
-    if (!User){
-      res.status(400).json({message: "Usuario no encontrado"})
-    }
-    res.status(200).json({User})
+  const dni = req.body.User.dni;
+  if (!dni) {
+    console.log("No se recibio el DNI")
+    return res.status(400).json({ message: "No se recibio DNI, expected User.dni:" })
+  }
+  try {
+    await DataUser.updateOne({ "dni": dni }, { intento_desbloqueo: 0 })
+    res.status(200).json({ message: "User desbloqueado" });
   } catch (err) {
     console.error("An error occurred", err);
     res.status(500).json({ message: "An error occurred", error: err.message });
@@ -367,17 +354,58 @@ const getSelf = async (req, res, next) => {
 }
 
 
+const getSelf = async (req, res, next) => {
+  try {
+    const User = await DataUser.findById(req.body.Auth._id);
+    if (!User) {
+      res.status(400).json({ message: "Usuario no encontrado" })
+    }
+    res.status(200).json({ User })
+  } catch (err) {
+    console.error("An error occurred", err);
+    res.status(500).json({ message: "An error occurred", error: err.message });
+  }
+}
+
+const editarPerfil = async (req, res, next) => {
+  try {
+    // Obtener los datos del usuario actual
+    const userId = req.body.Auth._id; // ID del usuario actual
+    const currentUser = await DataUser.findById(userId);
+
+    if (!currentUser) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+
+    // Modificar los datos del usuario según lo proporcionado en la solicitud
+    const { nombre, apellido, sucursal, foto_perfil } = req.body;
+    if (nombre) currentUser.nombre = nombre;
+    if (apellido) currentUser.apellido = apellido;
+    if (sucursal) currentUser.sucursal = sucursal;
+    if (foto_perfil) currentUser.foto_perfil = foto_perfil;
+
+    // Guardar los cambios en la base de datos
+    await currentUser.save();
+
+    return res.status(200).json({ message: "Perfil actualizado correctamente", user: currentUser });
+  } catch (err) {
+    console.error("Ocurrió un error al editar el perfil:", err);
+    return res.status(500).json({ message: "Ocurrió un error al editar el perfil", error: err.message });
+  }
+}
+
 
 
 
 
 //new routes
-router.route("/register").post( upload.single("Imagen"), register);
+router.route("/register").post(upload.single("Imagen"), register);
 router.route("/login").post(login);
 
 //user routes
 router.route("/logout").post(userAuth, logout);
 router.route("/getSelf").get(userAuth, getSelf);
+router.route("/editarPerfil").post(userAuth, editarPerfil)
 
 //admin routes
 router.route("/deleteUser").delete(adminAuth, deleteUser);
