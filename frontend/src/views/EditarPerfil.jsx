@@ -13,7 +13,7 @@ function EditarPerfil() {
     const [usuario, setUsuario] = useState();
     const user = JSON.parse(localStorage.getItem('user'));
 
-    const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: '' })
+    const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: '', apellido: '', sucursal: '' })
 
 
     const [confirmacion, setConfirmacion] = useState(false);
@@ -25,20 +25,36 @@ function EditarPerfil() {
         })
     }
 
+    const handleApellidoChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            apellido: event.target.value
+        })
+    }
+
+    const handleSucursalChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            sucursal: event.target.value
+        })
+    }
+
     const handleGuardarCambios = () => {
 
         const usuarioModificado = {
             ...usuario,
-            nombre: nuevoUsuario.nombre !== '' ? nuevoUsuario.nombre : usuario.nombre
+            nombre: nuevoUsuario.nombre !== '' ? nuevoUsuario.nombre : usuario.nombre,
+            apellido: nuevoUsuario.apellido !== '' ? nuevoUsuario.apellido : usuario.apellido,
+            sucursal: nuevoUsuario.sucursal !== '' ? nuevoUsuario.sucursal : usuario.sucursal
         }
 
         fetch('http://localhost:5000/user/editarPerfil',
 
             {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                //headers: {
+                //    'Content-Type': 'application/json'
+                //},
                 body: JSON.stringify(usuarioModificado),
                 credentials: "include"
             })
@@ -50,7 +66,11 @@ function EditarPerfil() {
             })
             .then(data => {
                 console.log('Respuesta del servidor al editar perfil:', data);
-                setConfirmacion(true); // Confirmación de que los cambios se guardaron con éxito
+                setUsuario(usuarioModificado)
+                setConfirmacion(true);
+
+                localStorage.setItem('user', JSON.stringify(usuarioModificado))
+                console.log("usuario modificado: ", usuarioModificado)
                 navigate(routes.perfil);
             })
             .catch(error => {
@@ -64,14 +84,6 @@ function EditarPerfil() {
         setConfirmacion(false);
         navigate(routes.perfil)
     }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUsuario(prevUser => ({
-            ...prevUser,
-            [name]: value,
-        }));
-    };
 
     useEffect(() => {
         fetch('http://localhost:5000/user/getSelf',
@@ -107,11 +119,11 @@ function EditarPerfil() {
                     </div>
 
                     <div className='datos'>
-                        <div className='nombre'>Nombre: <input type='text' defaultValue={user.nombre} onChange={handleChange} /></div>
-                        <div className='apellido'>Apellido: <input type='text' defaultValue={user.apellido} onChange={handleChange} /></div>
+                        <div className='nombre'>Nombre: <input type='text' defaultValue={user.nombre} onChange={handleNombreChange} /></div>
+                        <div className='apellido'>Apellido: <input type='text' defaultValue={user.apellido} onChange={handleApellidoChange} /></div>
                         <div className='sucursal'>
                             Sucursal:
-                            <select defaultValue={user.sucursal} onChange={handleChange}>
+                            <select defaultValue={user.sucursal} onChange={handleSucursalChange}>
                                 <option value="La plata">La plata</option>
                                 <option value="Cordoba">Cordoba</option>
                                 <option value="Santa Fe">Santa Fe</option>
