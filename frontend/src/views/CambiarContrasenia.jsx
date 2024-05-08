@@ -2,7 +2,9 @@ import React from 'react'
 
 function CambiarContrasenia() {
   return (
-    <div>CambiarContrasenia</div>
+    <main className='main'>
+      CambiarContrasenia
+    </main>
   )
 }
 
