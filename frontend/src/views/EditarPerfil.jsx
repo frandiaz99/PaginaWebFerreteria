@@ -13,17 +13,75 @@ function EditarPerfil() {
     const [usuario, setUsuario] = useState();
     const user = JSON.parse(localStorage.getItem('user'));
 
+    const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: '', apellido: '', foto_perfil: null })
+
+
     const [confirmacion, setConfirmacion] = useState(false);
 
-    //datos del usuario
-    const [imagen, setImagen] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [sucursal, setSucursal] = useState('');
+    const handleNombreChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            nombre: event.target.value
+        })
+    }
+
+    const handleApellidoChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            apellido: event.target.value
+        })
+    }
+
+    const handleImagenChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            foto_perfil: event.target.files[0]
+        })
+    }
+
+
+    const handleSucursalChange = (event) => {
+        setNuevoUsuario({
+            ...nuevoUsuario,
+            sucursal: event.target.value
+        })
+    }
 
     const handleGuardarCambios = () => {
-        setConfirmacion(true);
-    }
+
+        const formData = new FormData();
+        formData.append("nombre", nuevoUsuario.nombre !== '' ? nuevoUsuario.nombre : user.nombre);
+        formData.append("apellido", nuevoUsuario.apellido !== '' ? nuevoUsuario.apellido : user.apellido);
+        formData.append("foto_perfil", nuevoUsuario.foto_perfil !== null ? nuevoUsuario.foto_perfil : user.foto_perfil);
+        console.log({ "form Data": formData });
+
+
+        fetch('http://localhost:5000/user/editarPerfil',
+
+            {
+                method: 'POST',
+                body: formData,
+                credentials: "include"
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema al guardar los cambios');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Respuesta del servidor al editar perfil:', data);
+                setConfirmacion(true);
+
+                localStorage.setItem('user', JSON.stringify(usuarioModificado))
+                console.log("usuario modificado: ", usuarioModificado)
+                navigate(routes.perfil);
+            })
+            .catch(error => {
+                console.error('Hubo un problema al guardar los cambios:', error);
+                // Manejo de errores
+            });
+    };
 
     const handleYes = () => {
         handleGuardarCambios(); //guardaria el nombre, sucursal, foto lo que sea 
@@ -31,40 +89,14 @@ function EditarPerfil() {
         navigate(routes.perfil)
     }
 
-    const handleImagenChange = (event) => {
-        // Aquí puedes manejar el cambio de la imagen de perfil
-        setImagen(event.target.files[0]); // Guardar el archivo de imagen en el estado
-    };
-
-    const handleNombreChange = (event) => {
-        // Aquí puedes manejar el cambio del nombre
-        setNombre(event.target.value);
-
-    };
-
-    const handleApellidoChange = (event) => {
-        // Aquí puedes manejar el cambio del apellido
-        setApellido(event.target.value);
-    };
-
-    const handleSucursalChange = (event) => {
-        // Aquí puedes manejar el cambio de la sucursal
-        setSucursal(event.target.value);
-    };
-
-    const handleSubmit = (event) => {
-        // Aquí puedes enviar los datos del formulario al servidor
-        event.preventDefault();
-        // Código para enviar los datos del perfil al servidor
-    };
-
     useEffect(() => {
         fetch('http://localhost:5000/user/getSelf',
             {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/JSON",
-                }, credentials: "include"
+                },
+                credentials: "include"
             })
             .then(response => {
                 if (!response.ok) {
@@ -86,7 +118,7 @@ function EditarPerfil() {
             <div className='contenedor-editar-perfil'>
                 <div className='cambios-perfil'>
                     <div className='foto-perfil' style={{ backgroundImage: `url(http://localhost:5000/img/${user.foto_perfil})` }}>
-                        <input type='file' id='input-foto' accept='image/*' onChange={handleImagenChange} />
+                        <input type='file' id='input-foto' accept='image/*' onChange={handleImagenChange} /> {console.log("aaaaaaaaaaaaaaaaaaaaa: ", nuevoUsuario.foto_perfil)}
                         <label htmlFor='input-foto' >Cambiar foto</label>
                     </div>
 

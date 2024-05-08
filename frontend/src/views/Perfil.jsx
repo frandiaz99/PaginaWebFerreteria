@@ -66,7 +66,7 @@ function Perfil() {
           </div>
 
           <div className='col-perfil'>
-            <div className='fila-nombre'>{user.nombre}{user.apellido}</div>
+            <div className='fila-nombre'>{user.nombre} {user.apellido}</div>
             <div className='fila-email' >{user.email}</div>
             <div className='fila-puntos'>{generarEstrellas(user.puntos)}</div>
             <div className='fila-boton'>

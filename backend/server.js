@@ -1,12 +1,12 @@
 const express = require("express")
 //const connectDB = require("./database/db");
-const cookieParser = require ("cookie-parser");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const cors = require ("cors");
+const cors = require("cors");
 //const fs = require("fs");
 //const https = require"https";
 
-const {adminAuth, workerAuth, userAuth} = require ("./middleware/auth.js");
+const { adminAuth, workerAuth, userAuth } = require("./middleware/auth.js");
 
 
 const PORT = 5000
@@ -60,8 +60,8 @@ const database = mongoose.connection;
 database.on("error", (error) => {
   //console.log("Error mongo");
   console.error.bind(console, 'MongoDB connection error:')
-  //console.log (error)
-  ;
+    //console.log (error)
+    ;
 });
 
 database.on("connected", () => {
@@ -80,7 +80,7 @@ database.on("disconected", () => {
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: [ 'http://localhost:5173'],
+  origin: ['http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // enable credentials (cookies, authorization headers, etc.)
@@ -91,7 +91,7 @@ app.use(cors({
 console.log('Conexion established');
 
 const server = app.listen(PORT, () =>
-console.log(`Server Connected to port ${PORT}`)
+  console.log(`Server Connected to port ${PORT}`)
 )
 // Handling Error
 process.on("unhandledRejection", err => {
@@ -119,24 +119,24 @@ app.use(express.static("imagenes"));
 
 
 ///prueba   esto esta para que cheken nada mas despues se borra
-const {DataUser} = require("./model/Schema")
+const { DataUser } = require("./model/Schema")
 
-app.get ('/home' , (req, res) => {
-  res.json({hi: 'there'});
+app.get('/home', (req, res) => {
+  res.json({ hi: 'there' });
 });
 
-app.post('/create',  (req, res) => {
+app.post('/create', (req, res) => {
   try {
     const body = req.body;
     console.log(body);
-    
+
     User = new DataUser({
       email: req.body.email
     });
     res.json(User);
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: "Internal error"});
+    res.status(500).json({ error: "Internal error" });
   }
 })
 
