@@ -404,7 +404,7 @@ const editarPerfil = async (req, res, next) => {
   }
 }
 
-
+const cambiarContrasenia = async (req, res, next) => { }
 
 
 
@@ -417,6 +417,7 @@ router.route("/login").post(login);
 router.route("/logout").post(userAuth, logout);
 router.route("/getSelf").get(userAuth, getSelf);
 router.route("/editarPerfil").post(upload.single("Imagen"), userAuth, editarPerfil)
+router.route("/cambiarContrasenia").post(userAuth, cambiarContrasenia)
 
 //admin routes
 router.route("/deleteUser").delete(adminAuth, deleteUser);
