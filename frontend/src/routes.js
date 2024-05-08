@@ -13,6 +13,7 @@ const routes = {
     unArticulo: '/user/un_articulo',
     perfil: '/user/perfil',
     editarPerfil: '/user/editar_perfil',
+    cambiarContrasenia: 'user/cambiar_contrasenia',
 
     empleadoPrincipal: '/empleado',
     empleadoPromociones: '/empleado/promociones',
@@ -22,7 +23,8 @@ const routes = {
     adminPrincipal: '/admin',
     adminSucursales: '/admin/sucursales',
     adminUsuarios: '/admin/usuarios',
-    adminEmpleados: '/admin/empleados'
+    adminEmpleados: '/admin/empleados',
+    adminRegistrarEmpleado: '/admin/registrar_empleado'
 }
 
 export default routes

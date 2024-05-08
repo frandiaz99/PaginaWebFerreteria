@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 import '../../styles/NavBar.css'
 import routes from '../../routes'
 
@@ -22,6 +22,7 @@ const estaEnModoEmple= () =>{
 }
 
 function NavBar() {
+  const navigate= useNavigate()
   const user= JSON.parse(localStorage.getItem('user')) || null
   return (
     <>
@@ -48,12 +49,12 @@ function NavBar() {
 
     {(estaEnModoEmple() && user.rol == 2) &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav' style={{marginRight:'13rem'}}>Tasar Artículo</span></Link>
+      <span className='optionNav' style={{marginRight:'13rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
     </div>
     }
     {user.rol == 3 &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav' style={{marginRight:'7rem'}}>Tasar Artículo</span></Link>
+      <span className='optionNav' style={{marginRight:'10rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
     </div>
     }
 

@@ -11,6 +11,7 @@ function Articulo({ articulo, misArticulos }) {
     const handleYes= () =>{
         setConfirmacion(false)
         window.location.reload();
+        //fetch para eliminar articulo, en el then irian las 2 lineas anteriores
     }
 
     const handleEliminarArt= (event) =>{

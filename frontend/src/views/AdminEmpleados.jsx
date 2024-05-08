@@ -1,13 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import '../styles/AdminEmpleados.css'
 import Cuenta from '../components/Cuenta'
 import Paginacion from '../components/Paginacion'
+import Buscador from '../components/Buscador'
 import empleados from '../data/empleados.json' //temporal hasta obtenerlo del back
+import routes from '../routes'
 
 const cuentasXPag= 6 //en cada pagina mostrar x cuentas
 
 function AdminEmpleados() {
+  const navigate= useNavigate()
   const [totalCuentas, setTotalCuentas]= useState([])
   const [cuentasActuales,setCuentasActuales]= useState(totalCuentas)
   const [pagActual,setPagActual]= useState(1)
@@ -18,7 +22,6 @@ function AdminEmpleados() {
     cuentasRef.current.scrollTop= 0 //Sube el scroll cuando cambias de pagina
     setPagActual(pagina)
   }
-
 
   function mostrarCuentas(){
     const ultimaCuenta= pagActual * cuentasXPag
@@ -56,21 +59,15 @@ function AdminEmpleados() {
     <main className='main'>
       <div className='main-empleados'>
 
-        <div className='buscador-y-registrar'>
+        <div className='buscador-y-cuentasEmpleados'>
         {(cuentasActuales.length > 0) 
           ?
-          <div className='buscador'>
-            Aca iria el buscador
-          </div>
+          <Buscador/>
           :
-          <div className='buscador'> </div>}
+          <div className='buscador'> </div>
+          }
 
-          <div className='registrarEmple'>
-            <button className='boton-registrarEmple'>Registrar Empleado</button>
-          </div>
-        </div>
-
-        <div className='cuentasEmpleados' ref={cuentasRef}>
+          <div className='cuentasEmpleados' ref={cuentasRef}>
           {(totalCuentas.length == 0 || cuentasActuales == 0)
           ? 
             <div className='noHayItems'>
@@ -79,8 +76,13 @@ function AdminEmpleados() {
           :
             mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta}/>))
           }
+          </div>
+          {cuentasActuales.length > 0 &&  <Paginacion totalItems={totalCuentas.length} itemsXPag={cuentasXPag} onPageChange={handlePageChange} />}
         </div>
-        {cuentasActuales.length > 0 &&  <Paginacion totalItems={totalCuentas.length} itemsXPag={cuentasXPag} onPageChange={handlePageChange} />}
+
+        <div className='registrarEmple'>
+          <button className='boton-registrarEmple' onClick={() => navigate(routes.adminRegistrarEmpleado)}>Registrar Empleado</button>
+        </div>
       </div>
     </main>
   )

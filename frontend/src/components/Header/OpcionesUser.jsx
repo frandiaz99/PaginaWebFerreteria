@@ -68,6 +68,7 @@ function OpcionesUser() {
     localStorage.setItem('cuentaActual', 'empleado')
     navigate(routes.empleadoPrincipal)
   }
+  
   useEffect(() => { //Cerrar menu de cuenta al tocar fuera
     // Agrega el listener cuando el menú está abierto
     if (dropCuentaOpen) {

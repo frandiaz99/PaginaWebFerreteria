@@ -36,4 +36,9 @@
     font-size: 18px;
     color: black;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.optionNav:hover{
+    text-decoration: underline;
 }
