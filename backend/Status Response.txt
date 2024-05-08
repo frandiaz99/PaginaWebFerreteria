@@ -1,0 +1,26 @@
+Status code:
+
+449 Retry With
+The server cannot honour the request because the user has not provided the required information.
+
+
+
+Error Code:
+
+
+
+
+
+
+
+STATUS PROPIOS DENTRO DEL BODY
+
+User.login status:
+	// 200 correcto
+	// 402 object "User" no recibido
+	// 403 "password" o "dni" no recibido
+	// 404  "dni" de User no encontrado
+	// 405 contraseña incorrecta , bloqueado
+	// 406 previamente bloqueado
+
+

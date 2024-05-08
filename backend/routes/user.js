@@ -11,6 +11,7 @@ const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express")
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
+const { Console } = require("console");
 const router = express.Router();
 //
 const password_min_leght = 6;
@@ -181,12 +182,13 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   if (!req.body.User) {
-    return res.status(400).json({ message: "Object User not recibed" })
+    return res.status(400).json({ message: "Object User not recibed", status: 402 })
   }
   const { dni, password } = req.body.User;
   if (!dni || !password) {
     return res.status(400).json({
       message: "Dni or Password not present",
+      status: 403
     })
   }
   /*
@@ -218,14 +220,16 @@ const login = async (req, res, next) => {
       res.status(400).json({
         message: "Login not successful",
         error: "User not found",
+        status: 404
       })
     } else {
-      if (user.intento_desbloqueo >= 2) {
+      if (user.intento_desbloqueo >= 3) {
         console.log("User bloqued")
+        /*
         DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1 } }).catch(
           //poner en caso de error(?
-        );
-        return res.status(400).json({ message: "User bloqued", intento: user.intento_desbloqueo })
+        );*/
+        return res.status(400).json({ message: "User bloqued", intento: user.intento_desbloqueo, status: 406 })
       }
 
       // comparing given password with hashed password
@@ -250,13 +254,13 @@ const login = async (req, res, next) => {
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
           console.log("Correct password")
-          res.status(201).json({ message: "Login successful", User: user })      //tambien se deberia cambiar user por user._id
-        } else {
+          DataUser.updateOne({ "dni": user.dni }, { $set: { intento_desbloqueo: 0 } }).then();
+          res.status(201).json({ message: "Login successful", User: user, status: 200 })      //tambien se deberia cambiar user por user._id
+        } else  {
           console.log("Incorrect password")
-          DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1 } }).catch(
-            //poner en caso de error(?
-          );
-          res.status(400).json({ message: "Login not succesful" })
+          DataUser.updateOne({ "dni": user.dni }, { $inc: { intento_desbloqueo: 1 } }).then();
+          return res.status(400).json({ message: "Login not succesful, user bloqued", status: 405 })   //error code : user bloqued
+          
         }
       })
     }
@@ -267,6 +271,13 @@ const login = async (req, res, next) => {
       error: error.message,
     })
   }
+    // 200 correcto
+    // 402 object "User" no recibido
+    // 403 "password" o "dni" no recibido
+    // 404  "dni" de User no encontrado
+    // 405 contraseña incorrecta , bloqueado
+    // 406 previamente bloqueado
+
 
 }
 
