@@ -137,7 +137,7 @@ function EditarPerfil() {
                 </div>
                 <div className='botones'>
                     <div className='cambiar-contrasena'>
-                        <button>Cambiar contraseña</button>
+                        <Link to={routes.cambiarContrasenia} ><button>Cambiar contraseña</button></Link>
                     </div>
                     <div className='guardar'>
                         <button onClick={handleGuardarCambios} >Guardar cambios</button>
