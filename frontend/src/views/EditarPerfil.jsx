@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function EditarPerfil() {
     const navigate = useNavigate();
 
-    const [usuario, setUsuario] = useState();
+    const [usuario, setUsuario] = useState({});
     const user = JSON.parse(localStorage.getItem("user"));
 
     const [datos, setDatos] = useState({ nombre: '', apellido: '' });
@@ -24,8 +24,9 @@ function EditarPerfil() {
         })
     }
 
-    const handleGuardarCambios = () => {
+    const handleGuardarCambios = (event) => {
 
+        event.preventDefault();
         const usuarioModificado = {
             ...usuario,
             nombre: datos.nombre !== '' ? datos.nombre : usuario.nombre,
@@ -56,7 +57,7 @@ function EditarPerfil() {
                 console.log("Respuesta del servidor al editar perfil:", data);
                 setConfirmacion(true);
 
-                localStorage.setItem("user", JSON.stringify(usuarioModificado));
+                localStorage.setItem("User", JSON.stringify(usuarioModificado));
                 console.log("usuario modificado: ", usuarioModificado);
                 navigate(routes.perfil);
             })
@@ -128,7 +129,7 @@ function EditarPerfil() {
                         <Link to={routes.cambiarContrasenia} ><button>Cambiar contraseña</button></Link>
                     </div>
                     <div className='guardar'>
-                        <button onClick={handleGuardarCambios} type='submit'>Guardar cambios</button>
+                        <button type='submit'>Guardar cambios</button>
                         <Modal texto={'Los cambios se han guardado con exito. '}
                             confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={true} />
                         <Link to={routes.perfil} className='link'><button>Cancelar</button></Link>
