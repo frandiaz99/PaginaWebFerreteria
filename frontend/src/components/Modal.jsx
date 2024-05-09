@@ -32,8 +32,8 @@ function Modal({texto, confirmacion, setConfirmacion, handleYes = () => setConfi
                 <div className='botonesConfirm'>
                   {ok&& <button onClick={handleYes} className='botonConfirm'>Ok</button>}
 
-                  {!ok && <button onClick={handleYes} className='botonConfirm'>Si</button>}
-                  {!ok && <button onClick={() => {setConfirmacion(false)}} className='botonConfirm'>No</button>}
+                  {!ok && <button onClick={handleYes} className='botonConfirm'>Confirmar</button>}
+                  {!ok && <button onClick={() => {setConfirmacion(false)}} className='botonConfirm'>Cancelar</button>}
                 </div>
               </div>
         )

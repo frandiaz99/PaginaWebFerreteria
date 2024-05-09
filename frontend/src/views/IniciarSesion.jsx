@@ -47,26 +47,16 @@ function IniciarSesion() {
             })
             .then(data => {
                 console.log("Inicio exitoso:", data)
-                if (data.User.rol == 2 || data.User.rol == 3){
-                    if (autenticacion) setAutenticacion(true)
-                    else{
-                        if (data.User.rol == 2){
-                            localStorage.setItem('cuentaActual', 'usuario')
-                        }
-                        localStorage.setItem('user', JSON.stringify(data.User))
-                        navigate(routes.userPrincipal)
-                    }
-                }
-                else{
-                    localStorage.setItem('user', JSON.stringify(data.User))
-                    navigate(routes.userPrincipal)
-                } 
+                if (data.User.rol == 2) localStorage.setItem('cuentaActual', 'usuario')
+                localStorage.setItem('user', JSON.stringify(data.User))
+                navigate(routes.userPrincipal)
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
-                if (errorData.status == 405 || errorData.status == 404) {
-                    setDni_pass_correctos(false)
-                }
+                /*if (errorData.status == codigoHayQueAutenticar) setAutenticacion(true)
+                else if (errorData.status == codigoAutenticacionErroneo) que lo vuelva a ingresar?
+                */
+                if (errorData.status == 405 || errorData.status == 404) setDni_pass_correctos(false)
                 else if (errorData.status == 406){
                     setPassIncorrecta(true)
                     setUserBloqued(true)

@@ -7,14 +7,14 @@ function Cuenta({cuenta}) {
   const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
-    setConfirmacion(false)      //esto se borraria, va dentro del fetch
-    window.location.reload()
-    /*fetch('http://localhost:5000/eliminarEmpleado',   //Esto iria cuando se cree el back
-    {method: "POST", 
+    fetch('http://localhost:5000/user/deleteUser',   
+    {method: "DELETE", 
     headers: {
       "Content-Type": "application/JSON",
       //"Cookie": localStorage.getItem('jwt')
-    },credentials: "include"})
+    },
+    body: JSON.stringify({deleteID: cuenta._id}),
+    credentials: "include"})
     .then(response => {
       if (!response.ok) {
         throw new Error('Hubo un problema al eliminar al empleado');
@@ -28,7 +28,7 @@ function Cuenta({cuenta}) {
     })
     .catch(error => {
       console.error('Error:', error);
-    });*/
+    })
   }
 
   const handleBoton= () => {
