@@ -6,17 +6,19 @@ const jwtSecret =
 
 const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
+const {nanoid} = require("nanoid");
 
 const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
-const { Console, error } = require("console");
+const {mandarMail} = require("./mail.js");
+//const { Console, error } = require("console");
 const router = express.Router();
 //
 const password_min_leght = 6;
-//const venciminetoCookie = 3 * 60 * 60; //3 horas
-const venciminetoCookie = 3 * 24 * 60 * 60; //3 dias
+const venciminetoCookie = 3 * 60 * 60; //3 horas
+//const venciminetoCookie = 3 * 24 * 60 * 60; //3 dias
 
 const register = async (req, res, next) => {
   console.log("hola");
@@ -176,6 +178,7 @@ const register = async (req, res, next) => {
       suscripto: User.suscripto,
       foto_perfil: File.filename,
       rol: rol,
+      code: nanoid(5),
     })
       .then((user) => {
         console.log("Usuario creado correctamente");
@@ -273,11 +276,29 @@ const login = async (req, res, next) => {
           status: 407,
         });
       }
-
+      
       // comparing given password with hashed password
       console.log("Comparing password");
       bcrypt.compare(password, user.password).then((result) => {
         if (result) {
+
+
+          if (user.rol > 1) {
+              if (req.body.User.code){
+                if (user.code = req.body.User.code){
+                  DataUser.findOneAndUpdate({_id: user._id}, {code: nanoid(5)}).then()
+                  console.log("Code correcto y actualizado uno nuevo")
+                } else {
+                  return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
+                }
+              } else {
+                mandarMail(user.email, 1, user.code);
+                console.log("falta crear bien el mandarMail, pero el codigo es:", user.code)
+                return res.status(401).json({ message: "Login successful, but cod enot recibed", User: user, status: 205 }); //tambien se deberia cambiar user por user._id
+              }
+          }
+
+
           //nuevo
           const maxAge = venciminetoCookie;
           const token = jwt.sign(
@@ -291,7 +312,7 @@ const login = async (req, res, next) => {
             httpOnly: true,
             maxAge: maxAge * 1000, // 3hrs en ms
           });
-
+          
           const notificaciones = getNotificacionesNuevas(user._id);
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
@@ -300,9 +321,11 @@ const login = async (req, res, next) => {
             { dni: user.dni },
             { $set: { intento_desbloqueo: 0 } }
           ).then();
-          res
-            .status(201)
-            .json({ message: "Login successful", User: user, status: 200 }); //tambien se deberia cambiar user por user._id
+          
+          res.status(201).json({ message: "Login successful", User: user, status: 200 }); //tambien se deberia cambiar user por user._id
+          
+
+
         } else {
           console.log("Incorrect password");
           DataUser.findOneAndUpdate(
@@ -348,10 +371,15 @@ const logout = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
-  const id = req.body.deleteID;
+  const id = req.body.id;
+  if (!req.body) {
+    return res.status(400).json({
+      message: "'body' not present",
+    });
+  }
   if (!id) {
     return res.status(400).json({
-      message: "ID not present",
+      message: "'id' not present",
     });
   }
   console.log(id);

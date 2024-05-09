@@ -53,27 +53,54 @@ const borrarArticulo = async (req, res, next) => {
   const body = req.body
   const User = body.Auth;
   const Articulo = body.Articulo;
+
+  if (!Articulo){
+    console.log("Objeto 'Articulo' en 'body' no recibido")
+    res.status(401).json({message: "Objeto 'Articulo' en 'body' no recibido", status: 402})
+  }
+  
+  if (!Articulo.id){
+    console.log("'id' no recibido")
+    res.status(401).json({message: "Objeto 'id' en 'Articulo' no recibido", status: 403})
+  }
+
+
   
   try{
 
-    const Publi = await DataArticulo.findById(Articulo._id);
+    const Publi = await DataArticulo.findById(Articulo.id);
     if (!Publi){
       console.log("Articulo not found");
-      return res.status(404).json({ message: "Articulo not found" });
+      return res.status(404).json({ message: "Articulo not found" , status: 404});
     }
     if (!((User.rol == 3) || (Publi.usuario._id == User._id))){
       console.log("No es el creador del articulo ni administrador");
-      res.status(401).json({message: "No posee permisos para borrar el articulo"})
+      return res.status(401).json({message: "No posee permisos para borrar el articulo", status: 405})
     }
     //es el creador del articulo
-    await Publi.deleteOne();
-    console.log("Articulo successfully deleted");
-    res.status(200).json({ message: "Articulo successfully deleted" });
+    await Publi.deleteOne().then( (result) => {
+      if (result) {
+        console.log("Articulo successfully deleted");
+        return res.status(200).json({ message: "Articulo successfully deleted", status: 200 });
+      } else{
+        console.log("Erro borrando articulo");
+        return res.status(200).json({ message: "Error borrando articulo", status: 406 });
+
+      }
+
+    });
     } catch (err) {
       console.error("An error occurred", err);
-      res.status(500).json({ message: "An error occurred", error: err.message });
+      return res.status(500).json({ message: "An error occurred", error: err.message, status: 400 });
     }
-    //if (true) {}    //chekear si la solicitud va deesde un administrador o hace otra tura de acceso separada
+
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
   };
   
   
@@ -99,7 +126,7 @@ const borrarArticulo = async (req, res, next) => {
     } catch (err) {
       console.log (err)
       console.log("error raro")
-      res.status(400).json({ message: "Erro tratando de obtener", status: 402 });
+      res.status(400).json({ message: "Error raro tratando de obtener", status: 402 });
   }
 
   //200 OK
