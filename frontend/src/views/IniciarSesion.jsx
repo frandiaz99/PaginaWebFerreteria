@@ -5,12 +5,14 @@ import { useState } from "react"
 import Modal from '../components/Modal'
 
 function IniciarSesion() {
+    const [autenticacion, setAutenticacion]= useState(false)
     const [dni_pass_correctos,setDni_pass_correctos]= useState(true)
     const [passIncorrecta, setPassIncorrecta]= useState(false)
     const [userBloqued, setUserBloqued]= useState(false)
     const [datos,setDatos]= useState({
         dni:'',
-        password:''
+        password:'',
+        code: ''
     })
 
 
@@ -45,11 +47,20 @@ function IniciarSesion() {
             })
             .then(data => {
                 console.log("Inicio exitoso:", data)
-                localStorage.setItem('user', JSON.stringify(data.User))
-                if (data.User.rol == 2){
-                    localStorage.setItem('cuentaActual', 'usuario')
+                if (data.User.rol == 2 || data.User.rol == 3){
+                    if (autenticacion) setAutenticacion(true)
+                    else{
+                        if (data.User.rol == 2){
+                            localStorage.setItem('cuentaActual', 'usuario')
+                        }
+                        localStorage.setItem('user', JSON.stringify(data.User))
+                        navigate(routes.userPrincipal)
+                    }
                 }
-                navigate(routes.userPrincipal)
+                else{
+                    localStorage.setItem('user', JSON.stringify(data.User))
+                    navigate(routes.userPrincipal)
+                } 
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
@@ -70,6 +81,20 @@ function IniciarSesion() {
 
     return(
         <main className="main">
+            {autenticacion
+             ?
+             <>
+                <h2 style={{marginBottom:'20px'}}>Autenticación</h2>
+                <div className="labels">
+                    <div className="label">
+                        <label htmlFor="autenticacion">Ingresa el código que se envío a tu email</label>
+                        <input type="text" name='code' onChange={handleChange} />
+                        <button className="iniciar" onClick={handleIniciar}>Confirmar</button>
+                    </div>
+                </div>
+             </>
+             :
+             <>
                 <h2 style={{marginBottom:'20px'}}>Iniciar Sesion</h2>
                 <div className="labels">
                     
@@ -104,6 +129,9 @@ function IniciarSesion() {
                         <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                     </div>
                 </div>
+                </>
+                }
+
         </main>
     )
 }
