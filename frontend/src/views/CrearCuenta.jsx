@@ -2,7 +2,7 @@ import { useState , useEffect} from "react";
 import '../styles/CrearCuenta.css'
 import { useNavigate } from "react-router-dom"
 import Modal from "../components/Modal";
-
+import routes from "../routes";
 const soyAdmin= ()=>{
     return location.pathname === '/admin/registrar_empleado'
 }
@@ -144,8 +144,10 @@ function CrearCuenta(){
                try {
                    const response = await fetch("http://localhost:5000/user/register", {
                        method: "POST",
-                       body: formData,
+                       //body: formData,
                        //headers: { "Content-Type": "multipart/form-data" },
+                       headers: { "Content-Type": "application/JSON" },
+                       body: JSON.stringify({User: datos}),
                        credentials: "include"
                     });
                     
@@ -154,8 +156,10 @@ function CrearCuenta(){
                         throw new Error('Network response was not ok');
                     }
                     const data = await response.json();
-                    console.log("Registro exitoso:", data);
-                    setConfirmacion(true)
+                    console.log("Registro exitoso:", data) 
+                    //setConfirmacion(true) comento esto por que no esta fuyncando con todo esot y al fina lo que import a es el rout (juli)
+                    navigate(routes.iniciarSesion)
+                    
                     
                 } catch (error) {
                     console.error("Error in registration:", error);

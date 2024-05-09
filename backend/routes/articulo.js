@@ -73,14 +73,47 @@ const borrarArticulo = async (req, res, next) => {
       console.error("An error occurred", err);
       res.status(500).json({ message: "An error occurred", error: err.message });
     }
-      //if (true) {}    //chekear si la solicitud va deesde un administrador o hace otra tura de acceso separada
+    //if (true) {}    //chekear si la solicitud va deesde un administrador o hace otra tura de acceso separada
+  };
+  
+  
+  const getMisArticulos = async (req, res, next) => {
+    const User = req.body.Auth
+    console.log(User)
+    try {
+      DataArticulo.find({usuario: User._id}).then( (articulos) => {
+        if (articulos){
+          console.log("articulos obtenidos")
+          res.status(200).json({ message: "Succesfully", articulos });
+        } else {
+          console.log("no tiene articulos")
+          res.status(400).json({ message: "No posee articulos", status: 404 });
+          
+        }
+        
+      }).catch ((err) =>{
+        console.log("error obteniendo articulos")
+        res.status(400).json({ message: "No se pudo buscar en los articulos", status: 403 });
+        
+      })
+    } catch (err) {
+      console.log (err)
+      console.log("error raro")
+      res.status(400).json({ message: "Erro tratando de obtener", status: 402 });
+  }
+
+  //200 OK
+  //402 error en proceso
+  //403 no se pudo obtener articulos
+  //404 no tine articulos
+
 };
 
 
 
 //Direcciones 
 router.route("/crearArticulo").post(upload.single("Imagen"), userAuth, crearArticulo);
-//router.route("/getArticulos").get(userAuth, getArticulos);
+router.route("/getMisArticulos").get(userAuth, getMisArticulos);
 router.route("/getArticulos").get(getArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);
 
