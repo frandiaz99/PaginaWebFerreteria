@@ -17,6 +17,8 @@ STATUS PROPIOS DENTRO DEL BODY
 
 User.login status:
   // 200 correcto
+  // 205 correcto pero falta 'code' en 'User' con el codigo del mail
+  // 206 correcto pero el 'code' no es correcto.
   // 402 object "User" no recibido
   // 403 "password" o "dni" no recibido
   // 404  "dni" de User no encontrado
@@ -42,6 +44,20 @@ User.cambiarContrasena status:
   //407 contrasena nueva no cumple condicuiones
   //408 contrasena vieja erronea
   //409 error de lserver al guardar user
+
+
+
+
+
+
+Articulo.borrarArticulo status code:
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
 
 
 

@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema({
   rol: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
   puntos: {type: Number, default: 0},
   intento_desbloqueo: {type: Number, default: 0},
+  code: {type: Number, default: 0},
   //nombre y apellido, sucursal, fecha nacimiento
   //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
