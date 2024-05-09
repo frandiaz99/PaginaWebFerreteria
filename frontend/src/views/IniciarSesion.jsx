@@ -27,7 +27,6 @@ function IniciarSesion() {
         setDni_pass_correctos(true)
         setPassIncorrecta(false)
         setUserBloqued(false)
-        console.log(datos)
         if (datos.dni !== '' && datos.password !== ''){
             //Podría ir una pantalla de carga
             fetch("http://localhost:5000/user/login", {
@@ -37,10 +36,9 @@ function IniciarSesion() {
                 credentials: "include"
             })
             .then(response => {
-                console.log(response);
                 if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(`${data.message || ''}-${data.intento || ''}`);
+                   return response.json().then(data => {
+                        throw new Error(data.status);
                     });
                 }
                 return response.json();
@@ -54,19 +52,13 @@ function IniciarSesion() {
                 navigate(routes.userPrincipal)
             })
             .catch(error => {
-                const errorArray= error.message.split('-')
-                console.error("Error en el inicio:", errorArray);
-                if (errorArray[0] == 'User bloqued'){
-                    const intento= errorArray[1]
-                    if (intento == '2'){
-                        setPassIncorrecta(true)
-                        setUserBloqued(true)
-                    }else if(intento > '2'){
-                        setUserBloqued(true)
-                    }
-                }else{
-                    setDni_pass_correctos(false)
+                console.log('error: ',error)
+                if (error == 'Error: 405') {
+                    setPassIncorrecta(true)
+                    setUserBloqued(true)
                 }
+                else if (error == 'Error: 406') setUserBloqued(true)
+                else setDni_pass_correctos(false)
             });
         }
     }

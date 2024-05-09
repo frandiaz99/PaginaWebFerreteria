@@ -223,7 +223,7 @@ function CrearCuenta(){
                         <label htmlFor="contrasenia">Contraseña</label>
                         <input name="password" type="password" placeholder="Crea una contraseña" onChange={handleChange}/>
                         <p className="textoBajoLabelRegistro">
-                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
+                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula
                         </p>
                         {(cumpleContrasenia== false) && <p className="textoNoCumple">La contraseña no cumple las condiciones</p>}
                     </div>
@@ -274,12 +274,12 @@ function CrearCuenta(){
 
                     <div className="suscripcion">
                         <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
-                        <label htmlFor="checkbox" style={{fontSize:'12px'}}>Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
+                        <label htmlFor="checkbox" style={{fontSize:'12px'}}>Acepto recibir por email promociones, novedades y descuentos de la ferretería.</label>
                     </div>
                             
                     <div className="divRegistrarse">
                         {soyAdmin() ?
-                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrar'}/>
+                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrar empleado'}/>
                         :
                             <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>}
                     </div>

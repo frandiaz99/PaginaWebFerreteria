@@ -77,12 +77,12 @@ function Perfil() {
 
         <div className='contenedor-perfil-2'>
           <div className='cantidad-trueques'>
-            Trueques realizados: - nose de donde sale este dato -
+            Trueques realizados: - -
           </div>
           <div className='contenedor-comentarios'>
             <h2>Comentarios</h2>
             <div className="caja-comentarios">
-              comentario xd
+              comentario 
             </div>
           </div>
 
