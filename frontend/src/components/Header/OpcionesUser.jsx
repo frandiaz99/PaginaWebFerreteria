@@ -162,10 +162,10 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
 
             <hr />
 
-              <div className='dropCuenta__items' onClick={irAPerfil}>
+              {(estaEnModoUser() || user.rol == 3) && <div className='dropCuenta__items' onClick={irAPerfil}>
                 <ion-icon name="person-outline"></ion-icon>
                 <p>Ver perfil</p>
-              </div>            
+              </div>}     
 
             {(estaEnModoUser()&& user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAEmpleado}>
