@@ -3,10 +3,10 @@ import routes from '../routes.js'
 import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
 
-const estaEnModoUser= () =>{ 
+const estaEnModoUser = () => {
   return (
     location.pathname.startsWith('/user')
-    )
+  )
 }
 
 function Perfil() {
@@ -59,6 +59,21 @@ function Perfil() {
     return estrellas;
   }
 
+  function getFecha(fechaOriginal) {
+
+    var fecha = new Date(fechaOriginal)
+
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1; // Se suma 1 porque los meses van de 0 a 11
+    var anio = fecha.getFullYear();
+
+    // Formatear la fecha en el formato deseado (DD.MM.YYYY)
+    var fechaFormateada = dia.toString().padStart(2, '0') + '-' + mes.toString().padStart(2, '0') + '-' + anio;
+
+    return fechaFormateada;
+
+  }
+
 
   return (
     <main className='main'>
@@ -74,10 +89,11 @@ function Perfil() {
           <div className='col-perfil'>
             <div className='fila-nombre'>{user.nombre} {user.apellido}</div>
             <div className='fila-email' >{user.email}</div>
+            <div className='fila-nacimiento'>{getFecha(user.fecha_nacimiento)}</div>
             <div className='fila-puntos'>{generarEstrellas(user.puntos)}</div>
             <div className='fila-boton'>
               {estaEnModoUser() ? <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
-              : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Edita Perfil</button></Link>}
+                : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Edita Perfil</button></Link>}
             </div>
           </div>
         </div>
@@ -86,13 +102,6 @@ function Perfil() {
           <div className='cantidad-trueques'>
             Trueques realizados: - -
           </div>
-          <div className='contenedor-comentarios'>
-            <h2>Comentarios</h2>
-            <div className="caja-comentarios">
-              comentario 
-            </div>
-          </div>
-
         </div>
       </div>
     </main >
