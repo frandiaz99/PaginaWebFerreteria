@@ -18,7 +18,7 @@ function UnArticulo() {
           console.log(param);
         }}/>;*/
 
-  //Es una lista de prueba, desp reemplazar con las de la bd y borrar las de public
+  
   var imagenes = [];
   var indiceActual = 0;
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null); //El useState devuelve un array
@@ -27,10 +27,11 @@ function UnArticulo() {
       const articuloLocal = localStorage.getItem('articuloSeleccionado');
       if (articuloLocal) {
           setArticuloSeleccionado(JSON.parse(articuloLocal));
-          //Habria que ver en la db como cargar mas de una foto para los articulos, pero como de momento hay una sola cargo esa.
-          
-          //imagenes.push(articuloSeleccionado.foto_articulo);
-          //console.log(articuloSeleccionado.foto_articulo);
+          console.log(articuloSeleccionado.nombre);
+          document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
+          document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
+          document.getElementById("precio-articulo").innerHTML = articuloSeleccionado.precio;
+          document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.nombre;
       }
   }, []); //Para ejecutarlo 1 vez sola 
 
@@ -57,9 +58,9 @@ function UnArticulo() {
           <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}>&gt;</button>
         </div>
         <div id='container-info'>
-          <h2 id='nombre-articulo' className='spacing'>Nombre</h2> 
-          <p id='descripcion-articulo' className='spacing'>Descripción largaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaa aaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaa aaaa aaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaa aaaaaa aaaaaa aaaaaaa</p>
-          <p id='precio-articulo' className='spacing'>$0000.00</p>
+          <h2 id='nombre-articulo' className='spacing'></h2> 
+          <p id='descripcion-articulo' className='spacing'></p>
+          <p id='precio-articulo' className='spacing'></p>
           <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
           <p id="descripcion-interesado-en"></p>
           <div id="container-buttons" className="spacing">
@@ -69,7 +70,7 @@ function UnArticulo() {
             <div id="container-perfil">
               <h5>Propietario</h5>
               <button id='boton-ver-perfil'>
-                <img src="/perfil-default.jpg" alt="Imagen-perfil" id='imagen-perfil'/>
+                <img src="" alt="Imagen-perfil" id='imagen-perfil'/>
                 <div id='container-datos-usuario'>
                   <p id='nombre-usuario'>Usuario</p>
                   <p id='puntaje-usuario'>----- 5.0</p>
