@@ -38,7 +38,8 @@
     /* Tamaño de letra más grande */
 }
 
-.fila-email {
+.fila-email,
+.fila-nacimiento {
     color: #666;
     /* Color de texto más claro */
 }
