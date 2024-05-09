@@ -6,7 +6,11 @@ const jwtSecret =
 
 const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
-const {nanoid} = require("nanoid");
+
+const shortid = require('shortid');
+const shortNumericId = parseInt(shortid.generate(), 36).toString().slice(0, 5);
+
+
 
 const { getNotificacionesNuevas } = require("./notificacion");
 //
@@ -178,7 +182,7 @@ const register = async (req, res, next) => {
       suscripto: User.suscripto,
       foto_perfil: File.filename,
       rol: rol,
-      code: nanoid(5),
+      code: shortNumericId,
     })
       .then((user) => {
         console.log("Usuario creado correctamente");
@@ -286,7 +290,7 @@ const login = async (req, res, next) => {
           if (user.rol > 1) {
               if (req.body.User.code){
                 if (user.code = req.body.User.code){
-                  DataUser.findOneAndUpdate({_id: user._id}, {code: nanoid(5)}).then()
+                  DataUser.findOneAndUpdate({_id: user._id}, {code: shortNumericId}).then()
                   console.log("Code correcto y actualizado uno nuevo")
                 } else {
                   return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
