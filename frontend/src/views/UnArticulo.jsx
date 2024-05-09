@@ -50,6 +50,7 @@ function UnArticulo() {
 
   return (
     <main className='main'>
+      <div className='unArticulo-principal'>
       <div id='main-container'>
         <div id='container-foto'>
           <button className='boton-foto' onClick={() => cambiarImagen('atras')}>&lt;</button>
@@ -78,6 +79,7 @@ function UnArticulo() {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <Pagar/>    
