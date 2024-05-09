@@ -30,7 +30,11 @@ const userSchema = mongoose.Schema({
 
 const sucursalSchema = mongoose.Schema({
   nombre: {required: true, type:String, unique: true},
-  direccion: {type: String, required: true}
+  provincia: {type: String, required: true},
+  ciudad: {type: String, required: true},
+  direccion: {type: String, required: true},
+  telefono: {type: String, required: true},
+  foto: {type: String, required: true},
 
 
   //Empleados[(FK)], direccion: String(link maps), Trueques[(FK)]
