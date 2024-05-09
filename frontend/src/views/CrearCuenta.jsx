@@ -52,7 +52,9 @@ const todosLosCamposCompletos= (datos) =>{
 } 
 
 function CrearCuenta(){
-    const {confirmacion, setConfirmacion}= useState(false)
+    const [confirmacion, setConfirmacion]= useState(false)
+    const [dniRepetido, setDniRepetido]= useState(false)
+    const [emailRepetido, setEmailRepetido]= useState(false)
     const navigate = useNavigate();
     const [cumpleContrasenia, setCumpleContrasenia]= useState(false)
     const [coincidenContrasenias,setCoincidenContrasenias]= useState(false)
@@ -101,73 +103,27 @@ function CrearCuenta(){
         console.log ({"imagen": imagen});
         //alert("Aguanta, entro");
         if (coincidenContrasenias && esMayor && cumpleContrasenia && dniValido && todosLosCamposCompletos(datos)){
-            const formData = new FormData();
-            formData.append("User", JSON.stringify(datos));
-            formData.append("Imagen", imagen.foto);
-            console.log({"form Data": formData});
-                /*
                 fetch("http://localhost:5000/user/register", {
-                    method: "POST",
-                    //headers: { "Content-Type": "multipart/form-data" },
-                    //headers: { "Content-Type": "application/JSON" },
-                    //body: JSON.stringify({ User: datos, file: formData  }),
-                    body: formData,
-                    credentials: "include"
-                })
-                .then( response => {
-                    if (!response.ok) {
-                        return response.json().then(data => { 
-                            alert("RESPONSE");
-                            
-                            throw new Error(data.message || "Error en el registro");
-                        });
-                    }
-                    alert(" SALE RESPONSE");
-                    return response.json();
-                })
-                .then(data => {
-                    alert(" ENTRA RESPONSE");
-                    console.log("Registro exitoso:", data)
-                    //Podría ir una pantalla de carga
-                    //navigate(routes.iniciarSesion);
-                    alert(" sale RESPONSE");
-                })
-                .catch(error => {
-                    //console.error("Error en el registro:", error.message);
-                    console.log(error);
-                    console.error(error);
-                    alert(" CATCH");
-                    //Depende si no se pudo por dni repetido o por mail repetido informar
-                });            
-                */
-               
-               try {
-                   const response = await fetch("http://localhost:5000/user/register", {
                        method: "POST",
-                       //body: formData,
-                       //headers: { "Content-Type": "multipart/form-data" },
                        headers: { "Content-Type": "application/JSON" },
                        body: JSON.stringify({User: datos}),
                        credentials: "include"
-                    });
-                    
-                    console.log({"response": response})
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const data = await response.json();
-                    console.log("Registro exitoso:", data) 
-                    //setConfirmacion(true) comento esto por que no esta fuyncando con todo esot y al fina lo que import a es el rout (juli)
-                    navigate(routes.iniciarSesion)
-                    
-                    
-                } catch (error) {
-                    console.error("Error in registration:", error);
-                    console.error("Si ingresate bien lso datos se va a haber registrado el ussuario, pero no logro que devuevla bien");
-                    alert(" response registration");
-                    // Handle network errors or other unexpected issues
-                }
-                
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                           return response.json().then(data => {
+                                throw new Error(data.error_values);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setConfirmacion(true)
+                    })
+                    .catch(error => {
+                        if (error == 'Error: email' || error == 'Error: dni,email') setEmailRepetido(true)
+                        else if (error == 'Error: dni') setDniRepetido(true)
+                    })
 
         }
     }
@@ -290,7 +246,9 @@ function CrearCuenta(){
 
                 </form>
             </div>
-            <Modal texto={'¡Registro exitoso!'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro} ok={true}/>
+            <Modal texto={'Registro exitoso'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro} ok={true}/>
+            <Modal texto={'El DNI ya está registrado'} confirmacion={dniRepetido} setConfirmacion={setDniRepetido} ok={true}/>
+            <Modal texto={'El email ya está registrado'} confirmacion={emailRepetido} setConfirmacion={setEmailRepetido} ok={true} />
         </main>
     )
 }
