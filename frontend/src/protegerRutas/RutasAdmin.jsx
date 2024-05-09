@@ -7,6 +7,8 @@ import PrincipalAdminYEmple from '../views/PrincipalAdminYEmple.jsx'
 import Sucursales from '../views/Sucursales.jsx'
 import NotFound from '../views/NotFound.jsx'
 import RegistrarEmpleado from '../views/RegistrarEmpleado.jsx'
+import Perfil from '../views/Perfil.jsx'
+import EditarPerfil from '../views/EditarPerfil.jsx'
 
 function RutasAdmin() {
     const location= useLocation()
@@ -17,7 +19,9 @@ function RutasAdmin() {
           'usuarios',
           'empleados',
           'sucursales',
-          'registrar_empleado'
+          'registrar_empleado',
+          'perfil',
+          'editar_perfil'
           ].includes(location.pathname.split('/')[2]) || location.pathname === '/admin'
       )
     }
@@ -31,6 +35,8 @@ function RutasAdmin() {
             <Route path='usuarios' element={<AdminUsuarios/>}/>
             <Route path='empleados' element={<AdminEmpleados/>}/>
             <Route path='registrar_empleado' element={<RegistrarEmpleado/>}/>
+            <Route path='perfil' element={<Perfil/>}/>
+            <Route path='editar_perfil' element={<EditarPerfil/>}/>
             <Route path='*' element={<NotFound/>}/>
         </Routes>
       </>

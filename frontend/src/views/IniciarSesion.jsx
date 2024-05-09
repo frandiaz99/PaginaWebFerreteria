@@ -53,7 +53,7 @@ function IniciarSesion() {
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
-                if (errorData.status == 405) {
+                if (errorData.status == 405 || errorData.status == 404) {
                     setDni_pass_correctos(false)
                 }
                 else if (errorData.status == 406){

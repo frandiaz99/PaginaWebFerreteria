@@ -3,6 +3,12 @@ import routes from '../routes.js'
 import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
 
+const estaEnModoUser= () =>{ 
+  return (
+    location.pathname.startsWith('/user')
+    )
+}
+
 function Perfil() {
 
   const [usuario, setUsuario] = useState();
@@ -70,7 +76,8 @@ function Perfil() {
             <div className='fila-email' >{user.email}</div>
             <div className='fila-puntos'>{generarEstrellas(user.puntos)}</div>
             <div className='fila-boton'>
-              <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+              {estaEnModoUser() ? <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+              : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Edita Perfil</button></Link>}
             </div>
           </div>
         </div>

@@ -290,7 +290,7 @@ function CrearCuenta(){
 
                 </form>
             </div>
-            <Modal texto={'¡Registro exitoso!'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro}/>
+            <Modal texto={'¡Registro exitoso!'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro} ok={true}/>
         </main>
     )
 }

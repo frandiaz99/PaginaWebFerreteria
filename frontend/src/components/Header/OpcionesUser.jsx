@@ -113,6 +113,11 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
     });
   }
   
+  const irAPerfil = () =>{
+    setDropCuentaOpen(false)
+    if (estaEnModoUser()) navigate(routes.perfil)
+    else navigate(routes.adminPerfil)
+  }
 
   return (
     <div className='opcionesUser'>
@@ -157,13 +162,10 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
 
             <hr />
 
-            {estaEnModoUser() && 
-            <Link to={routes.perfil} className='link'>
-              <div className='dropCuenta__items'>
+              <div className='dropCuenta__items' onClick={irAPerfil}>
                 <ion-icon name="person-outline"></ion-icon>
                 <p>Ver perfil</p>
               </div>            
-            </Link>}
 
             {(estaEnModoUser()&& user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAEmpleado}>
