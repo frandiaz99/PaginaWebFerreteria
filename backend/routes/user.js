@@ -505,7 +505,6 @@ const getEmpleados = async (req, res, next) => {
   }
 }
 
-<<<<<<< HEAD
 
 const getByDNI = async (req, res, next) =>{
   const User = req.body.User;
@@ -517,9 +516,6 @@ const getByDNI = async (req, res, next) =>{
     console.log( "Falta variable 'dni'");
     return res.status(401).json({ message: "Consulta erronea, faltan parametro 'dni'", status: 403 });
   }
-=======
-const cambiarContrasenia = async (req, res, next) => { }
->>>>>>> Francisco2.0
 
   DataUser.findOne({dni: User.dni}).then((user) => {
     console.log(user)
@@ -688,16 +684,11 @@ router.route("/login").post(login);
 //router.route("/logout").post(userAuth, logout);
 router.route("/logout").post(logout);
 router.route("/getSelf").get(userAuth, getSelf);
-<<<<<<< HEAD
 router.route("/editarPerfil").post(upload.single("Imagen"), userAuth, editarPerfil);
 router.route("/cambiarContrasena").post( userAuth, cambiarContrasena);
 
 //worker routes
 router.route("/getByDNI").get(workerAuth, getByDNI);
-=======
-router.route("/editarPerfil").post(upload.single("Imagen"), userAuth, editarPerfil)
-router.route("/cambiarContrasenia").post(userAuth, cambiarContrasenia)
->>>>>>> Francisco2.0
 
 //admin routes
 router.route("/getEmpleados").get(adminAuth, getEmpleados);
