@@ -2,11 +2,17 @@ import { Link } from 'react-router-dom'
 import '../styles/Articulo.css'
 import routes from '../routes'
 
+function handleClickArticulo(articulo){
+    localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
+    console.log(localStorage.getItem("articuloSeleccionado"));
+}
+
 function Articulo({ articulo }) {
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
+
     return (
 
-        <Link to={routes.unArticulo} className='link'>
+        <Link to={routes.unArticulo} className='link' onClick={() => handleClickArticulo(articulo)}>
             <div className='articulo'>
                 <div className='divImagenArt'>
                     <img src={srcFotoArt} alt="" className='imagenArt' />

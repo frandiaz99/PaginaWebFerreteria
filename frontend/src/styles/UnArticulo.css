@@ -1,0 +1,131 @@
+.main{
+    height: 100%;
+}
+
+#main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(223, 223, 223);
+    width: fit-content;
+    box-shadow: 0 10px 15px  rgba(88, 88, 88, 0.5);
+    border-radius: 15px;
+}
+
+#container-foto{
+    display: flex;
+    margin: 0 auto;
+    padding: 10px;
+    align-items: center;
+}
+
+#foto-articulo{
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    line-height: 0px;
+}
+
+.boton-foto{
+    height: 70px;
+    width: 30px;
+    background-color: #aaaaaa;
+    border-radius: 5px;
+    border: none;
+    transition-duration: 0.2s;
+}
+
+.boton-foto:hover{
+    background-color: #8b8b8b;
+    box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.6);
+}
+
+.boton-foto:active{
+    background-color: #7c7c7c;
+}
+
+#container-info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+    padding: 10px;
+}
+
+#precio-articulo{
+    color: #1ea540;
+}
+
+#container-buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding-top: 80px;
+}
+
+#boton-intercambiar{
+    font-size: large;
+    color: #ffffff;
+    background-color: #1e1b33;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    text-align: center;
+    padding: 35px;
+    line-height: 0px;
+    transition-duration: 0.2s;
+}
+
+#boton-intercambiar:hover{
+    box-shadow: 0 0px 13px 0 rgba(0, 0, 0, 0.9);
+}
+
+#boton-ver-perfil{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(223, 223, 223);
+    transition-duration: 0.2s;
+    border: 1px solid #aaaaaa;
+    border-radius: 10px;
+    padding: 20px;
+    transition-duration: 0.2s;
+}
+
+#boton-ver-perfil:hover{
+    box-shadow: 0 0px 9px 0 rgba(0, 0, 0, 0.6);
+}
+
+#container-datos-usuario{
+    display: flex;
+    flex-direction: column;
+    background-color: #0488d4;
+}
+
+#container-perfil{
+    padding-left: 50px;
+}
+
+#container-perfil h5{
+    color: #517da7;
+}
+
+#boton-ver-perfil{
+    line-height: 0px;
+}
+
+#imagen-perfil{
+    float: left;
+    height: 80px;
+    width: 80px;
+}
+
+.spacing{
+    padding: 15px;
+}
