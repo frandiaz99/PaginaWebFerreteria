@@ -38,7 +38,7 @@ function IniciarSesion() {
             .then(response => {
                 if (!response.ok) {
                    return response.json().then(data => {
-                        throw new Error(data.status);
+                        throw new Error(JSON.stringify({message: data.message, status: data.status}));
                     });
                 }
                 return response.json();
@@ -52,13 +52,16 @@ function IniciarSesion() {
                 navigate(routes.userPrincipal)
             })
             .catch(error => {
-                console.log('error: ',error)
-                if (error == 'Error: 405') {
+                const errorData= JSON.parse(error.message)
+                if (errorData.status == 405) {
+                    setDni_pass_correctos(false)
+                }
+                else if (errorData.status == 406){
                     setPassIncorrecta(true)
                     setUserBloqued(true)
                 }
-                else if (error == 'Error: 406') setUserBloqued(true)
-                else setDni_pass_correctos(false)
+                else if (errorData.status == 407) setUserBloqued(true)
+                else console.log(errorData.message)
             });
         }
     }

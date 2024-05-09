@@ -6,8 +6,8 @@ function MisArticulos() {
   const [totalArticulos, setTotalArticulos]= useState([])
 
 
-  useEffect(() => {     //Cambiar el url del fetch cuando se cree del back para obtener articulos de un usuario
-    fetch('http://localhost:5000/articulo/getArticulos', 
+  useEffect(() => {
+    fetch('http://localhost:5000/articulo/getMisArticulos', 
     {method: "GET", 
     headers: {
       "Content-Type": "application/JSON",
@@ -15,15 +15,18 @@ function MisArticulos() {
     },credentials: "include"})
     .then(response => {
       if (!response.ok) {
-        throw new Error('Hubo un problema al obtener los articulos');
+        return response.json().then(data => {
+            throw new Error(JSON.stringify({message: data.message, status: data.status}));
+        })
       }
       return response.json();
     })
     .then(data => {
-      setTotalArticulos(data)
+      setTotalArticulos(data.articulos)
     })
     .catch(error => {
-      console.error('Error:', error);
+      const errorData= JSON.parse(error.message)
+      console.log(errorData.message)
     });
   }, [])
 

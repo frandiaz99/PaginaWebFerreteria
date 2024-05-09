@@ -10,8 +10,26 @@ function Articulo({ articulo, misArticulos }) {
 
     const handleYes= () =>{
         setConfirmacion(false)
-        window.location.reload();
-        //fetch para eliminar articulo, en el then irian las 2 lineas anteriores
+        fetch('http://localhost:5000/articulo/borrarArticulo', 
+        {method: "DELETE", 
+        headers: { "Content-Type": "application/JSON"},
+        body: JSON.stringify({Articulo: articulo}),
+        credentials: "include"})
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(JSON.stringify({message: data.message}));
+            })
+          }
+          return response.json();
+        })
+        .then(data => {
+            window.location.reload();
+        })
+        .catch(error => {
+          const errorData= JSON.parse(error.message)
+          console.log(errorData.message)
+        });
     }
 
     const handleEliminarArt= (event) =>{

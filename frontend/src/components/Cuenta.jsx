@@ -4,6 +4,7 @@ import Modal from './Modal'
 
 function Cuenta({cuenta}) {
   const [confirmacion, setConfirmacion]= useState(false)
+  const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
     setConfirmacion(false)      //esto se borraria, va dentro del fetch
@@ -39,7 +40,7 @@ function Cuenta({cuenta}) {
       <div className='datosCuenta'>
 
         <div className='datosCuenta-foto'>
-          <img src={cuenta.foto} alt="fotoCuenta" className='fotoDeCuenta'/>
+          <img src={srcFotoPerfil} alt="fotoCuenta" className='fotoDeCuenta'/>
         </div>
 
         <div className='datosCuenta-datos'>

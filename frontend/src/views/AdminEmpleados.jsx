@@ -5,7 +5,6 @@ import '../styles/AdminEmpleados.css'
 import Cuenta from '../components/Cuenta'
 import Paginacion from '../components/Paginacion'
 import Buscador from '../components/Buscador'
-import empleados from '../data/empleados.json' //temporal hasta obtenerlo del back
 import routes from '../routes'
 
 const cuentasXPag= 6 //en cada pagina mostrar x cuentas
@@ -34,25 +33,25 @@ function AdminEmpleados() {
   }, [totalCuentas]) //Solo cambia la primera vez
 
   useEffect(() => {
-    /*fetch('http://localhost:5000/CuentasDeEmpleadosss',   //Esto iria cuando se cree el back
+    fetch('http://localhost:5000/user/getEmpleados',  
     {method: "GET", 
     headers: {
       "Content-Type": "application/JSON",
       //"Cookie": localStorage.getItem('jwt')
     },credentials: "include"})
     .then(response => {
+      console.log("responseee",response)
       if (!response.ok) {
         throw new Error('Hubo un problema al obtener los empleados');
       }
       return response.json();
     })
     .then(data => {
-      setTotalCuentas(data)
+      setTotalCuentas(data.Empleados)
     })
     .catch(error => {
       console.error('Error:', error);
-    });*/
-    setTotalCuentas(empleados) //temporal hasta obtenerlo del back
+    });
   }, [])
 
   return (

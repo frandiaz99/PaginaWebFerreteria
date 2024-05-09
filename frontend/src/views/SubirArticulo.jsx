@@ -62,7 +62,7 @@ function SubirArticulo() {
 
   const handleOk= () =>{
     setArtSubido(false)
-    navigate(routes.userPrincipal)
+    window.location.reload();
   }
 
   return (
