@@ -12,7 +12,7 @@ const estaEnModoUser = () => {
 function Perfil() {
 
   const [usuario, setUsuario] = useState();
-  const user = JSON.parse(localStorage.getItem('user'));
+  //const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     fetch('http://localhost:5000/user/getSelf',
@@ -83,19 +83,27 @@ function Perfil() {
         <div className='contenedor-perfil'>
 
           <div className='col-img'>
-            <img className='imagen' src={`http://localhost:5000/img/${user.foto_perfil}`}></img>
+            <img className='imagen' src={usuario && `http://localhost:5000/img/${usuario.foto_perfil}`}></img>
           </div>
 
           <div className='col-perfil'>
-            <div className='fila-nombre'>{user.nombre} {user.apellido}</div>
-            <div className='fila-email' >{user.email}</div>
-            <div className='fila-nacimiento'>{getFecha(user.fecha_nacimiento)}</div>
-            <div className='fila-puntos'>{generarEstrellas(user.puntos)}</div>
-            <div className='fila-boton'>
-              {estaEnModoUser() ? <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
-                : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Editar Perfil</button></Link>}
-            </div>
+            {usuario && (
+              <>
+                <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
+                <div className='fila-email' >{usuario.email}</div>
+                <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
+                <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
+                <div className='fila-boton'>
+                  {estaEnModoUser() ? (
+                    <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+                  ) : (
+                    <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+                  )}
+                </div>
+              </>
+            )}
           </div>
+
         </div>
 
         <div className='contenedor-perfil-2'>

@@ -9,11 +9,13 @@ function EditarPerfil() {
     const navigate = useNavigate();
 
     const [usuario, setUsuario] = useState({});
-    const user = JSON.parse(localStorage.getItem("user"));
+    //const user = JSON.parse(localStorage.getItem("user"));
 
-    const [datos, setDatos] = useState({ nombre: '', apellido: '' });
+    const [datos, setDatos] = useState({ nombre: '', apellido: '', sucursal: '' });
 
     const [imagen, setImagen] = useState({ foto: "" })
+
+    const [sucursales, setSucursales] = useState([]);
 
     const [editarPerfil, setEditarPerfil] = useState(false);
 
@@ -24,13 +26,22 @@ function EditarPerfil() {
         })
     }
 
+    const changeSucursal = (e) => {
+        const sucursalElegida = sucursales.find(s => s._id === e.target.value)
+        setDatos({
+            ...datos,
+            sucursal: sucursalElegida,
+        })
+    }
+
     const handleGuardarCambios = (event) => {
 
         event.preventDefault();
         const usuarioModificado = {
             ...usuario,
             nombre: datos.nombre !== '' ? datos.nombre : usuario.nombre,
-            apellido: datos.apellido !== '' ? datos.apellido : usuario.apellido
+            apellido: datos.apellido !== '' ? datos.apellido : usuario.apellido,
+            sucursal: datos.sucursal !== '' ? datos.sucursal : usuario.sucursal
         };
 
         const formData = new FormData();
@@ -54,12 +65,14 @@ function EditarPerfil() {
                 return response.json();
             })
             .then((data) => {
-                console.log("Respuesta del servidor al editar perfil:", data);
+                console.log("Perfil editado:", data);
                 setEditarPerfil(true);
 
-                localStorage.setItem("user", JSON.stringify(usuarioModificado));
-                console.log("usuario modificado: ", usuarioModificado);
+                //localStorage.setItem("user", JSON.stringify(usuarioModificado));
+                //console.log("usuario modificado: ", usuarioModificado);
 
+                //localStorage.setItem("user", JSON.stringify(usuarioModificado));
+                console.log("foto_perfil", imagen.foto)
             })
             .catch((error) => {
                 console.error("Hubo un problema al guardar los cambios:", error);
@@ -69,6 +82,7 @@ function EditarPerfil() {
 
     const handleOk = () => {
         setEditarPerfil(false);
+
         navigate(routes.perfil)
     };
 
@@ -87,7 +101,7 @@ function EditarPerfil() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                console.log("usuario a editar: ", data);
                 setUsuario(data.User);
             })
             .catch((error) => {
@@ -95,11 +109,33 @@ function EditarPerfil() {
             });
     }, []);
 
+    useEffect(() => {  //obtener sucursales
+        fetch("http://localhost:5000/sucursal/getSucursales", {
+            method: "GET",
+            headers: { "Content-Type": "application/JSON" },
+            credentials: "include"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema al obtener las sucursales');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setSucursales(data.Sucursales)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+    }, []);
+
+
+
     return (
         <main className='main'>
             <form className='contenedor-editar-perfil' onSubmit={handleGuardarCambios} encType="multipart/form-data">
                 <div className='cambios-perfil' >
-                    <div className='foto-perfil' style={{ backgroundImage: `url(http://localhost:5000/img/${user.foto_perfil})` }}>
+                    <div className='foto-perfil' style={{ backgroundImage: `url(${imagen.foto ? URL.createObjectURL(imagen.foto) : `http://localhost:5000/img/${usuario.foto_perfil}`})` }}>
                         <input type='file' id='input-foto' accept=".png, .jpg, .jpeg" name='foto'
                             onChange={e => {
                                 console.log({ "name": e.target.name })
@@ -111,14 +147,12 @@ function EditarPerfil() {
                     </div>
 
                     <div className='datos'>
-                        <div className='nombre'>Nombre: <input name='nombre' type='text' defaultValue={user.nombre} onChange={handleChange} /></div>
-                        <div className='apellido'>Apellido: <input name='apellido' type='text' defaultValue={user.apellido} onChange={handleChange} /></div>
+                        <div className='nombre'>Nombre: <input name='nombre' type='text' defaultValue={usuario.nombre} onChange={handleChange} /></div>
+                        <div className='apellido'>Apellido: <input name='apellido' type='text' defaultValue={usuario.apellido} onChange={handleChange} /></div>
                         <div className='sucursal-editar-perfil'>
                             Sucursal:
-                            <select defaultValue={user.sucursal}>
-                                <option value="La plata">La plata</option>
-                                <option value="Cordoba">Cordoba</option>
-                                <option value="Santa Fe">Santa Fe</option>
+                            <select name="sucursal" id="sucursal" onChange={changeSucursal}>
+                                {sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
                             </select>
                         </div>
                     </div>
