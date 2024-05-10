@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/CambiarContrasenia.css'
 import { useSearchParams } from 'react-router-dom'
 
 function CambiarContrasenia() {
 
-  const [passIncorrecta, setPassIncorrecta] = useState(false)
+  const [cambiarContrasena, setCambiarContrasena] = useState(false)
 
-  const [newPass, setNewPass] = useState(
+  const [datos, setDatos] = useState(
     { contrasenia: '' }
   )
 
-  const handleCambiarContrasnia = () => {
+  const handleOk = () => {
+    setCambiarContrasena(false);
+  };
+
+  const handleCambiarContrasenia = () => {
 
     setPassIncorrecta(false)
 
-    fetch("http://localhost:5000/user/login", {
+    fetch("http://localhost:5000/user/CambiarContrasena", {
       method: "POST",
       headers: { "Content-Type": "application/JSON" },
       body: JSON.stringify({ User: newPass }),
@@ -38,8 +42,6 @@ function CambiarContrasenia() {
 
   }
 
-
-
   return (
     <main className='main'>
       <div class="container">
@@ -59,6 +61,8 @@ function CambiarContrasenia() {
             <input type="password" id="repetir-contrasena" name="repetir-contrasena" className="passwordCambiarContrasenia" required />
           </div>
           <button type="submit" className='botonCambiarContrasenia'>Guardar</button>
+          <Modal texto={'La contraseña se cambio con exito. '}
+            confirmacion={cambiarContrasena} setConfirmacion={setCambiarContrasena} handleYes={handleOk} ok={true} />
         </form>
       </div>
     </main>
