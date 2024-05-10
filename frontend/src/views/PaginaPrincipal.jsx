@@ -49,7 +49,7 @@ function PaginaPrincipal() {
       return response.json();
     })
     .then(data => {
-      setTotalArticulos(data)
+      setTotalArticulos(data.filter(d => d.precio > 0))
     })
     .catch(error => {
       console.error('Error:', error);

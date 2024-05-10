@@ -51,7 +51,7 @@ function Cuenta({cuenta}) {
           <h3>{cuenta.nombre}</h3>
           <h4>{cuenta.dni}</h4>
           <p>{cuenta.mail}</p>
-          <p>Sucursal {cuenta.sucursal}</p>
+          <p>Sucursal: {cuenta.sucursal.nombre}</p>
         </div>
 
       </div>

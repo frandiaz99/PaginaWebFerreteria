@@ -56,19 +56,19 @@ const borrarArticulo = async (req, res, next) => {
 
   if (!Articulo){
     console.log("Objeto 'Articulo' en 'body' no recibido")
-    res.status(401).json({message: "Objeto 'Articulo' en 'body' no recibido", status: 402})
+    return res.status(401).json({message: "Objeto 'Articulo' en 'body' no recibido", status: 402})
   }
   
-  if (!Articulo.id){
+  if (!Articulo._id){
     console.log("'id' no recibido")
-    res.status(401).json({message: "Objeto 'id' en 'Articulo' no recibido", status: 403})
+    return res.status(401).json({message: "Objeto 'id' en 'Articulo' no recibido", status: 403})
   }
 
 
   
   try{
 
-    const Publi = await DataArticulo.findById(Articulo.id);
+    const Publi = await DataArticulo.findById(Articulo._id);
     if (!Publi){
       console.log("Articulo not found");
       return res.status(404).json({ message: "Articulo not found" , status: 404});

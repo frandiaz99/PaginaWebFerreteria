@@ -178,7 +178,7 @@ const register = async (req, res, next) => {
       rawPassword: User.password, //esto se deberia borrar en version final
       password: hash,
       fecha_nacimiento: nacimiento,
-      //sucursal: User.sucursal,    //hay que ponerlo pero primero se debe pasar datos al front
+      sucursal: User.sucursal,    //hay que ponerlo pero primero se debe pasar datos al front
       suscripto: User.suscripto,
       foto_perfil: File.filename,
       rol: rol,

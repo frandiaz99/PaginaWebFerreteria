@@ -85,7 +85,7 @@ function SubirArticulo() {
 
               <div className='nombre-section1'>
                 <label className='label-subirArt' >Nombre</label>
-                <input className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange}/>
+                <input autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange}/>
               </div>
 
               <div className='descripcion-section1'>
@@ -104,7 +104,7 @@ function SubirArticulo() {
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange}/>
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange} autoComplete="off"/>
             </div>
           </div>
 

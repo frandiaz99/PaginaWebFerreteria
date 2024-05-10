@@ -67,7 +67,7 @@ function AdminEmpleados() {
           }
 
           <div className='cuentasEmpleados' ref={cuentasRef}>
-          {(totalCuentas.length == 0 || cuentasActuales == 0)
+          {(totalCuentas.length == 0 || cuentasActuales.length == 0)
           ? 
             <div className='noHayItems'>
               No hay ningún empleado

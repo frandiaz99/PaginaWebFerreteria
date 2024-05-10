@@ -3,8 +3,8 @@ import '../styles/MisArticulos.css'
 import Articulo from '../components/Articulo';
 
 function MisArticulos() {
-  const [totalArticulos, setTotalArticulos]= useState([])
-
+  const [articulosTasados, setArticulosTasados]= useState([])
+  const [articulosNOtasados, setArticulosNOtasados]= useState([])
 
   useEffect(() => {
     fetch('http://localhost:5000/articulo/getMisArticulos', 
@@ -22,7 +22,9 @@ function MisArticulos() {
       return response.json();
     })
     .then(data => {
-      setTotalArticulos(data.articulos)
+      console.log("holaa",data)
+      setArticulosTasados(data.articulos.filter(a => a.precio > 0))
+      setArticulosNOtasados(data.articulos.filter(a => a.precio == 0))
     })
     .catch(error => {
       const errorData= JSON.parse(error.message)
@@ -38,13 +40,13 @@ function MisArticulos() {
           <div className='tituloMisArticulos'>
             <h3>Tasados</h3>
           </div>
-          {totalArticulos.length == 0 ? 
+          {articulosTasados.length == 0 ? 
             <div className='noHayItems'>
               No tenes artículos tasados
             </div> //Podria ser un componente
           :
           <div className='misArticulos'>
-            {totalArticulos.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
+            {articulosTasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
           </div>
           }
         </div>
@@ -53,13 +55,13 @@ function MisArticulos() {
           <div className='tituloMisArticulos'>
             <h3>No tasados</h3>
           </div>
-          {totalArticulos.length == 0 ? 
+          {articulosNOtasados.length == 0 ? 
             <div className='noHayItems'>
               No hay articulos para tasar
             </div> //Podria ser un componente
           :
             <div className='misArticulos'>
-              {totalArticulos.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
+              {articulosNOtasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
             </div>
           }
         </div>

@@ -10,6 +10,7 @@ function Articulo({ articulo, misArticulos }) {
 
     const handleYes= () =>{
         setConfirmacion(false)
+        console.log("artt_", articulo)
         fetch('http://localhost:5000/articulo/borrarArticulo', 
         {method: "DELETE", 
         headers: { "Content-Type": "application/JSON"},
@@ -52,7 +53,7 @@ function Articulo({ articulo, misArticulos }) {
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
                     <p>Interesado en: ...</p>
-                    <span className='span'>${articulo.precio}</span>
+                    {/* <p>Categoria</p> */}
                 </div>
             </div>
     )

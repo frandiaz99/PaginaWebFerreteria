@@ -43,7 +43,6 @@ const verificarEdad= (fechaNacimiento) =>{
 
 const todosLosCamposCompletos= (datos) =>{
     return Object.values(datos).every(valor => {
-       console.log("Falta chekear que la imagen este eleegida tambien. O no depende, por default va a tenrer una");
         if (typeof valor === 'string') {
             return valor.replace(/\s/g, "") !== '';
         } else {
@@ -69,18 +68,26 @@ function CrearCuenta(){
         repetirContrasenia:'',
         dni:'',
         nacimiento:'',
-        sucursal:'s1',
+        sucursal:'',
         suscripto: false,
       })
-    const [imagen, setImagen] = useState({foto:""});
+    const [sucursales, setSucursales] = useState([]);
       
     const handleChange = (e) => {
-        //console.log(e);
+        console.log(datos);
         setDatos({
           ...datos,
           [e.target.name]: e.target.value,
         })
     };
+
+    const changeSucursal = (e) =>{
+        const sucursalElegida= sucursales.find(s => s._id === e.target.value)
+        setDatos({
+            ...datos,
+            sucursal: sucursalElegida,
+          })
+    }
 
     /*const handleFoto = (f) => {
         //console.log(f);
@@ -110,6 +117,7 @@ function CrearCuenta(){
                     .then(response => {
                         if (!response.ok) {
                            return response.json().then(data => {
+                            console.log(data)
                                 throw new Error(data.error_values);
                             });
                         }
@@ -133,6 +141,7 @@ function CrearCuenta(){
                     .then(response => {
                         if (!response.ok) {
                            return response.json().then(data => {
+                            console.log(data)
                                 throw new Error(data.error_values);
                             });
                         }
@@ -168,6 +177,32 @@ function CrearCuenta(){
         else if (datos.dni.length == 8) dniCumple= true
         setDniValido(dniCumple);
     }, [datos.dni])
+
+
+    useEffect(() => {  //obtener sucursales
+        fetch("http://localhost:5000/sucursal/getSucursales", {
+            method: "GET",
+            headers: { "Content-Type": "application/JSON" },
+            credentials: "include"
+        })
+        .then(response => {
+            if (!response.ok) {
+              throw new Error('Hubo un problema al obtener las sucursales');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setDatos({
+                ...datos,
+                sucursal: data.Sucursales[0]
+            })
+            setSucursales(data.Sucursales)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+    }, [])
+
 
     return(
         
@@ -235,10 +270,8 @@ function CrearCuenta(){
                     
                     <div className="divInputRegistro">
                         <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
-                        <select name="sucursal" id="sucursal" onChange={handleChange}>
-                            <option value="s1">Sucursal 1</option>
-                            <option value="s2">Sucursal 2</option>
-                            <option value="s3">Sucursal 3</option>
+                        <select name="sucursal" id="sucursal" onChange={changeSucursal}>
+                            {sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
                         </select> 
                     </div>
 
