@@ -101,8 +101,7 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
     .then(response => {
       if (response.ok) {
         console.log('La sesión se cerró correctamente');
-        localStorage.removeItem('user');
-        localStorage.removeItem('cuentaActual')
+        localStorage.clear();
         navigate(routes.pagPrincipal);
       } else {
         throw new Error('Hubo un problema al cerrar sesión');

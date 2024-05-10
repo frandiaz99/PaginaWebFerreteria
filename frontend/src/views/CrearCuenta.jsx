@@ -55,6 +55,7 @@ function CrearCuenta(){
     const [confirmacion, setConfirmacion]= useState(false)
     const [dniRepetido, setDniRepetido]= useState(false)
     const [emailRepetido, setEmailRepetido]= useState(false)
+    const[emailYDNIRepetidos,setEmailYDNIRepetidos]= useState(false)
     const navigate = useNavigate();
     const [cumpleContrasenia, setCumpleContrasenia]= useState(false)
     const [coincidenContrasenias,setCoincidenContrasenias]= useState(false)
@@ -127,7 +128,8 @@ function CrearCuenta(){
                         setConfirmacion(true)
                     })
                     .catch(error => {
-                        if (error == 'Error: email' || error == 'Error: dni,email') setEmailRepetido(true)
+                        if (error == 'Error: dni,email') setEmailYDNIRepetidos(true)
+                        else if (error == 'Error: email') setEmailRepetido(true)
                         else if (error == 'Error: dni') setDniRepetido(true)
                     })
             }
@@ -151,7 +153,8 @@ function CrearCuenta(){
                         setConfirmacion(true)
                     })
                     .catch(error => {
-                        if (error == 'Error: email' || error == 'Error: dni,email') setEmailRepetido(true)
+                        if (error == 'Error: dni,email') setEmailYDNIRepetidos(true)
+                        else if (error == 'Error: email') setEmailRepetido(true)
                         else if (error == 'Error: dni') setDniRepetido(true)
                     })
             }
@@ -177,7 +180,7 @@ function CrearCuenta(){
         else if (datos.dni.length == 8) dniCumple= true
         setDniValido(dniCumple);
     }, [datos.dni])
-
+    
 
     useEffect(() => {  //obtener sucursales
         fetch("http://localhost:5000/sucursal/getSucursales", {
@@ -250,14 +253,11 @@ function CrearCuenta(){
                         {(coincidenContrasenias == false) && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
                     </div>
 
-                    <div className="divInputRegistro">
+                    {!soyAdmin() && <div className="divInputRegistro">
                         <label htmlFor="dni">DNI</label>
-                        {soyAdmin() ?
-                            <input name="dni" type="number" placeholder="Ingresá DNI del empleado" onChange={handleChange}/> 
-                        :
-                            <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>}
+                            <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>
                         {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
-                    </div>
+                    </div>}
 
                     <div className="divInputRegistro">
                         <label htmlFor="nacimiento">Fecha de nacimiento</label>
@@ -303,6 +303,7 @@ function CrearCuenta(){
             <Modal texto={'Registro exitoso'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro} ok={true}/>
             <Modal texto={'El DNI ya está registrado'} confirmacion={dniRepetido} setConfirmacion={setDniRepetido} ok={true}/>
             <Modal texto={'El email ya está registrado'} confirmacion={emailRepetido} setConfirmacion={setEmailRepetido} ok={true} />
+            <Modal texto={'El email y el DNI ya están registrados'} confirmacion={emailYDNIRepetidos} setConfirmacion={setEmailYDNIRepetidos} ok={true}/>
         </main>
     )
 }
