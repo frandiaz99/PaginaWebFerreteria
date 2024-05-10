@@ -16,7 +16,7 @@ const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
-const {mandarMail} = require("./mail.js");
+const { mandarMail } = require("./mail.js");
 //const { Console, error } = require("console");
 const router = express.Router();
 //
@@ -26,14 +26,14 @@ const venciminetoCookie = 3 * 60 * 60; //3 horas
 
 const register = async (req, res, next) => {
   console.log("hola");
- // res.setHeader("Content-Type", "application/json");
+  // res.setHeader("Content-Type", "application/json");
   /*  
   console.log({"Body": req.body});
   console.log("------------------------   -------------------------   ---------------")
   console.log(req.Imagen);
   console.log(req.file);
   */
-  let File; 
+  let File;
   if (!req.file) {
     File = { filename: "Imagen_user_default.png" };
   } else {
@@ -157,11 +157,11 @@ const register = async (req, res, next) => {
   
     }*/
 
-    const Auth = req.body.Auth;
-    let rol =1;
-    if (Auth && (Auth.rol = 3) && User.rol){
-      rol = User.rol
-    }
+  const Auth = req.body.Auth;
+  let rol = 1;
+  if (Auth && (Auth.rol = 3) && User.rol) {
+    rol = User.rol
+  }
 
 
 
@@ -280,7 +280,7 @@ const login = async (req, res, next) => {
           status: 407,
         });
       }
-      
+
       // comparing given password with hashed password
       console.log("Comparing password");
       bcrypt.compare(password, user.password).then((result) => {
@@ -288,18 +288,18 @@ const login = async (req, res, next) => {
 
 
           if (user.rol > 1) {
-              if (req.body.User.code){
-                if (user.code == req.body.User.code){
-                  DataUser.findOneAndUpdate({_id: user._id}, {code: shortNumericId}).then()
-                  console.log("Code correcto y actualizado uno nuevo")
-                } else {
-                  return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
-                }
+            if (req.body.User.code) {
+              if (user.code == req.body.User.code) {
+                DataUser.findOneAndUpdate({ _id: user._id }, { code: shortNumericId }).then()
+                console.log("Code correcto y actualizado uno nuevo")
               } else {
-                mandarMail(user.email, 1, user.code);
-                console.log("falta crear bien el mandarMail, pero el codigo es:", user.code)
-                return res.status(401).json({ message: "Login successful, but cod enot recibed", User: user, status: 205 }); //tambien se deberia cambiar user por user._id
+                return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
               }
+            } else {
+              mandarMail(user.email, 1, user.code);
+              console.log("falta crear bien el mandarMail, pero el codigo es:", user.code)
+              return res.status(401).json({ message: "Login successful, but cod enot recibed", User: user, status: 205 }); //tambien se deberia cambiar user por user._id
+            }
           }
 
 
@@ -316,7 +316,7 @@ const login = async (req, res, next) => {
             httpOnly: true,
             maxAge: maxAge * 1000, // 3hrs en ms
           });
-          
+
           const notificaciones = getNotificacionesNuevas(user._id);
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
@@ -325,9 +325,9 @@ const login = async (req, res, next) => {
             { dni: user.dni },
             { $set: { intento_desbloqueo: 0 } }
           ).then();
-          
+
           res.status(201).json({ message: "Login successful", User: user, status: 200 }); //tambien se deberia cambiar user por user._id
-          
+
 
 
         } else {
@@ -512,6 +512,7 @@ const editarPerfil = async (req, res, next) => {
 
     // Guardar los cambios en la base de datos
     await currentUser.save();
+    console.log('datos modificados en BD')
 
     return res
       .status(200)
@@ -529,7 +530,7 @@ const editarPerfil = async (req, res, next) => {
 const getEmpleados = async (req, res, next) => {
   console.log("get empleados");
   try {
-    DataUser.find({rol: 2}).then((Empleados) => {
+    DataUser.find({ rol: 2 }).then((Empleados) => {
       return res.status(200).json({ message: "Consulta exitosa", Empleados });
     });
   } catch (err) {
@@ -538,24 +539,24 @@ const getEmpleados = async (req, res, next) => {
 }
 
 
-const getByDNI = async (req, res, next) =>{
+const getByDNI = async (req, res, next) => {
   const User = req.body.User;
   if (!User) {
     console.log("Variable 'User' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
   }
   if (!User.dni) {
-    console.log( "Falta variable 'dni'");
+    console.log("Falta variable 'dni'");
     return res.status(401).json({ message: "Consulta erronea, faltan parametro 'dni'", status: 403 });
   }
 
-  DataUser.findOne({dni: User.dni}).then((user) => {
+  DataUser.findOne({ dni: User.dni }).then((user) => {
     console.log(user)
     console.log("No se si es necesario mandar el user para el front")
-    if (user){
+    if (user) {
       return res.status(200).json({ message: "Usuario encontrado", status: 200, user });
     } else {
-      return res.status(401).json({ message: "Usuario NO encontrado", status: 405});
+      return res.status(401).json({ message: "Usuario NO encontrado", status: 405 });
     }
   }).catch((error) => {
     console.log(error)
@@ -565,7 +566,7 @@ const getByDNI = async (req, res, next) =>{
 
 
   //200 exitosa
-	//400 Error otro
+  //400 Error otro
   //402 "User" no recibido
   //403 Variable 'dni' no recibida
   //405 DNI,User not found
@@ -579,11 +580,11 @@ const cambiarContrasena = async (req, res, next) => {
     return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
   }
   if (!User.password || !User.newPassword) {
-    console.log( "Falta variable 'password' o 'newPassword'");
+    console.log("Falta variable 'password' o 'newPassword'");
     return res.status(401).json({ message: "Consulta erronea, faltan parametro 'password' o 'newPassword'", status: 403 });
   }
-  
-  
+
+
   if (User.newPassword.length < password_min_leght) {
     //return res.status(400).json({ message: `Password less than ${password_min_leght} characters` })
     //return res.status(400).send("Passsword is to short")
@@ -614,29 +615,29 @@ const cambiarContrasena = async (req, res, next) => {
 
 
 
-  console.log (req.body)
+  console.log(req.body)
   //console.log (req.Auth)
-  
-  DataUser.findOne({dni: req.body.Auth.dni}).then((userViejo) => {
+
+  DataUser.findOne({ dni: req.body.Auth.dni }).then((userViejo) => {
     //console.log(userViejo)
-    if (!userViejo){
-      return res.status(401).json({ message: "Usuario NO encontrado", status: 405});
+    if (!userViejo) {
+      return res.status(401).json({ message: "Usuario NO encontrado", status: 405 });
     } else {
-      
-      
-      bcrypt.compare(User.password, userViejo.password ).then( async (result)  => {
+
+
+      bcrypt.compare(User.password, userViejo.password).then(async (result) => {
         if (result) {
           console.log("Correct password");
-          
-          await bcrypt.hash(User.newPassword, 10).then(async (hash) => { 
+
+          await bcrypt.hash(User.newPassword, 10).then(async (hash) => {
             DataUser.findOneAndUpdate(
               { dni: userViejo.dni },
-              { $set: { rawPassword: User.newPassword , password: hash} }
-            ).then( (userNuevo) => {
+              { $set: { rawPassword: User.newPassword, password: hash } }
+            ).then((userNuevo) => {
               //console.log("Contraseña actualizada:", userNuevo)
               return res.status(200).json({ message: "contrasena actualizada", status: 200, userNuevo });
-              
-            }).catch ((err) => {
+
+            }).catch((err) => {
               console.log("Error al actualizar la contrasena:", err)
               return res.status(200).json({ message: "error guardando user", status: 409, err });
             });
@@ -652,13 +653,13 @@ const cambiarContrasena = async (req, res, next) => {
   }).catch((error) => {
     console.log(error)
     return res.status(401).json({ message: "Erro otro", status: 400, error });
-    
+
   });
 
 
 
   //200 exitosa
-	//400 Error otro
+  //400 Error otro
   //402 "User" no recibido
   //403 Variable 'password' o 'newPassword' no recibida
   //405 DNI,User not found
@@ -671,20 +672,20 @@ const cambiarContrasena = async (req, res, next) => {
 
 
 
-const setEmpleado = async (req, res, next) =>{
+const setEmpleado = async (req, res, next) => {
   const dni = req.headers.dni;
   if (!dni) {
     console.log("Variable 'dni' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
   }
 
-  DataUser.findOneAndUpdate({dni}, {rol: 2}, {new: true}).then((user) => {
+  DataUser.findOneAndUpdate({ dni }, { rol: 2 }, { new: true }).then((user) => {
     console.log(user)
     console.log("No se si es necesario mandar el user para el front")
-    if (user){
+    if (user) {
       return res.status(200).json({ message: "Usuario encontrado y actualizado", status: 200, user });
     } else {
-      return res.status(401).json({ message: "Usuario NO encontrado", status: 405});
+      return res.status(401).json({ message: "Usuario NO encontrado", status: 405 });
     }
   }).catch((error) => {
     console.log(error)
@@ -694,14 +695,14 @@ const setEmpleado = async (req, res, next) =>{
 
 
   //200 exitosa
-	//400 Error otro
+  //400 Error otro
   //403 Variable 'dni' no recibida
   //405 DNI,User not found
 };
 
 
 const setRol2 = async (req, res, next) => {
-  req.body.User.rol= 2;
+  req.body.User.rol = 2;
   next()
 }
 
@@ -717,7 +718,7 @@ router.route("/login").post(login);
 router.route("/logout").post(logout);
 router.route("/getSelf").get(userAuth, getSelf);
 router.route("/editarPerfil").post(upload.single("Imagen"), userAuth, editarPerfil);
-router.route("/cambiarContrasena").post( userAuth, cambiarContrasena);
+router.route("/cambiarContrasena").post(userAuth, cambiarContrasena);
 
 //worker routes
 router.route("/getByDNI").get(workerAuth, getByDNI);
@@ -725,7 +726,7 @@ router.route("/getByDNI").get(workerAuth, getByDNI);
 //admin routes
 router.route("/getEmpleados").get(adminAuth, getEmpleados);
 router.route("/setEmpleado").get(adminAuth, setEmpleado);
-router.route("/registrarEmpleado").post( adminAuth, setRol2, register );
+router.route("/registrarEmpleado").post(adminAuth, setRol2, register);
 
 router.route("/deleteUser").delete(adminAuth, deleteUser);
 router.route("/desbloquearUser").post(adminAuth, desbloquearUser);
