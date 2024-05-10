@@ -4,16 +4,17 @@ import CrearCuenta from './CrearCuenta'
 import Modal from '../components/Modal'
 
 function RegistrarEmpleado() {
-    const [empleado_es_usuario, setEmpleado_es_usuario]= useState(false)
-    const [redireccionar, setRedireccionar]= useState(true)
+    const [empleado_es_usuario, setEmpleado_es_usuario]= useState(true)
+    const [redireccionar, setRedireccionar]= useState(false)
     const [exitoso,setExitoso]= useState(false)
-    const [dni, setDni]= useState('')
+    const [dniValido, setDniValido]= useState(false)
     const[modal, setModal]= useState(false)
 
+
     const handleBuscar= (dni) =>{
-        setDni(dni)
         setEmpleado_es_usuario(false)
         setModal(true)
+        localStorage.setItem('dniEmple', JSON.stringify(dni))
         /*fetch("http://localhost:5000/user/setEmpleado", {
                 method: "GET",
                 headers: { "Content-Type": "application/JSON", 'dni': dni },
@@ -49,12 +50,13 @@ function RegistrarEmpleado() {
     <main className='main'>
         {empleado_es_usuario ?
             <div className='principal-registrarEmpleado'>
-                <Buscador handleBuscar={handleBuscar}/>
+                <Buscador handleBuscar={handleBuscar} textoBoton={'Registrar'} dniValido={dniValido} setDniValido={setDniValido}/>
+                {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
                 {exitoso && <Modal texto={'Registro exitoso'} confirmacion={exitoso} setConfirmacion={setExitoso} ok={true} />}
             </div>
         :
             <>
-            <Modal texto={'El DNI no está vinculado a una cuenta de usuari'} confirmacion={modal} setConfirmacion={setModal} handleYes={handleOk} ok={true} />
+            <Modal texto={'El DNI no está vinculado a una cuenta de usuario'} confirmacion={modal} setConfirmacion={setModal} handleYes={handleOk} ok={true} />
             {redireccionar && <CrearCuenta/>}
             </>
             }

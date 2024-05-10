@@ -42,6 +42,7 @@ const verificarEdad= (fechaNacimiento) =>{
 }
 
 const todosLosCamposCompletos= (datos) =>{
+    if (soyAdmin()) return true
     return Object.values(datos).every(valor => {
         if (typeof valor === 'string') {
             return valor.replace(/\s/g, "") !== '';
@@ -61,6 +62,7 @@ function CrearCuenta(){
     const [coincidenContrasenias,setCoincidenContrasenias]= useState(false)
     const [dniValido, setDniValido]= useState(false)
     const [esMayor,setEsMayor]= useState(false)
+    const [dniEmple, setDniEmple]= useState(null)
     const [datos, setDatos] = useState({
         nombre: '',
         apellido: '',
@@ -74,8 +76,13 @@ function CrearCuenta(){
       })
     const [sucursales, setSucursales] = useState([]);
       
+    useEffect(() =>{
+        if (soyAdmin()){ //Es la unica forma, no pude insertar el dni en el estado datos.
+            setDniEmple(JSON.parse(localStorage.getItem('dniEmple')))
+            setDniValido(true)
+        }
+    },[])
     const handleChange = (e) => {
-        console.log(datos);
         setDatos({
           ...datos,
           [e.target.name]: e.target.value,
@@ -112,7 +119,7 @@ function CrearCuenta(){
                 fetch("http://localhost:5000/user/registrarEmpleado", {
                        method: "POST",
                        headers: { "Content-Type": "application/JSON" },
-                       body: JSON.stringify({User: datos}),
+                       body: JSON.stringify({User: {nombre: datos.nombre, apellido:datos.apellido, email:datos.email, password: datos.password, dni: dniEmple,nacimiento: datos.nacimiento, sucursal: datos.sucursal,suscripto: datos.suscripto}}),
                        credentials: "include"
                     })
                     .then(response => {
@@ -175,10 +182,12 @@ function CrearCuenta(){
     }, [datos.nacimiento])
 
     useEffect(() => {  //Verificar DNI valido
+        if (!soyAdmin()){
         let dniCumple= false
         if (datos.dni.length == 0) dniCumple=null
         else if (datos.dni.length == 8) dniCumple= true
         setDniValido(dniCumple);
+        }
     }, [datos.dni])
     
 
