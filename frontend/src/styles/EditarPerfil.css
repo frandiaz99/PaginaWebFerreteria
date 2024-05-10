@@ -53,8 +53,23 @@
 
   .nombre,
   .apellido,
-  .sucursal {
+  .sucursal-editar-perfil {
       margin-bottom: 10px;
+  }
+
+  .sucursal-editar-perfil {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      background-color: #f9f9f9;
+      flex-direction: column;
+      justify-content: center;
+
   }
 
   .botones {
