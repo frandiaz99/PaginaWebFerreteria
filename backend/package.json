@@ -28,6 +28,7 @@
     "nanoid": "^5.0.7",
     "node": "^18.20.0",
     "nodemon": "^3.1.0",
+    "shortid": "^2.2.16",
     "uuid": "^9.0.1"
   },
   "description": ""

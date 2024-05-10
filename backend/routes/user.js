@@ -289,7 +289,7 @@ const login = async (req, res, next) => {
 
           if (user.rol > 1) {
               if (req.body.User.code){
-                if (user.code = req.body.User.code){
+                if (user.code == req.body.User.code){
                   DataUser.findOneAndUpdate({_id: user._id}, {code: shortNumericId}).then()
                   console.log("Code correcto y actualizado uno nuevo")
                 } else {

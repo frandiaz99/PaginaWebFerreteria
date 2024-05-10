@@ -12,7 +12,7 @@ function IniciarSesion() {
     const [datos,setDatos]= useState({
         dni:'',
         password:'',
-        code: ''
+        code: null
     })
 
 
@@ -53,16 +53,27 @@ function IniciarSesion() {
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
-                /*if (errorData.status == codigoHayQueAutenticar) setAutenticacion(true)
-                else if (errorData.status == codigoAutenticacionErroneo) que lo vuelva a ingresar?
-                */
-                if (errorData.status == 405 || errorData.status == 404) setDni_pass_correctos(false)
-                else if (errorData.status == 406){
-                    setPassIncorrecta(true)
-                    setUserBloqued(true)
-                }
-                else if (errorData.status == 407) setUserBloqued(true)
-                else console.log(errorData.message)
+                switch (errorData.status) {
+                    case 205:
+                      setAutenticacion(true)
+                      break;
+                    case 206:
+                      console.log("Codigo de autenticacion incorrecto")
+                      break;
+                    case 404:
+                    case 405:
+                      setDni_pass_correctos(false)
+                      break;
+                    case 406:
+                      setPassIncorrecta(true)
+                      setUserBloqued(true)
+                      break;
+                    case 407:
+                      setUserBloqued(true)
+                      break;
+                    default:
+                        console.log(errorData.message)
+                  }
             });
         }
     }
