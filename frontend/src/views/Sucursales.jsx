@@ -44,7 +44,7 @@ function Sucursales() {
       <div className='principal-sucursales'>
         {estaEnModoAdmin() && 
           <div className='agregarSucursal'>
-              <button className='boton_subirSucursal' onClick={handleSubirSucursal}>Subir sucursal</button>
+              <button className='boton_subirSucursal' onClick={handleSubirSucursal}>Agregar</button>
           </div>
         } 
         <div className='body-sucursales'>

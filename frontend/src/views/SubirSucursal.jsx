@@ -17,12 +17,10 @@ function SubirSucursal() {
       }
 
     const handleSubirSucursal= (e) =>{
-        e.preventDefault();
         console.log("datoss", datos)
         fetch("http://localhost:5000/sucursal/newSucursal", {
             method: "POST",
-            //headers: { "Content-Type": "application/JSON" },
-            //body: JSON.stringify({Articulo: art}),
+            headers: { "Content-Type": "application/JSON" },
             body: JSON.stringify({Sucursal: datos}),
             credentials: "include"
           })
@@ -66,7 +64,7 @@ function SubirSucursal() {
             </div>
 
             <div className='div-botonSubirSucursal'>
-                <button type="submit"  className='botonSubirSucursal'>Subir sucursal </button>
+                <button type="submit"  className='registrarse'>Subir sucursal </button>
             </div>
         </form>
     </main>

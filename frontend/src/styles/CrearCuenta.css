@@ -30,13 +30,13 @@
 
 .registrarse{
     background-color: #F9C615;
-    color: #222222;
+    color: #000000;
     padding: 8px 5px;
     border-radius: 3px;
     height: 2rem;
     font-family: revert-layer;
     font-weight: 600;
-    margin: 20px
+    margin-bottom: 20px;
 }
 
 .registrarse:hover{

@@ -66,7 +66,7 @@ function Articulo({ articulo, misArticulos }) {
                 <div className='miArticulo-contenido'>
                     <div className='miArticulo-contenido-contenido'>
                         <h4 className='tituloArt'>{articulo.nombre}</h4>
-                        <span className='span'>${articulo.precio}</span>
+                        {/* categoria */}
                     </div>
                     <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Eliminar articulo</button>
                 </div>

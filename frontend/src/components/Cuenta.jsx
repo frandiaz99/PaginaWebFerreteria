@@ -4,7 +4,6 @@ import Modal from './Modal'
 
 function Cuenta({cuenta}) {
   const [confirmacion, setConfirmacion]= useState(false)
-  const [eliminacionExitosa, setEliminacionExitosa]= useState(false)
   const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
@@ -24,16 +23,13 @@ function Cuenta({cuenta}) {
       return response.json();
     })
     .then(data => {
-      setEliminacionExitosa(true)
+      window.location.reload()
     })
     .catch(error => {
       console.error('Error:', error);
     })
   }
 
-  const handleEliminacionExitosa= () =>{
-    window.location.reload()
-  }
 
   const handleBoton= () => {
     setConfirmacion(true)
@@ -60,7 +56,6 @@ function Cuenta({cuenta}) {
       </div>
 
       <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar} ok={false}/>
-      <Modal texto={'Eliminación exitosa'} confirmacion={eliminacionExitosa} setConfirmacion={setEliminacionExitosa} handleYes={handleEliminacionExitosa} ok={true} />
     </div>
   )
 }

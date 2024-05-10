@@ -1,19 +1,21 @@
 .principal-sucursales{
     display: flex;
+    height: 90%;
     width: 100%;
-    height: 100%;
-    margin-top: 10px;
+    justify-content: center;
+    gap: 10px;
 }
 
 .agregarSucursal{
     width: 10%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .boton_subirSucursal{
-    width: 6rem;
+    width: 4rem;
+    height: 2rem;
     border-radius: 5px;
     cursor: pointer;
     background-color: #ffb700;
@@ -22,14 +24,15 @@
     padding: 6px 9px;
     font-weight: 600;
     border: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .body-sucursales {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 5%;
-    margin: 0 5%;
-    height: 98%;
+    gap: 20px;
 }
 
 /* Sucursal.css */
@@ -44,6 +47,7 @@
     flex-direction: column;
     justify-content: center;
     height: 15rem;
+    width: 15rem;
 }
   
 .sucursal-contenido {

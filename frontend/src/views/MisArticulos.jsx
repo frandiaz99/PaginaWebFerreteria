@@ -22,7 +22,6 @@ function MisArticulos() {
       return response.json();
     })
     .then(data => {
-      console.log("holaa",data)
       setArticulosTasados(data.articulos.filter(a => a.precio > 0))
       setArticulosNOtasados(data.articulos.filter(a => a.precio == 0))
     })
