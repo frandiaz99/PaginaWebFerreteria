@@ -47,17 +47,18 @@ function CambiarContrasenia() {
         <form>
           <div class="form-group">
             <label for="contrasena-anterior">Contraseña anterior:</label>
-            <input type="password" id="contrasena-anterior" className="contrasena-anterior" required />
+            {/*<input type="password" id="contrasena-anterior" className="contrasena-anterior" required /> */}
+            <input type="password" id="contrasena-anterior" className="passwordCambiarContrasenia" required />
           </div>
           <div class="form-group">
             <label for="nueva-contrasena">Nueva Contraseña:</label>
-            <input type="password" id="nueva-contrasena" name="nueva-contrasena" required />
+            <input type="password" id="nueva-contrasena" name="nueva-contrasena" className="passwordCambiarContrasenia" required />
           </div>
           <div class="form-group">
             <label for="repetir-contrasena">Repetir Contraseña:</label>
-            <input type="password" id="repetir-contrasena" name="repetir-contrasena" required />
+            <input type="password" id="repetir-contrasena" name="repetir-contrasena" className="passwordCambiarContrasenia" required />
           </div>
-          <button type="submit">Guardar</button>
+          <button type="submit" className='botonCambiarContrasenia'>Guardar</button>
         </form>
       </div>
     </main>

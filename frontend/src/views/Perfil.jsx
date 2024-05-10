@@ -93,7 +93,7 @@ function Perfil() {
             <div className='fila-puntos'>{generarEstrellas(user.puntos)}</div>
             <div className='fila-boton'>
               {estaEnModoUser() ? <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
-                : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Edita Perfil</button></Link>}
+                : <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Editar Perfil</button></Link>}
             </div>
           </div>
         </div>

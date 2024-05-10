@@ -15,7 +15,7 @@ function Cuenta({cuenta}) {
       "Content-Type": "application/JSON",
       //"Cookie": localStorage.getItem('jwt')
     },
-    body: JSON.stringify({deleteID: cuenta._id}),
+    body: JSON.stringify({id: cuenta._id}),
     credentials: "include"})
     .then(response => {
       if (!response.ok) {

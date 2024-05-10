@@ -4,8 +4,8 @@ import CrearCuenta from './CrearCuenta'
 import Modal from '../components/Modal'
 
 function RegistrarEmpleado() {
-    const [empleado_es_usuario, setEmpleado_es_usuario]= useState(true)
-    const [redireccionar, setRedireccionar]= useState(false)
+    const [empleado_es_usuario, setEmpleado_es_usuario]= useState(false)
+    const [redireccionar, setRedireccionar]= useState(true)
     const [exitoso,setExitoso]= useState(false)
 
     const handleBuscar= (dni) =>{

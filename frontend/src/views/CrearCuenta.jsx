@@ -3,6 +3,7 @@ import '../styles/CrearCuenta.css'
 import { useNavigate } from "react-router-dom"
 import Modal from "../components/Modal";
 import routes from "../routes";
+
 const soyAdmin= ()=>{
     return location.pathname === '/admin/registrar_empleado'
 }
@@ -98,11 +99,31 @@ function CrearCuenta(){
 
     const handleRegistro= async (event) =>{    //fetch para crear usuario en BD
         event.preventDefault(); //para evitar que se recargue la pagina
-        console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleContra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
-        console.log ({"datos": datos});
-        console.log ({"imagen": imagen});
-        //alert("Aguanta, entro");
         if (coincidenContrasenias && esMayor && cumpleContrasenia && dniValido && todosLosCamposCompletos(datos)){
+            if (soyAdmin()){
+                fetch("http://localhost:5000/user/registrarEmpleado", {
+                       method: "POST",
+                       headers: { "Content-Type": "application/JSON" },
+                       body: JSON.stringify({User: datos}),
+                       credentials: "include"
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                           return response.json().then(data => {
+                                throw new Error(data.error_values);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setConfirmacion(true)
+                    })
+                    .catch(error => {
+                        if (error == 'Error: email' || error == 'Error: dni,email') setEmailRepetido(true)
+                        else if (error == 'Error: dni') setDniRepetido(true)
+                    })
+            }
+            else{
                 fetch("http://localhost:5000/user/register", {
                        method: "POST",
                        headers: { "Content-Type": "application/JSON" },
@@ -124,7 +145,7 @@ function CrearCuenta(){
                         if (error == 'Error: email' || error == 'Error: dni,email') setEmailRepetido(true)
                         else if (error == 'Error: dni') setDniRepetido(true)
                     })
-
+            }
         }
     }
 
@@ -152,8 +173,8 @@ function CrearCuenta(){
         
         <main className="main">
             
-            {soyAdmin() && <h2>Registrar Empleado</h2>}
-            {!soyAdmin() &&<h2>Registrarse</h2>}
+            {soyAdmin() && <h2 style={{marginTop:'20px'}}>Registrar Empleado</h2>}
+            {!soyAdmin() &&<h2 style={{marginTop:'20px'}}>Registrarse</h2>}
 
             <div className="forms" >
                 <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
