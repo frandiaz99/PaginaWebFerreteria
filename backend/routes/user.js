@@ -8,15 +8,16 @@ const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
 
 const shortid = require('shortid');
-const shortNumericId = parseInt(shortid.generate(), 36).toString().slice(0, 5);
+const shortNumericId = () => { return (parseInt(shortid.generate(), 36).toString().slice(0, 5))};
 
 
-
+ 
 const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const {mandarMail} = require("./mail.js");
+const { json } = require("body-parser");
 //const { Console, error } = require("console");
 const router = express.Router();
 //
@@ -182,26 +183,29 @@ const register = async (req, res, next) => {
       suscripto: User.suscripto,
       foto_perfil: File.filename,
       rol: rol,
-      code: shortNumericId,
+      code: shortNumericId(),
     })
       .then((user) => {
         console.log("Usuario creado correctamente");
-        // es igual a 3hs, va a ser el tiempo en hacer un timeout osea se va a tener que volver a logear
-        const maxAge = venciminetoCookie;
-        const token = jwt.sign(
-          { id: user._id, email: user.email, dni: user.dni, rol: user.rol },
-          jwtSecret,
-          { expiresIn: maxAge /* 3hrs en segundos */ }
-        );
+        // es igual a 3hs, va a ser el tiempo en hacer un timeout osea se va a tener que volver a logear}
 
-        res.cookie("jwt", token, {
-          httpOnly: true,
-          maxAge: maxAge * 1000, //3hs en milisegundos
-        });
-
-        console.log(
-          "Enviando al fron confirmacion de creacion de usuario con cookie"
-        );
+        if (!req.body.Auth) {
+          const maxAge = venciminetoCookie;
+          const token = jwt.sign(
+            { id: user._id, email: user.email, dni: user.dni, rol: user.rol },
+            jwtSecret,
+            { expiresIn: maxAge /* 3hrs en segundos */ }
+          );
+          
+          res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: maxAge * 1000, //3hs en milisegundos
+          });
+        }
+          
+          console.log(
+            "Enviando al fron confirmacion de creacion de usuario con cookie"
+          );
         return res.status(201).json({
           user /*
           message: "User successfully created", 
@@ -290,7 +294,7 @@ const login = async (req, res, next) => {
           if (user.rol > 1) {
               if (req.body.User.code){
                 if (user.code == req.body.User.code){
-                  DataUser.findOneAndUpdate({_id: user._id}, {code: shortNumericId}).then()
+                  DataUser.findOneAndUpdate({_id: user._id}, {code: shortNumericId()}).then()
                   console.log("Code correcto y actualizado uno nuevo")
                 } else {
                   return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
@@ -471,7 +475,7 @@ const editarPerfil = async (req, res, next) => {
     // console.log(req.body.User);
     // console.log(req.body.Auth);
     //console.log(req.body.Auth);
-
+/*
     console.log({ Body: req.body });
     console.log(
       "------------------------   -------------------------   ---------------"
@@ -481,18 +485,16 @@ const editarPerfil = async (req, res, next) => {
       "------------------------   -------------------------   ---------------"
     );
     console.log({ file: req.file });
-    console.log(
-      "------------------------   -------------------------   ---------------"
-    );
-
+    console.log("------------------------   -------------------------   ---------------");
+    */
     // Obtener los datos del usuario actual
     const userId = req.body.Auth._id; // ID del usuario actual
     const currentUser = await DataUser.findById(userId);
-
+    
     if (!currentUser) {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
-
+    
     // Manejo de la imagen de perfil
     let foto_perfil;
     if (!req.file) {
@@ -502,20 +504,42 @@ const editarPerfil = async (req, res, next) => {
       // Si se proporciona una imagen, usar la nueva imagen cargada
       foto_perfil = req.file.filename; // Asigna el nombre del archivo generado por multer
     }
-
+    
     // Modificar los datos del usuario según lo proporcionado en la solicitud
-    const { nombre, apellido, sucursal } = req.body;
+    const { nombre, apellido, sucursal } = JSON.parse(req.body.User)
     if (nombre) currentUser.nombre = nombre;
     if (apellido) currentUser.apellido = apellido;
-    if (sucursal) currentUser.sucursal = sucursal;
     currentUser.foto_perfil = foto_perfil; // Actualiza la foto de perfil
+    //if (sucursal) currentUser.sucursal = sucursal;
+    console.log("Sucursal:", sucursal);
+    console.log("------------------------   -------------------------   ---------------");
+    console.log("Falta que el front reciba las id de las sucusasles y madne las id");
+    console.log("------------------------   -------------------------   ---------------");
 
+    if (currentUser.sucursal._id != sucursal._id)  {
+      await DataSucursal.findById(sucursal._id).then((data) => {
+        console.log(data)
+        if (data){
+          currentUser.sucursal = sucursal._id
+        } else {
+          return res.status(400).json({message: "Sucursal no encontrada", error: data})
+        }
+      }).catch((error) => {
+        return res.status(400).json({message: "Error buscando sucursal", error})
+      });
+      
+    }
+    
     // Guardar los cambios en la base de datos
-    await currentUser.save();
-
-    return res
+    await currentUser.save().then((data) => {
+      console.log({"User actualizado": data});
+      return res
       .status(200)
-      .json({ message: "Perfil actualizado correctamente", user: currentUser });
+      .json({ message: "Perfil actualizado correctamente", user: data });
+    }).catch ((err) => {
+      return res.status(200).json({ message: "Error actualizado perfil", error: err });
+    });
+    
   } catch (err) {
     console.error("Ocurrió un error al editar el perfil:", err);
     return res.status(500).json({

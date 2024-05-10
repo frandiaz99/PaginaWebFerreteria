@@ -29,7 +29,7 @@ function Perfil() {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        console.log("usuarioooo: ", data);
         setUsuario(data.User)
       })
       .catch(error => {

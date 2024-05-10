@@ -15,7 +15,7 @@ function EditarPerfil() {
 
     const [imagen, setImagen] = useState({ foto: "" })
 
-    const [confirmacion, setConfirmacion] = useState(false);
+    const [editarPerfil, setEditarPerfil] = useState(false);
 
     const handleChange = (e) => {
         setDatos({
@@ -55,11 +55,11 @@ function EditarPerfil() {
             })
             .then((data) => {
                 console.log("Respuesta del servidor al editar perfil:", data);
-                setConfirmacion(true);
+                setEditarPerfil(true);
 
-                localStorage.setItem("User", JSON.stringify(usuarioModificado));
+                localStorage.setItem("user", JSON.stringify(usuarioModificado));
                 console.log("usuario modificado: ", usuarioModificado);
-                navigate(routes.perfil);
+
             })
             .catch((error) => {
                 console.error("Hubo un problema al guardar los cambios:", error);
@@ -67,10 +67,9 @@ function EditarPerfil() {
             });
     };
 
-    const handleYes = () => {
-        handleGuardarCambios(); //guardaria el nombre, sucursal, foto lo que sea
-        setConfirmacion(false);
-        navigate(routes.perfil);
+    const handleOk = () => {
+        setEditarPerfil(false);
+        navigate(routes.perfil)
     };
 
     useEffect(() => {
@@ -114,7 +113,7 @@ function EditarPerfil() {
                     <div className='datos'>
                         <div className='nombre'>Nombre: <input name='nombre' type='text' defaultValue={user.nombre} onChange={handleChange} /></div>
                         <div className='apellido'>Apellido: <input name='apellido' type='text' defaultValue={user.apellido} onChange={handleChange} /></div>
-                        <div className='sucursal'>
+                        <div className='sucursal-editar-perfil'>
                             Sucursal:
                             <select defaultValue={user.sucursal}>
                                 <option value="La plata">La plata</option>
@@ -130,13 +129,12 @@ function EditarPerfil() {
                     </div>
                     <div className='guardar'>
                         <button type='submit'>Guardar cambios</button>
-                        <Modal texto={'Los cambios se han guardado con exito. '}
-                            confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={true} />
                         <Link to={routes.perfil} className='link'><button>Cancelar</button></Link>
-
                     </div>
                 </div>
             </form>
+            <Modal texto={'Los cambios se han guardado con exito. '}
+                confirmacion={editarPerfil} setConfirmacion={setEditarPerfil} handleYes={handleOk} ok={true} />
         </main >
     )
 
