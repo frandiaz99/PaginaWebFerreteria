@@ -37,7 +37,7 @@ function UnArticulo() {
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {
-      setTimeout(3000);
+      setTimeout(2000);
       if (articuloSeleccionado) {
           console.log(articuloSeleccionado);
           foto_articulo = srcFotoArt + articuloSeleccionado.foto_articulo;

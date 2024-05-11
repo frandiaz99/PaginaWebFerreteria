@@ -1,22 +1,9 @@
 import { useNavigate} from 'react-router-dom'
 import '../styles/Articulo.css'
 import routes from '../routes'
-
-function handleClickArticulo(articulo){
-    localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
-    console.log(localStorage.getItem("articuloSeleccionado"));
-}
 import Modal from './Modal.jsx'
 import { useState } from 'react'
 
-
-import Modal from './Modal.jsx'
-import { useState } from 'react'
-
-function handleClickArticulo(articulo){
-    localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
-    console.log(localStorage.getItem("articuloSeleccionado"));
-}
 
 function Articulo({ articulo, misArticulos }) {
     const navigate= useNavigate()
@@ -53,7 +40,9 @@ function Articulo({ articulo, misArticulos }) {
     }
 
     const irArticulo= ()=>{
-        navigate(routes.unArticulo)
+        localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
+        console.log(localStorage.getItem("articuloSeleccionado"));
+        navigate(routes.unArticulo);
     }
 
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
