@@ -8,14 +8,14 @@ import { useNavigate } from "react-router-dom";
 function EditarPerfil() {
     const navigate = useNavigate();
 
-    const [usuario, setUsuario] = useState({});
+    const [usuario, setUsuario] = useState(null);
     //const user = JSON.parse(localStorage.getItem("user"));
 
     const [datos, setDatos] = useState({ nombre: '', apellido: '', sucursal: '' });
 
     const [imagen, setImagen] = useState({ foto: "" })
 
-    const [sucursales, setSucursales] = useState([]);
+    const [sucursales, setSucursales] = useState(null);
 
     const [editarPerfil, setEditarPerfil] = useState(false);
 
@@ -132,7 +132,7 @@ function EditarPerfil() {
 
     return (
         <main className='main'>
-            <form className='contenedor-editar-perfil' onSubmit={handleGuardarCambios} encType="multipart/form-data">
+            {(sucursales && usuario)&&<form className='contenedor-editar-perfil' onSubmit={handleGuardarCambios} encType="multipart/form-data">
                 <div className='cambios-perfil' >
                     <div className='foto-perfil' style={{ backgroundImage: `url(${imagen.foto ? URL.createObjectURL(imagen.foto) : `http://localhost:5000/img/${usuario.foto_perfil}`})` }}>
                         <input type='file' id='input-foto' accept=".png, .jpg, .jpeg" name='foto'
@@ -151,7 +151,7 @@ function EditarPerfil() {
                         <div className='sucursal-editar-perfil'>
                             Sucursal:
                             <select name="sucursal" id="sucursal" onChange={changeSucursal}>
-                                {sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
+                                {sucursales.map((s, index) => (<option key={index} value={s._id} selected={s._id === usuario.sucursal._id} >{s.nombre}</option>))}
                             </select>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ function EditarPerfil() {
                         <Link to={routes.perfil} className='link'><button>Cancelar</button></Link>
                     </div>
                 </div>
-            </form>
+            </form>}
             <Modal texto={'Los cambios se han guardado con exito. '}
                 confirmacion={editarPerfil} setConfirmacion={setEditarPerfil} handleYes={handleOk} ok={true} />
         </main >

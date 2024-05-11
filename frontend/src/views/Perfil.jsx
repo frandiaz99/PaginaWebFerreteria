@@ -91,6 +91,7 @@ function Perfil() {
               <>
                 <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
                 <div className='fila-email' >{usuario.email}</div>
+                <div className='fila-email' >{usuario.sucursal.nombre}</div>
                 <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
                 <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
                 <div className='fila-boton'>
