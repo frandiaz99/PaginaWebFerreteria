@@ -81,8 +81,8 @@ function EditarPerfil() {
     };
 
     const handleOk = () => {
-        setEditarPerfil(false);
-        window.location.reload();
+        setEditarPerfil(false)
+        window.location.href = routes.perfil
     };
 
     useEffect(() => {
