@@ -20,20 +20,72 @@ function UnArticulo() {
 
   
   var imagenes = [];
+  var srcFotoArt = "http://localhost:5000/img/";
+  var foto_articulo, foto_perfil;
   var indiceActual = 0;
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null); //El useState devuelve un array
 
+  //Para cuando los datos del localStorage se bugueen: comentar los documents, recargar pag, descomentarlos y volver a cargar.
+
   useEffect(() => {
-      const articuloLocal = localStorage.getItem('articuloSeleccionado');
-      if (articuloLocal) {
-          setArticuloSeleccionado(JSON.parse(articuloLocal));
-          console.log(articuloSeleccionado.nombre);
+    const articuloLocal = localStorage.getItem('articuloSeleccionado');
+    console.log(articuloLocal);
+    if (articuloLocal) {
+        setArticuloSeleccionado(JSON.parse(articuloLocal));
+        console.log(articuloSeleccionado);
+    }
+  }, []); //Para ejecutarlo 1 vez sola
+
+  useEffect(() => {
+      setTimeout(3000);
+      if (articuloSeleccionado) {
+          console.log(articuloSeleccionado);
+          foto_articulo = srcFotoArt + articuloSeleccionado.foto_articulo;
+          foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
+          console.log(foto_perfil);
+          if (!imagenes.includes(foto_articulo)){
+            console.log("dentro");
+            imagenes.push(foto_articulo);
+          }
+          //Lo dejo para cuando haya mas de una foto en la bd, de momento es como esta arriba
+          /*for (let i=0; i<; i++){
+              imagenes.push(srcFotoArt);
+          }*/
           document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
           document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
-          document.getElementById("precio-articulo").innerHTML = articuloSeleccionado.precio;
-          document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.nombre;
+          document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.interesado;
+          document.getElementById("foto-articulo").src = imagenes[indiceActual];
+          document.getElementById("imagen-perfil").src = foto_perfil;
+          document.getElementById("nombre-usuario").innerHTML = articuloSeleccionado.usuario.nombre;
+          localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos);
       }
-  }, []); //Para ejecutarlo 1 vez sola 
+  }, [articuloSeleccionado, imagenes]); //Para ejecutarlo cuando cambie articuloSeleccionado o imagenes.
+
+
+
+  function generarEstrellas (){
+    var estrellas = [];
+    //Ver tema de las imagenes y ver que hacer con el intercambiar.
+    var puntuacion = localStorage.getItem('puntaje_usuario');
+    console.log(puntuacion);
+    const estrellasCompletas = Math.floor(puntuacion);
+    const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;
+    const estrellasVacias = 5 - estrellasCompletas - (hayMediaEstrella ? 1 : 0);
+
+    for (let i = 0; i < estrellasCompletas; i++) {
+      estrellas.push(<ion-icon name="star"></ion-icon>);
+    }
+
+    if (hayMediaEstrella) {
+      estrellas.push(<ion-icon name="star-half"></ion-icon>);
+    }
+
+    for (let i = 0; i < estrellasVacias; i++) {
+      estrellas.push(<ion-icon name="star-outline"></ion-icon>);
+    }
+
+    return estrellas;
+  }
 
   function cambiarImagen(estado) {
     if (estado === "atras" && indiceActual > 0){
@@ -49,38 +101,39 @@ function UnArticulo() {
     document.getElementById("foto-articulo").src=imagenes[indiceActual];
   }
 
+
+
   return (
     <main className='main'>
       <div className='unArticulo-principal'>
-      <div id='main-container'>
-        <div id='container-foto'>
-          <button className='boton-foto' onClick={() => cambiarImagen('atras')}>&lt;</button>
-          <img id='foto-articulo' src={imagenes[indiceActual]} alt="Imagen-articulo" />
-          <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}>&gt;</button>
-        </div>
-        <div id='container-info'>
-          <h2 id='nombre-articulo' className='spacing'></h2> 
-          <p id='descripcion-articulo' className='spacing'></p>
-          <p id='precio-articulo' className='spacing'></p>
-          <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
-          <p id="descripcion-interesado-en"></p>
-          <div id="container-buttons" className="spacing">
-            <button id="boton-intercambiar" >
-              Intercambiar
-            </button>
-            <div id="container-perfil">
-              <h5>Propietario</h5>
-              <button id='boton-ver-perfil'>
-                <img src="" alt="Imagen-perfil" id='imagen-perfil'/>
-                <div id='container-datos-usuario'>
-                  <p id='nombre-usuario'>Usuario</p>
-                  <p id='puntaje-usuario'>----- 5.0</p>
-                </div>
+        <div id='main-container'>
+          <div id='container-foto'>
+            <button className='boton-foto' onClick={() => cambiarImagen('atras')}>&lt;</button>
+            <img id='foto-articulo' src="" alt="imagen" />
+            <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}>&gt;</button>
+          </div>
+          <div id='container-info'>
+            <h2 id='nombre-articulo' className='spacing'></h2> 
+            <p id='descripcion-articulo' className='spacing'></p>
+            <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
+            <p id="descripcion-interesado-en"></p>
+            <div id="container-buttons" className="spacing">
+              <button id="boton-intercambiar" >
+                Intercambiar
               </button>
+              <div id="container-perfil">
+                <h5 id='palabra-propietario'>Propietario</h5>
+                <button id='boton-ver-perfil'>
+                  <img src="" alt="Imagen-perfil" id='imagen-perfil'/>
+                  <div id='container-datos-usuario'>
+                    <h5 id='nombre-usuario'></h5>
+                    <p id='puntaje-usuario'>{generarEstrellas()}</p>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <Pagar/>    

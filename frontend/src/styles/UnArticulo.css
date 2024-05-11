@@ -108,13 +108,14 @@
 #container-datos-usuario{
     display: flex;
     flex-direction: column;
+    padding-left: 11px;
 }
 
 #container-perfil{
     padding-left: 50px;
 }
 
-#container-perfil h5{
+#palabra-propietario{
     color: #517da7;
 }
 
@@ -124,6 +125,15 @@
     width: 80px;
 }
 
+#nombre-usuario{
+    font-size: 13px;
+    color: #2399a8;
+}
+
 .spacing{
     padding: 5px;
+}
+
+.unArticulo-principal{
+    height: 25rem;
 }

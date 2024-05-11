@@ -27,6 +27,7 @@ html, body {
   height: -webkit-fill-available;
   align-items: center;
   overflow-y: auto;
+  height: 100%;
 }
 
 .noHayItems{
