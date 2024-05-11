@@ -516,20 +516,23 @@ const editarPerfil = async (req, res, next) => {
     console.log("Falta que el front reciba las id de las sucusasles y madne las id");
     console.log("------------------------   -------------------------   ---------------");
 
-    if (currentUser.sucursal._id != sucursal._id) {
-      await DataSucursal.findById(sucursal._id).then((data) => {
-        console.log(data)
-        if (data) {
-          currentUser.sucursal = sucursal._id
-        } else {
-          return res.status(400).json({ message: "Sucursal no encontrada", error: data })
-        }
-      }).catch((error) => {
-        return res.status(400).json({ message: "Error buscando sucursal", error })
-      });
+    if (currentUser.sucursal){ //agregue este if porque si es admin no tiene una sucursal asignada (nico)
 
+      if (currentUser.sucursal._id != sucursal._id) {
+        await DataSucursal.findById(sucursal._id).then((data) => {
+          console.log(data)
+          if (data) {
+            currentUser.sucursal = sucursal._id
+          } else {
+            return res.status(400).json({ message: "Sucursal no encontrada", error: data })
+          }
+        }).catch((error) => {
+          return res.status(400).json({ message: "Error buscando sucursal", error })
+        });
+  
+      }
+    
     }
-
     // Guardar los cambios en la base de datos
     await currentUser.save().then((data) => {
       console.log({ "User actualizado": data });

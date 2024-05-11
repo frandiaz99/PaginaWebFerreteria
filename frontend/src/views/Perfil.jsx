@@ -91,7 +91,11 @@ function Perfil() {
               <>
                 <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
                 <div className='fila-email' >{usuario.email}</div>
-                <div className='fila-email' >{usuario.sucursal.nombre}</div>
+                {usuario.sucursal ? <div className='fila-email' >{usuario.sucursal.nombre}</div>
+                  : usuario.rol < 3 ?
+                  <div className='fila-email' >Sucursal: Selecciona una nueva sucursal</div>
+                  :
+                    <div></div> /*para que no aparezca sucursal si es admin*/} 
                 <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
                 <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
                 <div className='fila-boton'>

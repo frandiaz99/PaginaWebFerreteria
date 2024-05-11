@@ -82,7 +82,8 @@ function EditarPerfil() {
 
     const handleOk = () => {
         setEditarPerfil(false)
-        window.location.href = routes.perfil
+        if (usuario.rol == 3) window.location.href = routes.adminPerfil
+        else window.location.href = routes.perfil
     };
 
     useEffect(() => {
@@ -148,12 +149,13 @@ function EditarPerfil() {
                     <div className='datos'>
                         <div className='nombre'>Nombre: <input name='nombre' type='text' defaultValue={usuario.nombre} onChange={handleChange} /></div>
                         <div className='apellido'>Apellido: <input name='apellido' type='text' defaultValue={usuario.apellido} onChange={handleChange} /></div>
-                        <div className='sucursal-editar-perfil'>
+                        {usuario.rol < 3 &&<div className='sucursal-editar-perfil'>
                             Sucursal:
                             <select name="sucursal" id="sucursal" onChange={changeSucursal}>
-                                {sucursales.map((s, index) => (<option key={index} value={s._id} selected={s._id === usuario.sucursal._id} >{s.nombre}</option>))}
+                                {usuario.sucursal ? sucursales.map((s, index) => (<option key={index} value={s._id} selected={s._id === usuario.sucursal._id} >{s.nombre}</option>))
+                                : sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
                             </select>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 <div className='botones'>
