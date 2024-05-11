@@ -6,85 +6,92 @@ import Paginacion from '../components/Paginacion'
 import Filtros from '../components/Filtros'
 import { useState, useEffect, useRef } from 'react'
 
-const articulosXPag= 4 //en cada pagina mostrar 5 articulos
-const ultimosTrueques= [{num:1}, {num:2}, {num:3}, {num:4}, {num:5}]  //fetch para ultimosTrueques en useEffect
+const articulosXPag = 4 //en cada pagina mostrar 5 articulos
+const ultimosTrueques = [{ num: 1 }, { num: 2 }, { num: 3 }, { num: 4 }, { num: 5 }]  //fetch para ultimosTrueques en useEffect
 
 function PaginaPrincipal() {
-  const [totalArticulos, setTotalArticulos]= useState([])
-  const [articulosActuales,setArticulosActuales]= useState(totalArticulos) //aca se guardan los filtrados
-  const [pagActual,setPagActual]= useState(1);
-  const articulosRef= useRef(null)
+  const [totalArticulos, setTotalArticulos] = useState([])
+  const [articulosActuales, setArticulosActuales] = useState(totalArticulos) //aca se guardan los filtrados
+  const [pagActual, setPagActual] = useState(1);
+  const articulosRef = useRef(null)
 
-  const handlePageChange= (pagina) =>{
-    articulosRef.current.scrollTop= 0 //Sube el scroll cuando cambias de pagina
+  const handlePageChange = (pagina) => {
+    articulosRef.current.scrollTop = 0 //Sube el scroll cuando cambias de pagina
     setPagActual(pagina)
-  } 
+  }
 
-  const handleFiltros= (resultado) =>{
+  const handleFiltros = (resultado) => {
     setArticulosActuales(resultado)
   }
-  
-  function mostrarArticulos(){  
-    const ultimoarticulo= pagActual * articulosXPag
-    const primerArticulo= ultimoarticulo - articulosXPag
-    return articulosActuales.slice(primerArticulo,ultimoarticulo)
+
+  function mostrarArticulos() {
+    const ultimoarticulo = pagActual * articulosXPag
+    const primerArticulo = ultimoarticulo - articulosXPag
+    return articulosActuales.slice(primerArticulo, ultimoarticulo)
   }
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     setArticulosActuales(totalArticulos)
   }, [totalArticulos]) //Solo cambia la primera vez
 
 
   useEffect(() => {
-    fetch('http://localhost:5000/articulo/getArticulos', 
-    {method: "GET", 
-    headers: {
-      "Content-Type": "application/JSON",
-      //"Cookie": localStorage.getItem('jwt')
-    },credentials: "include"})
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Hubo un problema al obtener los articulos');
-      }
-      return response.json();
-    })
-    .then(data => {
-      setTotalArticulos(data.filter(d => d.precio > 0))
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    fetch('http://localhost:5000/articulo/getArticulos',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+          //"Cookie": localStorage.getItem('jwt')
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener los articulos');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setTotalArticulos(data.filter(d => d.precio > 0))
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }, [])
 
 
   return (
     <>
       <main className='main'>
-        
+
         <div className='body-trueques'>
-          <div className='ultimosTrueques'>
-            <h4 className='tituloUltimoTrueques'>Últimos Trueques</h4>
-            <div className='ultimosTrueques-lista'>
-              {ultimosTrueques.map((unTrueque, indice) =>(
-                <UltimoTrueque key={indice}/>
-              ))}
+          <div className='contenedor-ultimos-trueques'>
+            <div className='div-titulo-ultimo-trueque'>
+              <h4 className='tituloUltimoTrueques'>Últimos Trueques</h4>
+            </div>
+            <div className='ultimosTrueques'>
+              <div className='ultimosTrueques-lista'>
+                {ultimosTrueques.map((unTrueque, indice) => (
+                  <UltimoTrueque key={indice} />
+                ))}
+              </div>
             </div>
           </div>
 
+          <><hr className='hr-pagina-principal' /> </>
           <div className='main-articulos'>
-            <Filtros totalItems={totalArticulos} actualizar={handleFiltros}/> 
-            
+            <Filtros totalItems={totalArticulos} actualizar={handleFiltros} />
+
             <div className='articulos' ref={articulosRef}>
-              {(totalArticulos.length == 0 || articulosActuales == 0)? 
+              {(totalArticulos.length == 0 || articulosActuales == 0) ?
                 <div className='noHayItems'>
                   No hay articulos disponibles aún
                 </div> //Podria ser un componente
-              :
-              mostrarArticulos().map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={false}/>))
+                :
+                mostrarArticulos().map((art, index) => (<Articulo key={index} articulo={art} misArticulos={false} />))
               }
             </div>
 
-            {articulosActuales.length > 0 && <Paginacion totalItems= {articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange}/>}
+            {articulosActuales.length > 0 && <Paginacion totalItems={articulosActuales.length} itemsXPag={articulosXPag} onPageChange={handlePageChange} />}
           </div>
         </div>
       </main>
