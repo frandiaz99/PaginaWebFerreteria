@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import routes from '../routes'
 import '../styles/SubirArticulo.css'
 import Modal from '../components/Modal'
 
 function SubirArticulo() {
-  const navigate= useNavigate();
-  const [artSubido, setArtSubido]= useState(false)
+  const navigate = useNavigate();
+  const [artSubido, setArtSubido] = useState(false)
 
   const [datos, setDatos] = useState({
     nombre: '',
@@ -14,21 +14,22 @@ function SubirArticulo() {
     interesado: '',
   })
 
-  const [imagen, setImagen] = useState({foto: ""})
+  const [imagen, setImagen] = useState({ foto: "" })
 
   const handleChange = (e) => {
-    setDatos({...datos,
-    [e.target.name]: e.target.value,
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value,
     })
   }
 
 
-  const handleSubirArt = (event) =>{
+  const handleSubirArt = (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("Articulo", JSON.stringify(datos));
     formData.append("Imagen", imagen.foto);
-    console.log({"form Data": formData});
+    console.log({ "form Data": formData });
 
     /*
     event.preventDefault();
@@ -43,30 +44,30 @@ function SubirArticulo() {
       body: formData,
       credentials: "include"
     })
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(data => {
-          throw new Error(data.message || "Error al crear articulo");
-        });
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Creacion articulo exitosa:", data)
-      setArtSubido(true)
-    })
-    .catch(error => {
-      console.error("Error en la creacion del art:", error.message);
-    });   
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(data.message || "Error al crear articulo");
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Creacion articulo exitosa:", data)
+        setArtSubido(true)
+      })
+      .catch(error => {
+        console.error("Error en la creacion del art:", error.message);
+      });
   }
 
-  const handleOk= () =>{
+  const handleOk = () => {
     setArtSubido(false)
     window.location.reload();
   }
 
   return (
-    <main className='main'>
+    <main className='main main-subir-articulo' >
       <form className='formSubirArt' onSubmit={handleSubirArt} encType="multipart/form-data">
 
         <div className='main-subirArt'>
@@ -85,12 +86,12 @@ function SubirArticulo() {
 
               <div className='nombre-section1'>
                 <label className='label-subirArt' >Nombre</label>
-                <input autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange}/>
+                <input autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange} />
               </div>
 
               <div className='descripcion-section1'>
                 <label className='label-subirArt' >Descripción</label>
-                <textarea className='textArea-subirArt' id='descripcionArt' name='descripcion' onChange={handleChange}/>
+                <textarea className='textArea-subirArt' id='descripcionArt' name='descripcion' onChange={handleChange} />
               </div>
 
             </div>
@@ -104,7 +105,7 @@ function SubirArticulo() {
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange} autoComplete="off"/>
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange} autoComplete="off" />
             </div>
           </div>
 
@@ -116,13 +117,16 @@ function SubirArticulo() {
             </div>
 
             <div className='foto-section3'>
-              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" multiple name="foto" 
-              onChange={e => {
-                              console.log ({"name": e.target.name})
-                              console.log ("asdasd", e.target.files)
-                              setImagen({[e.target.name]: e.target.files})
-                              console.log (imagen)
-              }} />
+              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" multiple name="foto"
+                onChange={e => {
+                  console.log({ "name": e.target.name })
+                  console.log("asdasd", e.target.files)
+                  setImagen({ [e.target.name]: e.target.files })
+                  console.log(imagen)
+                }} />
+              <div className='verImagenes'>
+
+              </div>
             </div>
           </div>
 
@@ -131,6 +135,7 @@ function SubirArticulo() {
 
         <div className='divBotonSubirArt'>
           <button type="submit" className='boton-subirArt'>Subir artículo</button>
+          <Link to={routes.pagPrincipal}><button className='boton-cancelarArt'>Cancelar</button></Link>
         </div>
 
       </form>
