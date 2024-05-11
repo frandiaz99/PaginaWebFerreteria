@@ -82,8 +82,7 @@ function EditarPerfil() {
 
     const handleOk = () => {
         setEditarPerfil(false);
-
-        navigate(routes.perfil)
+        window.location.reload();
     };
 
     useEffect(() => {

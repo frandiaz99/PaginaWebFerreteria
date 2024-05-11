@@ -21,13 +21,32 @@ function OpcionesUser() {
   const [dropNotificacionesOpen, setDropNotificacionesOpen]= useState(false)
   const dropNotificacionesRef= useRef(null)
   const dropCuentaRef= useRef(null)
+  const [user, setUser]= useState(null)
+  const [srcFotoPerfil,setSrcFotoPerfil] = useState("http://localhost:5000/img/Imagen_user_default.png")
 
-  const user=JSON.parse(localStorage.getItem('user')) || null
-  var srcFotoPerfil = "http://localhost:5000/img/Imagen_user_default.png";
-
-  if (user){  //esto es para no leer un null que solo pasa si borras el storage manualmente
-    srcFotoPerfil= ("http://localhost:5000/img/" + user.foto_perfil);
-  }
+  useEffect(() => {
+    fetch('http://localhost:5000/user/getSelf',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener el usuario');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("usuarioooo: ", data);
+        setSrcFotoPerfil("http://localhost:5000/img/" + data.User.foto_perfil)
+        setUser(data.User)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [])
 
   const handleHome = () =>{
     if (estaEnModoUser()){
