@@ -116,12 +116,12 @@ function SubirArticulo() {
             </div>
 
             <div className='foto-section3'>
-              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" name="foto" 
+              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" multiple name="foto" 
               onChange={e => {
                               console.log ({"name": e.target.name})
-                              console.log ( e.target.files[0])
-                              setImagen({[e.target.name]: e.target.files[0]})
-                              console.log ( imagen);
+                              console.log ("asdasd", e.target.files)
+                              setImagen({[e.target.name]: e.target.files})
+                              console.log (imagen)
               }} />
             </div>
           </div>
