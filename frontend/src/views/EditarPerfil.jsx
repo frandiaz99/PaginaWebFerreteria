@@ -164,7 +164,10 @@ function EditarPerfil() {
                     </div>
                     <div className='guardar'>
                         <button type='submit'>Guardar cambios</button>
-                        <Link to={routes.perfil} className='link'><button>Cancelar</button></Link>
+                        {usuario.rol == 3 ?
+                        <Link to={routes.adminPerfil} className='link'><button>Cancelar</button></Link>
+                        :
+                        <Link to={routes.perfil} className='link'><button>Cancelar</button></Link>}
                     </div>
                 </div>
             </form>}

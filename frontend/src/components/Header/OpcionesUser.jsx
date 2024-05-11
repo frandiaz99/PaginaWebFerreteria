@@ -22,7 +22,7 @@ function OpcionesUser() {
   const dropNotificacionesRef= useRef(null)
   const dropCuentaRef= useRef(null)
   const [user, setUser]= useState(null)
-  const [srcFotoPerfil,setSrcFotoPerfil] = useState("http://localhost:5000/img/Imagen_user_default.png")
+  const [srcFotoPerfil,setSrcFotoPerfil] = useState("http://localhost:5000/img/"+ JSON.parse(localStorage.getItem('user')).foto_perfil)
 
   useEffect(() => {
     fetch('http://localhost:5000/user/getSelf',
@@ -41,6 +41,7 @@ function OpcionesUser() {
       .then(data => {
         console.log("usuarioooo: ", data);
         setSrcFotoPerfil("http://localhost:5000/img/" + data.User.foto_perfil)
+        localStorage.setItem('user',JSON.stringify(data.User))
         setUser(data.User)
       })
       .catch(error => {
