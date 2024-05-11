@@ -38,7 +38,8 @@
     /* Tamaño de letra más grande */
 }
 
-.fila-email {
+.fila-email,
+.fila-nacimiento {
     color: #666;
     /* Color de texto más claro */
 }
@@ -51,8 +52,15 @@
 .fila-boton button {
     padding: 8px 16px;
     font-size: 16px;
-    border-radius: 12px;
-    background-color: blue;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.fila-boton button:hover {
+    background-color: #0056b3
 }
 
 

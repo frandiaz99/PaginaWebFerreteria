@@ -13,15 +13,16 @@
 
 .datosCuenta{
     display: flex;
-    width: 85%;
+    width: 80%;
     height: 100%;
     gap: 10px;
 }
 
 .datosCuenta-foto{
-    width: 5rem;
+    width: 6rem;
     height: 6rem;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     overflow: clip;
 }
 

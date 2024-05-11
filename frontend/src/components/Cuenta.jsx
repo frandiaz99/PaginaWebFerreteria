@@ -2,18 +2,20 @@ import React, { useState } from 'react'
 import '../styles/Cuenta.css'
 import Modal from './Modal'
 
-function Cuenta({cuenta, setEliminado, eliminado}) {
+function Cuenta({cuenta}) {
   const [confirmacion, setConfirmacion]= useState(false)
+  const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
-    setEliminado(!eliminado)
     setConfirmacion(false)
-    /*fetch('http://localhost:5000/eliminarEmpleado',   //Esto iria cuando se cree el back
-    {method: "POST", 
+    fetch('http://localhost:5000/user/deleteUser',   
+    {method: "DELETE", 
     headers: {
       "Content-Type": "application/JSON",
       //"Cookie": localStorage.getItem('jwt')
-    },credentials: "include"})
+    },
+    body: JSON.stringify({id: cuenta._id}),
+    credentials: "include"})
     .then(response => {
       if (!response.ok) {
         throw new Error('Hubo un problema al eliminar al empleado');
@@ -21,14 +23,13 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
       return response.json();
     })
     .then(data => {
-      setEliminado(!eliminado)
-      setConfirmacion(false)
-      //Informar que la eliminación fue exitosa
+      window.location.reload()
     })
     .catch(error => {
       console.error('Error:', error);
-    });*/
+    })
   }
+
 
   const handleBoton= () => {
     setConfirmacion(true)
@@ -39,14 +40,14 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
       <div className='datosCuenta'>
 
         <div className='datosCuenta-foto'>
-          <img src={cuenta.foto} alt="fotoCuenta" className='fotoDeCuenta'/>
+          <img src={srcFotoPerfil} alt="fotoCuenta" className='fotoDeCuenta'/>
         </div>
 
         <div className='datosCuenta-datos'>
           <h3>{cuenta.nombre}</h3>
           <h4>{cuenta.dni}</h4>
           <p>{cuenta.mail}</p>
-          <p>Sucursal {cuenta.sucursal}</p>
+          <p>Sucursal: {cuenta.sucursal.nombre}</p>
         </div>
 
       </div>
@@ -55,7 +56,6 @@ function Cuenta({cuenta, setEliminado, eliminado}) {
       </div>
 
       <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar} ok={false}/>
-      
     </div>
   )
 }

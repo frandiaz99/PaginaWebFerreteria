@@ -1,0 +1,56 @@
+.principal_admin_emple{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    min-width: 900px;
+}
+
+.pendientes_y_completados-principal_admin_emple{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.titulo-pendientes_y_completados{
+    cursor: pointer;
+    color: rgb(170, 170, 170);
+}
+
+
+.filtros_y_trueques-principal_admin_emple{
+    width: 60%;
+    display: flex;
+    flex-direction:column;
+    gap: 20px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    padding-top: 20px;
+}
+
+.trueques{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+    gap: 20px;
+    overflow: auto;
+}
+
+.ganancia-principal_admin_emple{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30%;
+}
+
+.tituloGanancia{
+    margin-top: 10px;
+}
+
+.ganancia{
+    color: rgb(30, 245, 30);
+}

@@ -5,12 +5,14 @@ import { useState } from "react"
 import Modal from '../components/Modal'
 
 function IniciarSesion() {
+    const [autenticacion, setAutenticacion]= useState(false)
     const [dni_pass_correctos,setDni_pass_correctos]= useState(true)
     const [passIncorrecta, setPassIncorrecta]= useState(false)
     const [userBloqued, setUserBloqued]= useState(false)
     const [datos,setDatos]= useState({
         dni:'',
-        password:''
+        password:'',
+        code: null
     })
 
 
@@ -27,7 +29,6 @@ function IniciarSesion() {
         setDni_pass_correctos(true)
         setPassIncorrecta(false)
         setUserBloqued(false)
-        console.log(datos)
         if (datos.dni !== '' && datos.password !== ''){
             //Podría ir una pantalla de carga
             fetch("http://localhost:5000/user/login", {
@@ -37,36 +38,42 @@ function IniciarSesion() {
                 credentials: "include"
             })
             .then(response => {
-                console.log(response);
                 if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(`${data.message || ''}-${data.intento || ''}`);
+                   return response.json().then(data => {
+                        throw new Error(JSON.stringify({message: data.message, status: data.status}));
                     });
                 }
                 return response.json();
             })
             .then(data => {
                 console.log("Inicio exitoso:", data)
+                if (data.User.rol == 2) localStorage.setItem('cuentaActual', 'usuario')
                 localStorage.setItem('user', JSON.stringify(data.User))
-                if (data.User.rol == 2){
-                    localStorage.setItem('cuentaActual', 'usuario')
-                }
                 navigate(routes.userPrincipal)
             })
             .catch(error => {
-                const errorArray= error.message.split('-')
-                console.error("Error en el inicio:", errorArray);
-                if (errorArray[0] == 'User bloqued'){
-                    const intento= errorArray[1]
-                    if (intento == '2'){
-                        setPassIncorrecta(true)
-                        setUserBloqued(true)
-                    }else if(intento > '2'){
-                        setUserBloqued(true)
-                    }
-                }else{
-                    setDni_pass_correctos(false)
-                }
+                const errorData= JSON.parse(error.message)
+                switch (errorData.status) {
+                    case 205:
+                      setAutenticacion(true)
+                      break;
+                    case 206:
+                      console.log("Codigo de autenticacion incorrecto")
+                      break;
+                    case 404:
+                    case 405:
+                      setDni_pass_correctos(false)
+                      break;
+                    case 406:
+                      setPassIncorrecta(true)
+                      setUserBloqued(true)
+                      break;
+                    case 407:
+                      setUserBloqued(true)
+                      break;
+                    default:
+                        console.log(errorData.message)
+                  }
             });
         }
     }
@@ -75,6 +82,20 @@ function IniciarSesion() {
 
     return(
         <main className="main">
+            {autenticacion
+             ?
+             <>
+                <h2 style={{marginBottom:'20px'}}>Autenticación</h2>
+                <div className="labels">
+                    <div className="label">
+                        <label htmlFor="autenticacion">Ingresa el código que se envío a tu email</label>
+                        <input type="text" name='code' onChange={handleChange} />
+                        <button className="iniciar" onClick={handleIniciar}>Confirmar</button>
+                    </div>
+                </div>
+             </>
+             :
+             <>
                 <h2 style={{marginBottom:'20px'}}>Iniciar Sesion</h2>
                 <div className="labels">
                     
@@ -109,6 +130,9 @@ function IniciarSesion() {
                         <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                     </div>
                 </div>
+                </>
+                }
+
         </main>
     )
 }

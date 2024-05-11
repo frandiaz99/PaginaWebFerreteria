@@ -1,0 +1,29 @@
+.formSubirSucursal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 80%;
+    gap: 20px;
+}
+
+.div-subirSucursal{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputSubirSucursal{
+    width: 15rem;
+}
+
+.div-botonSubirSucursal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botonSubirSucursal{
+    margin-bottom: 10px;
+}

@@ -1,0 +1,71 @@
+Status code:
+
+449 Retry With
+The server cannot honour the request because the user has not provided the required information.
+
+
+
+Error Code:
+
+
+
+
+
+
+
+STATUS PROPIOS DENTRO DEL BODY
+
+User.login status:
+  // 200 correcto
+  // 205 correcto pero falta 'code' en 'User' con el codigo del mail
+  // 206 correcto pero el 'code' no es correcto.
+  // 402 object "User" no recibido
+  // 403 "password" o "dni" no recibido
+  // 404  "dni" de User no encontrado
+  // 405 contraseña incorrecta
+  // 406 contraseña incorrecta, bloqueado
+  // 407 previamente bloqueado
+
+User.getByDNI status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable 'dni' no recibida
+  //405 DNI,User not found
+
+
+User.cambiarContrasena status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable 'constrasena' o 'nuevaConstrasena' no recibida
+  //405 DNI,User not found
+  //406 contrasena nueva muy corta 
+  //407 contrasena nueva no cumple condicuiones
+  //408 contrasena vieja erronea
+  //409 error de lserver al guardar user
+
+
+
+
+
+
+Articulo.borrarArticulo status code:
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
+
+
+
+Sucursal.setSucursal status:
+  //200 exitosa
+	//400 Error otro
+  //402 "Articulo" no recibido
+  //403 Variable 'nombre', 'provincia', 'ciudad', 'direccion' o 'telefono' no recibida
+
+
+

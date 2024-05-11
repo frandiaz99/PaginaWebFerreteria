@@ -1,4 +1,4 @@
-.unTrueque{
+.ultimoTrueque{
     display: flex;
     background-color: #D9D9D9;
     /* width: 100%; */
@@ -9,34 +9,34 @@
     gap: 10px;
 }
 
-.fotoUser{
+.fotoUser-ultimoTrueque{
     width: 50px;
 }
 
 
 
-.contenido{
+.contenido-ultimoTrueque{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
 
-.articulosCambiados{
+.articulosCambiados-ultimoTrueque{
     display: flex;
     gap: 5px;
 }
-.fotoArticulo{
+.fotoArticulo-ultimoTrueque{
     width: 30px;
     border-radius: 7px;
 }
 
-.simbolo{
+.simbolo-ultimoTrueque{
     width: 20px;
     border-radius: 100px;
 }
 
-.fechaTrueque{
+.fechaTrueque-ultimoTrueque{
     font-size: 12px;
     font-family: Arial, sans-serif;
 }

@@ -62,7 +62,7 @@ function SubirArticulo() {
 
   const handleOk= () =>{
     setArtSubido(false)
-    navigate(routes.userPrincipal)
+    window.location.reload();
   }
 
   return (
@@ -85,7 +85,7 @@ function SubirArticulo() {
 
               <div className='nombre-section1'>
                 <label className='label-subirArt' >Nombre</label>
-                <input className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange}/>
+                <input autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange}/>
               </div>
 
               <div className='descripcion-section1'>
@@ -104,7 +104,7 @@ function SubirArticulo() {
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange}/>
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange} autoComplete="off"/>
             </div>
           </div>
 
@@ -116,12 +116,12 @@ function SubirArticulo() {
             </div>
 
             <div className='foto-section3'>
-              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" name="foto" 
+              <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" multiple name="foto" 
               onChange={e => {
                               console.log ({"name": e.target.name})
-                              console.log ( e.target.files[0])
-                              setImagen({[e.target.name]: e.target.files[0]})
-                              console.log ( imagen);
+                              console.log ("asdasd", e.target.files)
+                              setImagen({[e.target.name]: e.target.files})
+                              console.log (imagen)
               }} />
             </div>
           </div>

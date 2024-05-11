@@ -1,0 +1,127 @@
+  .contenedor-editar-perfil {
+      width: 100%;
+      /* Hacemos el contenedor más ancho */
+      max-width: 600px;
+      /* Establecemos un máximo para asegurar que no se vuelva demasiado ancho */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+  }
+
+  .cambios-perfil {
+      display: flex;
+      flex-direction: column;
+      /* Cambiamos la dirección a columna para el diseño responsive */
+      align-items: flex-start;
+      /* Centramos los elementos en el eje horizontal */
+  }
+
+  .foto-perfil {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: #ddd;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .foto-perfil input[type="file"] {
+      display: none;
+      /* Ocultamos el input de tipo file por defecto */
+  }
+
+  .foto-perfil label {
+      cursor: pointer;
+  }
+
+  .foto-perfil:hover {
+      opacity: 0.7;
+      /* Reducimos la opacidad al pasar el ratón para indicar que es clickeable */
+  }
+
+  .datos {
+      flex-grow: 1;
+      margin-left: 20px;
+      /* Aseguramos que los datos ocupen todo el ancho */
+  }
+
+  .nombre,
+  .apellido,
+  .sucursal-editar-perfil {
+      margin-bottom: 10px;
+  }
+
+  .sucursal-editar-perfil {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      background-color: #f9f9f9;
+      flex-direction: column;
+      justify-content: center;
+
+  }
+
+  .botones {
+      display: flex;
+      display: column;
+      justify-content: space-between;
+  }
+
+  .guardar {
+      display: flex;
+      justify-content: flex-end;
+  }
+
+  .guardar button,
+  .cambiar-contrasena button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+
+  .guardar button {
+      margin-left: 10px;
+  }
+
+  .guardar button:hover,
+  .cambiar-contrasena button:hover {
+      background-color: #0056b3;
+  }
+
+  @media (min-width: 768px) {
+
+      .cambios-perfil {
+          flex-direction: row;
+          /* Cambiamos la dirección a fila para pantallas más grandes */
+          align-items: flex-start;
+          /* Alineamos los elementos al inicio del contenedor */
+
+      }
+
+      .foto-perfil {
+          margin-bottom: 0;
+          /* Eliminamos el margen inferior */
+          margin-right: 20px;
+          /* Añadimos margen derecho para separar la foto del resto de los datos */
+      }
+
+      .datos {
+          flex-grow: 1;
+          /* Hacemos que los datos ocupen todo el espacio disponible */
+      }
+  }

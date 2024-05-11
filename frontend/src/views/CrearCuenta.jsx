@@ -2,7 +2,11 @@ import { useState , useEffect} from "react";
 import '../styles/CrearCuenta.css'
 import { useNavigate } from "react-router-dom"
 import Modal from "../components/Modal";
+import routes from "../routes";
 
+const soyAdmin= ()=>{
+    return location.pathname === '/admin/registrar_empleado'
+}
 const verificarCondicionContrasenia= (contrasenia) =>{
     if (contrasenia === ''){
         return null
@@ -38,8 +42,8 @@ const verificarEdad= (fechaNacimiento) =>{
 }
 
 const todosLosCamposCompletos= (datos) =>{
+    if (soyAdmin()) return true
     return Object.values(datos).every(valor => {
-       console.log("Falta chekear que la imagen este eleegida tambien. O no depende, por default va a tenrer una");
         if (typeof valor === 'string') {
             return valor.replace(/\s/g, "") !== '';
         } else {
@@ -49,12 +53,16 @@ const todosLosCamposCompletos= (datos) =>{
 } 
 
 function CrearCuenta(){
-    const {confirmacion, setConfirmacion}= useState(false)
+    const [confirmacion, setConfirmacion]= useState(false)
+    const [dniRepetido, setDniRepetido]= useState(false)
+    const [emailRepetido, setEmailRepetido]= useState(false)
+    const[emailYDNIRepetidos,setEmailYDNIRepetidos]= useState(false)
     const navigate = useNavigate();
     const [cumpleContrasenia, setCumpleContrasenia]= useState(false)
     const [coincidenContrasenias,setCoincidenContrasenias]= useState(false)
     const [dniValido, setDniValido]= useState(false)
     const [esMayor,setEsMayor]= useState(false)
+    const [dniEmple, setDniEmple]= useState(null)
     const [datos, setDatos] = useState({
         nombre: '',
         apellido: '',
@@ -63,18 +71,31 @@ function CrearCuenta(){
         repetirContrasenia:'',
         dni:'',
         nacimiento:'',
-        sucursal:'s1',
+        sucursal:'',
         suscripto: false,
       })
-    const [imagen, setImagen] = useState({foto:""});
+    const [sucursales, setSucursales] = useState([]);
       
+    useEffect(() =>{
+        if (soyAdmin()){ //Es la unica forma, no pude insertar el dni en el estado datos.
+            setDniEmple(JSON.parse(localStorage.getItem('dniEmple')))
+            setDniValido(true)
+        }
+    },[])
     const handleChange = (e) => {
-        //console.log(e);
         setDatos({
           ...datos,
           [e.target.name]: e.target.value,
         })
     };
+
+    const changeSucursal = (e) =>{
+        const sucursalElegida= sucursales.find(s => s._id === e.target.value)
+        setDatos({
+            ...datos,
+            sucursal: sucursalElegida,
+          })
+    }
 
     /*const handleFoto = (f) => {
         //console.log(f);
@@ -93,75 +114,57 @@ function CrearCuenta(){
 
     const handleRegistro= async (event) =>{    //fetch para crear usuario en BD
         event.preventDefault(); //para evitar que se recargue la pagina
-        console.log({"Coinciden ":coincidenContrasenias,"esMayor": esMayor,"cumpleContra": cumpleContrasenia,"DniValido": dniValido,"todo": todosLosCamposCompletos(datos)});
-        console.log ({"datos": datos});
-        console.log ({"imagen": imagen});
-        //alert("Aguanta, entro");
         if (coincidenContrasenias && esMayor && cumpleContrasenia && dniValido && todosLosCamposCompletos(datos)){
-            const formData = new FormData();
-            formData.append("User", JSON.stringify(datos));
-            formData.append("Imagen", imagen.foto);
-            console.log({"form Data": formData});
-                /*
-                fetch("http://localhost:5000/user/register", {
-                    method: "POST",
-                    //headers: { "Content-Type": "multipart/form-data" },
-                    //headers: { "Content-Type": "application/JSON" },
-                    //body: JSON.stringify({ User: datos, file: formData  }),
-                    body: formData,
-                    credentials: "include"
-                })
-                .then( response => {
-                    if (!response.ok) {
-                        return response.json().then(data => { 
-                            alert("RESPONSE");
-                            
-                            throw new Error(data.message || "Error en el registro");
-                        });
-                    }
-                    alert(" SALE RESPONSE");
-                    return response.json();
-                })
-                .then(data => {
-                    alert(" ENTRA RESPONSE");
-                    console.log("Registro exitoso:", data)
-                    //Podría ir una pantalla de carga
-                    //navigate(routes.iniciarSesion);
-                    alert(" sale RESPONSE");
-                })
-                .catch(error => {
-                    //console.error("Error en el registro:", error.message);
-                    console.log(error);
-                    console.error(error);
-                    alert(" CATCH");
-                    //Depende si no se pudo por dni repetido o por mail repetido informar
-                });            
-                */
-               
-               try {
-                   const response = await fetch("http://localhost:5000/user/register", {
+            if (soyAdmin()){
+                fetch("http://localhost:5000/user/registrarEmpleado", {
                        method: "POST",
-                       body: formData,
-                       //headers: { "Content-Type": "multipart/form-data" },
+                       headers: { "Content-Type": "application/JSON" },
+                       body: JSON.stringify({User: {nombre: datos.nombre, apellido:datos.apellido, email:datos.email, password: datos.password, dni: dniEmple,nacimiento: datos.nacimiento, sucursal: datos.sucursal,suscripto: datos.suscripto}}),
                        credentials: "include"
-                    });
-                    
-                    console.log({"response": response})
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const data = await response.json();
-                    console.log("Registro exitoso:", data);
-                    setConfirmacion(true)
-                    
-                } catch (error) {
-                    console.error("Error in registration:", error);
-                    console.error("Si ingresate bien lso datos se va a haber registrado el ussuario, pero no logro que devuevla bien");
-                    alert(" response registration");
-                    // Handle network errors or other unexpected issues
-                }
-                
-
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                           return response.json().then(data => {
+                            console.log(data)
+                                throw new Error(data.error_values);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setConfirmacion(true)
+                    })
+                    .catch(error => {
+                        if (error == 'Error: dni,email') setEmailYDNIRepetidos(true)
+                        else if (error == 'Error: email') setEmailRepetido(true)
+                        else if (error == 'Error: dni') setDniRepetido(true)
+                    })
+            }
+            else{
+                fetch("http://localhost:5000/user/register", {
+                       method: "POST",
+                       headers: { "Content-Type": "application/JSON" },
+                       body: JSON.stringify({User: datos}),
+                       credentials: "include"
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                           return response.json().then(data => {
+                            console.log(data)
+                                throw new Error(data.error_values);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setConfirmacion(true)
+                    })
+                    .catch(error => {
+                        if (error == 'Error: dni,email') setEmailYDNIRepetidos(true)
+                        else if (error == 'Error: email') setEmailRepetido(true)
+                        else if (error == 'Error: dni') setDniRepetido(true)
+                    })
+            }
         }
     }
 
@@ -179,29 +182,64 @@ function CrearCuenta(){
     }, [datos.nacimiento])
 
     useEffect(() => {  //Verificar DNI valido
+        if (!soyAdmin()){
         let dniCumple= false
         if (datos.dni.length == 0) dniCumple=null
         else if (datos.dni.length == 8) dniCumple= true
         setDniValido(dniCumple);
+        }
     }, [datos.dni])
+    
+
+    useEffect(() => {  //obtener sucursales
+        fetch("http://localhost:5000/sucursal/getSucursales", {
+            method: "GET",
+            headers: { "Content-Type": "application/JSON" },
+            credentials: "include"
+        })
+        .then(response => {
+            if (!response.ok) {
+              throw new Error('Hubo un problema al obtener las sucursales');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setDatos({
+                ...datos,
+                sucursal: data.Sucursales[0]
+            })
+            setSucursales(data.Sucursales)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+    }, [])
+
 
     return(
         
         <main className="main">
-
-            <h2>Registrarse</h2>
+            
+            {soyAdmin() && <h2 style={{marginTop:'20px'}}>Registrar Empleado</h2>}
+            {!soyAdmin() &&<h2 style={{marginTop:'20px'}}>Registrarse</h2>}
 
             <div className="forms" >
                 <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
 
                     <div className="divInputRegistro">
                         <label htmlFor="nombre">Nombre</label>
-                        <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>
+                        {soyAdmin() ?
+                            <input name="nombre" type="text" placeholder="Ingresá nombre del empleado" onChange={handleChange}/>
+                        :
+                            <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange}/>}
                     </div>
 
                     <div className="divInputRegistro">
                         <label htmlFor="apellido">Apellido</label>
-                        <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>
+                        {soyAdmin() ?
+                            <input name="apellido" type="text" placeholder="Ingresá apellido del empleado" onChange={handleChange}/>
+                        :
+                            <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange}/>}
                     </div>
 
                     <div className="divInputRegistro">
@@ -213,7 +251,7 @@ function CrearCuenta(){
                         <label htmlFor="contrasenia">Contraseña</label>
                         <input name="password" type="password" placeholder="Crea una contraseña" onChange={handleChange}/>
                         <p className="textoBajoLabelRegistro">
-                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula.
+                            Ingresa una combinación de más de 6 caracteres, con al menos un caracter especial y una mayúscula
                         </p>
                         {(cumpleContrasenia== false) && <p className="textoNoCumple">La contraseña no cumple las condiciones</p>}
                     </div>
@@ -224,24 +262,25 @@ function CrearCuenta(){
                         {(coincidenContrasenias == false) && <p className="textoNoCumple">Las contraseñas no coinciden</p>}       
                     </div>
 
-                    <div className="divInputRegistro">
+                    {!soyAdmin() && <div className="divInputRegistro">
                         <label htmlFor="dni">DNI</label>
-                        <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>  
+                            <input name="dni" type="number" placeholder="Ingresá tu DNI" onChange={handleChange}/>
                         {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
-                    </div>
+                    </div>}
 
                     <div className="divInputRegistro">
                         <label htmlFor="nacimiento">Fecha de nacimiento</label>
                         <input name="nacimiento" type="date" onChange={handleChange}/>  
-                        {(esMayor == false) && <p className="textoNoCumple">Debes ser mayor de edad</p>}
+                        {soyAdmin() ?
+                            (esMayor == false) && <p className="textoNoCumple">El empleado debe ser mayor de edad</p>
+                        :
+                            (esMayor == false) && <p className="textoNoCumple">Debes ser mayor de edad</p>}
                     </div>
                     
                     <div className="divInputRegistro">
                         <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
-                        <select name="sucursal" id="sucursal" onChange={handleChange}>
-                            <option value="s1">Sucursal 1</option>
-                            <option value="s2">Sucursal 2</option>
-                            <option value="s3">Sucursal 3</option>
+                        <select name="sucursal" id="sucursal" onChange={changeSucursal}>
+                            {sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
                         </select> 
                     </div>
 
@@ -258,16 +297,22 @@ function CrearCuenta(){
 
                     <div className="suscripcion">
                         <input type="checkbox" id="checkbox" name="suscripto" onChange={handleCheckbox}/>
-                        <label htmlFor="checkbox" style={{fontSize:'12px'}}>Acepto recibir por email promociones, novedades y descuentos de la ferretería</label>
+                        <label htmlFor="checkbox" style={{fontSize:'12px'}}>Acepto recibir por email promociones, novedades y descuentos de la ferretería.</label>
                     </div>
                             
                     <div className="divRegistrarse">
-                        <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>
+                        {soyAdmin() ?
+                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrar empleado'}/>
+                        :
+                            <input type="submit" className="registrarse" content="Registrarse" value={'Registrarse'}/>}
                     </div>
 
                 </form>
             </div>
-            <Modal texto={'¡Registro exitoso!'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro}/>
+            <Modal texto={'Registro exitoso'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleOkRegistro} ok={true}/>
+            <Modal texto={'El DNI ya está registrado'} confirmacion={dniRepetido} setConfirmacion={setDniRepetido} ok={true}/>
+            <Modal texto={'El email ya está registrado'} confirmacion={emailRepetido} setConfirmacion={setEmailRepetido} ok={true} />
+            <Modal texto={'El email y el DNI ya están registrados'} confirmacion={emailYDNIRepetidos} setConfirmacion={setEmailYDNIRepetidos} ok={true}/>
         </main>
     )
 }

@@ -21,13 +21,33 @@ function OpcionesUser() {
   const [dropNotificacionesOpen, setDropNotificacionesOpen]= useState(false)
   const dropNotificacionesRef= useRef(null)
   const dropCuentaRef= useRef(null)
+  const [user, setUser]= useState(null)
+  const [srcFotoPerfil,setSrcFotoPerfil] = useState("http://localhost:5000/img/"+ JSON.parse(localStorage.getItem('user')).foto_perfil)
 
-  const user=JSON.parse(localStorage.getItem('user')) || null
-  var srcFotoPerfil = "http://localhost:5000/img/Imagen_user_default.png";
-
-  if (user){  //esto es para no leer un null que solo pasa si borras el storage manualmente
-    srcFotoPerfil= ("http://localhost:5000/img/" + user.foto_perfil);
-  }
+  useEffect(() => {
+    fetch('http://localhost:5000/user/getSelf',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener el usuario');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("usuarioooo: ", data);
+        setSrcFotoPerfil("http://localhost:5000/img/" + data.User.foto_perfil)
+        localStorage.setItem('user',JSON.stringify(data.User))
+        setUser(data.User)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [])
 
   const handleHome = () =>{
     if (estaEnModoUser()){
@@ -68,6 +88,7 @@ function OpcionesUser() {
     localStorage.setItem('cuentaActual', 'empleado')
     navigate(routes.empleadoPrincipal)
   }
+  
   useEffect(() => { //Cerrar menu de cuenta al tocar fuera
     // Agrega el listener cuando el menú está abierto
     if (dropCuentaOpen) {
@@ -100,8 +121,7 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
     .then(response => {
       if (response.ok) {
         console.log('La sesión se cerró correctamente');
-        localStorage.removeItem('user');
-        localStorage.removeItem('cuentaActual')
+        localStorage.clear();
         navigate(routes.pagPrincipal);
       } else {
         throw new Error('Hubo un problema al cerrar sesión');
@@ -112,6 +132,11 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
     });
   }
   
+  const irAPerfil = () =>{
+    setDropCuentaOpen(false)
+    if (estaEnModoUser()) navigate(routes.perfil)
+    else navigate(routes.adminPerfil)
+  }
 
   return (
     <div className='opcionesUser'>
@@ -156,13 +181,10 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
 
             <hr />
 
-            {estaEnModoUser() && 
-            <Link to={routes.perfil} className='link'>
-              <div className='dropCuenta__items'>
+              {(estaEnModoUser() || user.rol == 3) && <div className='dropCuenta__items' onClick={irAPerfil}>
                 <ion-icon name="person-outline"></ion-icon>
                 <p>Ver perfil</p>
-              </div>            
-            </Link>}
+              </div>}     
 
             {(estaEnModoUser()&& user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAEmpleado}>

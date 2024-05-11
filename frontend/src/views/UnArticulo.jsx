@@ -136,7 +136,7 @@ function UnArticulo() {
         </div>
       </div>
 
-      <Pagar/>    
+      {/*<Pagar/>  */  }
       
     </main>
   )

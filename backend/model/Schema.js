@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema({
   rol: {type: Number, required: true, default: 1},   //1 User, 2 Worker, 3 Admin
   puntos: {type: Number, default: 0},
   intento_desbloqueo: {type: Number, default: 0},
+  code: {type: Number, default: 0},
   //nombre y apellido, sucursal, fecha nacimiento
   //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
@@ -30,7 +31,11 @@ const userSchema = mongoose.Schema({
 
 const sucursalSchema = mongoose.Schema({
   nombre: {required: true, type:String, unique: true},
-  direccion: {type: String, required: true}
+  provincia: {type: String, required: true},
+  ciudad: {type: String, required: true},
+  direccion: {type: String, required: true},
+  telefono: {type: String, required: true},
+  foto: {type: String, required: true},
 
 
   //Empleados[(FK)], direccion: String(link maps), Trueques[(FK)]

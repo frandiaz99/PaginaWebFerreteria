@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import '../styles/Articulo.css'
 import routes from '../routes'
 
@@ -6,14 +6,60 @@ function handleClickArticulo(articulo){
     localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
     console.log(localStorage.getItem("articuloSeleccionado"));
 }
+import Modal from './Modal.jsx'
+import { useState } from 'react'
 
-function Articulo({ articulo }) {
+
+import Modal from './Modal.jsx'
+import { useState } from 'react'
+
+function handleClickArticulo(articulo){
+    localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
+    console.log(localStorage.getItem("articuloSeleccionado"));
+}
+
+function Articulo({ articulo, misArticulos }) {
+    const navigate= useNavigate()
+    const [confirmacion, setConfirmacion]= useState(false)
+
+    const handleYes= () =>{
+        setConfirmacion(false)
+        console.log("artt_", articulo)
+        fetch('http://localhost:5000/articulo/borrarArticulo', 
+        {method: "DELETE", 
+        headers: { "Content-Type": "application/JSON"},
+        body: JSON.stringify({Articulo: articulo}),
+        credentials: "include"})
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(JSON.stringify({message: data.message}));
+            })
+          }
+          return response.json();
+        })
+        .then(data => {
+            window.location.reload();
+        })
+        .catch(error => {
+          const errorData= JSON.parse(error.message)
+          console.log(errorData.message)
+        });
+    }
+
+    const handleEliminarArt= (event) =>{
+        event.stopPropagation(); 
+        setConfirmacion(true)
+    }
+
+    const irArticulo= ()=>{
+        navigate(routes.unArticulo)
+    }
+
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
 
-    return (
-
-        <Link to={routes.unArticulo} className='link' onClick={() => handleClickArticulo(articulo)}>
-            <div className='articulo'>
+    if(!misArticulos) return (
+            <div className='articulo' onClick={irArticulo}>
                 <div className='divImagenArt'>
                     <img src={srcFotoArt} alt="" className='imagenArt' />
                 </div>
@@ -21,11 +67,26 @@ function Articulo({ articulo }) {
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
                     <p>Interesado en: ...</p>
-                    <span className='span'>${articulo.precio}</span>
+                    {/* <p>Categoria</p> */}
                 </div>
             </div>
-        </Link>
-
+    )
+    else return(
+        <>
+            <div className='miArticulo' onClick={irArticulo}>
+                <div className='divImagenArt-miArticulo'>
+                    <img src={srcFotoArt} alt="" className='imagenMiArt' />
+                </div>
+                <div className='miArticulo-contenido'>
+                    <div className='miArticulo-contenido-contenido'>
+                        <h4 className='tituloArt'>{articulo.nombre}</h4>
+                        {/* categoria */}
+                    </div>
+                    <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Eliminar articulo</button>
+                </div>
+            </div>
+            <Modal texto={'¿Estás seguro que querés eliminar este artículo?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={false}/>
+        </>
     )
 }
 
