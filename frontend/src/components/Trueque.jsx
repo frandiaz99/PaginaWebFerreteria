@@ -54,7 +54,7 @@ function Trueque({trueque, pendiente}) {
           {pendiente
           ?
             <div className='cancelar_efectivizar'>
-              <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+              <button className='botonUnTrueque' onClick={/*handleCancelar*/ console.log("hola")}>Cancelar</button>
               <button className='botonUnTrueque'>Efectivizar</button>
             </div>
           :
