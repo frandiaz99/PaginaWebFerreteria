@@ -55,7 +55,7 @@ const articuloSchema = mongoose.Schema({
   nombre: {type: String, required: true},
   descripcion: {type: String, required: true},
   interesado: {type: String, required: true},
-  foto_articulo: {type: String},
+  foto_articulo: {type: [String]},
   fecha: {type: Date},  //debe recibir JS date (yyyy-mm-dd) es decir (2024-12-31) se le puede poner hora tambien
   precio: {type: Number, default: 0},
   vendido: {type: Boolean, default: false}, //en true cuando se relizo la vent

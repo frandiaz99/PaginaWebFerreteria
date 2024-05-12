@@ -111,7 +111,7 @@
 }
 
 /* Estilos para las líneas */
-hr {
+.titulo-section3 hr {
     border: 2px solid #969696;
     background-color: #969696;
     border-radius: 10px;

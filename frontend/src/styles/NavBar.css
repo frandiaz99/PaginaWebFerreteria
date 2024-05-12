@@ -1,4 +1,4 @@
-.boton{
+.boton {
     width: auto;
     text-decoration: none;
     border: none;
@@ -9,29 +9,29 @@
     display: flex;
 }
 
-.nav{
+.nav {
     gap: 15px;
     text-decoration: none;
 }
 
-.boton:hover{
+.boton:hover {
     text-decoration: underline;
     text-decoration-color: black;
 }
 
-.navIzquierda{
+.navIzquierda {
     display: flex;
 }
 
-.navDerecha{
+.navDerecha {
     display: flex;
 }
 
-.relleno{
+.relleno {
     width: 200px
 }
 
-.optionNav{
+.optionNav {
     display: flex;
     font-size: 18px;
     color: black;
@@ -39,6 +39,6 @@
     cursor: pointer;
 }
 
-.optionNav:hover{
+.optionNav:hover {
     text-decoration: underline;
 }

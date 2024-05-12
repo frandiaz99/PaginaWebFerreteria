@@ -12,23 +12,35 @@ const multer = require("multer");
 
 const  crearArticulo = async (req, res, next) =>{
   const articulo = JSON.parse(req.body.Articulo);
-  /*console.log({"Articulo":req.body.Articulo});
+  console.log({"req": req});
+  console.log({"Articulo":req.body.Articulo});
   console.log({"file":req.file});
-  console.log({"Auth": req.body.Auth});*/
+  console.log({"files":req.files});
+  console.log({"Auth": req.body.Auth});
   //console.log({"body": body});
   const usuario = req.body.Auth._id;  //auth lo genero yo desde el middleware del back no necesito que me lo pasen
   const {nombre, descripcion, interesado}  = articulo;
   
   //comprueba si subio foto, si no lo havce le asigna la defecto
-  let File;
-  if (!req.file){
-    File = {filename: "Imagen_publicacion_default.jpg"};
-  } else {File = req.file};
+  let File, filename;
+  if (!req.files){
+    filename = ["Imagen_publicacion_default.jpg"];
+  } else {
+    File = req.files;
+    console.log(File)
+    filename = File.map((File) => File.filename)
+    console.log(filename)
+  };
   console.log({"File": File});
 
 
 
-  await DataArticulo.create({ usuario, nombre, descripcion, interesado, foto_articulo: File.filename, fecha: Date.now() })
+
+
+
+
+
+  await DataArticulo.create({ usuario, nombre, descripcion, interesado, foto_articulo: filename, fecha: Date.now() })
   .then((Articulo) => {
     res.status(200).json(Articulo);
   })
@@ -139,7 +151,7 @@ const borrarArticulo = async (req, res, next) => {
 
 
 //Direcciones 
-router.route("/crearArticulo").post(upload.single("Imagen"), userAuth, crearArticulo);
+router.route("/crearArticulo").post(upload.any("Imagen"), userAuth, crearArticulo);
 router.route("/getMisArticulos").get(userAuth, getMisArticulos);
 router.route("/getArticulos").get(getArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);

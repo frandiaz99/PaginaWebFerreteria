@@ -22,7 +22,15 @@ const getSucursales = async (req, res, next) => {
 };
 
 const newSucursal = async (req, res, next) => {
-  const Sucursal = req.body.Sucursal;
+
+  let File;
+  if (!req.file){
+    File = {filename: "Imagen_sucursal_default.jpg"};
+  } else {File = req.file};
+  console.log({"File": File});
+
+
+  const Sucursal = JSON.parse(req.body.Sucursal);
 
   if (!Sucursal) {
     console.log("Variable 'Sucursal' no recibida ");
@@ -36,7 +44,7 @@ const newSucursal = async (req, res, next) => {
   Sucursal.foto = "Imagen_sucursal_default.jpg";
 
   await DataSucursal.create({
-    nombre: Sucursal.nombre, provincia: Sucursal.provincia, ciudad: Sucursal.ciudad, direccion: Sucursal.direccion, telefono: Sucursal.telefono, foto: Sucursal.foto
+    nombre: Sucursal.nombre, provincia: Sucursal.provincia, ciudad: Sucursal.ciudad, direccion: Sucursal.direccion, telefono: Sucursal.telefono, foto: File.filename
   }).then((Sucursal) => {
     console.log("Creacion exitosa")
     return res.status(200).json({ message: "Creacion exitosa", Sucursal, status: 200});
@@ -55,7 +63,7 @@ const newSucursal = async (req, res, next) => {
 //routes
 
 router.route("/getSucursales").get(getSucursales);
-router.route("/newSucursal").post(adminAuth, newSucursal);
+router.route("/newSucursal").post(upload.single("Imagen"), adminAuth, newSucursal);
 
 /*
 //admin routes
