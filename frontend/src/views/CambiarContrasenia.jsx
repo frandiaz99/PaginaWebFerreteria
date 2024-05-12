@@ -5,12 +5,10 @@ import Modal from '../components/Modal'
 import routes from "../routes";
 
 function CambiarContrasenia() {
-
-  const [camposIncompletos, setCamposIncompletos] = useState(false)
   const [coincidenContrasenias, setCoincidenContrasenias] = useState(false) //si las 2 nuevas contraseñas coinciden
   const [cumpleContrasenia, setCumpleContrasenia] = useState(false)
   const [contDistintaAVieja, setContDistintaAVieja] = useState(false)
-  const [passIncorrecta, setPassIncorrecta] = useState(false) //cont vieja incorrecta
+  const [anteriorIgualActual, setAnteriorIgualActual]= useState(false)
   const [cambiarContrasenia, setCambiarContrasenia] = useState(false)
   const [datos, setDatos] = useState(
     {
@@ -20,7 +18,6 @@ function CambiarContrasenia() {
     }
   )
 
-  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setDatos({
@@ -46,56 +43,49 @@ function CambiarContrasenia() {
     return tieneMinimoCaracteres && tieneCaracterEspecial && tieneMayuscula;
   }
 
-  const verificaDistinta = (contrasenia, nuevaContrasenia) => {
-    if (contrasenia === '' && nuevaContrasenia === '') return null
-    if (!passIncorrecta) {
-      return contrasenia !== nuevaContrasenia;
-    }
-    else return true //para no mostrar el cartel
+  const verificaDistinta = (nuevaContrasenia) => {
+    if (nuevaContrasenia === '') return null
+    return nuevaContrasenia !== JSON.parse(localStorage.getItem('user')).rawPassword
   }
 
   const handleCambiarContrasenia = (event) => {
     event.preventDefault();
-    setCamposIncompletos(false)
-    setCoincidenContrasenias(false)
-    setCumpleContrasenia(false)
-    setContDistintaAVieja(false)
-    setPassIncorrecta(false)
+    if (coincidenContrasenias && cumpleContrasenia && contDistintaAVieja && anteriorIgualActual){
 
-    fetch("http://localhost:5000/user/cambiarContrasena", {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
-      body: JSON.stringify({ User: datos }),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(data => {
-            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
-          });
-        }
-        return response.json();
+      fetch("http://localhost:5000/user/cambiarContrasena", {
+        method: "POST",
+        headers: { "Content-Type": "application/JSON" },
+        body: JSON.stringify({ User: datos }),
+        credentials: "include"
       })
-      .then(data => {
-        setCambiarContrasenia(true)
-        console.log('Respuesta del servidor al editar perfil:', data);
-      })
-      .catch(error => {
-        const errorData = JSON.parse(error.message)
-        //console.error('Hubo un problema al guardar los cambios:', error);
-        switch (errorData.status) {
-          case 407:
-            setCumpleContrasenia(false)
-            console.log("contraseña nueva no cumple condicion -> ", cumpleContrasenia)
-            break
-          case 408:
-            setPassIncorrecta(true)
-            console.log("contraseña vieja incorrecta -> ", passIncorrecta)
-            break;
-          default:
-            console.log(errorData.message)
-        }
-      });
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          setCambiarContrasenia(true)
+          console.log('Respuesta del servidor al editar perfil:', data);
+        })
+        .catch(error => {
+          const errorData = JSON.parse(error.message)
+          //console.error('Hubo un problema al guardar los cambios:', error);
+          switch (errorData.status) {
+            case 407:
+              setCumpleContrasenia(false)
+              console.log("contraseña nueva no cumple condicion -> ", cumpleContrasenia)
+              break
+            case 408:
+              console.log("contraseña vieja incorrecta -> ")
+              break;
+            default:
+              console.log(errorData.message)
+          }
+        });
+    }
 
   };
 
@@ -108,8 +98,12 @@ function CambiarContrasenia() {
   useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
     setCoincidenContrasenias(verificarContrasenias(datos.newPassword, datos.newPasswordRepeat))
     setCumpleContrasenia(verificarCondicionContrasenia(datos.newPassword))
-    setContDistintaAVieja(verificaDistinta(datos.password, datos.newPassword))
+    setContDistintaAVieja(verificaDistinta(datos.newPassword))
   }, [datos.newPassword, datos.newPasswordRepeat])
+
+  useEffect(() =>{
+    setAnteriorIgualActual(!verificaDistinta(datos.password))
+  }, [datos.password])
 
   return (
     <main className='main'>
@@ -120,7 +114,7 @@ function CambiarContrasenia() {
             <label for="contrasena-anterior">Contraseña anterior:</label>
             {/*<input type="password" id="contrasena-anterior" className="contrasena-anterior" required /> */}
             <input type="password" id="contrasena-anterior" className="passwordCambiarContrasenia" name='password' required onChange={handleChange} />
-            {passIncorrecta && <p className="textoNoCumple">Contraseña es incorrecta</p>}
+            {anteriorIgualActual == false && <p className="textoNoCumple">Contraseña incorrecta</p>}
           </div>
           <div class="form-group">
             <label for="nueva-contrasena">Nueva Contraseña:</label>
@@ -141,7 +135,7 @@ function CambiarContrasenia() {
 
       </div>
 
-      <Modal texto={"La contraseña se cambio con exito"} confirmacion={cambiarContrasenia} setConfirmacion={setCambiarContrasenia} handleYes={handleOk} ok={true}></Modal>
+      <Modal texto={"Cambio exitoso"} confirmacion={cambiarContrasenia} setConfirmacion={setCambiarContrasenia} handleYes={handleOk} ok={true}></Modal>
 
     </main>
   )
