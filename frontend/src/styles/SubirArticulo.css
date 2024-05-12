@@ -1,158 +1,126 @@
-.formSubirArt{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    max-height: 80vh;
-    min-height: 80vh;
-    width: 70%;
-    padding: 8px;
+/* Estilos para el formulario */
+.main-subir-articulo {
+    height: 100%;
+    margin: 0;
+    padding-top: 10%;
 }
-.main-subirArt{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+
+.formSubirArt {
+    display: inline-block;
+    width: 80%;
+    height: 200%;
+    padding: 3%;
+    padding-bottom: 1%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    margin: 20px auto;
+    margin-top: 10%;
+    box-sizing: border;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para las secciones del formulario */
+.section1-subirArt,
+.section2-subirArt,
+.section3-subirArt {
+    margin-bottom: 20px;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.titulo-subirArt{
+.section3-subirArt {
+    height: 100%;
 
 }
 
-.section1-subirArt{
-    background-color: #FFFFFFFF;
-    border-radius: 10px;
-    padding: 3px 8px;
+.titulo-section1-subirArt,
+.titulo-section2,
+.titulo-section3,
+.label-subirArt {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+/* Estilos para los campos de entrada y textarea */
+.textArea-subirArt {
+    resize: none;
+}
+
+.input-subirArt,
+.textArea-subirArt {
+    width: 100%;
+    padding-top: 15px;
     padding-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;  
-}
-
-.titulo-section1-subirArt{
-
-}
-
-.nombreYdescripcion-section1{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-.nombre-section1{
-    display: flex;
-    flex-direction: column;
-    width: 43%;
-    gap: 5px;
-}
-
-.descripcion-section1{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-
-.section2-subirArt{
-    background-color: #FFFFFFFF;
+    border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 4px 8px;
-    height: 8rem;
-}
-
-.titulo-section2{
-
-}
-
-.descripcion-section2{
-    display: flex;
-    flex-direction: column;
-    height: 85%;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.section3-subirArt{
-    display: flex;
-    flex-direction: column;
-    background-color: #FFFFFFFF;
-    border-radius: 10px;
-    padding: 4px;
-    height: 8rem;
-}
-
-.titulo-section3{
-
-}
-
-.divBotonSubirArt{
-    display: flex;
-    justify-content: center;
-}
-
-.boton-subirArt{
-    padding: 5px;
-    border-radius: 5px;
-    border: 2px solid #646464;
-    background-color: #ccc;
-    font-weight: 600;
+    font-size: 1rem;
     margin-bottom: 20px;
 }
 
-.boton-subirArt:hover{
-    background-color: #999999;
-}
-.boton-subirArt:active{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(1px) translateX(-1px);
-  }
-
-
-.label-subirArt{
-    font-weight: 500;
-}
-
-.input-subirArt{
-    border: 1px solid #ccc; 
-    border-radius: 5px;
-    outline: none;
-    font-size: 15px;
-}
-
-.input-subirArt[name="titulo"]{
-    max-width: 30%;
-}
-.input-subirArt[name="interesado"]{
-    width: 80%;
-}
-
-.input-subirArt:focus{
-    border-color: #ffb700;
-}
-
-.textArea-subirArt{
-    padding: 3px; 
-    font-size: 16px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    resize: none; 
-    outline: none; 
-    font-family: system-ui;
-}
-
-textarea:focus {
-    border-color: #ffb700;
-  }
-
-
-.foto-section3{
+/* Estilos para el contenedor de los botones */
+.divBotonSubirArt {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-input[id="fotoSubirArt"]{
-    height: 50%;
+/* Estilos para la sección de seleccionar foto */
+.foto-section3 {
+    display: flex;
+    flex-direction: row;
+}
+
+.verImagenes {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 200px;
+    width: 100%;
+}
+
+/* Estilos para los botones */
+.boton-subirArt {
+    width: 45%;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-cancelarArt {
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-subirArt:hover,
+.boton-cancelarArt:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para las líneas */
+hr {
+    border: 2px solid #969696;
+    background-color: #969696;
+    border-radius: 10px;
+}
+
+/* Estilos para el texto */
+.label-subirArt,
+.boton-subirArt,
+.boton-cancelarArt {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
 }

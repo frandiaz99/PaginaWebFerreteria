@@ -41,9 +41,17 @@ label {
     /* Incluir el padding y el borde en el ancho total */
 }
 
-.botonCambiarContrasenia {
-    width: 100%;
+.botones-contrasenia {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.botonCambiarContrasenia,
+.botonCancelar {
+    width: 90%;
     padding: 10px;
+    margin: 10px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -52,6 +60,7 @@ label {
     transition: background-color 0.3s ease;
 }
 
-.botonCambiarContrasenia:hover {
+.botonCambiarContrasenia:hover,
+.botonCancelar:hover {
     background-color: #0056b3;
 }

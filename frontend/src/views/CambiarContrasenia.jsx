@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import '../styles/CambiarContrasenia.css'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import Modal from '../components/Modal'
+import routes from "../routes";
 
 function CambiarContrasenia() {
 
@@ -61,7 +62,10 @@ function CambiarContrasenia() {
             <label for="repetir-contrasena">Repetir Contraseña:</label>
             <input type="password" id="repetir-contrasena" name="repetir-contrasena" className="passwordCambiarContrasenia" required />
           </div>
-          <button type="submit" className='botonCambiarContrasenia'>Guardar</button>
+          <div className='botones-contrasenia'>
+            <button type="submit" className='botonCambiarContrasenia'>Guardar</button>
+            <Link to={routes.editarPerfil}><button className='botonCancelar'>Cancelar</button></Link>
+          </div>
           <Modal texto={'La contraseña se cambio con exito. '}
             confirmacion={cambiarContrasena} setConfirmacion={setCambiarContrasena} handleYes={handleOk} ok={true} />
         </form>
