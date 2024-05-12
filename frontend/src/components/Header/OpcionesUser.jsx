@@ -160,7 +160,6 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
         <div className='containersDrop' ref={dropCuentaRef}>
           <div className='cuenta' onClick={handleCuenta}>
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-            {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
           </div>
 
           {dropCuentaOpen && 
@@ -169,7 +168,6 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
 
                 <div className='cuenta'>
                   {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-                  {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
                 </div>
 
                 <div className='nombre_y_email'>
