@@ -12,10 +12,8 @@ function RegistrarEmpleado() {
 
 
     const handleBuscar= (dni) =>{
-        setEmpleado_es_usuario(false)
-        setModal(true)
         localStorage.setItem('dniEmple', JSON.stringify(dni))
-        /*fetch("http://localhost:5000/user/setEmpleado", {
+        fetch("http://localhost:5000/user/setEmpleado", {
                 method: "GET",
                 headers: { "Content-Type": "application/JSON", 'dni': dni },
                 credentials: "include"
@@ -29,17 +27,18 @@ function RegistrarEmpleado() {
                 return response.json();
             })
             .then(data => {
-                console.log(data.message)
+                console.log("vamo a ver el message",data.message)
                 setExitoso(true)
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
                 if (errorData.status == 405) {
+                    localStorage.setItem('dniEmple', JSON.stringify(dni))
                     setEmpleado_es_usuario(false)
                     setModal(true)
                 }
                 else console.log(errorData.message)
-            });*/
+            });
     }
 
     const handleOk= () =>{
@@ -50,8 +49,14 @@ function RegistrarEmpleado() {
     <main className='main'>
         {empleado_es_usuario ?
             <div className='principal-registrarEmpleado'>
-                <Buscador handleBuscar={handleBuscar} textoBoton={'Registrar'} dniValido={dniValido} setDniValido={setDniValido}/>
-                {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}
+                <div className='titulo-registrarEmpleado'>
+                    <h3>Registrar empleado</h3>
+                    <p className='aclaracion-registrarEmpleado'>Si el empleado que vas a registrar ya tiene una cuenta el registro será automático</p>
+                </div>
+                <div>
+                    <Buscador handleBuscar={handleBuscar} textoBoton={'Registrar'} dniValido={dniValido} setDniValido={setDniValido}/>
+                    {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}    
+                </div>
                 {exitoso && <Modal texto={'Registro exitoso'} confirmacion={exitoso} setConfirmacion={setExitoso} ok={true} />}
             </div>
         :

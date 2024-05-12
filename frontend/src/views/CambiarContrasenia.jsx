@@ -8,8 +8,9 @@ function CambiarContrasenia() {
   const [coincidenContrasenias, setCoincidenContrasenias] = useState(false) //si las 2 nuevas contraseñas coinciden
   const [cumpleContrasenia, setCumpleContrasenia] = useState(false)
   const [contDistintaAVieja, setContDistintaAVieja] = useState(false)
-  const [anteriorIgualActual, setAnteriorIgualActual]= useState(false)
-  const [cambiarContrasenia, setCambiarContrasenia] = useState(false)
+
+  const [contraIncorrecta, setContraIncorrecta]= useState(false) //Modal contraseña incorrecta actual
+  const [cambiarContrasenia, setCambiarContrasenia] = useState(false) //Modal cambio exitoso
   const [datos, setDatos] = useState(
     {
       password: '',
@@ -43,14 +44,14 @@ function CambiarContrasenia() {
     return tieneMinimoCaracteres && tieneCaracterEspecial && tieneMayuscula;
   }
 
-  const verificaDistinta = (nuevaContrasenia) => {
+  const verificaDistinta = (anteriorContrasenia,nuevaContrasenia) => {
     if (nuevaContrasenia === '') return null
-    return nuevaContrasenia !== JSON.parse(localStorage.getItem('user')).rawPassword
+    return nuevaContrasenia !== anteriorContrasenia
   }
 
   const handleCambiarContrasenia = (event) => {
     event.preventDefault();
-    if (coincidenContrasenias && cumpleContrasenia && contDistintaAVieja && anteriorIgualActual){
+    if (coincidenContrasenias && cumpleContrasenia && contDistintaAVieja){
 
       fetch("http://localhost:5000/user/cambiarContrasena", {
         method: "POST",
@@ -79,6 +80,7 @@ function CambiarContrasenia() {
               console.log("contraseña nueva no cumple condicion -> ", cumpleContrasenia)
               break
             case 408:
+              setContraIncorrecta(true)
               console.log("contraseña vieja incorrecta -> ")
               break;
             default:
@@ -98,12 +100,9 @@ function CambiarContrasenia() {
   useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
     setCoincidenContrasenias(verificarContrasenias(datos.newPassword, datos.newPasswordRepeat))
     setCumpleContrasenia(verificarCondicionContrasenia(datos.newPassword))
-    setContDistintaAVieja(verificaDistinta(datos.newPassword))
+    setContDistintaAVieja(verificaDistinta(datos.newPassword, datos.password))
   }, [datos.newPassword, datos.newPasswordRepeat])
 
-  useEffect(() =>{
-    setAnteriorIgualActual(!verificaDistinta(datos.password))
-  }, [datos.password])
 
   return (
     <main className='main'>
@@ -111,15 +110,14 @@ function CambiarContrasenia() {
         <h2>Cambiar Contraseña</h2>
         <div className='div-form'>
           <div class="form-group">
-            <label for="contrasena-anterior">Contraseña anterior:</label>
+            <label for="contrasena-anterior">Contraseña actual:</label>
             {/*<input type="password" id="contrasena-anterior" className="contrasena-anterior" required /> */}
             <input type="password" id="contrasena-anterior" className="passwordCambiarContrasenia" name='password' required onChange={handleChange} />
-            {anteriorIgualActual == false && <p className="textoNoCumple">Contraseña incorrecta</p>}
           </div>
           <div class="form-group">
             <label for="nueva-contrasena">Nueva Contraseña:</label>
             <input type="password" id="nueva-contrasena" name="newPassword" className="passwordCambiarContrasenia" required onChange={handleChange} />
-            {(cumpleContrasenia == false) && <p className="textoNoCumple">La contraseña no cumple las condiciones</p>}
+            {(cumpleContrasenia == false && contDistintaAVieja) && <p className="textoNoCumple">La contraseña no cumple las condiciones</p>}
             {(contDistintaAVieja == false) && <p className="textoNoCumple">La nueva contraseña es igual a la anterior</p>}
           </div>
           <div class="form-group">
@@ -134,8 +132,8 @@ function CambiarContrasenia() {
         </div>
 
       </div>
-
-      <Modal texto={"Cambio exitoso"} confirmacion={cambiarContrasenia} setConfirmacion={setCambiarContrasenia} handleYes={handleOk} ok={true}></Modal>
+      <Modal texto={'La contraseña actual ingresada no es correcta'} confirmacion={contraIncorrecta} setConfirmacion={setContraIncorrecta} ok={true} />
+      <Modal texto={"Cambio exitoso"} confirmacion={cambiarContrasenia} setConfirmacion={setCambiarContrasenia} handleYes={handleOk} ok={true}/>
 
     </main>
   )

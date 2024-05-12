@@ -24,7 +24,7 @@ function Buscador({handleBuscar, textoBoton, dniValido = () => false, setDniVali
   return (
     <form className='buscador' onSubmit={handleSubmit}>
       <input type="number" name='dni' placeholder='DNI 22222222' onChange={handleDni}/>
-      <input type="submit" value={textoBoton}/>
+      <input type="submit" value={textoBoton} className='boton-buscador'/>
     </form>
   )
 }
