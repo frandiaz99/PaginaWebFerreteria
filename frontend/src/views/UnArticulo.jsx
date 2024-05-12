@@ -101,6 +101,10 @@ function UnArticulo() {
     document.getElementById("foto-articulo").src=imagenes[indiceActual];
   }
 
+  function redirectPerfil (){
+    
+  }
+
 
 
   return (
@@ -123,7 +127,7 @@ function UnArticulo() {
               </button>
               <div id="container-perfil">
                 <h5 id='palabra-propietario'>Propietario</h5>
-                <button id='boton-ver-perfil'>
+                <button id='boton-ver-perfil' onClick={redirectPerfil}>
                   <img src="" alt="Imagen-perfil" id='imagen-perfil'/>
                   <div id='container-datos-usuario'>
                     <h5 id='nombre-usuario'></h5>
