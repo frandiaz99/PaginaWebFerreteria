@@ -55,6 +55,9 @@ const sendMail = async (req, res, next) => {
   res.status(200).json("Termino la ejecucion");
 }
 
+
+
+
 //routes
 router.route("/sendMail").post(sendMail);
 //router.route("/newSucursal").post(adminAuth, newSucursal);
@@ -64,8 +67,7 @@ router.route("/sendMail").post(sendMail);
 router.route("/deleteUser").delete(adminAuth, deleteUser);
 router.route("/desbloquearUser").post(adminAuth, desbloquearUser);
 */
-module.exports = router;
-
+module.exports = mandarMail, router;
 
 
 /*

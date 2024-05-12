@@ -300,7 +300,7 @@ const login = async (req, res, next) => {
                   return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
                 }
               } else {
-                /*mandarMail(user.email, 1, user.code);*/
+                //mandarMail(user.email, 1, user.code);
                 console.log("falta crear bien el mandarMail, pero el codigo es:", user.code)
                 return res.status(401).json({ message: "Login successful, but cod enot recibed", User: user, status: 205 }); //tambien se deberia cambiar user por user._id
               }
