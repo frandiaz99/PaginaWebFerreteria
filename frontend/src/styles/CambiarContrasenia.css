@@ -17,7 +17,7 @@ h2 {
     /* Añadir espacio entre el título y el formulario */
 }
 
-form {
+.div-form {
     width: 100%;
 }
 
