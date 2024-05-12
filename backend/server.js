@@ -108,6 +108,10 @@ app.use("/articulo", require("./routes/articulo"));
 app.use("/sucursal", require("./routes/sucursales"));
 app.use(express.static("imagenes"));
 
+
+
+app.use("/mail", require("./routes/mail"));
+
 //app.use("/pay", require("./routes/pagar"))
 
 ///prueba   esto esta para que cheken nada mas despues se borra

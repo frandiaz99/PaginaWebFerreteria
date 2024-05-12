@@ -23,24 +23,26 @@ function SubirArticulo() {
     })
   }
 
+  const fotos = [];
 
+  
+  
   const handleSubirArt = (event) => {
     event.preventDefault();
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append("Articulo", JSON.stringify(datos));
-    formData.append("Imagen", imagen.foto);
-    console.log({ "form Data": formData });
+    for (let i = 0; i < imagen.foto.length; i++) {
+      console.log("antes", imagen.foto[i])
+      formData.append("Imagen", imagen.foto[i])  
+    }
+  
 
-    /*
-    event.preventDefault();
-    const art = {
-      titulo: nombreRef.current.value,
-      descripcion: descripcionRef.current.value
-    }*/
+    //console.log({ "Imagen": imagen.foto });
+    console.log({ "form Data": formData });
+    console.log({ "form Data imagen ": formData.Imagen });
+
     fetch("http://localhost:5000/articulo/crearArticulo", {
       method: "POST",
-      //headers: { "Content-Type": "application/JSON" },
-      //body: JSON.stringify({Articulo: art}),
       body: formData,
       credentials: "include"
     })
@@ -122,7 +124,10 @@ function SubirArticulo() {
                   console.log({ "name": e.target.name })
                   console.log("asdasd", e.target.files)
                   setImagen({ [e.target.name]: e.target.files })
-                  console.log(imagen)
+                  
+                  fotos.push(Array.from(e.target.files));
+                  console.log("fotos", fotos)
+                  
                 }} />
               <div className='verImagenes'>
 

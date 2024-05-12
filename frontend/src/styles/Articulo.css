@@ -1,4 +1,4 @@
-.articulo-link{
+.articulo-link {
     background-color: #f9f9f9;
     display: flex;
     flex-direction: row;
@@ -7,19 +7,22 @@
     border-radius: 15px;
 }
 
-.articulo{
+.articulo {
     display: flex;
     background-color: #f9f9f9;
     height: 120px;
     border-radius: 15px;
     gap: 10px;
     cursor: pointer;
-} 
-.articulo:hover{
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+
+}
+
+.articulo:hover {
     background-color: #e0dfdf;
 }
 
-.divImagenArt{
+.divImagenArt {
     width: 6.5rem;
     height: 6rem;
     border-start-start-radius: 15px;
@@ -27,12 +30,12 @@
     overflow: clip;
 }
 
-.imagenArt{
+.imagenArt {
     width: 100%;
     height: 100%;
 }
 
-.articulo-contenido{
+.articulo-contenido {
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -42,24 +45,24 @@
     overflow-wrap: anywhere;
 }
 
-.tituloArt{
+.tituloArt {
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
-.descripcionArt{
+.descripcionArt {
     overflow: hidden;
 }
 
-.span{
-    color:#2A4BA0;
-    font-size:15px;
+.span {
+    color: #2A4BA0;
+    font-size: 15px;
     font-weight: bold;
 }
 
 /*---------------------------*/
 
-.miArticulo{
+.miArticulo {
     display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
@@ -75,11 +78,11 @@
     padding: 0px 4px;
 }
 
-.miArticulo:hover{
+.miArticulo:hover {
     background-color: #e0dfdf;
 }
 
-.divImagenArt-miArticulo{
+.divImagenArt-miArticulo {
     width: 80%;
     height: 65%;
     border-radius: 10px;
@@ -87,13 +90,13 @@
     display: flex;
 }
 
-.imagenMiArt{
+.imagenMiArt {
     height: 90%;
     width: 100%;
     border-radius: 10px;
 }
 
-.miArticulo-contenido{
+.miArticulo-contenido {
     width: 100%;
     height: 35%;
     display: flex;
@@ -102,7 +105,7 @@
     padding: 6px 6px;
 }
 
-.miArticulo-contenido-contenido{
+.miArticulo-contenido-contenido {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -112,7 +115,7 @@
     width: 66%;
 }
 
-.eliminarMiArticulo{
+.eliminarMiArticulo {
     border-radius: 5px;
     cursor: pointer;
     background-color: rgb(0, 0, 0);
