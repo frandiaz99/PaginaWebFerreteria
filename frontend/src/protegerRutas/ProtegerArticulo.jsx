@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom'
 import routes from '../routes'
 
 function ProtegerTercero() {
-    const cuentaUserTercero= JSON.parse(localStorage.getItem('userTercero')) || null
+    const articulo= JSON.parse(localStorage.getItem('articulo')) || null
 
-    if (cuentaUserTercero) return children
+    if (articulo) return children
   return (
     <Navigate to={routes.pagPrincipal}/>
   )

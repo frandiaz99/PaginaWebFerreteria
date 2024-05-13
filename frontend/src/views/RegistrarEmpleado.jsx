@@ -14,8 +14,9 @@ function RegistrarEmpleado() {
     const handleBuscar= (dni) =>{
         localStorage.setItem('dniEmple', JSON.stringify(dni))
         fetch("http://localhost:5000/user/setEmpleado", {
-                method: "GET",
-                headers: { "Content-Type": "application/JSON", 'dni': dni },
+                method: "POST",
+                headers: { "Content-Type": "application/JSON"},
+                body: JSON.stringify({dni: dni}),
                 credentials: "include"
             })
             .then(response => {

@@ -715,7 +715,7 @@ const cambiarContrasena = async (req, res, next) => {
 
 
 const setEmpleado = async (req, res, next) =>{
-  const dni = req.headers.dni;
+  const dni = req.body.dni;
   if (!dni) {
     console.log("Variable 'dni' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
@@ -767,7 +767,7 @@ router.route("/getByDNI").get(workerAuth, getByDNI);
 
 //admin routes
 router.route("/getEmpleados").get(adminAuth, getEmpleados);
-router.route("/setEmpleado").get(adminAuth, setEmpleado);
+router.route("/setEmpleado").post(adminAuth, setEmpleado);
 router.route("/registrarEmpleado").post( adminAuth, setRol2, register );
 
 router.route("/deleteUser").delete(adminAuth, deleteUser);
