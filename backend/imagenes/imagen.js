@@ -13,7 +13,7 @@ const storage = multer.diskStorage({destination: (req, file, cb) =>{
 },
 filename: (req, file, cb) => {
   //cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
-  console.log("gilename:", req, file);
+  //console.log("gilename:", req, file);
   cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
 }
 });
@@ -29,7 +29,7 @@ const fileFilter = (req, file, cb) => {
 
 
 const upload = multer({storage: storage});
-console.log(upload)
+console.log("falta establecer el file filter en upload image")
 module.exports = upload;
 
 /*

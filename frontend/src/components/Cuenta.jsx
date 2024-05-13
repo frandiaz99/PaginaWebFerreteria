@@ -8,13 +8,13 @@ function Cuenta({cuenta}) {
 
   const handleEliminar = () =>{
     setConfirmacion(false)
-    fetch('http://localhost:5000/user/deleteUser',   
-    {method: "DELETE", 
+    fetch('http://localhost:5000/user/deleteEmpleado',   
+    {method: "POST", 
     headers: {
       "Content-Type": "application/JSON",
       //"Cookie": localStorage.getItem('jwt')
     },
-    body: JSON.stringify({id: cuenta._id}),
+    body: JSON.stringify({_id: cuenta._id}),
     credentials: "include"})
     .then(response => {
       if (!response.ok) {

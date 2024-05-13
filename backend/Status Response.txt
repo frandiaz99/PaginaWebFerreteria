@@ -15,6 +15,11 @@ Error Code:
 
 STATUS PROPIOS DENTRO DEL BODY
 
+User.register status:
+  // 200 correcto
+  // 400 Error probable de DB
+  // 404 sucursal "sucursal._id" no encontrada
+
 User.login status:
   // 200 correcto
   // 205 correcto pero falta 'code' en 'User' con el codigo del mail
@@ -39,14 +44,41 @@ User.cambiarContrasena status:
 	//400 Error otro
   //402 "User" no recibido
   //403 Variable 'constrasena' o 'nuevaConstrasena' no recibida
-  //405 DNI,User not found
+  //405 DNI,User not found DB
   //406 contrasena nueva muy corta 
   //407 contrasena nueva no cumple condicuiones
   //408 contrasena vieja erronea
   //409 error de lserver al guardar user
 
+user.setEmpleado
+  //200 exitoso
+  //400 error raro probable DB 
+  //401 El DNi ya es empelado o admin
+  //402 "body.dni" no recibido
+  //404 dni not found in DB
 
 
+User.bloquearUser
+  //200 exitoso bloqeuado
+  //400 error raro, probablemente de  DB
+  //401 "body" no recibido
+  //402 "_id" no recibido
+  //404 "_id" not encontrada en la DB
+
+User.desbloquearUser
+  //200 exitoso desbloqeuado
+  //400 error raro, probablemente de  DB
+  //401 "User" no recibido
+  //402 "dni" no recibido
+  //404 "DNI" not encontrada en la DB
+
+
+User.deleteEmpelado
+  //200 exitoso
+  //400 error raro, probablemente de  DB
+  //401 "body" no recibido
+  //402 "_id" no recibido
+  //404 "_id" not encontrada en la DB
 
 
 
