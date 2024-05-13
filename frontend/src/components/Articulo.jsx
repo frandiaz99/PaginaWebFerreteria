@@ -40,8 +40,8 @@ function Articulo({ articulo, misArticulos }) {
     }
 
     const irArticulo= ()=>{
-        localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
-        console.log(localStorage.getItem("articuloSeleccionado"));
+        localStorage.setItem('articulo', JSON.stringify(articulo));
+        console.log(localStorage.getItem("articulo"));
         navigate(routes.unArticulo);
     }
 

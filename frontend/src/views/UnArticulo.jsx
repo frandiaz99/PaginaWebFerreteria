@@ -28,7 +28,7 @@ function UnArticulo() {
   //Para cuando los datos del localStorage se bugueen: comentar los documents, recargar pag, descomentarlos y volver a cargar.
 
   useEffect(() => {
-    const articuloLocal = localStorage.getItem('articuloSeleccionado');
+    const articuloLocal = localStorage.getItem('articulo');
     console.log(articuloLocal);
     if (articuloLocal) {
         setArticuloSeleccionado(JSON.parse(articuloLocal));
