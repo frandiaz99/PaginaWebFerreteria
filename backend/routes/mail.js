@@ -1,6 +1,6 @@
 const express = require("express");
 const { DataUser, DataNotificacion, DataSucursal } = require("../model/Schema");
-//const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
+const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const router = express.Router();
 
 //const upload = require("../imagenes/imagen.js");
@@ -9,7 +9,8 @@ const { getNotificacionesNuevas } = require("./notificacion");
 //
 //
 //const SENDGRID_API_KEY = "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";
-const SENDGRID_API_KEY = "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";
+//const SENDGRID_API_KEY = "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";
+const SENDGRID_API_KEY = "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";
 
 //const BASEHTML = require("../mail/BASE_HTML.txt");
 //const BASEHTML = codigoHTML;
@@ -19,37 +20,85 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 let msg = {
-  to: 'juliq.gelp@gmail.com',
-  from: 'batitechoficial@gmail.com',
-  subject: 'Learning to Send with Twilio SendGrid',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  //to: 'juliq.gelp@gmail.com',
+  from: 'batitechoficial@gmail.com',                  //destinatario
+  //subject: 'Learning to Send with Twilio SendGrid',   //ASUNTO
+  //Subject: 'hola2',   //ASUNTO
+  //text: 'and easy to do anywhere, even with Node.js', //eto ni idera q es
+  //html: '<strong>and easy to do anywhere, even with Node.js</strong>',  //body
 };
 
+/*  ANDA PERO ES BASICO FALTA ESTILO
 const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
-  //console.log(BASEHTML);
- // msg = {to:  `${mailDestino}` };
+  console.log(msg)
+  msg.to = mailDestino;
   //msg = {text:  `${mailMensaje}` };
- // msg.text = mailMensaje;
-
+  //msg.text = mailMensaje;
+  msg.subject = `${mailMensaje}`;
+  msg.html = `<p> El codigo para desbloquear es: <strong> ${mailMensaje}</strong> </p>`;
   //ES6
   sgMail.send(msg).then((message) => {
-    console.log("Mail enviado correctamente:", message)
+    //console.log("Mail enviado correctamente:", message)
+    console.log("Mail enviado correctamente")
+    return {ok: true, status: 200};
   }, error => {
       console.error(error);
       if (error.response) {
         console.error(error.response.body)
+        return {ok: false, status: 400};
       }
     }).catch ((error) => {
       console.log ("error", error);
     });
+}
+*/
 
 
+
+const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
+  console.log(msg)
+  msg.to = mailDestino;
+  msg.templateId = 'd-a2bc5befe3804212a7d736b1283125b4',
+  msg.dynamicTemplateData = {
+    Main: 'El codigo de autenticacion de usuario es: ',
+    Important: `${mailMensaje}`,
+  },
+
+  sgMail.send(msg).then((message) => {
+    //console.log("Mail enviado correctamente:", message)
+    console.log("Mail enviado correctamente")
+    return {ok: true, status: 200};
+  }, error => {
+      console.error(error);
+      if (error.response) {
+        console.error(error.response.body)
+        return {ok: false, status: 400};
+      }
+    }).catch ((error) => {
+      console.log ("error", error);
+    });
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//esto va a estar comentado
+console.log ("comentar esto para que ande bien")
 const sendMail = async (req, res, next) => {
   const {para, tipo, mensaje} = req.body
-  console.log (para, tipo, mensaje)
   mandarMail(para, tipo, mensaje)
   console.log ("termino la ejecucion");
   res.status(200).json("Termino la ejecucion");
@@ -59,7 +108,7 @@ const sendMail = async (req, res, next) => {
 
 
 //routes
-router.route("/sendMail").post(sendMail);
+//router.route("/sendMail").post(sendMail);
 //router.route("/newSucursal").post(adminAuth, newSucursal);
 
 /*
@@ -67,7 +116,11 @@ router.route("/sendMail").post(sendMail);
 router.route("/deleteUser").delete(adminAuth, deleteUser);
 router.route("/desbloquearUser").post(adminAuth, desbloquearUser);
 */
-module.exports = mandarMail, router;
+
+
+console.log ("comentar esto para que ande bien")
+//module.exports = router ;
+module.exports = {mandarMail}  ;
 
 
 /*

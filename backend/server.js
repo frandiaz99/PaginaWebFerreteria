@@ -109,8 +109,8 @@ app.use("/sucursal", require("./routes/sucursales"));
 app.use(express.static("imagenes"));
 
 
-
-app.use("/mail", require("./routes/mail"));
+//console.log ("comentar esto pa q ande bien")
+//app.use("/mail", require("./routes/mail"));
 
 //app.use("/pay", require("./routes/pagar"))
 
@@ -125,7 +125,7 @@ app.post("/create", (req, res) => {
   try {
     const body = req.body;
     console.log(body);
-
+ 
     User = new DataUser({
       email: req.body.email,
     });
