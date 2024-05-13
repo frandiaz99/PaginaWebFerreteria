@@ -46,7 +46,7 @@ function Articulo({ articulo, misArticulos }) {
         navigate(routes.unArticulo)
     }
 
-    var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo[0];
+    var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo[articulo.foto_articulo.length-1];
 
     if(!misArticulos) return (
             <div className='articulo' onClick={irArticulo}>
