@@ -114,6 +114,7 @@ function OpcionesUser() {
   }, [dropNotificacionesOpen]);
 
   const handleCerrarSesion = () => {
+    localStorage.clear();
     fetch('http://localhost:5000/user/logout', {
       method: "POST",
       credentials: "include"
@@ -121,7 +122,6 @@ function OpcionesUser() {
       .then(response => {
         if (response.ok) {
           console.log('La sesión se cerró correctamente');
-          localStorage.clear();
           navigate(routes.pagPrincipal);
         } else {
           throw new Error('Hubo un problema al cerrar sesión');
