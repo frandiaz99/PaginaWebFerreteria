@@ -102,7 +102,7 @@ function UnArticulo() {
   }
 
   function redirectPerfil (){
-    
+    localStorage.setItem("datos-dueño-articulo", );
   }
 
 
