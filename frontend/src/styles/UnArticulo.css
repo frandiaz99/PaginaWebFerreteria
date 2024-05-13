@@ -19,14 +19,16 @@
 
 #container-foto{
     display: flex;
-    margin: 0 auto;
-    padding: 10px;
+    /* margin: 0 auto; */
+    /* padding: 10px; */
     align-items: center;
+    justify-content: space-between;
+    width: 37%;
 }
 
 #foto-articulo{
-    width: 100%;
-    height: auto;
+    width: 15rem;
+    height: 13rem;
     max-width: 300px;
     line-height: 0px;
     border-radius: 5px;

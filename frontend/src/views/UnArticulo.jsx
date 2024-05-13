@@ -29,6 +29,7 @@ function UnArticulo() {
   var path_fotos_articulo = [];
   var fotos_articulo, foto_perfil, boton_foto;
   var indiceActual = 0;
+  var boton_foto = document.getElementsByClassName("boton-foto");
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null); //El useState devuelve un array
 
   //Para cuando los datos del localStorage se bugueen: comentar los documents, recargar pag, descomentarlos y volver a cargar.
@@ -40,6 +41,7 @@ function UnArticulo() {
         setArticuloSeleccionado(JSON.parse(articuloLocal));
         console.log(articuloSeleccionado);
     }
+    boton_foto[0].style.display = "none";
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {
@@ -49,16 +51,14 @@ function UnArticulo() {
           foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
           //console.log(fotos_articulo);
           //Lo dejo para cuando haya mas de una foto en la bd, de momento es como esta arriba
-          for (let i=0; i<fotos_articulo.length; i++){
+          for (let i=fotos_articulo.length-1; i>=0; i--){
             path_fotos_articulo.push(srcFotoArt+fotos_articulo[i]);
           }
           console.log(path_fotos_articulo);
-          boton_foto = document.getElementsByClassName("boton-foto");
           if(path_fotos_articulo.length <= 1){
             boton_foto[0].style.display = "none";
             boton_foto[1].style.display = "none";
           }else{
-            boton_foto[0].style.display = "block";
             boton_foto[1].style.display = "block";
           }
           document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
@@ -98,6 +98,8 @@ function UnArticulo() {
   }
 
   function cambiarImagen(estado) {
+    boton_foto[0].style.display = "block";
+    boton_foto[1].style.display = "block";
     if (estado === "atras" && indiceActual > 0){
       console.log("atras");
       indiceActual -= 1;
@@ -109,6 +111,11 @@ function UnArticulo() {
     }
     console.log(indiceActual)
     document.getElementById("foto-articulo").src=path_fotos_articulo[indiceActual];
+    if (indiceActual == path_fotos_articulo.length-1){
+      boton_foto[1].style.display = "none";
+    }else if (indiceActual == 0){
+      boton_foto[0].style.display = "none";
+    }
   }
 
   function redirectPerfil (){
@@ -122,9 +129,9 @@ function UnArticulo() {
       <div className='unArticulo-principal'>
         <div id='main-container'>
           <div id='container-foto'>
-            <button className='boton-foto' onClick={() => cambiarImagen('atras')}>&lt;</button>
+            <button className='boton-foto' onClick={() => cambiarImagen('atras')}><ion-icon name="arrow-back-outline"></ion-icon></button>
             <img id='foto-articulo' src="" alt="foto" />
-            <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}>&gt;</button>
+            <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}><ion-icon name="arrow-forward-outline"></ion-icon></button>
           </div>
           <div id='container-info'>
             <h2 id='nombre-articulo' className='spacing'></h2> 
