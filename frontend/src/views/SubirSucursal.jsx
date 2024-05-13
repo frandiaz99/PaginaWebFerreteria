@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/SubirSucursal.css'
 import Modal from "../components/Modal";
+import routes from "../routes";
 
 function SubirSucursal() {
   const [datos, setDatos] = useState({
@@ -45,6 +46,7 @@ function SubirSucursal() {
       })
       .then(data => {
         console.log("Creacion sucursal exitosa:", data)
+        setSubirSucursal(true);
       })
       .catch(error => {
         console.error("Error en la creacion de sucursal:", error.message);
