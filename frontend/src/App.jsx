@@ -61,7 +61,7 @@ function App(){
             <Route path={routes.unArticulo} element={
             <ProtegerArticulo>
                 <Header/>
-                <unArticulo/>
+                <UnArticulo/>
             </ProtegerArticulo>
             }/>
 

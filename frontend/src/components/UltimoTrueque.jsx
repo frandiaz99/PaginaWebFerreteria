@@ -10,7 +10,7 @@ function UltimoTrueque() {
                     <div className='articulosCambiados-ultimoTrueque'>
                         <img className='fotoArticulo-ultimoTrueque' src="https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg" alt="Art 1" />
                         <img className='simbolo-ultimoTrueque' src="truequeicono.avif" alt="simbolTrueque" />
-                        <img className='fotoArticulo-ultimoTrueque' src="https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg" alt="Art 2" />
+                        <img className='fotoArticulo-ultimoTrueque' src="https://arcencohogar.vtexassets.com/arquivos/ids/316849/-1251356.jpg?v=637835505809200000" alt="Art 2" />
                     </div>
                     <p className='fechaTrueque-ultimoTrueque'>dia/mes/año</p>
                 </div>
