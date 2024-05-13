@@ -28,7 +28,7 @@
 
 #foto-articulo{
     width: 15rem;
-    height: 13rem;
+    height: auto;
     max-width: 300px;
     line-height: 0px;
     border-radius: 5px;

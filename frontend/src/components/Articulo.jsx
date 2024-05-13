@@ -72,7 +72,7 @@ function Articulo({ articulo, misArticulos }) {
                         <h4 className='tituloArt'>{articulo.nombre}</h4>
                         {/* categoria */}
                     </div>
-                    <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Eliminar articulo</button>
+                    <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Borrar articulo</button>
                 </div>
             </div>
             <Modal texto={'¿Estás seguro que querés eliminar este artículo?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={false}/>

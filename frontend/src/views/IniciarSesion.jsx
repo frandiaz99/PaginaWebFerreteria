@@ -99,10 +99,10 @@ function IniciarSesion() {
                 </>
              :
              <>
-                <h2 style={{marginBottom:'20px'}}>Iniciar Sesion</h2>
+                <h2 style={{marginBottom:'20px'}}>Iniciar Sesión</h2>
                 <div className="labels">
                     
-                    <p className="siNoTenesCuenta">Si no tenes una cuenta podes registrarte<Link to={routes.crearCuenta} className="boton"><span className="linkAca">acá</span></Link></p>
+                    <p className="siNoTenesCuenta">Si no tenes una cuenta podés registrarte<Link to={routes.crearCuenta} className="boton"><span className="linkAca">acá</span></Link></p>
 
                     <div className="label">
                         <label htmlFor="dni">DNI</label>
