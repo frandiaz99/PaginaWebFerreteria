@@ -40,9 +40,10 @@ function Articulo({ articulo, misArticulos }) {
     }
 
     const irArticulo= ()=>{
-        localStorage.setItem('articulo', JSON.stringify(articulo));
-        console.log(localStorage.getItem("articulo"));
-        navigate(routes.unArticulo);
+        if (location.pathname !== routes.pagPrincipal){
+            localStorage.setItem('articulo',JSON.stringify(articulo))
+        }
+        navigate(routes.unArticulo)
     }
 
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
