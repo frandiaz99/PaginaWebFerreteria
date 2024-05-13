@@ -101,7 +101,7 @@ function CambiarContrasenia() {
     setCoincidenContrasenias(verificarContrasenias(datos.newPassword, datos.newPasswordRepeat))
     setCumpleContrasenia(verificarCondicionContrasenia(datos.newPassword))
     setContDistintaAVieja(verificaDistinta(datos.newPassword, datos.password))
-  }, [datos.newPassword, datos.newPasswordRepeat])
+  }, [datos.newPassword, datos.newPasswordRepeat, datos.password])
 
 
   return (

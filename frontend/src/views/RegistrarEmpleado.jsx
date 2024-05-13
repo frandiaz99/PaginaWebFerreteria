@@ -34,7 +34,7 @@ function RegistrarEmpleado() {
             })
             .catch(error => {
                 const errorData= JSON.parse(error.message)
-                if (errorData.status == 405) {
+                if (errorData.status == 404) {
                     localStorage.setItem('dniEmple', JSON.stringify(dni))
                     setEmpleado_es_usuario(false)
                     setModal(true)

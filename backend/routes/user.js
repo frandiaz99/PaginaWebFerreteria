@@ -650,7 +650,7 @@ DataUser.findOne({dni}).then((user) => {
   //200 exitosa
 	//400 Error otro
   //403 Variable 'dni' no recibida
-  //405 DNI,User not found
+  //404 DNI,User not found
 };
 
 
