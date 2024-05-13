@@ -25,9 +25,9 @@ function UnArticulo() {
         }}/>;*/
 
   
-  var imagenes = [];
   var srcFotoArt = "http://localhost:5000/img/";
-  var foto_articulo, foto_perfil;
+  var path_fotos_articulo = [];
+  var fotos_articulo, foto_perfil, boton_foto;
   var indiceActual = 0;
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null); //El useState devuelve un array
 
@@ -43,29 +43,33 @@ function UnArticulo() {
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {
-      setTimeout(2000);
       if (articuloSeleccionado) {
           console.log(articuloSeleccionado);
-          foto_articulo = srcFotoArt + articuloSeleccionado.foto_articulo;
+          fotos_articulo = articuloSeleccionado.foto_articulo;
           foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
-          console.log(foto_perfil);
-          if (!imagenes.includes(foto_articulo)){
-            console.log("dentro");
-            imagenes.push(foto_articulo);
-          }
+          //console.log(fotos_articulo);
           //Lo dejo para cuando haya mas de una foto en la bd, de momento es como esta arriba
-          /*for (let i=0; i<; i++){
-              imagenes.push(srcFotoArt);
-          }*/
+          for (let i=0; i<fotos_articulo.length; i++){
+            path_fotos_articulo.push(srcFotoArt+fotos_articulo[i]);
+          }
+          console.log(path_fotos_articulo);
+          boton_foto = document.getElementsByClassName("boton-foto");
+          if(path_fotos_articulo.length <= 1){
+            boton_foto[0].style.display = "none";
+            boton_foto[1].style.display = "none";
+          }else{
+            boton_foto[0].style.display = "block";
+            boton_foto[1].style.display = "block";
+          }
           document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
           document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
           document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.interesado;
-          document.getElementById("foto-articulo").src = imagenes[indiceActual];
+          document.getElementById("foto-articulo").src = path_fotos_articulo[0];
           document.getElementById("imagen-perfil").src = foto_perfil;
           document.getElementById("nombre-usuario").innerHTML = articuloSeleccionado.usuario.nombre;
           localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos);
       }
-  }, [articuloSeleccionado, imagenes]); //Para ejecutarlo cuando cambie articuloSeleccionado o imagenes.
+  }, [articuloSeleccionado, path_fotos_articulo]); //Para ejecutarlo cuando cambie articuloSeleccionado o imagenes.
 
 
 
@@ -98,17 +102,17 @@ function UnArticulo() {
       console.log("atras");
       indiceActual -= 1;
     }else{
-      if (estado === "siguiente" && (indiceActual >= 0 && indiceActual < imagenes.length-1)){
+      if (estado === "siguiente" && (indiceActual >= 0 && indiceActual < path_fotos_articulo.length-1)){
         console.log("adelante");
         indiceActual += 1;
       }
     }
     console.log(indiceActual)
-    document.getElementById("foto-articulo").src=imagenes[indiceActual];
+    document.getElementById("foto-articulo").src=path_fotos_articulo[indiceActual];
   }
 
   function redirectPerfil (){
-    localStorage.setItem("datos-dueño-articulo", );
+    
   }
 
 
@@ -119,7 +123,7 @@ function UnArticulo() {
         <div id='main-container'>
           <div id='container-foto'>
             <button className='boton-foto' onClick={() => cambiarImagen('atras')}>&lt;</button>
-            <img id='foto-articulo' src="" alt="imagen" />
+            <img id='foto-articulo' src="" alt="foto" />
             <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}>&gt;</button>
           </div>
           <div id='container-info'>
