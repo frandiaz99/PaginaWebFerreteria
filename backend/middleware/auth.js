@@ -9,8 +9,9 @@ exports.adminAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log ({"Admin": decodedToken});
+      //console.log ({"Admin": decodedToken});
       if (err) {
+        console.log ("Not authorized, toke err: ", err)
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.rol < 3) {
@@ -23,8 +24,8 @@ exports.adminAuth = (req, res, next) => {
     })
   } else {
     return res
-      .status(401)
-      .json({ message: "Not authorized, token not available" })
+    .status(401)
+    .json({ message: "Not authorized, token not available" })
   }
 }
 
@@ -36,8 +37,9 @@ exports.workerAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log ({"Worker": decodedToken});
+     // console.log ({"Worker": decodedToken});
       if (err) {
+        console.log ("Not authorized, toke err: ", err)
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.rol < 2) {
@@ -50,8 +52,8 @@ exports.workerAuth = (req, res, next) => {
     })
   } else {
     return res
-      .status(401)
-      .json({ message: "Not authorized, token not available" })
+    .status(401)
+    .json({ message: "Not authorized, token not available" })
   }
 }
 
@@ -69,8 +71,9 @@ exports.userAuth = (req, res, next) => {
   const token = req.cookies.jwt
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      console.log ({"User": decodedToken});
+      //console.log ({"User": decodedToken});
       if (err) {
+        console.log ("Not authorized, toke err: ", err)
         return res.status(401).json({ message: "Not authorized" })
       } else {
         if (decodedToken.rol < 1) {

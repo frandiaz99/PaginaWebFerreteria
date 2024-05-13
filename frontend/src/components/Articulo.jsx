@@ -4,6 +4,7 @@ import routes from '../routes'
 import Modal from './Modal.jsx'
 import { useState } from 'react'
 
+
 function Articulo({ articulo, misArticulos }) {
     const navigate= useNavigate()
     const [confirmacion, setConfirmacion]= useState(false)
