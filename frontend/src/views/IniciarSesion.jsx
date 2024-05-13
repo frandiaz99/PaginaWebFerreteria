@@ -6,6 +6,7 @@ import Modal from '../components/Modal'
 
 function IniciarSesion() {
     const [autenticacion, setAutenticacion]= useState(false)
+    const [codigoIncorrecto, setCodigoIncorrecto]= useState(false)
     const [dni_pass_correctos,setDni_pass_correctos]= useState(true)
     const [passIncorrecta, setPassIncorrecta]= useState(false)
     const [userBloqued, setUserBloqued]= useState(false)
@@ -59,6 +60,7 @@ function IniciarSesion() {
                       break;
                     case 206:
                       console.log("Codigo de autenticacion incorrecto")
+                      setCodigoIncorrecto(true)
                       break;
                     case 404:
                     case 405:
@@ -93,7 +95,8 @@ function IniciarSesion() {
                         <button className="iniciar" onClick={handleIniciar}>Confirmar</button>
                     </div>
                 </div>
-             </>
+                <Modal texto={'Código de autenticación erróneo'} confirmacion={codigoIncorrecto} setConfirmacion={setCodigoIncorrecto} ok={true} />
+                </>
              :
              <>
                 <h2 style={{marginBottom:'20px'}}>Iniciar Sesion</h2>
