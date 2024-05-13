@@ -143,7 +143,9 @@ function EditarPerfil() {
                                 setImagen({ [e.target.name]: e.target.files[0] })
                                 console.log(imagen);
                             }} />
-                        <label htmlFor='input-foto' >Cambiar foto</label>
+                        <label htmlFor='input-foto' >
+                            <p>Cambiar foto</p>
+                        </label>
                     </div>
 
                     <div className='datos'>

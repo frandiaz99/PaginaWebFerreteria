@@ -6,6 +6,12 @@ import  Pagar from '../components/Pagar';
 import '../styles/UnArticulo.css'
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 
+function esMiArticulo(){
+  const propietarioArticulo= JSON.parse(localStorage.getItem('articulo')).usuario._id
+  const user= JSON.parse(localStorage.getItem('user'))._id
+  return user == propietarioArticulo
+}
+
 function UnArticulo() {
 
   //MercadoPagoInstance.publicKey = 'TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622';
@@ -124,9 +130,9 @@ function UnArticulo() {
               <p id="descripcion-interesado-en"></p>
             </div>
             <div id="container-buttons" className="spacing">
-              <button id="boton-intercambiar" >
+              {!esMiArticulo() && <button id="boton-intercambiar" >
                 Intercambiar
-              </button>
+              </button>}
               <div id="container-perfil">
                 <h5 id='palabra-propietario'>Propietario</h5>
                 <button id='boton-ver-perfil' onClick={redirectPerfil}>
