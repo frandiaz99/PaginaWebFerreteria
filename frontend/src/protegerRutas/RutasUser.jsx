@@ -21,7 +21,6 @@ const RutasUser = () => {
                 'mis_articulos',
                 'mis_trueques',
                 'promociones',
-                'un_articulo',
                 'perfil',
                 'editar_perfil',
                 'cambiar_contrasenia'
@@ -38,7 +37,6 @@ const RutasUser = () => {
                 <Route path={'mis_articulos'} element={<MisArticulos />} />
                 <Route path={'mis_trueques'} element={<MisTrueques />} />
                 <Route path={'promociones'} element={<Promociones />} />
-                <Route path={'un_articulo'} element={<UnArticulo />} />
                 <Route path={'perfil'} element={<Perfil />} />
                 <Route path={"editar_perfil"} element={<EditarPerfil />} />
                 <Route path={'cambiar_contrasenia'} element={<CambiarContrasenia />} />

@@ -66,7 +66,7 @@ function PaginaPrincipal() {
         <div className='body-trueques'>
           <div className='contenedor-ultimos-trueques'>
             <div className='div-titulo-ultimo-trueque'>
-              <h4 className='tituloUltimoTrueques'>Últimos Trueques</h4>
+              <h3 className='tituloUltimoTrueques'>Últimos Trueques</h3>
             </div>
             <div className='ultimosTrueques'>
               <div className='ultimosTrueques-lista'>

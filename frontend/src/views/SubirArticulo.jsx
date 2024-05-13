@@ -129,9 +129,9 @@ function SubirArticulo() {
                   console.log("fotos", fotos)
                   
                 }} />
-              <div className='verImagenes'>
+              {/* <div className='verImagenes'>
 
-              </div>
+              </div> */}
             </div>
           </div>
 

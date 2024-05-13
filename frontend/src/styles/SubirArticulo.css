@@ -15,9 +15,9 @@
     border-radius: 10px;
     background-color: white;
     margin: 20px auto;
-    margin-top: 10%;
+    margin-top: 15%;
     box-sizing: border;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Estilos para las secciones del formulario */
@@ -81,7 +81,7 @@
 
 /* Estilos para los botones */
 .boton-subirArt {
-    width: 45%;
+    width: 40%;
     padding: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -112,7 +112,6 @@
 
 /* Estilos para las líneas */
 .titulo-section3 hr {
-    border: 2px solid #969696;
     background-color: #969696;
     border-radius: 10px;
 }
@@ -123,4 +122,7 @@
 .boton-cancelarArt {
     font-family: Arial, sans-serif;
     font-size: 1rem;
+}
+#fotoSubirArt{
+    height: 100%;
 }

@@ -1,29 +1,53 @@
-.formSubirSucursal{
+.formSubirSucursal {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 80%;
-    gap: 20px;
+    display: inline-block;
+
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    padding: 30px;
 }
 
-.div-subirSucursal{
+.div-subirsucursal-inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+.div-subirsucursal-fila {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    padding: 20px;
+    display: inline-block;
 }
 
-.inputSubirSucursal{
+.div-subirSucursal {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputSubirSucursal {
     width: 15rem;
 }
 
-.div-botonSubirSucursal{
+.div-botonSubirSucursal {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.botonSubirSucursal{
-    margin-bottom: 10px;
+.boton-subir-sucursal {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.boton-subir-sucursal:hover {
+    background-color: #0056b3
 }

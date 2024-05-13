@@ -3,7 +3,8 @@
     align-items: center;
     margin-right: 1%;
     width: 12%;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 15px;
 }
 
 .cuenta {
@@ -51,12 +52,12 @@
     background-color: white;
     position: absolute;
     border-radius: 5px;
-    right: -37%;
+    right: -55%;
     top: 124%;
     width: 16rem;
     overflow: hidden;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 200px;
+    height: 180px;
 }
 
 .dropCuenta__mail {

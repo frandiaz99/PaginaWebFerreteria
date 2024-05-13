@@ -10,7 +10,6 @@ const routes = {
     misArticulos: '/user/mis_articulos',
     misTrueques: '/user/mis_trueques',
     subirArticulo: '/user/subir_articulo',
-    unArticulo: '/user/un_articulo',
     perfil: '/user/perfil',
     editarPerfil: '/user/editar_perfil',
     cambiarContrasenia: '/user/cambiar_contrasenia',
@@ -29,7 +28,8 @@ const routes = {
     adminEditarPerfil: '/admin/editar_perfil',
     adminSubirSucursal: '/admin/subir_sucursal',
 
-    perfilTercero: '/perfil'
+    perfilTercero: '/perfil',
+    unArticulo: '/articulo'
 }
 
 export default routes

@@ -300,7 +300,7 @@ const login = async (req, res, next) => {
                   return res.status(401).json({ message: "Login successful, but the 'code' is not right", User: user, status: 206 }); //tambien se deberia cambiar user por user._id
                 }
               } else {
-                mandarMail(user.email, 1, user.code);
+                //mandarMail(user.email, 1, user.code);
                 console.log("falta crear bien el mandarMail, pero el codigo es:", user.code)
                 return res.status(401).json({ message: "Login successful, but cod enot recibed", User: user, status: 205 }); //tambien se deberia cambiar user por user._id
               }
@@ -715,7 +715,7 @@ const cambiarContrasena = async (req, res, next) => {
 
 
 const setEmpleado = async (req, res, next) =>{
-  const dni = req.headers.dni;
+  const dni = req.body.dni;
   if (!dni) {
     console.log("Variable 'dni' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
@@ -767,7 +767,7 @@ router.route("/getByDNI").get(workerAuth, getByDNI);
 
 //admin routes
 router.route("/getEmpleados").get(adminAuth, getEmpleados);
-router.route("/setEmpleado").get(adminAuth, setEmpleado);
+router.route("/setEmpleado").post(adminAuth, setEmpleado);
 router.route("/registrarEmpleado").post( adminAuth, setRol2, register );
 
 router.route("/deleteUser").delete(adminAuth, deleteUser);

@@ -157,20 +157,18 @@ function OpcionesUser() {
         </div>
       }
 
-      <div className='containersDrop' ref={dropCuentaRef}>
-        <div className='cuenta' onClick={handleCuenta}>
-          {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-          {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
-        </div>
+        <div className='containersDrop' ref={dropCuentaRef}>
+          <div className='cuenta' onClick={handleCuenta}>
+            {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
+          </div>
 
         {dropCuentaOpen &&
           <div className='dropCuenta'>
             <div className='dropCuenta__mail'>
 
-              <div className='cuenta'>
-                {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-                {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
-              </div>
+                <div className='cuenta'>
+                  {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
+                </div>
 
               <div className='nombre_y_email'>
                 <span>{user.nombre}</span>
