@@ -11,9 +11,10 @@
     align-items: center;
     background-color: rgb(223, 223, 223);
     width: fit-content;
-    box-shadow: 0 10px 15px  rgba(88, 88, 88, 0.5);
+    box-shadow: 0 10px 15px rgba(88, 88, 88, 0.5);
     border-radius: 15px;
     height: 90%;
+    width: 45rem;
 }
 
 #container-foto{
@@ -70,7 +71,7 @@
 #container-buttons{
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     text-align: center;
     align-items: center;
 }
@@ -107,6 +108,7 @@
 
 #boton-ver-perfil{
     width: 200px;
+    margin-right: 10px;
     display: flex;
     align-items: center;
     background-color: rgb(223, 223, 223);
