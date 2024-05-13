@@ -5,9 +5,9 @@ import routes from '../routes'
 function ProtegerArticulo({children}) {
     const articulo= JSON.parse(localStorage.getItem('articulo')) || null
 
-    if (articulo) return children
+    if (articulo) return (children)
   return (
-    <Navigate to={routes.pagPrincipal}/>
+    <Navigate to={routes.iniciarSesion}/>
   )
 }
 

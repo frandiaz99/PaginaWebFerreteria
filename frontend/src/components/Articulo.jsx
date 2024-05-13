@@ -39,7 +39,9 @@ function Articulo({ articulo, misArticulos }) {
     }
 
     const irArticulo= ()=>{
-        localStorage.setItem('articulo',JSON.stringify(articulo))
+        if (location.pathname !== routes.pagPrincipal){
+            localStorage.setItem('articulo',JSON.stringify(articulo))
+        }
         navigate(routes.unArticulo)
     }
 
