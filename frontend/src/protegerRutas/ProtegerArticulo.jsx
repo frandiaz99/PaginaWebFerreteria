@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import routes from '../routes'
 
-function ProtegerTercero() {
+function ProtegerArticulo({children}) {
     const articulo= JSON.parse(localStorage.getItem('articulo')) || null
 
     if (articulo) return children
@@ -11,4 +11,4 @@ function ProtegerTercero() {
   )
 }
 
-export default ProtegerTercero
+export default ProtegerArticulo

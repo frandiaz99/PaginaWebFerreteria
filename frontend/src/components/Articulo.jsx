@@ -39,6 +39,7 @@ function Articulo({ articulo, misArticulos }) {
     }
 
     const irArticulo= ()=>{
+        localStorage.setItem('articulo',JSON.stringify(articulo))
         navigate(routes.unArticulo)
     }
 
