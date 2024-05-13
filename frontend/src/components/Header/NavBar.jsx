@@ -5,7 +5,7 @@ import routes from '../../routes'
 
 const estaEnModoUser= () =>{ 
   return (
-    location.pathname.startsWith('/user')
+    location.pathname.startsWith('/user') || location.pathname == routes.unArticulo
     )
 }
 

@@ -119,8 +119,10 @@ function UnArticulo() {
           <div id='container-info'>
             <h2 id='nombre-articulo' className='spacing'></h2> 
             <p id='descripcion-articulo' className='spacing'></p>
-            <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
-            <p id="descripcion-interesado-en"></p>
+            <div className='div-interesado-en'>
+              <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
+              <p id="descripcion-interesado-en"></p>
+            </div>
             <div id="container-buttons" className="spacing">
               <button id="boton-intercambiar" >
                 Intercambiar

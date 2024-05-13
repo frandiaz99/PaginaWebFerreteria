@@ -13,7 +13,7 @@
     width: fit-content;
     box-shadow: 0 10px 15px  rgba(88, 88, 88, 0.5);
     border-radius: 15px;
-    height: 100%;
+    height: 90%;
 }
 
 #container-foto{
@@ -28,6 +28,7 @@
     height: auto;
     max-width: 300px;
     line-height: 0px;
+    border-radius: 5px;
 }
 
 .boton-foto{
@@ -52,13 +53,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     max-width: 500px;
-    height: auto;
-    justify-content: center;
+    /* height: auto; */
+    justify-content: space-evenly;
     align-items: flex-start;
     overflow: hidden;
     padding: 10px;
 }
+
 
 #precio-articulo{
     color: #1ea540;
@@ -70,6 +73,19 @@
     justify-content: center;
     text-align: center;
     align-items: center;
+}
+
+.div-interesado-en{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#interesado-en{
+    width: 30%;
+}
+#descripcion-interesado-en{
+    width: 70%;
 }
 
 #boton-intercambiar{

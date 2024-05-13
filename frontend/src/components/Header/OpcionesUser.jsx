@@ -6,7 +6,7 @@ import DropNotificaciones from './DropNotificaciones'
 
 const estaEnModoUser = () => {
   return (
-    location.pathname.startsWith('/user')
+    location.pathname.startsWith('/user') || location.pathname == routes.unArticulo
   )
 }
 const estaEnModoEmpleado = () => {
