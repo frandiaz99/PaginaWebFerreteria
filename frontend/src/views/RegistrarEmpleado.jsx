@@ -8,6 +8,7 @@ function RegistrarEmpleado() {
     const [redireccionar, setRedireccionar]= useState(false)
     const [exitoso,setExitoso]= useState(false)
     const [dniValido, setDniValido]= useState(false)
+    const [yaEsEmple, setYaEsEmple]= useState(false)
     const[modal, setModal]= useState(false)
 
 
@@ -38,6 +39,7 @@ function RegistrarEmpleado() {
                     setEmpleado_es_usuario(false)
                     setModal(true)
                 }
+                else if (errorData.status == 401) setYaEsEmple(true)
                 else console.log(errorData.message)
             });
     }
@@ -53,6 +55,7 @@ function RegistrarEmpleado() {
                 <div className='titulo-registrarEmpleado'>
                     <h3>Registrar empleado</h3>
                     <p className='aclaracion-registrarEmpleado'>Si el empleado que vas a registrar ya tiene una cuenta el registro será automático</p>
+                    <Modal texto={'El usuario ya es un empleado'} confirmacion={yaEsEmple} setConfirmacion={setYaEsEmple} ok={true}/>
                 </div>
                 <div>
                     <Buscador handleBuscar={handleBuscar} textoBoton={'Registrar'} dniValido={dniValido} setDniValido={setDniValido}/>
