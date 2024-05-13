@@ -29,6 +29,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: clip;
   }
 
   .foto-perfil input[type="file"] {
@@ -37,7 +38,12 @@
   }
 
   .foto-perfil label {
-      cursor: pointer;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
   }
 
   .foto-perfil:hover {
