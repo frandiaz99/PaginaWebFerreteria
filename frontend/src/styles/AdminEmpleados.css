@@ -54,11 +54,14 @@
 .principal-registrarEmpleado{
     display: flex;
     flex-direction: column;
-    height: 100%;
     gap: 30px;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 50px;
+    background-color: white;
+    padding: 20px;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
 .titulo-registrarEmpleado{

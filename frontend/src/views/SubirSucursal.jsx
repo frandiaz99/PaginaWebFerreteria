@@ -89,7 +89,7 @@ function SubirSucursal() {
 
             <div className='div-subirSucursal'>
               <label htmlFor="foto">Foto de la sucursal</label>
-              <input className='input-foto' id='input-foto' type="file" accept=".png, .jpg, .jpeg" multiple name="foto"
+              <input className='input-foto' id='input-foto' type="file" accept=".png, .jpg, .jpeg" name="foto"
                 onChange={e => {
                   console.log({ "name": e.target.name })
                   console.log(e.target.files[0])
