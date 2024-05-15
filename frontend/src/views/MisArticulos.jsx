@@ -7,6 +7,7 @@ function MisArticulos() {
   const [articulosTasados, setArticulosTasados]= useState([])
   const [articulosNOtasados, setArticulosNOtasados]= useState([])
   const [eliminado, setEliminado]= useState(false)
+  const [obtenido, setObtenido]= useState(false)
 
   if (location.pathname == routes.empleadoTasar){
     useEffect(() => {
@@ -26,6 +27,7 @@ function MisArticulos() {
       })
       .then(data => {
         setArticulosNOtasados(data.filter(a => a.precio == 0))
+        setObtenido(true)
       })
       .catch(error => {
         const errorData= JSON.parse(error.message)
@@ -51,6 +53,7 @@ function MisArticulos() {
         .then(data => {
           setArticulosTasados(data.articulos.filter(a => a.precio > 0))
           setArticulosNOtasados(data.articulos.filter(a => a.precio == 0))
+          setObtenido(true)
         })
         .catch(error => {
           const errorData= JSON.parse(error.message)
@@ -73,7 +76,8 @@ function MisArticulos() {
           </div>
           {articulosTasados.length == 0 ? 
             <div className='noHayItems'>
-              {location.pathname == routes.empleadoTasar ? 'No hay articulos tasados' : 'No tenes artículos tasados'}
+              {obtenido ? location.pathname == routes.empleadoTasar ? 'No hay articulos tasados' : 'No tenes artículos tasados'
+              : 'Cargando artículos tasados...'}
             </div> //Podria ser un componente
           :
           <div className='misArticulos'>
@@ -88,7 +92,7 @@ function MisArticulos() {
           </div>
           {articulosNOtasados.length == 0 ? 
             <div className='noHayItems'>
-              No hay articulos para tasar
+              {obtenido ? 'No hay articulos para tasar' : 'Cargando artículos no tasados...'}
             </div> //Podria ser un componente
           :
             <div className='misArticulos'>

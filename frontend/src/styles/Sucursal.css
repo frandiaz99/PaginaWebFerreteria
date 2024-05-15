@@ -42,6 +42,7 @@
     gap: 30px;
     padding: 1%;
     width: 85%;
+    justify-items: center;
 }
 
 /* Sucursal.css */

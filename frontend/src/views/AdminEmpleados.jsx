@@ -15,6 +15,7 @@ function AdminEmpleados() {
   const [cuentasActuales,setCuentasActuales]= useState(totalCuentas)
   const [pagActual,setPagActual]= useState(1)
   const [eliminado, setEliminado]= useState(false)
+  const [obtenido, setObtenido]= useState(false)
   const cuentasRef= useRef(null)
 
   const handlePageChange= (pagina) =>{
@@ -48,6 +49,7 @@ function AdminEmpleados() {
     })
     .then(data => {
       setTotalCuentas(data.Empleados)
+      setObtenido(true)
     })
     .catch(error => {
       console.error('Error:', error);
@@ -74,7 +76,7 @@ function AdminEmpleados() {
           {(totalCuentas.length == 0 || cuentasActuales.length == 0)
           ? 
             <div className='noHayItems'>
-              No hay ningún empleado
+              {obtenido ? 'No hay ningún empleado' : 'Cargando...'}
             </div> //Podria ser un componente
           :
             mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta} eliminar={reiniciarCuentas}/>))

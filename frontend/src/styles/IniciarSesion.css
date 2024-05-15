@@ -1,6 +1,6 @@
 .labels {
     padding: 20px;
-    padding-top: 30px;
+    /* padding-top: 30px; */
     border: 1px solid #ccc;
     border-radius: 20px;
     background-color: white;
@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    height: 8rem;
 }
 
 .iniciar-sesion {
@@ -28,6 +29,8 @@
 .label {
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
 }
 
 .siNoTenesCuenta {

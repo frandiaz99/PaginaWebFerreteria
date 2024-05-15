@@ -6,13 +6,14 @@ import Paginacion from '../components/Paginacion'
 import Filtros from '../components/Filtros'
 import { useState, useEffect, useRef } from 'react'
 
-const articulosXPag = 4 //en cada pagina mostrar 5 articulos
+const articulosXPag = 15 //en cada pagina mostrar 5 articulos
 const ultimosTrueques = [{ num: 1 }, { num: 2 }, { num: 3 }, { num: 4 }, { num: 5 }]  //fetch para ultimosTrueques en useEffect
 
 function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos] = useState([])
   const [articulosActuales, setArticulosActuales] = useState(totalArticulos) //aca se guardan los filtrados
   const [pagActual, setPagActual] = useState(1);
+  const [obtenido, setObtenido]= useState(false)
   const articulosRef = useRef(null)
 
   const handlePageChange = (pagina) => {
@@ -52,6 +53,7 @@ function PaginaPrincipal() {
       })
       .then(data => {
         setTotalArticulos(data.filter(d => d.precio > 0))
+        setObtenido(true)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -84,7 +86,7 @@ function PaginaPrincipal() {
             <div className='articulos' ref={articulosRef}>
               {(totalArticulos.length == 0 || articulosActuales == 0) ?
                 <div className='noHayItems'>
-                  No hay articulos disponibles aún
+                  {obtenido ? 'No hay articulos disponibles aún' : 'Cargando artículos...'}
                 </div> //Podria ser un componente
                 :
                 mostrarArticulos().map((art, index) => (<Articulo key={index} articulo={art} misArticulos={false} />))

@@ -13,6 +13,7 @@ const estaEnModoAdmin = () => {
 function Sucursales() {
   const navigate = useNavigate()
   const [sucursales, setSucursales] = useState([]);
+  const [obtenido, setObtenido]= useState(false)
 
   useEffect(() => {
     fetch('http://localhost:5000/sucursal/getSucursales',
@@ -31,6 +32,7 @@ function Sucursales() {
       })
       .then(data => {
         setSucursales(data.Sucursales)
+        setObtenido(true)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -50,9 +52,15 @@ function Sucursales() {
           </div>
         }
         <div className='body-sucursales'>
-          {sucursales.map((sucursal, index) => (
-            <Sucursal key={index} sucursal={sucursal} />
-          ))}
+          {obtenido ?
+            sucursales.map((sucursal, index) => (
+              <Sucursal key={index} sucursal={sucursal} />
+            ))
+          : <>
+            <p></p>
+            <p>Cargando sucursales...</p>
+            </>
+          }
         </div>
       </div>
     </main>
