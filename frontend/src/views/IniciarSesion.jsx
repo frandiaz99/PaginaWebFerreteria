@@ -128,10 +128,9 @@ function IniciarSesion() {
                             {passIncorrecta && <p style={{ color: 'red' }}>Contraseña incorrecta</p>}
                             <Modal texto={'Tu cuenta se encuentra bloqueada, para desbloquearla comunicate con un administrador: fedeteria@gmail.com'}
                                 confirmacion={userBloqued} setConfirmacion={setUserBloqued} ok={true} />
-
-                            <div className="divIniciarSesion">
-                                <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
-                            </div>
+                        </div>
+                        <div className="divIniciarSesion">
+                            <button type="button" className="iniciar" onClick={handleIniciar}>Iniciar sesión</button>
                         </div>
                     </div>
                 </>

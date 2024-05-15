@@ -7,7 +7,9 @@ import '../styles/UnArticulo.css'
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 
 function esMiArticulo(){
-  const propietarioArticulo= JSON.parse(localStorage.getItem('articulo')).usuario._id
+  const articulo=JSON.parse(localStorage.getItem('articulo'))
+  var propietarioArticulo
+  if (articulo) propietarioArticulo= articulo.usuario._id
   const user= JSON.parse(localStorage.getItem('user'))._id
   return user == propietarioArticulo
 }
@@ -42,6 +44,10 @@ function UnArticulo() {
         console.log(articuloSeleccionado);
     }
     boton_foto[0].style.display = "none";
+
+    return () =>{ //cuando se desmonta el componente retira articulo del localstorage
+      localStorage.removeItem('articulo')
+    }
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {

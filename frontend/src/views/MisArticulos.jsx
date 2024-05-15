@@ -26,6 +26,7 @@ function MisArticulos() {
         return response.json();
       })
       .then(data => {
+        setArticulosTasados(data.filter(a => a.precio > 0))
         setArticulosNOtasados(data.filter(a => a.precio == 0))
         setObtenido(true)
       })
