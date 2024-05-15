@@ -15,6 +15,7 @@
     border-radius: 15px;
     height: 90%;
     width: 45rem;
+    padding: 25px;
 }
 
 #container-foto{
@@ -24,6 +25,7 @@
     align-items: center;
     justify-content: space-between;
     width: 37%;
+    padding-right: 35px;
 }
 
 #foto-articulo{
@@ -63,7 +65,17 @@
     justify-content: space-evenly;
     align-items: flex-start;
     overflow: hidden;
-    padding: 10px;
+}
+
+#nombre-articulo{
+    padding-left: 0px;
+}
+
+#descripcion-articulo{
+    overflow-y: auto;
+    padding-bottom: 50px;
+    display: flex;
+    padding-left: 0px;
 }
 
 
@@ -83,13 +95,17 @@
     display: flex;
     align-items: center;
     width: 100%;
+    overflow-y: auto;
 }
 
 #interesado-en{
     width: 30%;
+    padding-left: 0px;
+    padding-bottom: 5px;
 }
 #descripcion-interesado-en{
-    width: 70%;
+    width: 100%;
+    display: flex;
 }
 
 #boton-intercambiar{
