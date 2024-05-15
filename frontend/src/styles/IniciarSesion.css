@@ -1,42 +1,62 @@
-.labels{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.label{
+.labels {
+    padding: 20px;
+    padding-top: 30px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 500px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.siNoTenesCuenta{
+.iniciar-sesion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.iniciar-sesion h2 {
+    margin: 0;
+}
+
+.iniciar-sesion p {
+    margin-bottom: 10px;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+}
+
+.siNoTenesCuenta {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.linkAca{
+.linkAca {
     color: black;
     font-size: 20px;
 }
 
-.divIniciarSesion{
+.divIniciarSesion {
     display: flex;
     justify-content: center;
 }
 
-.iniciar{
-    background-color: #F9C615;
-    color: #2e2e2e;
-    padding: 8px 5px;
-    border-radius: 3px;
+.iniciar {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     height: 2rem;
-    font-family: revert-layer;
-    font-weight: 600;
 }
 
-.iniciar:hover{
-    background-color: #f1cf52;
+.iniciar:hover {
+    background-color: #0056b3;
 }
-

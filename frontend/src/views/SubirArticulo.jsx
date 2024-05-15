@@ -25,17 +25,17 @@ function SubirArticulo() {
 
   const fotos = [];
 
-  
-  
+
+
   const handleSubirArt = (event) => {
     event.preventDefault();
     const formData = new FormData()
     formData.append("Articulo", JSON.stringify(datos));
     for (let i = 0; i < imagen.foto.length; i++) {
       console.log("antes", imagen.foto[i])
-      formData.append("Imagen", imagen.foto[i])  
+      formData.append("Imagen", imagen.foto[i])
     }
-  
+
 
     //console.log({ "Imagen": imagen.foto });
     console.log({ "form Data": formData });
@@ -69,7 +69,7 @@ function SubirArticulo() {
   }
 
   return (
-    <main className='main main-subir-articulo' >
+    <main className='main' >
       <form className='formSubirArt' onSubmit={handleSubirArt} encType="multipart/form-data">
 
         <div className='main-subirArt'>
@@ -124,10 +124,10 @@ function SubirArticulo() {
                   console.log({ "name": e.target.name })
                   console.log("asdasd", e.target.files)
                   setImagen({ [e.target.name]: e.target.files })
-                  
+
                   fotos.push(Array.from(e.target.files));
                   console.log("fotos", fotos)
-                  
+
                 }} />
               {/* <div className='verImagenes'>
 
