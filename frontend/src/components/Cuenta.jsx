@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../styles/Cuenta.css'
 import Modal from './Modal'
 
-function Cuenta({cuenta}) {
+function Cuenta({cuenta, eliminar}) {
   const [confirmacion, setConfirmacion]= useState(false)
   const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
@@ -23,7 +23,7 @@ function Cuenta({cuenta}) {
       return response.json();
     })
     .then(data => {
-      window.location.reload()
+      eliminar()
     })
     .catch(error => {
       console.error('Error:', error);

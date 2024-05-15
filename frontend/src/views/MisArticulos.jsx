@@ -6,6 +6,7 @@ import routes from '../routes';
 function MisArticulos() {
   const [articulosTasados, setArticulosTasados]= useState([])
   const [articulosNOtasados, setArticulosNOtasados]= useState([])
+  const [eliminado, setEliminado]= useState(false)
 
   if (location.pathname == routes.empleadoTasar){
     useEffect(() => {
@@ -55,7 +56,11 @@ function MisArticulos() {
           const errorData= JSON.parse(error.message)
           console.log(errorData.message)
         });
-      }, [])
+      }, [eliminado])
+  }
+
+  const reinicarArts= () =>{
+    setEliminado(!eliminado)
   }
 
   return (
@@ -72,7 +77,7 @@ function MisArticulos() {
             </div> //Podria ser un componente
           :
           <div className='misArticulos'>
-            {articulosTasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
+            {articulosTasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true} eliminar={reinicarArts}/>))}
           </div>
           }
         </div>
@@ -87,7 +92,7 @@ function MisArticulos() {
             </div> //Podria ser un componente
           :
             <div className='misArticulos'>
-              {articulosNOtasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true}/>))}
+              {articulosNOtasados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={true} eliminar={reinicarArts}/>))}
             </div>
           }
         </div>

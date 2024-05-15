@@ -18,7 +18,7 @@ function CambiarContrasenia() {
       newPasswordRepeat: ''
     }
   )
-
+  var user= JSON.parse(localStorage.getItem('user'))
 
   const handleChange = (e) => {
     setDatos({
@@ -94,7 +94,8 @@ function CambiarContrasenia() {
 
   const handleOk = () => {
     setCambiarContrasenia(false)
-    window.location.href = routes.perfil
+    if (user.rol == 3) window.location.href = routes.adminPerfil
+    else window.location.href = routes.perfil
   };
 
   useEffect(() => {  //Verificar que coincidan las contraseñas y que cumpla los requisitos de contraseña   
@@ -127,7 +128,12 @@ function CambiarContrasenia() {
           </div>
           <div className='botones-contrasenia'>
             <button type="submit" className='botonCambiarContrasenia' onClick={handleCambiarContrasenia}>Guardar</button>
+            {user.rol == 3 ?
+              <Link to={routes.adminEditarPerfil}><button className='botonCancelar'>Cancelar</button></Link>
+            :
             <Link to={routes.editarPerfil}><button className='botonCancelar'>Cancelar</button></Link>
+            }
+            
           </div>
         </div>
 

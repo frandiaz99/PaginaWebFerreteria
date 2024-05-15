@@ -224,15 +224,15 @@ function CrearCuenta() {
         <main className="main">
 
             <div className="forms">
-                {soyAdmin() && <h2 style={{ marginTop: '20px' }}>Registrar Empleado</h2>}
-                {!soyAdmin() && <h2 style={{ marginTop: '20px' }}>Registrarse</h2>}
+                {soyAdmin() && <h2 style={{ marginTop: '10px' }}>Registrar Empleado</h2>}
+                {!soyAdmin() && <h2 style={{ marginTop: '10px' }}>Registrarse</h2>}
 
                 <form onSubmit={handleRegistro} className="formPrincipal" encType="multipart/form-data">
                     <div className="nombre-apellido contenedor-registro">
                         <div className="divInputRegistro">
                             <label htmlFor="nombre">Nombre</label>
                             {soyAdmin() ?
-                                <input name="nombre" type="text" placeholder="Ingresá nombre del empleado" onChange={handleChange} />
+                                <input name="nombre" type="text" placeholder="Nombre del empleado" onChange={handleChange} />
                                 :
                                 <input name="nombre" type="text" placeholder="Ingresá tu nombre" onChange={handleChange} />}
                         </div>
@@ -240,7 +240,7 @@ function CrearCuenta() {
                         <div className="divInputRegistro">
                             <label htmlFor="apellido">Apellido</label>
                             {soyAdmin() ?
-                                <input name="apellido" type="text" placeholder="Ingresá apellido del empleado" onChange={handleChange} />
+                                <input name="apellido" type="text" placeholder="Apellido del empleado" onChange={handleChange} />
                                 :
                                 <input name="apellido" type="text" placeholder="Ingresá tu apellido" onChange={handleChange} />}
                         </div>

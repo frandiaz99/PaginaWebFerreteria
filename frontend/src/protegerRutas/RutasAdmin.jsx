@@ -9,6 +9,7 @@ import NotFound from '../views/NotFound.jsx'
 import RegistrarEmpleado from '../views/RegistrarEmpleado.jsx'
 import Perfil from '../views/Perfil.jsx'
 import EditarPerfil from '../views/EditarPerfil.jsx'
+import CambiarContrasenia from '../views/CambiarContrasenia.jsx'
 import SubirSucursal from '../views/SubirSucursal.jsx'
 
 function RutasAdmin() {
@@ -23,6 +24,7 @@ function RutasAdmin() {
           'registrar_empleado',
           'perfil',
           'editar_perfil',
+          'cambiar_contrasenia',
           'subir_sucursal'
           ].includes(location.pathname.split('/')[2]) || location.pathname === '/admin'
       )
@@ -40,6 +42,7 @@ function RutasAdmin() {
             <Route path='perfil' element={<Perfil/>}/>
             <Route path='editar_perfil' element={<EditarPerfil/>}/>
             <Route path='subir_sucursal' element={<SubirSucursal/>}/>
+            <Route path='cambiar_contrasenia' element={<CambiarContrasenia/>}/>
             <Route path='*' element={<NotFound/>}/>
         </Routes>
       </>

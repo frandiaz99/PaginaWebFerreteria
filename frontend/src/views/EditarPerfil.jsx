@@ -162,7 +162,12 @@ function EditarPerfil() {
                 </div>
                 <div className='botones'>
                     <div className='cambiar-contrasena'>
+                        {usuario.rol == 3 ?
+                        <Link to={routes.adminCambiarContrasenia} ><button>Cambiar contraseña</button></Link>
+                        :
                         <Link to={routes.cambiarContrasenia} ><button>Cambiar contraseña</button></Link>
+                        }
+                        
                     </div>
                     <div className='guardar'>
                         <button type='submit'>Guardar cambios</button>

@@ -1,9 +1,6 @@
 .forms {
     padding: 20px;
-}
-
-.forms h2 {
-    padding-top: 30px;
+    height: 100%;
 }
 
 .formPrincipal {
@@ -37,7 +34,7 @@
 
 
 .texto-registro {
-    width: 100%;
+    width: 92%;
 }
 
 .divSubirFoto {
@@ -102,4 +99,8 @@ input[type="number"] {
 input[id="fotoRegistro"] {
     height: 100%;
     width: 111%;
+}
+
+select[name="sucursal"]{
+    width: 9.8rem;
 }

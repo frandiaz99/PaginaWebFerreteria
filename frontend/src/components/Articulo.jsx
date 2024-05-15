@@ -5,7 +5,7 @@ import Modal from './Modal.jsx'
 import { useState } from 'react'
 
 
-function Articulo({ articulo, misArticulos }) {
+function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")}) {
     const navigate= useNavigate()
     const [confirmacion, setConfirmacion]= useState(false)
 
@@ -26,7 +26,7 @@ function Articulo({ articulo, misArticulos }) {
           return response.json();
         })
         .then(data => {
-            window.location.reload();
+            eliminar()
         })
         .catch(error => {
           const errorData= JSON.parse(error.message)

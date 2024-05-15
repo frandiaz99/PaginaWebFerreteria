@@ -26,6 +26,7 @@ const routes = {
     adminRegistrarEmpleado: '/admin/registrar_empleado',
     adminPerfil:'/admin/perfil',
     adminEditarPerfil: '/admin/editar_perfil',
+    adminCambiarContrasenia: '/admin/cambiar_contrasenia',
     adminSubirSucursal: '/admin/subir_sucursal',
 
     perfilTercero: '/perfil',

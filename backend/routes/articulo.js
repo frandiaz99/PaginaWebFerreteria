@@ -23,7 +23,7 @@ const  crearArticulo = async (req, res, next) =>{
   
   //comprueba si subio foto, si no lo havce le asigna la defecto
   let File, filename;
-  if (!req.files){
+  if (req.files.length == 0){
     filename = ["Imagen_publicacion_default.jpg"];
   } else {
     File = req.files;

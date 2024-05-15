@@ -52,7 +52,11 @@ function AdminEmpleados() {
     .catch(error => {
       console.error('Error:', error);
     });
-  }, [])
+  }, [eliminado])
+
+  const reiniciarCuentas= () =>{
+    setEliminado(!eliminado)
+  }
 
   return (
     <main className='main'>
@@ -73,7 +77,7 @@ function AdminEmpleados() {
               No hay ningún empleado
             </div> //Podria ser un componente
           :
-            mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta}/>))
+            mostrarCuentas().map((cuenta, index) =>(<Cuenta key={index} cuenta={cuenta} eliminar={reiniciarCuentas}/>))
           }
           </div>
           {cuentasActuales.length > 0 &&  <Paginacion totalItems={totalCuentas.length} itemsXPag={cuentasXPag} onPageChange={handlePageChange} />}

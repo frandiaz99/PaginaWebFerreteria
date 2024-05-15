@@ -77,7 +77,7 @@ function Perfil() {
 
   return (
     <main className='main'>
-
+      {usuario ?
       <div className='contendor-verPerfil'>
 
         <div className='contenedor-perfil'>
@@ -87,8 +87,6 @@ function Perfil() {
           </div>
 
           <div className='col-perfil'>
-            {usuario && (
-              <>
                 <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
                 <div className='fila-email' >{usuario.email}</div>
                 {usuario.sucursal ? <div className='fila-email' >{usuario.sucursal.nombre}</div>
@@ -105,8 +103,6 @@ function Perfil() {
                     <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Editar Perfil</button></Link>
                   )}
                 </div>
-              </>
-            )}
           </div>
 
         </div>
@@ -117,6 +113,9 @@ function Perfil() {
           </div>
         </div>
       </div>
+      :
+        <p>Cargando...</p>
+        }
     </main >
   )
 }

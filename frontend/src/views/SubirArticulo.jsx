@@ -107,7 +107,7 @@ function SubirArticulo() {
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Ej: Martillo, llave inglesa, destornillador Phillips, linterna o cinta metrica.' onChange={handleChange} autoComplete="off" />
+              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Martillo, llave inglesa, destornillador Phillips, linterna.' onChange={handleChange} autoComplete="off" />
             </div>
           </div>
 

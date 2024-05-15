@@ -36,7 +36,6 @@ function RegistrarEmpleado() {
                 const errorData= JSON.parse(error.message)
                 if (errorData.status == 404) {
                     localStorage.setItem('dniEmple', JSON.stringify(dni))
-                    setEmpleado_es_usuario(false)
                     setModal(true)
                 }
                 else if (errorData.status == 401) setYaEsEmple(true)
@@ -45,12 +44,14 @@ function RegistrarEmpleado() {
     }
 
     const handleOk= () =>{
+        setEmpleado_es_usuario(false)
         setRedireccionar(true)
         setModal(false)
     }
-  return (
-    <main className='main'>
-        {empleado_es_usuario ?
+  
+    if (empleado_es_usuario)
+        return (
+        <main className='main'>
             <div className='principal-registrarEmpleado'>
                 <div className='titulo-registrarEmpleado'>
                     <h3>Registrar empleado</h3>
@@ -61,16 +62,16 @@ function RegistrarEmpleado() {
                     <Buscador handleBuscar={handleBuscar} textoBoton={'Registrar'} dniValido={dniValido} setDniValido={setDniValido}/>
                     {(dniValido == false) && <p className="textoNoCumple">DNI inválido</p>}    
                 </div>
-                {exitoso && <Modal texto={'Registro exitoso'} confirmacion={exitoso} setConfirmacion={setExitoso} ok={true} />}
+                <Modal texto={'Registro exitoso'} confirmacion={exitoso} setConfirmacion={setExitoso} ok={true} />
+                <Modal texto={'El DNI no está vinculado a una cuenta de usuario'} confirmacion={modal} setConfirmacion={setModal} handleYes={handleOk} ok={true} />
             </div>
-        :
+        </main>
+    )
+    else return (
             <>
-            <Modal texto={'El DNI no está vinculado a una cuenta de usuario'} confirmacion={modal} setConfirmacion={setModal} handleYes={handleOk} ok={true} />
             {redireccionar && <CrearCuenta/>}
             </>
-            }
-    </main>
-  )
+        )
 }
 
 export default RegistrarEmpleado
