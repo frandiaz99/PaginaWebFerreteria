@@ -10,7 +10,7 @@ const multer = require("multer");
 const shortid = require('shortid');
 const shortNumericId = () => {
   var number = 0;
-  while (number<1000)  {
+  while (number<=9999)  {
     number = parseInt(shortid.generate(), 36).toString().slice(0, 5)
   }
 };
