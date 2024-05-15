@@ -1,21 +1,14 @@
 /* Estilos para el formulario */
-.main-subir-articulo {
-    height: 100%;
-    margin: 0;
-    padding-top: 10%;
-}
+
 
 .formSubirArt {
     display: inline-block;
-    width: 80%;
-    height: 200%;
-    padding: 3%;
-    padding-bottom: 1%;
+    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: white;
     margin: 20px auto;
-    margin-top: 15%;
+    margin-top: 350px;
     box-sizing: border;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
@@ -33,6 +26,11 @@
 .section3-subirArt {
     height: 100%;
 
+}
+
+.nombre-section1 input,
+.descripcion-section2 input {
+    padding: 5px;
 }
 
 .titulo-section1-subirArt,
@@ -81,8 +79,7 @@
 
 /* Estilos para los botones */
 .boton-subirArt {
-    width: 40%;
-    padding: 15px;
+    padding: 10px 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     background-color: #007bff;
@@ -94,7 +91,7 @@
 }
 
 .boton-cancelarArt {
-    padding: 15px;
+    padding: 10px 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     background-color: #007bff;
@@ -123,6 +120,7 @@
     font-family: Arial, sans-serif;
     font-size: 1rem;
 }
-#fotoSubirArt{
+
+#fotoSubirArt {
     height: 100%;
 }
