@@ -8,7 +8,12 @@ const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
 
 const shortid = require('shortid');
-const shortNumericId = () => { return (parseInt(shortid.generate(), 36).toString().slice(0, 5))};
+const shortNumericId = () => {
+  var number = 0;
+  while (number<=9999)  {
+    number = parseInt(shortid.generate(), 36).toString().slice(0, 5)
+  }
+};
 
 
  
