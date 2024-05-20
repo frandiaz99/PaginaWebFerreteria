@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import routes from '../routes'
 import '../styles/SubirArticulo.css'
 import Modal from '../components/Modal'
 
 function SubirArticulo() {
-  const navigate = useNavigate();
+  const [fotoSubida,setFotoSubida]= useState(false)
   const [artSubido, setArtSubido] = useState(false)
 
   const [datos, setDatos] = useState({
@@ -40,33 +40,39 @@ function SubirArticulo() {
     //console.log({ "Imagen": imagen.foto });
     console.log({ "form Data": formData });
     console.log({ "form Data imagen ": formData.Imagen });
-
-    fetch("http://localhost:5000/articulo/crearArticulo", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(data => {
-            throw new Error(data.message || "Error al crear articulo");
-          });
-        }
-        return response.json();
+    if (fotoSubida){
+      fetch("http://localhost:5000/articulo/crearArticulo", {
+        method: "POST",
+        body: formData,
+        credentials: "include"
       })
-      .then(data => {
-        console.log("Creacion articulo exitosa:", data)
-        setArtSubido(true)
-      })
-      .catch(error => {
-        console.error("Error en la creacion del art:", error.message);
-      });
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message || "Error al crear articulo");
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Creacion articulo exitosa:", data)
+          setArtSubido(true)
+        })
+        .catch(error => {
+          console.error("Error en la creacion del art:", error.message);
+        });
+    }
   }
 
   const handleOk = () => {
     setArtSubido(false)
     window.location.reload();
   }
+
+  useEffect(() => {
+    if (imagen.foto.length == 0) setFotoSubida(false)
+    else setFotoSubida(true)
+  },[imagen])
 
   return (
     <main className='main' >
@@ -129,6 +135,7 @@ function SubirArticulo() {
                   console.log("fotos", fotos)
 
                 }} />
+                {!fotoSubida && <span style={{color:'red', fontSize:'15px'}}>*Es obligatorio que subas una imágen</span>}
               {/* <div className='verImagenes'>
 
               </div> */}
