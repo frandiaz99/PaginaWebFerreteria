@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import routes from "../routes";
 
 function SubirSucursal() {
+  const [sucursalRepetida, setSucursalRepetida]= useState(false)
   const [datos, setDatos] = useState({
     nombre: '',
     provincia: '',
@@ -39,7 +40,7 @@ function SubirSucursal() {
       .then(response => {
         if (!response.ok) {
           return response.json().then(data => {
-            throw new Error(data.message || "Error al crear sucursal");
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
           });
         }
         return response.json();
@@ -49,7 +50,11 @@ function SubirSucursal() {
         setSubirSucursal(true);
       })
       .catch(error => {
-        console.error("Error en la creacion de sucursal:", error.message);
+        const errorData = JSON.parse(error.message)
+        if (errorData.status == 400){ //Chequear que sea el mismo codigo cuando el back lo devuelva, lo dejo asi por ajhora
+          setSucursalRepetida(true)
+        }
+        console.error("Error en la creacion de sucursal:", errorData);
       });
   }
 
@@ -107,6 +112,7 @@ function SubirSucursal() {
       </form>
       <Modal texto={'La sucursal se ha creado con exito.'}
         confirmacion={subirSucursal} setConfirmacion={setSubirSucursal} handleYes={handleOk} ok={true} />
+      <Modal texto={'No se pudo efectivizar el registro de la sucursal porque ya existe una sucursal con ese nombre'} confirmacion={sucursalRepetida} setConfirmacion={setSucursalRepetida} ok={true}/>
     </main>
   )
 }

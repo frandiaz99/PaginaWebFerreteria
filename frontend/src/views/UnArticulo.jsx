@@ -6,12 +6,19 @@ import  Pagar from '../components/Pagar';
 import '../styles/UnArticulo.css'
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 
-function esMiArticulo(){
-  const articulo=JSON.parse(localStorage.getItem('articulo'))
-  var propietarioArticulo
-  if (articulo) propietarioArticulo= articulo.usuario._id
-  const user= JSON.parse(localStorage.getItem('user'))._id
-  return user == propietarioArticulo
+function intercambiar(art){
+  const user= JSON.parse(localStorage.getItem('user'))
+  if (user.rol == 1 || localStorage.getItem('cuentaActual') == 'usuario'){
+      if (user._id == art.usuario._id) return false
+      else return true
+  }else return false
+}
+
+function tasar(art){
+  const user= JSON.parse(localStorage.getItem('user'))
+  if (user.rol == 3 || localStorage.getItem('cuentaActual') == 'empleado'){
+    return art.precio == 0
+  }else return false
 }
 
 function UnArticulo() {
@@ -147,9 +154,17 @@ function UnArticulo() {
               <p id="descripcion-interesado-en"></p>
             </div>
             <div id="container-buttons" className="spacing">
-              {!esMiArticulo() && <button id="boton-intercambiar" >
-                Intercambiar
-              </button>}
+              {(articuloSeleccionado && intercambiar(articuloSeleccionado)) &&
+                <button className="boton-intercambiar" >
+                  Intercambiar
+                </button>
+              }
+
+              {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
+                <button className="boton-intercambiar" >
+                  Tasar
+                </button>
+              }
               <div id="container-perfil">
                 <h5 id='palabra-propietario'>Propietario</h5>
                 <button id='boton-ver-perfil' onClick={redirectPerfil}>

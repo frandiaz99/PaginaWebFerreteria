@@ -64,3 +64,21 @@
 .iniciar:hover {
     background-color: #0056b3;
 }
+
+.divMostrarContra{
+    height: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#mostrarContra{
+    font-size: 15px;
+    cursor: pointer;
+    width: 55px;
+    color: #0056b3;
+}
+
+#mostrarContra:hover{
+    text-decoration: underline;
+}

@@ -5,7 +5,7 @@ import routes from '../../routes'
 
 const estaEnModoUser= () =>{ 
   return (
-    location.pathname.startsWith('/user') || location.pathname == routes.unArticulo
+    location.pathname.startsWith('/user') || (localStorage.getItem('cuentaActual')) == 'usuario'
     )
 }
 
@@ -17,7 +17,7 @@ const estaEnModoAdmin= () =>{
 
 const estaEnModoEmple= () =>{
   return (
-    location.pathname.startsWith('/empleado')
+    location.pathname.startsWith('/empleado') || (localStorage.getItem('cuentaActual')) == 'empleado'
     )
 }
 

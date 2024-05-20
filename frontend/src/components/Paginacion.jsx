@@ -19,8 +19,8 @@ function Paginacion({totalItems, itemsXPag, onPageChange}) {
     handlePageChange(1)
   }, [totalPaginas]) 
 
-  return ( null
-    /*<div className='paginas'>
+  return (
+    <div className='paginas'>
       {mostrarAnterior ?(
         <div className='paginaCambio' onClick={() => handlePageChange(pagActual-1)}><ion-icon name="caret-back-outline"></ion-icon></div>
       ) : null}
@@ -29,7 +29,7 @@ function Paginacion({totalItems, itemsXPag, onPageChange}) {
       {mostrarSiguiente ?(
        <div className='paginaCambio' onClick={() => handlePageChange(pagActual+1)}><ion-icon name="caret-forward-outline"></ion-icon></div> 
       ) : null}
-    </div>*/
+    </div>
   );
 }
 

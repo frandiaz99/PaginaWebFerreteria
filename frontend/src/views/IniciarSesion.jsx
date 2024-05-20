@@ -1,10 +1,12 @@
 import "../styles/IniciarSesion.css"
 import { Link, useNavigate } from "react-router-dom"
 import routes from "../routes"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Modal from '../components/Modal'
 
 function IniciarSesion() {
+    const contraRef= useRef(null)
+    const [mostrar, setMostrar]= useState(false)
     const [autenticacion, setAutenticacion] = useState(false)
     const [codigoIncorrecto, setCodigoIncorrecto] = useState(false)
     const [dni_pass_correctos, setDni_pass_correctos] = useState(true)
@@ -82,6 +84,13 @@ function IniciarSesion() {
 
 
 
+    useEffect(() =>{
+        if (contraRef.current) {
+            contraRef.current.type = mostrar ? 'text' : 'password';
+          }
+      
+    },[mostrar])
+
     return (
         <main className="main">
             {autenticacion
@@ -117,11 +126,19 @@ function IniciarSesion() {
                             <div className="label">
                                 <label htmlFor="password">Contraseña</label>
                                 <input
+                                ref={contraRef}
                                     name="password"
                                     type="password"
                                     placeholder="Ingresá tu contraseña"
                                     onChange={handleChange}
                                 />
+                                <div className="divMostrarContra">
+                                    {mostrar 
+                                    ?
+                                        <span onClick={() =>{setMostrar(!mostrar)}} id="mostrarContra">Ocultar</span>
+                                    :
+                                        <span onClick={() =>{setMostrar(!mostrar)}} id="mostrarContra">Mostrar</span>}
+                                </div>
                             </div>
 
                             {!dni_pass_correctos && <p style={{ color: 'red' }}>El DNI o la contraseña son incorrectos</p>}

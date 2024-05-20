@@ -108,7 +108,7 @@
     display: flex;
 }
 
-#boton-intercambiar{
+.boton-intercambiar{
     font-size: large;
     color: #ffffff;
     background-color: #1e1b33;
@@ -121,7 +121,7 @@
     transition-duration: 0.2s;
 }
 
-#boton-intercambiar:hover{
+.boton-intercambiar:hover{
     box-shadow: 0 0px 13px 0 rgba(0, 0, 0, 0.9);
 }
 
