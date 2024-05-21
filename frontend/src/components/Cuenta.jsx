@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/Cuenta.css'
 import Modal from './Modal'
+import routes from '../routes'
+
+function mostrarUsuarios(){
+  return location.pathname === routes.adminUsuarios
+}
 
 function Cuenta({cuenta, eliminar}) {
-  const [confirmacion, setConfirmacion]= useState(false)
+  const [eliminarEmple, setEliminarEmple]= useState(false)
+  const [bloqueado, setBloqueado]= useState(false)
   const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
-    setConfirmacion(false)
+    setEliminarEmple(false)
     fetch('http://localhost:5000/user/deleteEmpleado',   
     {method: "POST", 
     headers: {
@@ -31,9 +37,59 @@ function Cuenta({cuenta, eliminar}) {
   }
 
 
-  const handleBoton= () => {
-    setConfirmacion(true)
+  const handleBotonEliminar= () => {
+    setEliminarEmple(true)
   }
+
+  const handleBotonBloquear= () =>{
+    fetch('http://localhost:5000/user/bloquearUser',   
+    {method: "POST", 
+    headers: {
+      "Content-Type": "application/JSON",
+      //"Cookie": localStorage.getItem('jwt')
+    },
+    body: JSON.stringify({_id: cuenta._id}),
+    credentials: "include"})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Hubo un problema al bloquear al usuario');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setBloqueado(true)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    })
+  }
+
+  const handleBotonDesbloquear= () =>{
+    fetch('http://localhost:5000/user/desbloquearUser',   
+    {method: "POST", 
+    headers: {
+      "Content-Type": "application/JSON",
+      //"Cookie": localStorage.getItem('jwt')
+    },
+    body: JSON.stringify({User: cuenta}),
+    credentials: "include"})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Hubo un problema al desbloquear al usuario');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setBloqueado(false)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    })
+  }
+
+  useEffect(() =>{
+    if (cuenta.intento_desbloqueo == 3) setBloqueado(true)
+  },[])
 
   return (
     <div className='unaCuenta'>
@@ -51,11 +107,19 @@ function Cuenta({cuenta, eliminar}) {
         </div>
 
       </div>
-      <div className='eliminarEmple'>
-        <button className='boton-eliminarEmple' onClick={handleBoton}>Eliminar empleado</button>
+      <div className='div-botonCuenta'>
+        {mostrarUsuarios() 
+        ?
+          bloqueado
+          ?
+            <button className='botonCuenta' onClick={handleBotonDesbloquear}>Desbloquear</button>
+          :
+            <button className='botonCuenta' onClick={handleBotonBloquear}>Bloquear</button>
+        :
+          <button className='botonCuenta' onClick={handleBotonEliminar}>Eliminar empleado</button>}
       </div>
 
-      <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleEliminar} ok={false}/>
+      <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={eliminarEmple} setConfirmacion={setEliminarEmple} handleYes={handleEliminar} ok={false}/>
     </div>
   )
 }
