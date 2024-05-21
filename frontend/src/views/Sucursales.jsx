@@ -3,12 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Sucursal.css';
 import Sucursal from '../components/Sucursal';
 import routes from '../routes';
-
-const estaEnModoAdmin = () => {
-  return (
-    location.pathname.startsWith('/admin')
-  )
-}
+import { estaEnModoAdmin } from '../helpers/estaEnModo';
 
 function Sucursales() {
   const navigate = useNavigate()

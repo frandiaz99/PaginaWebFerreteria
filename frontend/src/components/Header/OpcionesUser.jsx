@@ -3,17 +3,7 @@ import '../../styles/OpcionesUser.css'
 import { Link, useNavigate } from 'react-router-dom'
 import routes from '../../routes'
 import DropNotificaciones from './DropNotificaciones'
-
-const estaEnModoUser = () => {
-  return (
-    location.pathname.startsWith('/user') || location.pathname == routes.unArticulo
-  )
-}
-const estaEnModoEmpleado = () => {
-  return (
-    location.pathname.startsWith('/empleado')
-  )
-}
+import { estaEnModoEmple, estaEnModoUser } from '../../helpers/estaEnModo'
 
 function OpcionesUser() {
   const navigate = useNavigate()
@@ -52,7 +42,7 @@ function OpcionesUser() {
   const handleHome = () => {
     if (estaEnModoUser()) {
       navigate(routes.userPrincipal)
-    } else if (estaEnModoEmpleado() && user.rol == 2) {
+    } else if (estaEnModoEmple() && user.rol == 2) {
       navigate(routes.empleadoPrincipal)
     } else {
       navigate(routes.adminPrincipal)
@@ -190,7 +180,7 @@ function OpcionesUser() {
                 <p>Cuenta Empleado</p>
               </div>}
 
-            {(estaEnModoEmpleado() && user.rol === 2) &&
+            {(estaEnModoEmple() && user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAUsuario}>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Usuario</p>

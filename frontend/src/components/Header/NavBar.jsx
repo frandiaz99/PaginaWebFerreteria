@@ -2,24 +2,7 @@ import React from 'react'
 import { Link , useNavigate} from 'react-router-dom'
 import '../../styles/NavBar.css'
 import routes from '../../routes'
-
-const estaEnModoUser= () =>{ 
-  return (
-    location.pathname.startsWith('/user') || (localStorage.getItem('cuentaActual')) == 'usuario'
-    )
-}
-
-const estaEnModoAdmin= () =>{
-  return (
-    location.pathname.startsWith('/admin')
-    )
-}
-
-const estaEnModoEmple= () =>{
-  return (
-    location.pathname.startsWith('/empleado') || (localStorage.getItem('cuentaActual')) == 'empleado'
-    )
-}
+import { estaEnModoUser, estaEnModoEmple } from '../../helpers/estaEnModo'
 
 function NavBar() {
   const navigate= useNavigate()
