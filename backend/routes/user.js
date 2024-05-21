@@ -412,6 +412,48 @@ const getSelf = async (req, res, next) => {
   }
 };
 
+const getUser = async (req, res, next) => {
+  const User = req.body.User;
+  if (!User) {
+    console.log("Variable 'User' no recibida ");
+    return res
+      .status(401)
+      .json({ message: "Consulta erronea, falta objeto", status: 402 });
+  }
+  if (!User._id) {
+    console.log("Falta variable '_id'");
+    return res.status(401).json({
+      message: "Consulta erronea, faltan parametro '_id'",
+      status: 403,
+    });
+  }
+
+  DataUser.findOne({ _id: User._id })
+    .then((user) => {
+      console.log(user);
+      console.log("No se si es necesario mandar el user para el front");
+      if (user) {
+        return res
+          .status(200)
+          .json({ message: "Usuario encontrado", status: 200, user });
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Usuario NO encontrado", status: 405 });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(401).json({ message: "Erro otro", status: 400, error });
+    });
+
+  //200 exitosa
+  //400 Error otro
+  //402 "User" no recibido
+  //403 Variable '_id' no recibida
+  //405 DNI,User not found
+};
+
 const editarPerfil = async (req, res, next) => {
   try {
     res.setHeader("Content-Type", "application/json");
@@ -911,6 +953,7 @@ router.route("/login").post(login);
 //router.route("/logout").post(userAuth, logout);
 router.route("/logout").post(logout);
 router.route("/getSelf").get(userAuth, getSelf);
+router.route("/getUser").get(userAuth, getUser);
 router
   .route("/editarPerfil")
   .post(upload.single("Imagen"), userAuth, editarPerfil);

@@ -15,6 +15,7 @@ Error Code:
 
 STATUS PROPIOS DENTRO DEL BODY
 
+
 User.register status:
   // 200 correcto
   // 400 Error probable de DB
@@ -37,6 +38,13 @@ User.getByDNI status:
   //402 "User" no recibido
   //403 Variable 'dni' no recibida
   //405 DNI,User not found
+
+User.getUser status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable '_id' no recibida
+  //405 id ,User not found  
 
 
 User.cambiarContrasena status:
@@ -92,6 +100,15 @@ Articulo.borrarArticulo status code:
   //406 Error borrando articulo, de parte de mongoose
 
 
+Articulo.intercambiarArticulo
+  //200 exitoso
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' no recibido
+  //404 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' no encontrado
+  //405 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' encontrados, pero borrados o vendidos
+  //406 Objeto 'miArticulo' no pertenece al usuario que mando la solicitud
+  //407 Objeto 'miArticulo' y 'suArticulo' en 'Articulo' no pertenecen a la misma categoria de precio
+  //408 Error creando objeto, error probabl de backend / DB
 
 Sucursal.setSucursal status:
   //200 exitosa
