@@ -56,8 +56,8 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                 <div className='articulo-contenido'>
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
+                    <p>Categoria {articulo.precio}</p>
                     <p>Interesado en: ...</p>
-                    {/* <p>Categoria</p> */}
                 </div>
             </div>
     )
@@ -70,7 +70,7 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                 <div className='miArticulo-contenido'>
                     <div className='miArticulo-contenido-contenido'>
                         <h4 className='tituloArt'>{articulo.nombre}</h4>
-                        {/* categoria */}
+                       {articulo.precio >0 && <p>Categoria {articulo.precio}</p>}
                     </div>
                     <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Borrar articulo</button>
                 </div>

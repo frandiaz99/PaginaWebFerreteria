@@ -76,6 +76,7 @@ function UnArticulo() {
           }
           document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
           document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
+          if (articuloSeleccionado.precio > 0) document.getElementById("categoria-articulo").innerHTML = articuloSeleccionado.precio;
           document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.interesado;
           document.getElementById("foto-articulo").src = path_fotos_articulo[0];
           document.getElementById("imagen-perfil").src = foto_perfil;
@@ -149,6 +150,10 @@ function UnArticulo() {
           <div id='container-info'>
             <h2 id='nombre-articulo' className='spacing'></h2> 
             <p id='descripcion-articulo' className='spacing'></p>
+            <div className='div_categoria'>
+              <h4>Categoria:</h4>
+              <p id='categoria-articulo' className='spacing'></p>
+            </div>
             <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
             <div className='div-interesado-en'>
               <p id="descripcion-interesado-en"></p>

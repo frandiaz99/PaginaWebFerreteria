@@ -175,3 +175,12 @@
 .unArticulo-principal{
     height: 25rem;
 }
+
+.div_categoria{
+    display: flex;
+    align-items: center;
+}
+
+#categoria-articulo{
+    font-weight: 500;
+}
