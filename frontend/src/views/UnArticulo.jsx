@@ -136,8 +136,13 @@ function UnArticulo() {
 
   function redirectPerfil() {
     const userTercero = articuloSeleccionado.usuario;
-    localStorage.setItem('userTercero', JSON.stringify(userTercero));
-    navigate(routes.perfilTercero)
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user.dni == userTercero.dni){
+      navigate(routes.perfil)
+    }else{
+      localStorage.setItem('userTercero', JSON.stringify(userTercero));
+      navigate(routes.perfilTercero)
+    }
   }
 
 

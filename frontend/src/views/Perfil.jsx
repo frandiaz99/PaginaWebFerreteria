@@ -122,7 +122,7 @@ function Perfil() {
 
           <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
-              {estaEnModoUser() && isOwnProfile && 'Trueques realizados: - -'}
+              Trueques realizados: - -
             </div>
           </div>
         </div>
