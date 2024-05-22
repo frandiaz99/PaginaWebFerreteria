@@ -245,14 +245,51 @@ const intercambiarArticulo = async (req, res, next) => {
     });
 };
 
+const tasarArticulo = async (req, res, next) => {
+  const Art = req.body.Articulo;
+  if (!Art) {
+    console.log("Variable 'Articulo' no recibida ");
+    return res.status(401).json({ message: "Consulta erronea, falta 'Articulo'", status: 401 });
+  }
+  if (!Art._id || !Art.precio) {
+    console.log("Variable '_id' o 'precio' en 'Articulo' no recibida ");
+    return res.status(401).json({ message: "Consulta erronea, falta objeto '_id' y/o 'precio'", status: 402 });
+  }
+  if (Art.precio < 1 || Art.precio > 5){
+    return res.status(401).json({ message: "Consulta erronea, 'precio' debe estar entre 1 y 5 inclusive", status: 403 });
+  }
+
+  DataUser.findOneAndUpdate({_id: Art._id }, { precio: Art.precio })
+          .then((Articulo) => {
+            if (Articulo){
+              return res.status(200).json({message: "Articulo encontrado y actualizado", status: 200, Articulo,});
+            } else return res.status(401).json({message: "Articulo NO encontrado", status: 404});
+            
+          })
+          .catch((error) => {
+            console.log(error);
+            return res.status(401).json({ message: "Erro otro", status: 400, error });
+          });
+
+  //200 exitosa
+  //400 Error otro
+  //401 Variable 'Articulo' no recibida
+  //402 Variable '_id' y/o 'precio' no recibida
+  //403 Variable 'precio' es menor a 1 o mayor a 5
+  //404 _id, Articulo not found
+};
+
+
+
 //Direcciones
 router.route("/getArticulos").get(getArticulos);
+router.route("/crearArticulo").post(upload.any("Imagen"), userAuth, crearArticulo);
 
-router
-  .route("/crearArticulo")
-  .post(upload.any("Imagen"), userAuth, crearArticulo);
-router.route("/getMisArticulos").get(userAuth, getMisArticulos);
+  router.route("/getMisArticulos").get(userAuth, getMisArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);
 router.route("/intercambiarArticulo").post(userAuth, intercambiarArticulo);
+
+router.route("/tasarArticulo").post(workerAuth, tasarArticulo);
+
 
 module.exports = router;

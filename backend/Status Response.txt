@@ -110,11 +110,40 @@ Articulo.intercambiarArticulo
   //407 Objeto 'miArticulo' y 'suArticulo' en 'Articulo' no pertenecen a la misma categoria de precio
   //408 Error creando objeto, error probabl de backend / DB
 
+Articulo.tasarArticulo
+  //200 exitosa
+  //400 Error otro
+  //401 Variable 'Articulo' no recibida
+  //402 Variable '_id' y/o 'precio' no recibida
+  //403 Variable 'precio' es menor a 1 o mayor a 5
+  //404 _id, Articulo not found
+
+
 Sucursal.setSucursal status:
   //200 exitosa
 	//400 Error otro
   //402 "Articulo" no recibido
   //403 Variable 'nombre', 'provincia', 'ciudad', 'direccion' o 'telefono' no recibida
 
+Bloquear usuario
+Intercambiar Articulo
+Ver usuarios
+Desbloquear usuario
+Tasar Articulo
+Ver perfil
+
+
+
+faltan
+ver trueques pendientes
+ver mis trueques
+rechazar oferta de trueque
+aceptar oferta  de trueque
+seleccionar sucursal
+cancelar trueque
+registrar venta
+efectivizar trueque
+puntuar usuario
+ver trueques completados
 
 
