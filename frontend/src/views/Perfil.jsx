@@ -12,30 +12,39 @@ const estaEnModoUser = () => {
 function Perfil() {
 
   const [usuario, setUsuario] = useState();
+  const [isOwnProfile, setIsOwnProfile] = useState(false)
   //const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    fetch('http://localhost:5000/user/getSelf',
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/JSON",
-        }, credentials: "include"
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Hubo un problema al obtener los articulos');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("usuarioooo: ", data);
-        setUsuario(data.User)
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, [])
+    if (window.location.pathname === routes.perfilTercero) {
+      const userTercero = JSON.parse(localStorage.getItem('userTercero'));
+      setUsuario(userTercero)
+      setIsOwnProfile(false)
+      console.log('perfil tercero: ', userTercero)
+    } else {
+      fetch('http://localhost:5000/user/getSelf',
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/JSON",
+          }, credentials: "include"
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Hubo un problema al obtener los articulos');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("usuariooo1234: ", data);
+          setUsuario(data.User)
+          setIsOwnProfile(true)
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }, [location.pathname])
 
   function generarEstrellas(puntuacion) {
     const estrellas = [];
@@ -77,47 +86,51 @@ function Perfil() {
 
   return (
     <main className='main'>
-      {usuario ?
-      <div className='contendor-verPerfil'>
+      {usuario ? (
+        <div className='contendor-verPerfil'>
+          <div className='contenedor-perfil'>
+            <div className='col-img'>
+              <img className='imagen' src={`http://localhost:5000/img/${usuario.foto_perfil}`} alt="Perfil"></img>
+            </div>
 
-        <div className='contenedor-perfil'>
-
-          <div className='col-img'>
-            <img className='imagen' src={usuario && `http://localhost:5000/img/${usuario.foto_perfil}`}></img>
-          </div>
-
-          <div className='col-perfil'>
-                <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
-                <div className='fila-email' >{usuario.email}</div>
-                {usuario.sucursal ? <div className='fila-email' >{usuario.sucursal.nombre}</div>
-                  : usuario.rol < 3 ?
-                  <div className='fila-email' >Sucursal: Selecciona una nueva sucursal</div>
-                  :
-                    <div></div> /*para que no aparezca sucursal si es admin*/} 
-                <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
-                <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
+            <div className='col-perfil'>
+              <div className='fila-nombre'>{usuario.nombre} {usuario.apellido}</div>
+              <div className='fila-email'>{usuario.email}</div>
+              {usuario.sucursal ? (
+                <div className='fila-email'>{usuario.sucursal.nombre}</div>
+              ) : (
+                usuario.rol < 3 && <div className='fila-email'>Sucursal: Selecciona una nueva sucursal</div>
+              )}
+              <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
+              <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
+              {isOwnProfile && (
                 <div className='fila-boton'>
+
                   {estaEnModoUser() ? (
-                    <Link to={routes.editarPerfil} className='link' ><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+                    <Link to={routes.editarPerfil} className='link'>
+                      <button className='boton-editar-perfil'>Editar Perfil</button>
+                    </Link>
                   ) : (
-                    <Link to={routes.adminEditarPerfil} className='link'><button className='boton-editar-perfil'>Editar Perfil</button></Link>
+                    <Link to={routes.adminEditarPerfil} className='link'>
+                      <button className='boton-editar-perfil'>Editar Perfil</button>
+                    </Link>
                   )}
                 </div>
+              )}
+            </div>
           </div>
 
-        </div>
-
-        <div className='contenedor-perfil-2'>
-          <div className='cantidad-trueques'>
-          {estaEnModoUser() && 'Trueques realizados: - -'}
+          <div className='contenedor-perfil-2'>
+            <div className='cantidad-trueques'>
+              {estaEnModoUser() && isOwnProfile && 'Trueques realizados: - -'}
+            </div>
           </div>
         </div>
-      </div>
-      :
+      ) : (
         <p>Cargando...</p>
-        }
-    </main >
-  )
+      )}
+    </main>
+  );
 }
 
 export default Perfil
