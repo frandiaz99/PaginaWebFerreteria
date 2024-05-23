@@ -125,20 +125,41 @@ Sucursal.setSucursal status:
   //402 "Articulo" no recibido
   //403 Variable 'nombre', 'provincia', 'ciudad', 'direccion' o 'telefono' no recibida
 
+
+
+
+trueques.getPendientes
+  //200 OK
+  //401 No hay truequews pendientes
+  //400 Error de la DB
+
+trueques.aceptarOferta  / trueque.rechazarOferta
+  //200 exitoso
+  //400 Error durante find, error probable de backend o DB
+  //401 Objeto 'Trueque' en 'body' no recibido
+  //402 Objeto '_id' en 'Trueque' no recibido
+  //403 No es el creador del articulo del trueque
+  //404 No se encontro el trueque conb el '_id' recibido
+  //405 Este trueque ya fue aceptado
+  //402 Objeto 'trueque_aceptado' en 'Trueque' no recibido
+
+
+
+Hechos:
 Bloquear usuario
 Intercambiar Articulo
 Ver usuarios
 Desbloquear usuario
 Tasar Articulo
 Ver perfil
-
-
-
-faltan
 ver trueques pendientes
-ver mis trueques
 rechazar oferta de trueque
 aceptar oferta  de trueque
+
+
+
+faltan:
+ver mis trueques
 seleccionar sucursal
 cancelar trueque
 registrar venta
