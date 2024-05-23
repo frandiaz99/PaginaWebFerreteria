@@ -27,7 +27,6 @@ function UnArticulo() {
   const navigate = useNavigate();
   //MercadoPagoInstance.publicKey = 'TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622';
 
-
   /*
     <CardPayment
           initialization={{ amount: 100 }}
@@ -43,6 +42,7 @@ function UnArticulo() {
   var boton_foto = document.getElementsByClassName("boton-foto");
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null); //El useState devuelve un array
 
+  const [nuevoArticulo, setNuevoArticulo] = useState(null)
   //Para cuando los datos del localStorage se bugueen: comentar los documents, recargar pag, descomentarlos y volver a cargar.
 
   useEffect(() => {
@@ -60,31 +60,31 @@ function UnArticulo() {
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {
-      if (articuloSeleccionado) {
-          console.log(articuloSeleccionado);
-          fotos_articulo = articuloSeleccionado.foto_articulo;
-          foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
-          //console.log(fotos_articulo);
-          //Lo dejo para cuando haya mas de una foto en la bd, de momento es como esta arriba
-          for (let i=fotos_articulo.length-1; i>=0; i--){
-            path_fotos_articulo.push(srcFotoArt+fotos_articulo[i]);
-          }
-          console.log(path_fotos_articulo);
-          if(path_fotos_articulo.length <= 1){
-            boton_foto[0].style.display = "none";
-            boton_foto[1].style.display = "none";
-          }else{
-            boton_foto[1].style.display = "block";
-          }
-          document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
-          document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
-          if (articuloSeleccionado.precio > 0) document.getElementById("categoria-articulo").innerHTML = articuloSeleccionado.precio;
-          document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.interesado;
-          document.getElementById("foto-articulo").src = path_fotos_articulo[0];
-          document.getElementById("imagen-perfil").src = foto_perfil;
-          document.getElementById("nombre-usuario").innerHTML = articuloSeleccionado.usuario.nombre;
-          localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos);
+    if (articuloSeleccionado) {
+      console.log(articuloSeleccionado);
+      fotos_articulo = articuloSeleccionado.foto_articulo;
+      foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
+      //console.log(fotos_articulo);
+      //Lo dejo para cuando haya mas de una foto en la bd, de momento es como esta arriba
+      for (let i = fotos_articulo.length - 1; i >= 0; i--) {
+        path_fotos_articulo.push(srcFotoArt + fotos_articulo[i]);
       }
+      console.log(path_fotos_articulo);
+      if (path_fotos_articulo.length <= 1) {
+        boton_foto[0].style.display = "none";
+        boton_foto[1].style.display = "none";
+      } else {
+        boton_foto[1].style.display = "block";
+      }
+      document.getElementById("nombre-articulo").innerHTML = articuloSeleccionado.nombre;
+      document.getElementById("descripcion-articulo").innerHTML = articuloSeleccionado.descripcion;
+      if (articuloSeleccionado.precio > 0) document.getElementById("categoria-articulo").innerHTML = articuloSeleccionado.precio;
+      document.getElementById("descripcion-interesado-en").innerHTML = articuloSeleccionado.interesado;
+      document.getElementById("foto-articulo").src = path_fotos_articulo[0];
+      document.getElementById("imagen-perfil").src = foto_perfil;
+      document.getElementById("nombre-usuario").innerHTML = articuloSeleccionado.usuario.nombre;
+      localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos);
+    }
   }, [articuloSeleccionado, path_fotos_articulo]); //Para ejecutarlo cuando cambie articuloSeleccionado o imagenes.
 
 
@@ -137,14 +137,50 @@ function UnArticulo() {
   function redirectPerfil() {
     const userTercero = articuloSeleccionado.usuario;
     const user = JSON.parse(localStorage.getItem('user'))
-    if (user.dni == userTercero.dni){
+    if (user.dni == userTercero.dni) {
       navigate(routes.perfil)
-    }else{
+    } else {
       localStorage.setItem('userTercero', JSON.stringify(userTercero));
       navigate(routes.perfilTercero)
     }
   }
 
+  function handleChange(e) {
+    setNuevoArticulo({
+      ...articuloSeleccionado,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  function handleGuardar() {
+    console.log(nuevoArticulo)
+    fetch(
+      "http://localhost:5000/articulo/tasarArticulo",
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevoArticulo),
+        credentials: "include",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Hubo un problema al guardar los cambios");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Articulo tasado", data);
+
+      })
+      .catch((error) => {
+        console.error("Hubo un problema al guardar los cambios:", error);
+        // Manejo de errores
+      });
+
+  }
 
 
   return (
@@ -161,7 +197,11 @@ function UnArticulo() {
             <p id='descripcion-articulo' className='spacing'></p>
             <div className='div_categoria'>
               <h4>Categoria:</h4>
-              <p id='categoria-articulo' className='spacing'></p>
+              {articuloSeleccionado && tasar(articuloSeleccionado) ? (
+                <input type="text" name='precio' value={nuevoArticulo.precio} onChange={handleChange} />
+              ) : (
+                <p id='categoria-articulo' className='spacing'>{articuloSeleccionado && articuloSeleccionado.categoria}</p>
+              )}
             </div>
             <h4 id='interesado-en' className='spacing'>Interesado en: </h4>
             <div className='div-interesado-en'>
@@ -175,7 +215,7 @@ function UnArticulo() {
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
-                <button className="boton-intercambiar" >
+                <button className="boton-intercambiar" onClick={handleGuardar}>
                   Tasar
                 </button>
               }
