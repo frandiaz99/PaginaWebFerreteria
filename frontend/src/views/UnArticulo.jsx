@@ -8,6 +8,8 @@ import '../styles/UnArticulo.css'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 
+import PopupIntercambio from '../components/PopupIntercambio';
+
 function intercambiar(art) {
   const user = JSON.parse(localStorage.getItem('user'))
   if (user.rol == 1 || localStorage.getItem('cuentaActual') == 'usuario') {
@@ -44,6 +46,8 @@ function UnArticulo() {
 
   const [nuevoArticulo, setNuevoArticulo] = useState(null)
   //Para cuando los datos del localStorage se bugueen: comentar los documents, recargar pag, descomentarlos y volver a cargar.
+
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const articuloLocal = localStorage.getItem('articulo');
@@ -209,7 +213,7 @@ function UnArticulo() {
             </div>
             <div id="container-buttons" className="spacing">
               {(articuloSeleccionado && intercambiar(articuloSeleccionado)) &&
-                <button className="boton-intercambiar" >
+                <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
                 </button>
               }
@@ -240,7 +244,13 @@ function UnArticulo() {
       </div>
 
       {/*<Pagar/>  */}
-
+      {articuloSeleccionado && (
+        <PopupIntercambio
+          show={showPopup}
+          onClose={() => setShowPopup(false)}
+          articuloAIntercambiar={articuloSeleccionado}
+        />
+      )}
     </main>
   )
 }

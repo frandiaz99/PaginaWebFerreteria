@@ -1,0 +1,60 @@
+/* PopupIntercambio.css */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Background overlay with transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensure it is on top */
+}
+
+.popup-content {
+    background-color: #fff;
+    /* White background */
+    padding: 20px;
+    /* Padding for content */
+    border-radius: 8px;
+    /* Rounded corners */
+    width: 80%;
+    /* Width of the popup */
+    max-width: 500px;
+    /* Maximum width */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Slight shadow */
+    text-align: center;
+    /* Centered text */
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.popup-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Button background color */
+    color: #fff;
+    /* Button text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
+.botones-intercambio {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}

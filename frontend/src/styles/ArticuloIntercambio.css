@@ -1,0 +1,9 @@
+.articulo .articulo-intercambio {
+    cursor: pointer;
+}
+
+.articulo .articulo-intercambio:hover,
+.articulo .articulo-intercambio .seleccionado {
+    background-color: green;
+    border: 1px solid #ccc;
+}
