@@ -105,9 +105,9 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
                     <button onClick={onClose}>Cerrar</button>
                 </div>
-                <Modal texto={`¿Desea confirmar el intercambio?`} confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={false} />
 
             </div>
+            <Modal texto={`¿Desea confirmar el intercambio?`} confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={false} />
         </div>
     );
 };
