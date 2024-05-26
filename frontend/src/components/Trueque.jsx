@@ -15,14 +15,6 @@ function Trueque({ trueque, pendiente }) {
     window.location.reload()
   }
 
-  function mostrar(trueque) {
-    console.log("truequeeeee", trueque)
-    if (trueque.articulo_publica == null) {
-      console.log("soy un NULL")
-    }
-
-    return trueque.dni1
-  }
 
 
   return (
@@ -33,23 +25,23 @@ function Trueque({ trueque, pendiente }) {
         <div className='informacion-unTrueque'>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{mostrar(trueque)}</h3>
-            <p className='nombre-unTrueque'>{trueque.nombre1} </p>
+            <h3 className='dni-unTrueque'>{trueque.articulo_publica.usuario.dni}</h3>
+            <p className='nombre-unTrueque'>{trueque.articulo_publica.usuario.nombre} </p>
           </div>
 
           <div className='art-unTrueque'>
-            <h4>{trueque.art1}</h4>
+            <h4>{trueque.articulo_publica.nombre}</h4>
           </div>
 
           <div className='divImagen-unTrueque'> <img src="truequeicono.avif" alt="" className='imagenTrueque-unTrueque' /></div>
 
           <div className='art-unTrueque'>
-            <h4>{trueque.art2}</h4>
+            <h4>{trueque.articulo_compra.nombre}</h4>
           </div>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{trueque.dni2}</h3>
-            <p className='nombre-unTrueque'>{trueque.nombre2}</p>
+            <h3 className='dni-unTrueque'>{trueque.articulo_compra.usuario.dni}</h3>
+            <p className='nombre-unTrueque'>{trueque.articulo_compra.usuario.nombre}</p>
           </div>
 
         </div>

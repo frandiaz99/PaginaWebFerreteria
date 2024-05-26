@@ -71,10 +71,10 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             })
             .then(data => {
                 console.log('Respuesta del servidor al editar perfil:', data);
+                setIntercambio(true)
             })
             .catch(error => {
-                const errorData = JSON.parse(error.message)
-                //console.error('Hubo un problema al guardar los cambios:', error);
+                console.log("Error", error)
             })
     }
 
@@ -105,8 +105,8 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
                     <button onClick={onClose}>Cerrar</button>
                 </div>
-                <Modal texto={`¿Desea confirmar el intercambio?`} confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={false} />
-
+                <Modal texto={'El intercambio se ha guardado con extio.'}
+                    confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={true} />
             </div>
         </div>
     );

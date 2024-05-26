@@ -179,6 +179,7 @@ const intercambiarArticulo = async (req, res, next) => {
 
   if (!Articulo.miArticulo || !Articulo.suArticulo) {
     console.log("'miArticulo' o 'suArticulo' no recibido");
+
     return res.status(401).json({
       message: "Objeto 'miArticulo' o 'suArticulo' en 'Articulo' no recibido",
       status: 403,
@@ -188,8 +189,8 @@ const intercambiarArticulo = async (req, res, next) => {
   const miArticulo = await DataArticulo.findById(Articulo.miArticulo).then();
   const suArticulo = await DataArticulo.findById(Articulo.suArticulo).then();
   console.log("paso");
-  console.log(suArticulo);
-  console.log(miArticulo);
+  console.log("su articulo: ", suArticulo);
+  console.log("mi articulo: ", miArticulo);
   if (!miArticulo || !suArticulo) {
     return res.status(404).json({
       message: "Objeto 'miArticulo' o 'suArticulo' en no encontrado",
@@ -255,21 +256,21 @@ const tasarArticulo = async (req, res, next) => {
     console.log("Variable '_id' o 'precio' en 'Articulo' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto '_id' y/o 'precio'", status: 402 });
   }
-  if (Art.precio < 1 || Art.precio > 5){
+  if (Art.precio < 1 || Art.precio > 5) {
     return res.status(401).json({ message: "Consulta erronea, 'precio' debe estar entre 1 y 5 inclusive", status: 403 });
   }
 
-  DataArticulo.findOneAndUpdate({_id: Art._id }, { precio: Art.precio })
-          .then((Articulo) => {
-            if (Articulo){
-              return res.status(200).json({message: "Articulo encontrado y actualizado", status: 200, Articulo,});
-            } else return res.status(401).json({message: "Articulo NO encontrado", status: 404});
-            
-          })
-          .catch((error) => {
-            console.log(error);
-            return res.status(401).json({ message: "Erro otro", status: 400, error });
-          });
+  DataArticulo.findOneAndUpdate({ _id: Art._id }, { precio: Art.precio })
+    .then((Articulo) => {
+      if (Articulo) {
+        return res.status(200).json({ message: "Articulo encontrado y actualizado", status: 200, Articulo, });
+      } else return res.status(401).json({ message: "Articulo NO encontrado", status: 404 });
+
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(401).json({ message: "Erro otro", status: 400, error });
+    });
 
   //200 exitosa
   //400 Error otro
@@ -285,7 +286,7 @@ const tasarArticulo = async (req, res, next) => {
 router.route("/getArticulos").get(getArticulos);
 router.route("/crearArticulo").post(upload.any("Imagen"), userAuth, crearArticulo);
 
-  router.route("/getMisArticulos").get(userAuth, getMisArticulos);
+router.route("/getMisArticulos").get(userAuth, getMisArticulos);
 router.route("/borrarArticulo").delete(userAuth, borrarArticulo);
 router.route("/intercambiarArticulo").post(userAuth, intercambiarArticulo);
 
