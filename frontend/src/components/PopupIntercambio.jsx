@@ -11,7 +11,8 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
     const [articulosMismaCategoria, setArticulosMismaCategoria] = useState([])
     const [obtenido, setObtenido] = useState(false)
     const [articuloSeleccionadoPropio, setArticuloSeleccionadoPropio] = useState(null)
-    const [articulosQueYaOfreci, setArticulosQueYaOfreci]= useState([])
+    const [articuloSeleccionadoPropioID, setArticuloSeleccionadoPropioID]= useState(0)
+    const [articulosQueYaOfreci, setArticulosQueYaOfreci]= useState(null)
    /* const [articulo, setArticulo] = useState({
         suArticulo: articuloAIntercambiar,
         miArticulo: ''
@@ -44,7 +45,6 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             const articulosCompra= truequesDelArticuloAIntercambiar.map(t => t.articulo_compra)
             
             setArticulosQueYaOfreci([
-                ...articulosQueYaOfreci,
                 ...articulosPublica.filter(a => a.usuario._id == cuentaActual._id),
                 ...articulosCompra.filter(a => a.usuario._id == cuentaActual._id)
             ])
@@ -74,9 +74,8 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             })
             .then(dataMisArticulos => {
                 var mismaCategoria=dataMisArticulos.articulos.filter(a => a.precio == articuloAIntercambiar.precio)
-                console.log("averrr",mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
                 setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
-                if (articulosQueYaOfreci.length > 0) setObtenido(true)
+                if (articulosQueYaOfreci) setObtenido(true)
             })
             .catch(error => {
                 console.log('Error', error)
@@ -120,6 +119,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
     function handleArticuloSeleccionado(articulo) {
         setArticuloSeleccionadoPropio(articulo);
+        setArticuloSeleccionadoPropioID(articulo._id)
     }
 
     function handleOk() {
@@ -132,16 +132,16 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             <div className="popup-content">
                 <h2>Intercambiar Artículo</h2>
                 <div className='articulos'>
-                    {(articulosMismaCategoria == 0) ?
+                    {(articulosMismaCategoria.length == 0) ?
                         <div className='noHayItems'>
-                            {obtenido ? 'No hay articulos disponibles aún' : 'Cargando artículos...'}
+                            {obtenido ? 'No tenés artículos en la misma categoría o ya tenes una oferta de trueque con este artículo' : 'Cargando artículos...'}
                         </div> //Podria ser un componente
                         :
-                        obtenido && articulosMismaCategoria.map((art, index) => (<ArticuloIntercambio key={index} articulo={art} onArticuloSeleccionado={handleArticuloSeleccionado} />))
+                        obtenido && articulosMismaCategoria.map((art, index) => (<ArticuloIntercambio key={index} articulo={art} onArticuloSeleccionado={handleArticuloSeleccionado} isSelected={articuloSeleccionadoPropioID == art._id}/>))
                     }
                 </div>
                 <div className='botones-intercambio'>
-                    <button onClick={confirmarSeleccion}>Confirmar</button>
+                    {(obtenido && articulosMismaCategoria.length > 0) && <button onClick={confirmarSeleccion}>Confirmar</button>}
 
                     <button onClick={onClose}>Cerrar</button>
                 </div>

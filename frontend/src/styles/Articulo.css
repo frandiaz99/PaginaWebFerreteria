@@ -22,6 +22,10 @@
     background-color: #e0dfdf;
 }
 
+.articulo.seleccionado{
+    background-color: #e0dfdf;
+}
+
 .divImagenArt {
     width: 6.5rem;
     height: 6rem;
