@@ -27,22 +27,22 @@ function Trueque({ trueque, pendiente }) {
         <div className='informacion-unTrueque'>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{userPublica.dni}</h3>
+            <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userPublica.foto_perfil}`} />
             <p className='nombre-unTrueque'>{userPublica.nombre} </p>
           </div>
 
           <div className='art-unTrueque'>
-            <h4>{trueque.articulo_publica.nombre}</h4>
+            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_publica.foto_articulo}`} />
           </div>
 
           <div className='divImagen-unTrueque'> <img src="truequeicono.avif" alt="" className='imagenTrueque-unTrueque' /></div>
 
           <div className='art-unTrueque'>
-            <h4>{trueque.articulo_compra.nombre}</h4>
+            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_compra.foto_articulo}`} />
           </div>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{userCompra.dni}</h3>
+            <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userCompra.foto_perfil}`} />
             <p className='nombre-unTrueque'>{userCompra.nombre}</p>
           </div>
 
