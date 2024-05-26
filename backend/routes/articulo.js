@@ -93,7 +93,7 @@ const borrarArticulo = async (req, res, next) => {
         .status(404)
         .json({ message: "Articulo not found", status: 404 });
     }
-    if (!(User.rol == 3 || Publi.usuario._id == User._id)) {
+    if (!(User.rol >= 2 || Publi.usuario._id == User._id)) {
       console.log("No es el creador del articulo ni administrador");
       return res.status(401).json({
         message: "No posee permisos para borrar el articulo",
@@ -259,7 +259,7 @@ const tasarArticulo = async (req, res, next) => {
     return res.status(401).json({ message: "Consulta erronea, 'precio' debe estar entre 1 y 5 inclusive", status: 403 });
   }
 
-  DataUser.findOneAndUpdate({_id: Art._id }, { precio: Art.precio })
+  DataArticulo.findOneAndUpdate({_id: Art._id }, { precio: Art.precio })
           .then((Articulo) => {
             if (Articulo){
               return res.status(200).json({message: "Articulo encontrado y actualizado", status: 200, Articulo,});

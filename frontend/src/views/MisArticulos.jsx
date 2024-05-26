@@ -34,7 +34,7 @@ function MisArticulos() {
         const errorData= JSON.parse(error.message)
         console.log(errorData.message)
       });
-    }, [])
+    }, [eliminado])
   }else{
       useEffect(() => {
         fetch('http://localhost:5000/articulo/getMisArticulos', 

@@ -58,9 +58,6 @@ function UnArticulo() {
     }
     boton_foto[0].style.display = "none";
 
-    return () => { //cuando se desmonta el componente retira articulo del localstorage
-      localStorage.removeItem('articulo')
-    }
   }, []); //Para ejecutarlo 1 vez sola
 
   useEffect(() => {
@@ -165,23 +162,25 @@ function UnArticulo() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(nuevoArticulo),
+        body: JSON.stringify({Articulo: nuevoArticulo}),
         credentials: "include",
       }
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Hubo un problema al guardar los cambios");
-        }
-        return response.json();
+          return response.json().then(data => {
+              throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+          });
+      }
+      return response.json();
       })
       .then((data) => {
         console.log("Articulo tasado", data);
 
       })
       .catch((error) => {
-        console.error("Hubo un problema al guardar los cambios:", error);
-        // Manejo de errores
+        const errorData = JSON.parse(error.message)
+        console.log(errorData.message)
       });
 
   }
@@ -202,7 +201,7 @@ function UnArticulo() {
             <div className='div_categoria'>
               <h4>Categoria:</h4>
               {articuloSeleccionado && tasar(articuloSeleccionado) ? (
-                <input type="text" name='precio' value={nuevoArticulo.precio} onChange={handleChange} />
+                 <input type="text" name='precio' onChange={handleChange} />
               ) : (
                 <p id='categoria-articulo' className='spacing'>{articuloSeleccionado && articuloSeleccionado.categoria}</p>
               )}
