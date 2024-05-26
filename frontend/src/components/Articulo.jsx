@@ -2,12 +2,13 @@ import { useNavigate} from 'react-router-dom'
 import '../styles/Articulo.css'
 import routes from '../routes'
 import Modal from './Modal.jsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")}) {
     const navigate= useNavigate()
     const [confirmacion, setConfirmacion]= useState(false)
+    const [irAUnArticulo, setIrAUnArticulo]= useState(false)
 
     const handleYes= () =>{
         setConfirmacion(false)
@@ -43,8 +44,12 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
         if (location.pathname !== routes.pagPrincipal){
             localStorage.setItem('articulo',JSON.stringify(articulo))
         }
-        navigate(routes.unArticulo)
+        setIrAUnArticulo(true)
     }
+
+    useEffect(() => {
+        if (irAUnArticulo) navigate(routes.unArticulo)
+    }, [irAUnArticulo])
 
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo[articulo.foto_articulo.length-1];
 
