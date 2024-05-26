@@ -51,10 +51,9 @@ function UnArticulo() {
 
   useEffect(() => {
     const articuloLocal = localStorage.getItem('articulo');
-    console.log(articuloLocal);
     if (articuloLocal) {
       setArticuloSeleccionado(JSON.parse(articuloLocal));
-      console.log(articuloSeleccionado);
+      //console.log(articuloSeleccionado);
     }
     boton_foto[0].style.display = "none";
 
@@ -62,7 +61,6 @@ function UnArticulo() {
 
   useEffect(() => {
     if (articuloSeleccionado) {
-      console.log(articuloSeleccionado);
       fotos_articulo = articuloSeleccionado.foto_articulo;
       foto_perfil = srcFotoArt + articuloSeleccionado.usuario.foto_perfil;
       //console.log(fotos_articulo);
@@ -70,7 +68,7 @@ function UnArticulo() {
       for (let i = fotos_articulo.length - 1; i >= 0; i--) {
         path_fotos_articulo.push(srcFotoArt + fotos_articulo[i]);
       }
-      console.log(path_fotos_articulo);
+     // console.log(path_fotos_articulo);
       if (path_fotos_articulo.length <= 1) {
         boton_foto[0].style.display = "none";
         boton_foto[1].style.display = "none";
@@ -94,7 +92,6 @@ function UnArticulo() {
     var estrellas = [];
     //Ver tema de las imagenes y ver que hacer con el intercambiar.
     var puntuacion = localStorage.getItem('puntaje_usuario');
-    console.log(puntuacion);
     const estrellasCompletas = Math.floor(puntuacion);
     const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;
     const estrellasVacias = 5 - estrellasCompletas - (hayMediaEstrella ? 1 : 0);

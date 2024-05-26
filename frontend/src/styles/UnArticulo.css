@@ -120,6 +120,7 @@
     padding: 35px;
     line-height: 0px;
     transition-duration: 0.2s;
+    cursor: pointer;
 }
 
 .boton-intercambiar:hover {
@@ -137,6 +138,7 @@
     border-radius: 10px;
     padding: 20px;
     transition-duration: 0.2s;
+    cursor: pointer;
 }
 
 #boton-ver-perfil:hover {

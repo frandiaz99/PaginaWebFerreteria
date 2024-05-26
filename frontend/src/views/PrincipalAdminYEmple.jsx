@@ -66,7 +66,7 @@ function PrincipalAdminYEmple() {
   const obtenerCompletados = (trueques) => {
     if (trueques) {
       if (usuarioActual.rol == 2) {
-        return trueques.filter(t => t.completado == true && t.sucursal == usuarioActual.puntos)
+        return trueques.filter(t => t.completado == true ) //recordar lo de cada empleado ver trueques de su sucursal
       }
       return trueques.filter(t => t.completado == true)
     }
@@ -95,19 +95,24 @@ function PrincipalAdminYEmple() {
           {verPendientes ? <Buscador /> : <FiltroFecha />}
 
           <div className='trueques'>
-            {verPendientes && truequesPendientes.length > 0 ? (
+            {(verPendientes && truequesPendientes.length > 0 )
+            ? 
               truequesPendientes.map((t, index) => (
                 <Trueque key={index} trueque={t} pendiente={true} />
               ))
-            ) : verPendientes ? (
-              <p> No hay trueques pendientes</p>
-            ) : truequesCompletados.length > 0 ? (
-              truequesCompletados.map((t, index) => (
-                <Trueque key={index} trueque={t} pendiente={false} />
-              ))
-            ) : (
-              <p>No hay trueques completados</p>
-            )}
+            : 
+              verPendientes 
+              ? 
+                <p> No hay trueques pendientes</p>
+              : 
+                truequesCompletados.length > 0 
+                ? 
+                  truequesCompletados.map((t, index) => (
+                  <Trueque key={index} trueque={t} pendiente={false} />
+                  ))
+                : 
+                  <p>No hay trueques completados</p>
+            }
 
           </div>
         </div>
