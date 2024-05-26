@@ -18,7 +18,7 @@ function PrincipalAdminYEmple() {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
     titulo_pendientes_ref.current.style.color = 'black'
     setVerPendientes(true)
-  }
+  }                                                     
 
   const handleCompletados= () =>{
     titulo_completados_ref.current.style.color = 'black'
@@ -35,7 +35,7 @@ function PrincipalAdminYEmple() {
       return trueques.filter(t => t.completado == false)
     }
     return []
-  }
+  }                                                                  //funciones temporales hasta obtener del back pendientes y completados
   const obtenerCompletados=(trueques)=>{
     if (trueques){
       if (usuarioActual.rol == 2){
@@ -49,9 +49,28 @@ function PrincipalAdminYEmple() {
   useEffect(()=>{
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
     titulo_pendientes_ref.current.style.color = 'black'
-    //fetch para obtener todos los trueques
-    setTruequesPendientes(obtenerPendientes(trueques)) //import json temporal
-    setTruequesCompletados(obtenerCompletados(trueques))
+    fetch('http://localhost:5000/trueque/getPendientes', 
+      {method: "GET", 
+      headers: {
+        "Content-Type": "application/JSON",
+        //"Cookie": localStorage.getItem('jwt')
+      },credentials: "include"})
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+              throw new Error(JSON.stringify({message: data.message, status: data.status}));
+          })
+        }
+        return response.json();
+      })
+      .then(data => {
+        setTruequesPendientes(data.data) 
+      })
+      .catch(error => {
+        const errorData= JSON.parse(error.message)
+        console.log(errorData.message)
+      });
+    setTruequesCompletados(obtenerCompletados(trueques))//import json temporal
   }, [])
 
   return (
