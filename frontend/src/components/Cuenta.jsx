@@ -10,6 +10,8 @@ function mostrarUsuarios(){
 function Cuenta({cuenta, eliminar}) {
   const [eliminarEmple, setEliminarEmple]= useState(false)
   const [bloqueado, setBloqueado]= useState(false)
+  const [bloquearUser, setBloquearUser]= useState(false)
+  const [desbloquearUser, setDesbloquearUser]= useState(false)
   const srcFotoPerfil= ("http://localhost:5000/img/" + cuenta.foto_perfil);
 
   const handleEliminar = () =>{
@@ -41,7 +43,16 @@ function Cuenta({cuenta, eliminar}) {
     setEliminarEmple(true)
   }
 
-  const handleBotonBloquear= () =>{
+  const handleBotonBloquear= () => {
+    setBloquearUser(true)
+  }
+
+  const handleBotonDesbloquear= () => {
+    setDesbloquearUser(true)
+  }
+
+  const handleBloquear= () =>{
+    setBloquearUser(false)
     fetch('http://localhost:5000/user/bloquearUser',   
     {method: "POST", 
     headers: {
@@ -64,7 +75,8 @@ function Cuenta({cuenta, eliminar}) {
     })
   }
 
-  const handleBotonDesbloquear= () =>{
+  const handleDesbloquear= () =>{
+    setDesbloquearUser(false)
     fetch('http://localhost:5000/user/desbloquearUser',   
     {method: "POST", 
     headers: {
@@ -120,6 +132,8 @@ function Cuenta({cuenta, eliminar}) {
       </div>
 
       <Modal texto={'¿Estás seguro que querés eliminar este empleado?'} confirmacion={eliminarEmple} setConfirmacion={setEliminarEmple} handleYes={handleEliminar} ok={false}/>
+      <Modal texto={'¿Estás seguro que querés bloquear este usuario?'} confirmacion={bloquearUser} setConfirmacion={setBloquearUser} handleYes={handleBloquear} ok={false}/>
+      <Modal texto={'¿Estás seguro que querés desbloquear este usuario?'} confirmacion={desbloquearUser} setConfirmacion={setDesbloquearUser} handleYes={handleDesbloquear} ok={false}/>
     </div>
   )
 }

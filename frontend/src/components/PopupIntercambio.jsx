@@ -108,6 +108,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
                 <Modal texto={'El intercambio se ha guardado con extio.'}
                     confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={true} />
             </div>
+            <Modal texto={`¿Desea confirmar el intercambio?`} confirmacion={intercambio} setConfirmacion={setIntercambio} handleYes={handleOk} ok={false} />
         </div>
     );
 };

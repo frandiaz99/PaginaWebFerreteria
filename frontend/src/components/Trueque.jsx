@@ -4,6 +4,8 @@ import Modal from '../components/Modal'
 
 function Trueque({ trueque, pendiente }) {
   const [modalCancelar, setModalCancelar] = useState(false)
+  const userPublica = trueque.articulo_publica.usuario;
+  const userCompra = trueque.articulo_compra.usuario;
 
   const handleCancelar = () => {
     setModalCancelar(true)
@@ -25,8 +27,8 @@ function Trueque({ trueque, pendiente }) {
         <div className='informacion-unTrueque'>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{trueque.articulo_publica.usuario.dni}</h3>
-            <p className='nombre-unTrueque'>{trueque.articulo_publica.usuario.nombre} </p>
+            <h3 className='dni-unTrueque'>{userPublica.dni}</h3>
+            <p className='nombre-unTrueque'>{userPublica.nombre} </p>
           </div>
 
           <div className='art-unTrueque'>
@@ -40,14 +42,14 @@ function Trueque({ trueque, pendiente }) {
           </div>
 
           <div className='usuario-unTrueque'>
-            <h3 className='dni-unTrueque'>{trueque.articulo_compra.usuario.dni}</h3>
-            <p className='nombre-unTrueque'>{trueque.articulo_compra.usuario.nombre}</p>
+            <h3 className='dni-unTrueque'>{userCompra.dni}</h3>
+            <p className='nombre-unTrueque'>{userCompra.nombre}</p>
           </div>
 
         </div>
 
         <div className='fecha-unTrueque'>
-          <span>{trueque.fecha}</span>
+          <span>{trueque.fecha}</span> {/* falta fechaaaaaaaaaaaaaa */}
         </div>
 
       </div>
