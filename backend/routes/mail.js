@@ -56,7 +56,7 @@ const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
 
 
 const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
-  console.log ("mail destiono", mailDestino);
+  //console.log ("mail destiono", mailDestino);
   let msg = {
     from: 'batitechoficial@gmail.com',
     to: mailDestino,
@@ -80,7 +80,7 @@ const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
   sgMail.send(msg).then((message) => {
     //console.log("Mail enviado correctamente:", message)
     if (message){
-      console.log("Mail enviado correctamente", msg)
+      console.log("Mail enviado correctamente")
       return {ok: true, status: 200};
     }
     console.log (message);
