@@ -143,6 +143,17 @@ trueques.aceptarOferta  / trueque.rechazarOferta
   //405 Este trueque ya fue aceptado
   //402 Objeto 'trueque_aceptado' en 'Trueque' no recibido
 
+trueques.cancelarTrueques:
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
+  //407 el trueque ya fue efectivizado
+
+
 
 
 Hechos:
@@ -155,15 +166,16 @@ Ver perfil
 ver trueques pendientes
 rechazar oferta de trueque
 aceptar oferta  de trueque
+efectivizar trueque
 
+cancelar trueque
 
+intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
 
 faltan:
 ver mis trueques
 seleccionar sucursal
-cancelar trueque
 registrar venta
-efectivizar trueque
 puntuar usuario
 ver trueques completados
 

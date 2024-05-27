@@ -19,7 +19,7 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
     setModalCancelar(false)
 
     console.log("Trueque: ", trueque)
-    fetch('http://localhost:5000/trueque/eliminarTrueque',
+    fetch('http://localhost:5000/trueque/cancelarTrueque',
       {
         method: "DELETE",
         headers: { "Content-Type": "application/JSON" },

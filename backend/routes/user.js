@@ -309,9 +309,9 @@ const login = async (req, res, next) => {
                 ).then();
                 console.log("Code correcto y actualizado uno nuevo");
               } else {
+                console.log("El codigo es:", user.code);
                 return res.status(401).json({
                   message: "Login successful, but the 'code' is not right",
-                  User: user,
                   status: 206,
                 }); //tambien se deberia cambiar user por user._id
               }
@@ -322,8 +322,7 @@ const login = async (req, res, next) => {
                 user.code
               );
               return res.status(401).json({
-                message: "Login successful, but cod enot recibed",
-                User: user,
+                message: "Login successful, but code not recibed",
                 status: 205,
               }); //tambien se deberia cambiar user por user._id
             }

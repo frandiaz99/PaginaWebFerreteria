@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
-const { DataArticulo, DataTrueque } = require("../model/Schema");
+const { DataArticulo, DataTrueque, DataUser } = require("../model/Schema");
+const { mandarMail } = require("./mail.js");
 
 const router = express.Router();
 
@@ -77,7 +78,7 @@ const responderOferta = async (req, res, next) => {
   });
 }
 
-const eliminarTrueque = async (req, res, next) => {
+const cancelarTrueque = async (req, res, next) => {
   const body = req.body;
   const User = body.Auth;
   const Trueque = body.Trueque;
@@ -105,14 +106,22 @@ const eliminarTrueque = async (req, res, next) => {
         .status(404)
         .json({ message: "Trueque not found", status: 404 });
     }
+    if (Publi.venta_confirmada){
+      console.log("Este trueque ya fue efectivizado, no se puede cancelar ya")
+      return res.status(401).json({ message: "El trueque ya fue efectivizado", status: 407 });
+    }
     if (!(User.rol >= 2)) {
       console.log("No es empleado ni administrador");
-      return res.status(401).json({
-        message: "No posee permisos para borrar el Trueque",
-        status: 405,
-      });
+
+      if (!((Publi.articulo_compra.usuario._id = User._id) || (Publi.articulo_publica.usuario._id = User._id))){
+        console.log("Tampoco es un usuario que participa en el trueque");
+        return res.status(401).json({
+          message: "No posee permisos para borrar el Trueque",
+          status: 405, 
+        });
+      }
     }
-    //es el creador del articulo
+    console.log("Avisar a ambos usuarios de que se cancela el trueque por mail correo")
     await Publi.deleteOne().then((result) => {
       if (result) {
         console.log("Trueque successfully deleted");
@@ -140,16 +149,84 @@ const eliminarTrueque = async (req, res, next) => {
   //404 Articulo not found
   //405 No posee permisos para eliminar articulo
   //406 Error borrando articulo, de parte de mongoose
+  //407 el trueque ya fue efectivizado
 };
 
 
+const efectivizarTrueque = async (req, res, next) =>{
+  const body = req.body;
+  const User = body.Auth;
+  const Trueque = body.Trueque;
+  const Ventas = body.Ventas
+  
+  if (User.rol == 1){
+    return res.status(401).json({ message: "No posee permisos", status: 401 });
+  }
+
+  if (!Trueque || !Trueque._id){
+    console.log("No se recibio el objeto 'Trueque' y/o '_id'")
+    return res.status(401).json({ message: "No se recibio el objeto 'trueque' con '_id'", status: 402 });
+  }
+
+
+  
+  
+  DataTrueque.findById(Trueque._id).then((T) =>{
+    console.log(T.fecha_venta, Date.now());
+    if (!T){
+      console.log("No se encontro el trueque recibido")
+      return res.status(401).json({ message: "No se encontro el trueque", status: 404 });
+    }
+    if (T.venta_confirmada){
+      console.log("El trueque recibido ya fue finalizado")
+      return res.status(401).json({ message: "El trueque recibido ya fue finalizado", status: 403 });
+    }
+    if (User.rol = 2 && T.sucursal != User.sucursal){
+      console.log("El trueque esta establecido para otra sucursal diferente ")
+      return res.status(401).json({ message: "El trueque esta establecido para otra sucursal distinta", status: 406 });
+    }
+    if (T.fecha_venta > Date.now()){
+    //if (!T.fecha_venta || T.fecha_venta > Date.now()){
+      console.log("Todavia falta para la fecha acordada para el trueque")
+      return res.status(401).json({ message: "Falta para la fecha del intercambio", status: 405 });
+    }
+    var puntos_compra = T.articulo_compra.precio * 10;
+    var puntos_publica = T.articulo_publica.precio * 10;
+    // ver si se registra alguan venta, a quien y sumarle los puntos
+    console.log("Falta calular bien los puntos");
+
+    mandarMail(T.articulo_compra.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a efectuado con exito y se te a sumado un total de ${puntos_compra} puntos`);
+    mandarMail(T.articulo_publica.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a efectuado con exito y se te a sumado un total de ${puntos_publica} puntos`);
+
+    DataUser.findByIdAndUpdate({_id: T.articulo_compra.usuario._id}, {$inc: {puntos: puntos_compra} }).catch((err) =>{
+      console.log (err);
+      return res.status(400).json({message: "Error obteniendo los datos", status: 400});
+    });
+    DataUser.findByIdAndUpdate({_id: T.articulo_publica.usuario._id}, {$inc: {puntos: puntos_publica} }).catch((err) =>{
+      console.log (err);
+      return res.status(400).json({message: "Error obteniendo los datos", status: 400});
+    });
+
+    DataTrueque.findByIdAndUpdate({_id: T._id},({venta_confirmada: true})).then().catch((err)=>{
+      console.log (err);
+      return res.status(400).json({message: "Error obteniendo los datos", status: 400});
+    })
+    return res.status(200).json({message: "OK", status: 200}) ;
+
+  }).catch ((err) => {
+    console.log (err);
+    return res.status(400).json({message: "Error obteniendo los datos", status: 400});
+  });
+
+};
 
 
 
 router.route("/getPendientes").get(userAuth, getTruequesPendientes);
 router.route("/responderOferta").post(userAuth, responderOferta);
+router.route("/cancelarTrueque").delete(userAuth, cancelarTrueque)
 
-router.route("/eliminarTrueque").delete(userAuth, eliminarTrueque)
+router.route("/efectivizarTrueque").post(workerAuth, efectivizarTrueque);
 
 
 module.exports = router;

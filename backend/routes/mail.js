@@ -18,7 +18,7 @@ const SENDGRID_API_KEY = "SG.pH7DQNDTRoyMnOtRSIe-pg.ex0OC5t6plNvvPJ-1__w_ggR0l0z
 const sgMail = require('@sendgrid/mail');
 //sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(SENDGRID_API_KEY);
-
+/*
 let msg = {
   //to: 'juliq.gelp@gmail.com',
   from: 'batitechoficial@gmail.com',                  //destinatario
@@ -27,7 +27,7 @@ let msg = {
   //text: 'and easy to do anywhere, even with Node.js', //eto ni idera q es
   //html: '<strong>and easy to do anywhere, even with Node.js</strong>',  //body
 };
-
+*/
 /*  ANDA PERO ES BASICO FALTA ESTILO
 const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
   console.log(msg)
@@ -56,18 +56,34 @@ const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
 
 
 const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
-  console.log(msg)
-  msg.to = mailDestino;
-  msg.templateId = 'd-a2bc5befe3804212a7d736b1283125b4',
-  msg.dynamicTemplateData = {
-    Main: 'El codigo de autenticacion de usuario es: ',
-    Important: `${mailMensaje}`,
-  },
+  console.log ("mail destiono", mailDestino);
+  let msg = {
+    from: 'batitechoficial@gmail.com',
+    to: mailDestino,
+    templateId: 'd-a2bc5befe3804212a7d736b1283125b4',
+  }
+ 
+  if (mailTipo == 1){
+    //Mail de autenticacion
+    msg.dynamicTemplateData = {
+      Main: 'El codigo de autenticacion de usuario es: ',
+      Important: `${mailMensaje}`
+    }
+  } else if (mailTipo == 2){
+      //Mail aviso
+      msg.dynamicTemplateData = {
+        Main: `${mailMensaje}`,
+      }
+  }
+
 
   sgMail.send(msg).then((message) => {
     //console.log("Mail enviado correctamente:", message)
-    console.log("Mail enviado correctamente")
-    return {ok: true, status: 200};
+    if (message){
+      console.log("Mail enviado correctamente", msg)
+      return {ok: true, status: 200};
+    }
+    console.log (message);
   }, error => {
       console.error(error);
       if (error.response) {
