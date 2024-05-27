@@ -6,11 +6,14 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
   const [modalCancelar, setModalCancelar] = useState(false)
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
+  const [truequePendienteConfirmado, setTruequePendienteConfirmado] = useState(false);
+  const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);
 
   const handleCancelar = (event) => {
     event.stopPropagation();
     setModalCancelar(true)
   }
+
 
   const handleYes = () => {
     setModalCancelar(false)
@@ -81,16 +84,18 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
 
 
       <div className='opciones-unTrueque'>
-        {pendiente
-          ?
+        {pendiente ? (
           <div className='cancelar_efectivizar'>
             <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
-            <button className='botonUnTrueque'>Efectivizar</button>
+            {!truequePendienteEspera && (
+              <button className='botonUnTrueque' disabled={!truequePendienteConfirmado} >Efectivizar</button>
+            )}
           </div>
-          :
+        ) : (
           <div className='divRegistrarVenta'>
             <button className='botonUnTrueque'>Registrar venta</button>
-          </div>}
+          </div>
+        )}
 
       </div>
       <Modal texto={'¿Estás seguro que querés cancelar el trueque?'} confirmacion={modalCancelar} setConfirmacion={setModalCancelar} handleYes={handleYes} ok={false} />
