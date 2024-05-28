@@ -153,11 +153,57 @@ const cancelarTrueque = async (req, res, next) => {
 };
 
 
+const setFecha = async (req, res, next) =>{
+  const {Auth, Trueque} = req.body;
+  if (!Trueque || !Trueque._id || !Trueque.sucursal || !Trueque.fecha_venta){
+    console.log("");
+    res.status(401).json({message: "No se recibio el 'Trueque._id', 'Trueque.fecha_venta' o 'Trueque.sucursal' ", status: 401})
+  }
+  
+  DataTrueque.findById(Trueque._id).then((T) =>{
+    if (!T){
+      return res.status(400).json({message: "Error, no se encontro el trueque recibido", status:  404})
+    }
+    if (!T.trueque_aceptado){
+      return res.status(400).json({message: "Error, el trueque todavia no fue aceptado por el usuario", status:  402})
+    }
+    if ( !(T.articulo_compra.usuario._id == Auth._id || T.articulo_publica.usuario._id == Auth._id)){
+      return res.status(400).json({message: "Error, no es usuario participante del trueque", status:  403})
+    }
+    if (T.fecha_venta || T.sucursal){
+      return res.status(400).json({message: "Este trueque ya tiene una sucursal y fecha establecido", status:  405})
+    }
+    
+    const fecha = new Date(Trueque.fecha_venta);
+    //console.log(Trueque.fecha_venta, "  ", fecha, "  ", Date.now(), "  ", (fecha < Date.now()));
+    if (fecha < Date.now()){
+      return res.status(400).json({message: "Error, la fecha recibida ya paso", status:  406})
+    }
+
+    DataTrueque.findByIdAndUpdate(Trueque._id, {sucursal: Trueque.sucursal, fecha_venta: Trueque.fecha_venta}, {new: true}).then((newTrueque) => {
+      //console.log(`El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+      mandarMail(newTrueque.articulo_publica.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+      mandarMail(newTrueque.articulo_compra.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+      console.log("Faltaria hacer las notificaciones")
+      return res.status(200).json({message: "La fecha y la sucursal se establecio correctamente", status:  200})
+    }).catch((error) =>{
+      console.log(error);
+      return res.status(400).json({message: "Error de conexion del server", status:  400})
+    })
+    
+  }).catch((error) => {
+    console.log(error);
+    return res.status(400).json({message: "Error de conexion del server", status:  400})
+  })
+
+};
+
+
 const efectivizarTrueque = async (req, res, next) =>{
   const body = req.body;
   const User = body.Auth;
   const Trueque = body.Trueque;
-  const Ventas = body.Ventas
+  const Ventas = body.Ventas;
   
   if (User.rol == 1){
     return res.status(401).json({ message: "No posee permisos", status: 401 });
@@ -225,6 +271,7 @@ const efectivizarTrueque = async (req, res, next) =>{
 router.route("/getPendientes").get(userAuth, getTruequesPendientes);
 router.route("/responderOferta").post(userAuth, responderOferta);
 router.route("/cancelarTrueque").delete(userAuth, cancelarTrueque)
+router.route("/setFecha").post(userAuth, setFecha)
 
 router.route("/efectivizarTrueque").post(workerAuth, efectivizarTrueque);
 

@@ -186,3 +186,8 @@ para empleado: que la sucursal del trueque sea la de el
               que la fecha dl trueque este establecida a fecha actual o ya pasada
 
 para admin: qeu la fecha del trueque este establecida a actual o previa
+
+
+setFecha
+se puede setear una fecha y sucural una sola vez
+y cualquiera de los participantes, pero se puede modificar
