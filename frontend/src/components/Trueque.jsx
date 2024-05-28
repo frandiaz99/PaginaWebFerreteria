@@ -4,20 +4,75 @@ import Modal from '../components/Modal'
 import { estaEnModoUser } from '../helpers/estaEnModo'
 import PopupEfectivizar from './PopupEfectivizar'
 
-function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
+function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
   const [modalCancelar, setModalCancelar] = useState(false)
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
   const [truequePendienteConfirmado, setTruequePendienteConfirmado] = useState(false);
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
 
+  const usuarioActual = JSON.parse(localStorage.getItem('user'))
+  const soyElQueAcepta = usuarioActual._id == userPublica._id
 
   const handleCancelar = (event) => {
     event.stopPropagation();
     setModalCancelar(true)
   }
 
+  const handleElegirSucursal = () => {
+
+  }
+
+  const aceptarOfertaTrueque = () => {
+    trueque.trueque_aceptado = true;
+    fetch("http://localhost:5000/trueque/responderOferta", {
+      method: "POST",
+      headers: { "Content-Type": "application/JSON" },
+      body: JSON.stringify({ Trueque: trueque }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+          })
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("data :", data)
+        setTruequeAceptado(true)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      })
+  }
+
+  const rechazarOfertaTrueque = () => {
+    trueque.trueque_aceptado = false;
+    fetch("http://localhost:5000/trueque/responderOferta", {
+      method: "POST",
+      headers: { "Content-Type": "application/JSON" },
+      body: JSON.stringify({ Trueque: trueque }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+          })
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("data :", data)
+        cancelarTrueque()
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      })
+  }
 
   const handleYes = () => {
     setModalCancelar(false)
@@ -39,14 +94,12 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
         return response.json();
       })
       .then(data => {
-        eliminar()
+        cancelarTrueque()
       })
       .catch(error => {
         const errorData = JSON.parse(error.message)
         console.log(errorData.message)
       });
-
-    window.location.reload()
   }
 
 
@@ -83,11 +136,15 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
         <div className='fecha-unTrueque'>
           {pendiente
             ?
-            trueque.trueque_aceptado
+            truequeAceptado
               ?
               <span>Confirmado</span>
               :
-              <span>En Espera</span>
+              soyElQueAcepta
+                ?
+                <span>Oferta de Trueque recibida. En Espera</span>
+                :
+                <span>Oferta de Trueque envíada. En Espera</span>
             :
             <span>Si esta completado iria la fecha</span>
           } {/* falta fechaaaaaaaaaaaaaa */}
@@ -100,13 +157,33 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
         {pendiente
           ?
           <div className='cancelar_efectivizar'>
-            <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
-            {(/*!truequePendienteEspera &&*/ !estaEnModoUser()) && <button className='botonUnTrueque' /*disabled={!truequePendienteConfirmado}*/ onClick={() => setShowPopup(true)}>Efectivizar</button>}
-            {estaEnModoUser() && <button>Aceptar</button>}
+            {estaEnModoUser()
+              ?
+              soyElQueAcepta
+                ?
+                truequeAceptado
+                  ?
+                  <>
+                    <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>
+                    <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+                  </>
+                  :
+                  <>
+                    <button onClick={aceptarOfertaTrueque}>Aceptar</button>
+                    <button onClick={rechazarOfertaTrueque}>Rechazar</button>
+                  </>
+                :
+                <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+              :
+              <>
+                <button className='botonUnTrueque' disabled={!truequePendienteConfirmado} >Efectivizar</button>
+                <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+              </>
+            }
           </div>
           :
           <div className='divRegistrarVenta'>
-            {!estaEnModoUser() && <button className='botonUnTrueque'>Registrar venta</button>}
+            <button className='botonUnTrueque'>Registrar venta</button>
           </div>
         }
 
