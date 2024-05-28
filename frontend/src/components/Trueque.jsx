@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../styles/Trueque.css'
 import Modal from '../components/Modal'
 import { estaEnModoUser } from '../helpers/estaEnModo'
+import PopupEfectivizar from './PopupEfectivizar'
 
 function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
   const [modalCancelar, setModalCancelar] = useState(false)
@@ -9,6 +10,8 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
   const userCompra = trueque.articulo_compra.usuario;
   const [truequePendienteConfirmado, setTruequePendienteConfirmado] = useState(false);
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
 
   const handleCancelar = (event) => {
     event.stopPropagation();
@@ -79,14 +82,14 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
 
         <div className='fecha-unTrueque'>
           {pendiente
-          ?
-            trueque.trueque_aceptado
             ?
+            trueque.trueque_aceptado
+              ?
               <span>Confirmado</span>
+              :
+              <span>En Espera</span>
             :
-            <span>En Espera</span>
-          :
-          <span>Si esta completado iria la fecha</span>
+            <span>Si esta completado iria la fecha</span>
           } {/* falta fechaaaaaaaaaaaaaa */}
         </div>
 
@@ -94,14 +97,14 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
 
 
       <div className='opciones-unTrueque'>
-        {pendiente 
-        ? 
+        {pendiente
+          ?
           <div className='cancelar_efectivizar'>
             <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
-            {(!truequePendienteEspera && !estaEnModoUser()) && <button className='botonUnTrueque' disabled={!truequePendienteConfirmado} >Efectivizar</button>}
+            {(/*!truequePendienteEspera &&*/ !estaEnModoUser()) && <button className='botonUnTrueque' /*disabled={!truequePendienteConfirmado}*/ onClick={() => setShowPopup(true)}>Efectivizar</button>}
             {estaEnModoUser() && <button>Aceptar</button>}
           </div>
-        : 
+          :
           <div className='divRegistrarVenta'>
             {!estaEnModoUser() && <button className='botonUnTrueque'>Registrar venta</button>}
           </div>
@@ -109,7 +112,13 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
 
       </div>
       <Modal texto={'¿Estás seguro que querés cancelar el trueque?'} confirmacion={modalCancelar} setConfirmacion={setModalCancelar} handleYes={handleYes} ok={false} />
+      <PopupEfectivizar
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+        truequeAEfectivizar={trueque}
+      />
     </div>
+
   )
 }
 
