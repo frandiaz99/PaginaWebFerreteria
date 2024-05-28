@@ -180,3 +180,9 @@ puntuar usuario
 ver trueques completados
 
 
+efectivizar trueque 
+esta que se controla
+para empleado: que la sucursal del trueque sea la de el
+              que la fecha dl trueque este establecida a fecha actual o ya pasada
+
+para admin: qeu la fecha del trueque este establecida a actual o previa

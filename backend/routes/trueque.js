@@ -185,8 +185,8 @@ const efectivizarTrueque = async (req, res, next) =>{
       console.log("El trueque esta establecido para otra sucursal diferente ")
       return res.status(401).json({ message: "El trueque esta establecido para otra sucursal distinta", status: 406 });
     }
-    if (T.fecha_venta > Date.now()){
-    //if (!T.fecha_venta || T.fecha_venta > Date.now()){
+    //if (T.fecha_venta > Date.now()){
+    if (!T.fecha_venta || T.fecha_venta > Date.now()){
       console.log("Todavia falta para la fecha acordada para el trueque")
       return res.status(401).json({ message: "Falta para la fecha del intercambio", status: 405 });
     }
