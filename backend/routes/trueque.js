@@ -36,7 +36,7 @@ const responderOferta = async (req, res, next) => {
   if (!body.Trueque._id) {
     return res.status(400).json({ message: "No se recibio el objeto '_id' en 'Trueque'", status: 402 });
   }
-  if (!body.Trueque.trueque_aceptado) {
+  if (body.Trueque.trueque_aceptado == null) {
     return res.status(400).json({ message: "No se recibio el objeto 'trueque_aceptado' en 'Trueque'", status: 406 });
   }
   body.Trueque.trueque_aceptado = JSON.parse(body.Trueque.trueque_aceptado);

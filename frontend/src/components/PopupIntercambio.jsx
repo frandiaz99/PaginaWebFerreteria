@@ -74,11 +74,13 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             })
             .then(dataMisArticulos => {
                 var mismaCategoria=dataMisArticulos.articulos.filter(a => a.precio == articuloAIntercambiar.precio)
-                setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
-                if (articulosQueYaOfreci) setObtenido(true)
+                if (articulosQueYaOfreci) setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
+                else setArticulosMismaCategoria(mismaCategoria)    
+                setObtenido(true)
             })
             .catch(error => {
                 console.log('Error', error)
+                setObtenido(true)
             });
     }, [articulosQueYaOfreci])
 
@@ -124,7 +126,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
     function handleOk() {
         setIntercambio(false)
-        window.location.href = routes.pagPrincipal
+        onClose()
     }
 
     return (
