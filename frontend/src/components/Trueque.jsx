@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/Trueque.css'
 import Modal from '../components/Modal'
+import { estaEnModoUser } from '../helpers/estaEnModo'
 
 function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
   const [modalCancelar, setModalCancelar] = useState(false)
@@ -77,25 +78,34 @@ function Trueque({ trueque, pendiente, eliminar = () => console.log("nada") }) {
         </div>
 
         <div className='fecha-unTrueque'>
-          <span>{trueque.fecha}</span> {/* falta fechaaaaaaaaaaaaaa */}
+          {pendiente
+          ?
+            trueque.trueque_aceptado
+            ?
+              <span>Confirmado</span>
+            :
+            <span>En Espera</span>
+          :
+          <span>Si esta completado iria la fecha</span>
+          } {/* falta fechaaaaaaaaaaaaaa */}
         </div>
 
       </div>
 
 
       <div className='opciones-unTrueque'>
-        {pendiente ? (
+        {pendiente 
+        ? 
           <div className='cancelar_efectivizar'>
             <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
-            {!truequePendienteEspera && (
-              <button className='botonUnTrueque' disabled={!truequePendienteConfirmado} >Efectivizar</button>
-            )}
+            {(!truequePendienteEspera && !estaEnModoUser()) && <button className='botonUnTrueque' disabled={!truequePendienteConfirmado} >Efectivizar</button>}
+            {estaEnModoUser() && <button>Aceptar</button>}
           </div>
-        ) : (
+        : 
           <div className='divRegistrarVenta'>
-            <button className='botonUnTrueque'>Registrar venta</button>
+            {!estaEnModoUser() && <button className='botonUnTrueque'>Registrar venta</button>}
           </div>
-        )}
+        }
 
       </div>
       <Modal texto={'¿Estás seguro que querés cancelar el trueque?'} confirmacion={modalCancelar} setConfirmacion={setModalCancelar} handleYes={handleYes} ok={false} />
