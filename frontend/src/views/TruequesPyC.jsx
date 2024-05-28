@@ -4,13 +4,19 @@ import Trueque from '../components/Trueque'
 import Buscador from '../components/Buscador'
 import FiltroFecha from '../components/FiltroFecha'
 import trueques from '../data/trueques.json'
+import { estaEnModoUser } from '../helpers/estaEnModo'
 
+function obtenerMisTrueques(trueques, usuarioActual){
+ return trueques.filter(t => usuarioActual._id == t.articulo_publica.usuario._id || usuarioActual._id == t.articulo_compra.usuario._id )
+}
 
-function PrincipalAdminYEmple() {
+function TruequesPyC() {
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
-  const [verPendientes, setVerPendientes] = useState(true)
+  const [verPendientes,setVerPendientes]= useState(null)
+  const [truequesActuales, setTruequesActuales] = useState([])
   const [truequesPendientes, setTruequesPendientes] = useState([])
   const [truequesCompletados, setTruequesCompletados] = useState([])
+  const [dataObtenida, setDataObtenida]= useState(false)
   const titulo_pendientes_ref = useRef(null)
   const titulo_completados_ref = useRef(null)
 
@@ -29,14 +35,25 @@ function PrincipalAdminYEmple() {
         return response.json();
       })
       .then(data => {
-        setTruequesPendientes(data.data)
+        if (estaEnModoUser()) setTruequesPendientes(obtenerMisTrueques(data.data, usuarioActual))
+        else setTruequesPendientes(data.data)
         console.log("donde tan los trueques, aca tannnnn: ", truequesPendientes)
         setVerPendientes(true)
+        setDataObtenida(true)
       })
       .catch(error => {
         console.error('Error:', error);
       })
   }, []);
+
+  useEffect(() =>{
+    if (verPendientes) setTruequesActuales(truequesPendientes)
+    else setTruequesActuales(truequesCompletados)
+  }, [verPendientes])
+
+  useEffect(() =>{
+
+  },[truequesCompletados])
 
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
@@ -92,29 +109,27 @@ function PrincipalAdminYEmple() {
           {verPendientes ? <Buscador /> : <FiltroFecha />}
 
           <div className='trueques'>
-            {(verPendientes && truequesPendientes.length > 0)
-              ?
-              truequesPendientes.map((t, index) => (
-                <Trueque key={index} trueque={t} pendiente={true} />
+            {truequesActuales.length > 0
+            ?
+              truequesActuales.map((t, index) => (
+                <Trueque key={index} trueque={t} pendiente={verPendientes} />
               ))
-              :
-              verPendientes
+            :
+              dataObtenida
+              ?
+                verPendientes
                 ?
-                <p> No hay trueques pendientes</p>
+                  <p> No hay trueques pendientes</p>
                 :
-                truequesCompletados.length > 0
-                  ?
-                  truequesCompletados.map((t, index) => (
-                    <Trueque key={index} trueque={t} pendiente={false} />
-                  ))
-                  :
-                  <p>No hay trueques completados</p>
+                  <p> No hay trueques completados</p>
+              :
+              <p>Cargando Trueques...</p>
             }
 
           </div>
         </div>
 
-        {!verPendientes && <div className='ganancia-principal_admin_emple'>
+        {verPendientes == false && <div className='ganancia-principal_admin_emple'>
           <h3 className='tituloGanancia'>Ganancia</h3>
           <h2 className='ganancia'>$1000</h2>
         </div>}
@@ -124,4 +139,4 @@ function PrincipalAdminYEmple() {
   )
 }
 
-export default PrincipalAdminYEmple
+export default TruequesPyC

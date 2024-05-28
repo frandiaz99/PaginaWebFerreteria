@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/Header/Header'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import AdminCuentas from '../views/AdminCuentas.jsx'
-import PrincipalAdminYEmple from '../views/PrincipalAdminYEmple.jsx'
+import TruequesPyC from '../views/TruequesPyC.jsx'
 import Sucursales from '../views/Sucursales.jsx'
 import NotFound from '../views/NotFound.jsx'
 import RegistrarEmpleado from '../views/RegistrarEmpleado.jsx'
@@ -33,7 +33,7 @@ function RutasAdmin() {
       <>
         {rutaDefinida() && <Header/>}
         <Routes>
-            <Route path='' element={<PrincipalAdminYEmple/>}/>
+            <Route path='' element={<TruequesPyC/>}/>
             <Route path='sucursales' element={<Sucursales/>}/>
             <Route path='usuarios' element={<AdminCuentas/>}/>
             <Route path='empleados' element={<AdminCuentas/>}/>
