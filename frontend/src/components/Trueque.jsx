@@ -11,6 +11,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [truequePendienteConfirmado, setTruequePendienteConfirmado] = useState(false);
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);
   const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
+  const [showPopup, setShowPopup] = useEffect(false)
 
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
   const soyElQueAcepta = usuarioActual._id == userPublica._id
