@@ -33,15 +33,6 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
   }
 
-  const handleSeleccionarSucursal = (sucursalId, fecha) => {
-    const sucursal = sucursales.find(s => s.id === sucursalId);
-    setSucursalSeleccionada(sucursal);
-    setFechaSeleccionada(fecha);
-    console.log('Sucursal seleccionada:', sucursal.nombre);
-    console.log('Fecha seleccionada:', fecha);
-    aceptarOfertaTrueque();
-  };
-
   const aceptarOfertaTrueque = () => {
     trueque.trueque_aceptado = true;
     fetch("http://localhost:5000/trueque/responderOferta", {
@@ -187,7 +178,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                 :
                 <span>Oferta de Trueque envíada. En Espera</span>
             :
-            <span>{fechaSeleccionada && sucursalSeleccionada ? `${fechaSeleccionada} - ${sucursalSeleccionada.nombre}` : 'Si esta completado iria la fecha'}</span>
+            <span>{trueque.fecha_venta && trueque.sucursal ? `${trueque.fecha_venta} - ${trueque.sucursal.nombre}` : 'Si esta completado iria la fecha'}</span>
           } {/* falta fechaaaaaaaaaaaaaa */}
         </div>
 
@@ -239,7 +230,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         show={popupSucursal}
         onClose={() => setPopupSucursal(false)}
         sucursales={sucursales}
-        onSeleccionar={handleSeleccionarSucursal}
+        trueque={trueque}
       />
     </div>
 
