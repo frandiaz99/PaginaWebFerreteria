@@ -52,37 +52,42 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
         })
         .catch(error => {
             console.log('Error', error)
+            setArticulosQueYaOfreci(false)
         });
     },[])
 
     useEffect(() => {
-        fetch('http://localhost:5000/articulo/getMisArticulos',
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/JSON",
-                    //"Cookie": localStorage.getItem('jwt')
-                }, credentials: "include"
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(JSON.stringify({ message: data.message, status: data.status }));
-                    })
-                }
-                return response.json();
-            })
-            .then(dataMisArticulos => {
-                var mismaCategoria=dataMisArticulos.articulos.filter(a => a.precio == articuloAIntercambiar.precio)
-                if (articulosQueYaOfreci) setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
-                else setArticulosMismaCategoria(mismaCategoria)    
-                setObtenido(true)
-            })
-            .catch(error => {
-                console.log('Error', error)
-                setObtenido(true)
-            });
+        if (articulosQueYaOfreci !== null){
+
+            fetch('http://localhost:5000/articulo/getMisArticulos',
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/JSON",
+                        //"Cookie": localStorage.getItem('jwt')
+                    }, credentials: "include"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+                        })
+                    }
+                    return response.json();
+                })
+                .then(dataMisArticulos => {
+                    var mismaCategoria=dataMisArticulos.articulos.filter(a => a.precio == articuloAIntercambiar.precio)
+                    if (articulosQueYaOfreci) setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
+                    else setArticulosMismaCategoria(mismaCategoria)    
+                    setObtenido(true)
+                })
+                .catch(error => {
+                    console.log('Error', error)
+                    setObtenido(true)
+                });
+        }
     }, [articulosQueYaOfreci])
+
 
     function confirmarSeleccion() {
         
@@ -136,7 +141,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
                 <div className='articulos'>
                     {(articulosMismaCategoria.length == 0) ?
                         <div className='noHayItems'>
-                            {obtenido ? 'No tenés artículos en la misma categoría o ya tenes una oferta de trueque con este artículo' : 'Cargando artículos...'}
+                            {obtenido ? 'No tenés artículos en la misma categoría o ya los ofreciste' : 'Cargando artículos...'}
                         </div> //Podria ser un componente
                         :
                         obtenido && articulosMismaCategoria.map((art, index) => (<ArticuloIntercambio key={index} articulo={art} onArticuloSeleccionado={handleArticuloSeleccionado} isSelected={articuloSeleccionadoPropioID == art._id}/>))
