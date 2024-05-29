@@ -10,8 +10,10 @@ function obtenerMisTrueques(trueques, usuarioActual){
  return trueques.filter(t => usuarioActual._id == t.articulo_publica.usuario._id || usuarioActual._id == t.articulo_compra.usuario._id )
 }
 
-function obtenerTruequesAceptados(trueques){
-  return trueques.filter(t => t.trueque_aceptado == true)
+function obtenerTruequesConfirmados(trueques, user){
+  const  truequesConfirmados= trueques.filter(t => t.fecha_venta !== undefined)
+  if (user.rol == 2) return truequesConfirmados.filter(t => t.sucursal._id == user.sucursal._id)
+  else return truequesConfirmados
 }
 
 function TruequesPyC() {
@@ -40,7 +42,7 @@ function TruequesPyC() {
       })
       .then(data => {
         if (estaEnModoUser()) setTruequesPendientes(obtenerMisTrueques(data.data, usuarioActual))
-        else setTruequesPendientes(obtenerTruequesAceptados(data.data))
+        else setTruequesPendientes(obtenerTruequesConfirmados(data.data, usuarioActual))
         setDataObtenida(true)
       })
       .catch(error => {
@@ -84,7 +86,6 @@ function TruequesPyC() {
 
   const handleCancelarTrueque= () =>{
     setEliminado(!eliminado)
-    console.log("Pruebaaaa")
   }
 
   useEffect(() => {

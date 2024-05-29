@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import '../styles/PopupSucursal.css';
 import Modal from "../components/Modal";
 
-const PopupElegirSucursal = ({ show, onClose, sucursales, trueque }) => {
+const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEstado }) => {
     if (!show) return null;
 
+    const [sucursalTemp, setSucursalTemp]= useState()
     const [datos, setDatos] = useState({
         _id: trueque._id,
         fecha_venta: '',
         sucursal: ''
     });
 
-    console.log("aaaaaaaaaaaaa -----------> ", datos)
 
     const [fechaYSucursal, setFechaYSucursal] = useState(false);
 
@@ -20,6 +20,9 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque }) => {
             ...datos,
             sucursal: e.target.value
         });
+        const selectedOption = e.target.options[e.target.selectedIndex]; 
+        const selectedOptionContent = selectedOption.textContent;
+        setSucursalTemp({nombre: selectedOptionContent})  //guardo solo el nombre para actualizar el estado del trueque
     };
 
     const handleChangeFecha = (e) => {
@@ -31,7 +34,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque }) => {
 
     const handleOk = () => {
         setFechaYSucursal(false);
-        console.log("bbbbbbbbbbb -----------> ", datos)
+        actualizarEstado({fecha_venta: datos.fecha_venta, sucursal: sucursalTemp})
         onClose();
     };
 
@@ -40,15 +43,18 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque }) => {
             "http://localhost:5000/trueque/setFecha",
             {
                 method: "POST",
-                body: JSON.stringify({ Trueque: datos }),
+                headers: { "Content-Type": "application/JSON"},
+                body: JSON.stringify({Trueque: datos }),
                 credentials: "include",
             }
         )
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Hubo un problema al guardar los cambios");
-                }
-                return response.json();
+                    return response.json().then(data => {
+                      throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+                    })
+                  }
+                  return response.json();
             })
             .then((data) => {
                 console.log("fecha y sucursal: ", data)
