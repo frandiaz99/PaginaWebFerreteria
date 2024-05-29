@@ -3,6 +3,7 @@ import '../styles/Trueque.css'
 import Modal from '../components/Modal'
 import { estaEnModoUser } from '../helpers/estaEnModo'
 import PopupEfectivizar from './PopupEfectivizar'
+import PopupElegirSucursal from './PopupSucursal';
 
 function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
   const [modalCancelar, setModalCancelar] = useState(false)
@@ -11,7 +12,13 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [truequePendienteConfirmado, setTruequePendienteConfirmado] = useState(false);
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);
   const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
-  const [showPopup, setShowPopup] = useEffect(false)
+  const [showPopup, setShowPopup] = useState(false)
+
+  const [popupSucursal, setPopupSucursal] = useState(false)
+
+  const [sucursales, setSucursales] = useState([]);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState('');
+  const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
 
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
   const soyElQueAcepta = usuarioActual._id == userPublica._id
@@ -22,8 +29,18 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   }
 
   const handleElegirSucursal = () => {
+    setPopupSucursal(true);
 
   }
+
+  const handleSeleccionarSucursal = (sucursalId, fecha) => {
+    const sucursal = sucursales.find(s => s.id === sucursalId);
+    setSucursalSeleccionada(sucursal);
+    setFechaSeleccionada(fecha);
+    console.log('Sucursal seleccionada:', sucursal.nombre);
+    console.log('Fecha seleccionada:', fecha);
+    aceptarOfertaTrueque();
+  };
 
   const aceptarOfertaTrueque = () => {
     trueque.trueque_aceptado = true;
@@ -103,6 +120,29 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       });
   }
 
+  useEffect(() => {
+    fetch('http://localhost:5000/sucursal/getSucursales',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+          //"Cookie": localStorage.getItem('jwt')
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener las sucursales');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setSucursales(data.Sucursales)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [])
+
 
 
   return (
@@ -147,7 +187,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                 :
                 <span>Oferta de Trueque envíada. En Espera</span>
             :
-            <span>Si esta completado iria la fecha</span>
+            <span>{fechaSeleccionada && sucursalSeleccionada ? `${fechaSeleccionada} - ${sucursalSeleccionada.nombre}` : 'Si esta completado iria la fecha'}</span>
           } {/* falta fechaaaaaaaaaaaaaa */}
         </div>
 
@@ -165,7 +205,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                 truequeAceptado
                   ?
                   <>
-                    <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>
+                    <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir fecha y sucursal</button>
                     <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
                   </>
                   :
@@ -195,7 +235,14 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         onClose={() => setShowPopup(false)}
         truequeAEfectivizar={trueque}
       />
+      <PopupElegirSucursal
+        show={popupSucursal}
+        onClose={() => setPopupSucursal(false)}
+        sucursales={sucursales}
+        onSeleccionar={handleSeleccionarSucursal}
+      />
     </div>
+
 
   )
 }
