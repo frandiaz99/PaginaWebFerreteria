@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import '../styles/PrincipalAdminYEmple.css'
+import '../styles/TruequesPyC.css'
 import Trueque from '../components/Trueque'
 import Buscador from '../components/Buscador'
 import FiltroFecha from '../components/FiltroFecha'

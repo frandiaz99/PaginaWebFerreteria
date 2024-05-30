@@ -47,6 +47,10 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
     setPopupSucursal(true);
 
   }
+  const handleEfectivizar = () => {
+    setShowPopup(true);
+
+  }
 
   const aceptarOfertaTrueque = () => {
     trueque.trueque_aceptado = true;
@@ -200,9 +204,9 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
               :
                 soyElQueAcepta
                 ?
-                  <span>Oferta de Trueque recibida. En Espera</span>
+                  <span>Oferta de Trueque recibida | En espera</span>
                 :
-                  <span>Oferta de Trueque envíada. En Espera</span>
+                  <span>Oferta de Trueque envíada | En espera</span>
           :
             <span>Realizado el {getDateOnly(truequeState.fecha_venta)}</span>
           }
@@ -213,33 +217,33 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
       <div className='opciones-unTrueque'>
         {pendiente
-          ?
+        ?
           <div className='cancelar_efectivizar'>
             {estaEnModoUser()
-              ?
+            ?
               soyElQueAcepta
-                ?
+              ?
                 truequeAceptado
-                  ?
+                ?
                   <>
                     {!truequeConfirmado && <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>}
-                    <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
-                  </>
-                  :
-                  <>
-                    <button onClick={aceptarOfertaTrueque}>Aceptar</button>
-                    <button onClick={rechazarOfertaTrueque}>Rechazar</button>
+                    <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
                   </>
                 :
-                <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+                  <>
+                    <button className='botonUnTrueque aceptarT' onClick={aceptarOfertaTrueque}>Aceptar</button>
+                    <button className='botonUnTrueque cancelar' onClick={rechazarOfertaTrueque}>Rechazar</button>
+                  </>
               :
+                <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
+            :
               <>
-                <button className='botonUnTrueque' >Efectivizar</button>
-                <button className='botonUnTrueque' onClick={handleCancelar}>Cancelar</button>
+                <button className='botonUnTrueque' onClick={handleEfectivizar} >Efectivizar</button>
+                <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
               </>
             }
           </div>
-          :
+        :
           <div className='divRegistrarVenta'>
             <button className='botonUnTrueque'>Registrar venta</button>
           </div>

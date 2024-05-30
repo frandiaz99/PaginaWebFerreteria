@@ -2,24 +2,21 @@
 function estaEnModoUser(){
   const user=JSON.parse(localStorage.getItem('user')) 
   const cuentaActual= (localStorage.getItem('cuentaActual'))
-    return (
-      user.rol == 1 || (user.rol == 2 && cuentaActual == 'usuario')
-    )
+    if (user) return user.rol == 1 || (user.rol == 2 && cuentaActual == 'usuario')
+    else return false
   }
   
 function estaEnModoAdmin(){
   const user=JSON.parse(localStorage.getItem('user'))
-    return (
-      user.rol == 3
-    )
+    if (user) return user.rol == 3
+    else return false
   }
   
 function estaEnModoEmple(){
   const user=JSON.parse(localStorage.getItem('user'))
   const cuentaActual= (localStorage.getItem('cuentaActual'))
-    return (
-      (user.rol == 2 && cuentaActual == 'empleado')
-    )
+    if (user) return (user.rol == 2 && cuentaActual == 'empleado')
+    else return false
   }
 
   export {estaEnModoUser, estaEnModoEmple, estaEnModoAdmin}
