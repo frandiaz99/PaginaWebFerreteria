@@ -136,7 +136,7 @@ function OpcionesUser() {
       </div>
 
       {estaEnModoUser() &&
-        <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} onClick={handleNotificaciones}>
+        <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} /*onClick={handleNotificaciones}*/>
 
           <div className='notificaciones'>
             <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
