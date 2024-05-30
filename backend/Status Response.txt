@@ -167,6 +167,7 @@ ver trueques pendientes
 rechazar oferta de trueque
 aceptar oferta  de trueque
 efectivizar trueque
+seleccionar sucursal
 
 cancelar trueque
 
@@ -174,10 +175,9 @@ intercambiar articulo ==> falta chequiear de no crear un trueque con articulos y
 
 faltan:
 ver mis trueques
-seleccionar sucursal
+ver trueques completados
 registrar venta
 puntuar usuario
-ver trueques completados
 
 
 efectivizar trueque 

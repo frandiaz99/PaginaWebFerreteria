@@ -13,7 +13,7 @@ const router = express.Router();
 
 const getTruequesPendientes = async (req, res, next) => {
   await DataTrueque.find({ venta_confirmada: false }).then((data) => {
-    console.log(data);
+    //console.log(data);
     if (data[0]) {
       console.log("articulos obtenidos");
       return res.status(200).json({ message: "Succesfully", data, status: 200 });
@@ -218,7 +218,7 @@ const efectivizarTrueque = async (req, res, next) =>{
   
   
   DataTrueque.findById(Trueque._id).then((T) =>{
-    console.log(T.fecha_venta, Date.now());
+    //console.log(T.fecha_venta, Date.now());
     if (!T){
       console.log("No se encontro el trueque recibido")
       return res.status(401).json({ message: "No se encontro el trueque", status: 404 });

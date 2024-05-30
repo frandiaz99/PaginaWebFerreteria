@@ -27,11 +27,11 @@ const router = express.Router();
 //
 const password_min_leght = 6;
 //const venciminetoCookie = 3 * 60 * 60; //3 horas
-const venciminetoCookie = 3 * 24 * 60 * 60; //3 dias
+const venciminetoCookie = 20 * 24 * 60 * 60; //20 dias
 //const venciminetoCookie = 3; //3 dias
 
 const register = async (req, res, next) => {
-  console.log("hola");
+  console.log("registrando usuario");
   // res.setHeader("Content-Type", "application/json");
   /*  
   console.log({"Body": req.body});
@@ -45,11 +45,11 @@ const register = async (req, res, next) => {
   } else {
     File = req.file;
   }
-  console.log({ File: File });
+  //console.log({ File: File });
 
   //const User = JSON.parse(req.body.User);
   const User = req.body.User;
-  console.log({ User: User });
+  //console.log({ User: User });
 
   if (!User) {
     return res.status(400).json({ message: "Object User not recibed" });
@@ -84,7 +84,7 @@ const register = async (req, res, next) => {
     if (format.test(character)) {
       special = true;
     } else if (isNaN(character) && character === character.toUpperCase()) {
-      console.log(character, "", character.toLocaleUpperCase());
+      //console.log(character, "", character.toLocaleUpperCase());
       upper = true;
     }
     i++;
@@ -361,7 +361,7 @@ const login = async (req, res, next) => {
             { $inc: { intento_desbloqueo: 1 } },
             { new: true }
           ).then((updateUser) => {
-            console.log(updateUser);
+            //console.log(updateUser);
             if (updateUser.intento_desbloqueo === 3) {
               return res.status(400).json({
                 message: "Login not succesful, user bloqued",
@@ -429,7 +429,7 @@ const getUser = async (req, res, next) => {
 
   DataUser.findOne({ _id: User._id })
     .then((user) => {
-      console.log(user);
+      //console.log(user);
       console.log("No se si es necesario mandar el user para el front");
       if (user) {
         return res
@@ -497,7 +497,7 @@ const editarPerfil = async (req, res, next) => {
     if (apellido) currentUser.apellido = apellido;
     currentUser.foto_perfil = foto_perfil; // Actualiza la foto de perfil
     //if (sucursal) currentUser.sucursal = sucursal;
-    console.log("Sucursal:", sucursal);
+    //console.log("Sucursal:", sucursal);
     console.log(
       "------------------------   -------------------------   ---------------"
     );
@@ -514,7 +514,7 @@ const editarPerfil = async (req, res, next) => {
       if (currentUser.sucursal._id != sucursal._id) {
         await DataSucursal.findById(sucursal._id)
           .then((data) => {
-            console.log(data);
+            //console.log(data);
             if (data) {
               currentUser.sucursal = sucursal._id;
             } else {
@@ -534,7 +534,7 @@ const editarPerfil = async (req, res, next) => {
     await currentUser
       .save()
       .then((data) => {
-        console.log({ "User actualizado": data });
+        //console.log({ "User actualizado": data });
         return res
           .status(200)
           .json({ message: "Perfil actualizado correctamente", user: data });
@@ -586,7 +586,7 @@ const cambiarContrasena = async (req, res, next) => {
     if (format.test(character)) {
       special = true;
     } else if (isNaN(character) && character === character.toUpperCase()) {
-      console.log(character, "", character.toLocaleUpperCase());
+      //console.log(character, "", character.toLocaleUpperCase());
       upper = true;
     }
     i++;
@@ -597,7 +597,7 @@ const cambiarContrasena = async (req, res, next) => {
       status: 407,
     });
   }
-  console.log(req.body);
+  //console.log(req.body);
   //console.log (req.Auth)
 
   DataUser.findOne({ dni: req.body.Auth.dni })
@@ -678,7 +678,7 @@ const getByDNI = async (req, res, next) => {
 
   DataUser.findOne({ dni: User.dni })
     .then((user) => {
-      console.log(user);
+      //console.log(user);
       console.log("No se si es necesario mandar el user para el front");
       if (user) {
         return res

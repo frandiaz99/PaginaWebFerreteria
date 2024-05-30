@@ -9,11 +9,13 @@ const multer = require("multer");
 
 const crearArticulo = async (req, res, next) => {
   const articulo = JSON.parse(req.body.Articulo);
+  /*
   console.log({ req: req });
   console.log({ Articulo: req.body.Articulo });
   console.log({ file: req.file });
   console.log({ files: req.files });
   console.log({ Auth: req.body.Auth });
+  */
   //console.log({"body": body});
   const usuario = req.body.Auth._id; //auth lo genero yo desde el middleware del back no necesito que me lo pasen
   const { nombre, descripcion, interesado } = articulo;
@@ -24,11 +26,11 @@ const crearArticulo = async (req, res, next) => {
     filename = ["Imagen_publicacion_default.jpg"];
   } else {
     File = req.files;
-    console.log(File);
+    //console.log(File);
     filename = File.map((File) => File.filename);
-    console.log(filename);
+    //console.log(filename);
   }
-  console.log({ File: File });
+  //console.log({ File: File });
 
   await DataArticulo.create({
     usuario,
@@ -132,7 +134,7 @@ const borrarArticulo = async (req, res, next) => {
 
 const getMisArticulos = async (req, res, next) => {
   const User = req.body.Auth;
-  console.log(User);
+  //console.log(User);
   try {
     DataArticulo.find({ usuario: User._id })
       .then((articulos) => {
@@ -189,8 +191,8 @@ const intercambiarArticulo = async (req, res, next) => {
   const miArticulo = await DataArticulo.findById(Articulo.miArticulo).then();
   const suArticulo = await DataArticulo.findById(Articulo.suArticulo).then();
   console.log("paso");
-  console.log("su articulo: ", suArticulo);
-  console.log("mi articulo: ", miArticulo);
+  //console.log("su articulo: ", suArticulo);
+  //console.log("mi articulo: ", miArticulo);
   if (!miArticulo || !suArticulo) {
     return res.status(404).json({
       message: "Objeto 'miArticulo' o 'suArticulo' en no encontrado",
