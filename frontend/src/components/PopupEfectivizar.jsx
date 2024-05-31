@@ -6,8 +6,14 @@ import Modal from "../components/Modal";
 const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) => {
     if (!show) return null;
 
-    const [ventas, setVentas] = useState([{ codigo: '', cantidad: '', usuario: '' }]);
+    const [ventas, setVentas] = useState([{ cantidad: '', codigo: '', dni: '' }]);
     const [confirmado, setConfirmado] = useState(false);
+    const [usuario, setUsuario] = useState(
+        [{
+            usuario_compra: truequeAEfectivizar.articulo_compra.usuario,
+            usuario_publica: truequeAEfectivizar.articulo_publica.usuario
+        }]
+    )
 
     const handleInputChange = (index, e) => {
         const { name, value } = e.target;
@@ -19,7 +25,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
     };
 
     const agregarProducto = () => {
-        setVentas(prevVentas => [...prevVentas, { codigo: '', cantidad: '', usuario: '' }]);
+        setVentas(prevVentas => [...prevVentas, { cantidad: '', codigo: '', dni: '' }]);
     };
 
     const eliminarProducto = (index) => {
@@ -33,7 +39,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                 "Content-Type": "application/json",
                 //"Cookie": localStorage.getItem('jwt')
             },
-            body: JSON.stringify({ Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
+            body: JSON.stringify({ User: usuario, Ventas: ventas, Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
             credentials: "include"
         })
             .then(response => {

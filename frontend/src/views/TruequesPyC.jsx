@@ -6,23 +6,23 @@ import FiltroFecha from '../components/FiltroFecha'
 import trueques from '../data/trueques.json'
 import { estaEnModoUser } from '../helpers/estaEnModo'
 
-function obtenerMisTrueques(trueques, usuarioActual){
- return trueques.filter(t => usuarioActual._id == t.articulo_publica.usuario._id || usuarioActual._id == t.articulo_compra.usuario._id )
+function obtenerMisTrueques(trueques, usuarioActual) {
+  return trueques.filter(t => usuarioActual._id == t.articulo_publica.usuario._id || usuarioActual._id == t.articulo_compra.usuario._id)
 }
 
-function obtenerTruequesConfirmados(trueques, user){
-  const  truequesConfirmados= trueques.filter(t => t.fecha_venta !== undefined)
+function obtenerTruequesConfirmados(trueques, user) {
+  const truequesConfirmados = trueques.filter(t => t.fecha_venta !== undefined)
   if (user.rol == 2) return truequesConfirmados.filter(t => t.sucursal._id == user.sucursal._id)
   else return truequesConfirmados
 }
 
 function TruequesPyC() {
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
-  const [verPendientes,setVerPendientes]= useState(true)
+  const [verPendientes, setVerPendientes] = useState(true)
   const [truequesPendientes, setTruequesPendientes] = useState([])
   const [truequesCompletados, setTruequesCompletados] = useState([])
-  const [dataObtenida, setDataObtenida]= useState(false)
-  const [eliminado, setEliminado]= useState(false)
+  const [dataObtenida, setDataObtenida] = useState(false)
+  const [eliminado, setEliminado] = useState(false)
   const titulo_pendientes_ref = useRef(null)
   const titulo_completados_ref = useRef(null)
 
@@ -44,6 +44,7 @@ function TruequesPyC() {
         if (estaEnModoUser()) setTruequesPendientes(obtenerMisTrueques(data.data, usuarioActual))
         else setTruequesPendientes(obtenerTruequesConfirmados(data.data, usuarioActual))
         setDataObtenida(true)
+        console.log("trueques pendientes: ", data.data)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -51,6 +52,33 @@ function TruequesPyC() {
         setDataObtenida(true)
       })
   }, [eliminado]);
+
+  /*useEffect(() => {
+    fetch("http://localhost:5000/trueque/getCompletados", {
+      method: "GET",
+      headers: { "Content-Type": "application/JSON" },
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+          })
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data, usuarioActual))
+        else setTruequesCompletados(obtenerTruequesConfirmados(data.data, usuarioActual))
+        setDataObtenida(true)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setTruequesCompletados([])
+        setDataObtenida(true)
+      })
+  }, [eliminado]);
+  */
 
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
@@ -68,14 +96,14 @@ function TruequesPyC() {
   const obtenerCompletados = (trueques) => {
     if (trueques) {
       if (usuarioActual.rol == 2) {
-        return trueques.filter(t => t.completado == true) //recordar lo de cada empleado ver trueques de su sucursal
+        return trueques.filter(t => t.venta_confirmada == true) //recordar lo de cada empleado ver trueques de su sucursal
       }
-      return trueques.filter(t => t.completado == true)
+      return trueques.filter(t => t.venta_confirmada == true)
     }
     return []
-  }
+  }*/
 
-  const handleCancelarTrueque= () =>{
+  const handleCancelarTrueque = () => {
     setEliminado(!eliminado)
   }
 
@@ -84,7 +112,7 @@ function TruequesPyC() {
     titulo_pendientes_ref.current.style.color = 'black'
     //fetch para obtener todos los trueques
     //setTruequesPendientes(obtenerPendientes(trueques)) //import json temporal
-    setTruequesCompletados(obtenerCompletados(trueques))
+    //setTruequesCompletados(obtenerCompletados(trueques))
   }, [])
 
   return (
@@ -95,32 +123,32 @@ function TruequesPyC() {
           <h4 className='titulo-pendientes_y_completados' onClick={handlePendientes} ref={titulo_pendientes_ref}>Trueques Pendientes</h4>
           <h4 className='titulo-pendientes_y_completados' onClick={handleCompletados} ref={titulo_completados_ref}>Trueques Completados</h4>
         </div>
-      
+
 
         <div className='filtros_y_trueques-principal_admin_emple'>
           {verPendientes ? <Buscador /> : <FiltroFecha />}
 
           <div className='trueques'> {console.log("trueques", truequesPendientes)}
             {dataObtenida
-            ?
-              verPendientes
               ?
+              verPendientes
+                ?
                 truequesPendientes.length > 0
-                ?
+                  ?
                   truequesPendientes.map((t, index) => (
-                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque}/>
+                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
                   ))
-                :
+                  :
                   <p> No hay trueques pendientes</p>
-              :
-                truequesCompletados.length > 0
-                ?
-                  truequesCompletados.map((t, index) => (
-                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque}/>
-                  ))
                 :
+                truequesCompletados.length > 0
+                  ?
+                  truequesCompletados.map((t, index) => (
+                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                  ))
+                  :
                   <p> No hay trueques completados</p>
-            :
+              :
               <p>Cargando Trueques...</p>
             }
 
