@@ -107,9 +107,13 @@
 }
 
 .aceptar {
-    background-color: #4CAF50;
+    background-color: rgb(236, 235, 235);
     /* Green */
-    color: white;
+    color: black;
+}
+
+.aceptar:hover {
+    background-color: #4CAF50;
 }
 
 .agregar-producto {

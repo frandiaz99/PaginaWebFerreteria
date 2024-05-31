@@ -3,11 +3,11 @@ import '../styles/PopupEfectivizar.css';
 import routes from '../routes';
 import Modal from "../components/Modal";
 
-const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
+const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) => {
     if (!show) return null;
 
     const [ventas, setVentas] = useState([{ codigo: '', cantidad: '', usuario: '' }]);
-    const [efectivizar, setEfectivizar] = useState(false);
+    const [confirmado, setConfirmado] = useState(false);
 
     const handleInputChange = (index, e) => {
         const { name, value } = e.target;
@@ -33,7 +33,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
                 "Content-Type": "application/json",
                 //"Cookie": localStorage.getItem('jwt')
             },
-            body: JSON.stringify({ Trueque: truequeAEfectivizar }),
+            body: JSON.stringify({ Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
             credentials: "include"
         })
             .then(response => {
@@ -46,7 +46,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
             })
             .then(data => {
                 console.log('Respuesta del servidor:', data);
-                setEfectivizar(true);
+                setConfirmado(true);
             })
             .catch(error => {
                 console.log("Error", error);
@@ -54,7 +54,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
     };
 
     const handleOk = () => {
-        setEfectivizar(false);
+        setConfirmado(false);
         window.location.href = routes.pagPrincipal;
     };
 
@@ -62,6 +62,9 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
         e.preventDefault();
         confirmarSeleccion();
     };
+
+    const buttonText = efectivizar ? 'Registrar Venta / Efectivizar Trueque' : 'Registrar Venta / Cancelar Trueque';
+    const buttonClass = efectivizar ? 'aceptar' : 'cancelar';
 
     return (
         <div className="popup-overlay-venta">
@@ -102,14 +105,14 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar }) => {
                         </div>
                     ))}
                     <div className='botones-venta'>
-                        <button type='submit' className='aceptar' onClick={confirmarSeleccion}>Aceptar</button>
+                        <button type='submit' className={buttonClass} onClick={confirmarSeleccion}>{buttonText}</button>
                         <button type='button' className='agregar-producto' onClick={agregarProducto}>Agregar Producto</button>
                     </div>
                 </form>
                 <Modal
                     texto={'La venta se ha agregado con éxito.'}
-                    confirmacion={efectivizar}
-                    setConfirmacion={setEfectivizar}
+                    confirmacion={confirmado}
+                    setConfirmacion={setConfirmado}
                     handleYes={handleOk}
                     ok={true}
                 />

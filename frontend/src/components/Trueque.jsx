@@ -27,13 +27,14 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const soyElQueAcepta = usuarioActual._id == userPublica._id
 
   const [modalCancelar, setModalCancelar] = useState(false)
-  const [truequeState, setTruequeState]= useState(trueque) //solamente para actualizar este componente al elegir sucursal
+  const [truequeState, setTruequeState] = useState(trueque) //solamente para actualizar este componente al elegir sucursal
   const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
-  const [truequeConfirmado, setTruequeConfirmado]= useState(trueque.fecha_venta !== undefined)
+  const [truequeConfirmado, setTruequeConfirmado] = useState(trueque.fecha_venta !== undefined)
   const [showPopup, setShowPopup] = useState(false)
   const [popupSucursal, setPopupSucursal] = useState(false)
   const [sucursales, setSucursales] = useState([]);
 
+  const [efectivizar, setEfectivizar] = useState(false);
   /*const [fechaSeleccionada, setFechaSeleccionada] = useState('');
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);*/
@@ -48,8 +49,14 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
   }
   const handleEfectivizar = () => {
+    setEfectivizar(true);
     setShowPopup(true);
 
+  }
+
+  const handleCancelarEfectivizacion = () => {
+    setEfectivizar(false)
+    setShowPopup(true)
   }
 
   const aceptarOfertaTrueque = () => {
@@ -153,13 +160,13 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       });
   }, [])
 
-  const actualizarEstado= (t) =>{
-    setTruequeState({...trueque, fecha_venta: t.fecha_venta, sucursal: t.sucursal})
+  const actualizarEstado = (t) => {
+    setTruequeState({ ...trueque, fecha_venta: t.fecha_venta, sucursal: t.sucursal })
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     if (truequeState.fecha_venta && truequeState.sucursal) setTruequeConfirmado(true)
-  },[truequeState])
+  }, [truequeState])
 
 
   return (
@@ -193,21 +200,21 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
         <div className='fecha-unTrueque'>
           {pendiente
-          ?
-            truequeConfirmado
             ?
-              <span>Confirmado para el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)} en {truequeState.sucursal.nombre}</span>
-            :
-              truequeAceptado
+            truequeConfirmado
               ?
-                <span>Aceptado</span>
+              <span>Confirmado para el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)} en {truequeState.sucursal.nombre}</span>
               :
-                soyElQueAcepta
+              truequeAceptado
                 ?
-                  <span>Oferta de Trueque recibida | En espera</span>
+                <span>Aceptado</span>
                 :
+                soyElQueAcepta
+                  ?
+                  <span>Oferta de Trueque recibida | En espera</span>
+                  :
                   <span>Oferta de Trueque envíada | En espera</span>
-          :
+            :
             <span>Realizado el {getDateOnly(truequeState.fecha_venta)}</span>
           }
         </div>
@@ -217,33 +224,33 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
       <div className='opciones-unTrueque'>
         {pendiente
-        ?
+          ?
           <div className='cancelar_efectivizar'>
             {estaEnModoUser()
-            ?
-              soyElQueAcepta
               ?
-                truequeAceptado
+              soyElQueAcepta
                 ?
+                truequeAceptado
+                  ?
                   <>
                     {!truequeConfirmado && <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>}
                     <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
                   </>
-                :
+                  :
                   <>
                     <button className='botonUnTrueque aceptarT' onClick={aceptarOfertaTrueque}>Aceptar</button>
                     <button className='botonUnTrueque cancelar' onClick={rechazarOfertaTrueque}>Rechazar</button>
                   </>
-              :
+                :
                 <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
-            :
+              :
               <>
                 <button className='botonUnTrueque' onClick={handleEfectivizar} >Efectivizar</button>
-                <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
+                <button className='botonUnTrueque cancelar' onClick={handleCancelarEfectivizacion}>Cancelar</button>
               </>
             }
           </div>
-        :
+          :
           <div className='divRegistrarVenta'>
             <button className='botonUnTrueque'>Registrar venta</button>
           </div>
@@ -255,6 +262,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         show={showPopup}
         onClose={() => setShowPopup(false)}
         truequeAEfectivizar={trueque}
+        efectivizar={efectivizar}
       />
       <PopupElegirSucursal
         show={popupSucursal}
