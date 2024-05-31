@@ -78,6 +78,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
                     ))}
                 </select>
                 <input
+                    style={{marginLeft:'10px'}}
                     type="datetime-local"
                     onChange={handleChangeFecha}
                     name="fecha_hora"

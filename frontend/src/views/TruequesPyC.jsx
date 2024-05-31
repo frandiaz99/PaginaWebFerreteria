@@ -64,16 +64,7 @@ function TruequesPyC() {
     setVerPendientes(false)
   }
 
-  const obtenerPendientes = (trueques) => {
-    if (trueques) {
-      console.log(usuarioActual)
-      if (usuarioActual.rol == 2) {
-        return trueques.filter(t => t.completado == false && t.sucursal == usuarioActual.puntos) //comparo con puntos porque no existe sucursal todavia en mongo
-      }
-      return trueques.filter(t => t.completado == false)
-    }
-    return []
-  }
+
   const obtenerCompletados = (trueques) => {
     if (trueques) {
       if (usuarioActual.rol == 2) {
@@ -109,7 +100,7 @@ function TruequesPyC() {
         <div className='filtros_y_trueques-principal_admin_emple'>
           {verPendientes ? <Buscador /> : <FiltroFecha />}
 
-          <div className='trueques'>
+          <div className='trueques'> {console.log("trueques", truequesPendientes)}
             {dataObtenida
             ?
               verPendientes

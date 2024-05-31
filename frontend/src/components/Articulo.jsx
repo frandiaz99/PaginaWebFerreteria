@@ -41,7 +41,7 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
     }
 
     const irArticulo= ()=>{
-        if (location.pathname !== routes.pagPrincipal){
+        if (location.pathname !== routes.pagPrincipal /*invitado*/){
             localStorage.setItem('articulo',JSON.stringify(articulo))
         }
         setIrAUnArticulo(true)

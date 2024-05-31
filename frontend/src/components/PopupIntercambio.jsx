@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
     if (!show) return null;
 
+    const [confirmar, setConfirmar]= useState(true)
     const [intercambio, setIntercambio] = useState(false)
     const [articulosMismaCategoria, setArticulosMismaCategoria] = useState([])
     const [obtenido, setObtenido] = useState(false)
@@ -90,7 +91,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
 
     function confirmarSeleccion() {
-        
+        setConfirmar(false)
         if (articuloSeleccionadoPropio){
             /*setArticulo({
                 ...articulo,
@@ -116,7 +117,9 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
                 })
                 .then(data => {
                     console.log('Respuesta del servidor:', data);
+                    setArticulosMismaCategoria(articulosMismaCategoria.filter(a => a._id !== data.data.articulo_compra._id ))
                     setIntercambio(true)
+                    setConfirmar(true)
                 })
                 .catch(error => {
                     console.log("Error", error)
@@ -139,16 +142,20 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
             <div className="popup-content">
                 <h2>Intercambiar Artículo</h2>
                 <div className='articulos'>
-                    {(articulosMismaCategoria.length == 0) ?
-                        <div className='noHayItems'>
-                            {obtenido ? 'No tenés artículos en la misma categoría o ya los ofreciste' : 'Cargando artículos...'}
-                        </div> //Podria ser un componente
-                        :
-                        obtenido && articulosMismaCategoria.map((art, index) => (<ArticuloIntercambio key={index} articulo={art} onArticuloSeleccionado={handleArticuloSeleccionado} isSelected={articuloSeleccionadoPropioID == art._id}/>))
+                    {confirmar
+                    ?
+                        (articulosMismaCategoria.length == 0) ?
+                            <div className='noHayItems'>
+                                {obtenido ? 'No tenés artículos en la misma categoría o ya los ofreciste' : 'Cargando artículos...'}
+                            </div> //Podria ser un componente
+                            :
+                            obtenido && articulosMismaCategoria.map((art, index) => (<ArticuloIntercambio key={index} articulo={art} onArticuloSeleccionado={handleArticuloSeleccionado} isSelected={articuloSeleccionadoPropioID == art._id}/>))
+                    :
+                        'Creando intercambio...'
                     }
                 </div>
                 <div className='botones-intercambio'>
-                    {(obtenido && articulosMismaCategoria.length > 0) && <button onClick={confirmarSeleccion}>Confirmar</button>}
+                    {(obtenido && articulosMismaCategoria.length > 0 && confirmar) && <button onClick={confirmarSeleccion}>Confirmar</button>}
 
                     <button onClick={onClose}>Cerrar</button>
                 </div>

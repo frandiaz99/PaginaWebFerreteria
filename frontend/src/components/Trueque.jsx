@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate} from 'react-router-dom'
 import '../styles/Trueque.css'
 import Modal from '../components/Modal'
+import routes from '../routes'
 import { estaEnModoUser } from '../helpers/estaEnModo'
 import PopupEfectivizar from './PopupEfectivizar'
 import PopupElegirSucursal from './PopupSucursal';
@@ -21,6 +23,8 @@ function getTimeOnly(datetimeLocalString) {
 }
 
 function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
+  const navigate= useNavigate()
+
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
@@ -29,12 +33,15 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [modalCancelar, setModalCancelar] = useState(false)
   const [truequeState, setTruequeState] = useState(trueque) //solamente para actualizar este componente al elegir sucursal
   const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
+  console.log('trueque: ', trueque._id, ' ', 'truequeAceptado', truequeAceptado)
   const [truequeConfirmado, setTruequeConfirmado] = useState(trueque.fecha_venta !== undefined)
   const [showPopup, setShowPopup] = useState(false)
   const [popupSucursal, setPopupSucursal] = useState(false)
   const [sucursales, setSucursales] = useState([]);
 
   const [efectivizar, setEfectivizar] = useState(false);
+
+  const [irAUnArticulo, setIrAUnArticulo]= useState(false)
   /*const [fechaSeleccionada, setFechaSeleccionada] = useState('');
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);*/
@@ -129,7 +136,8 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         return response.json();
       })
       .then(data => {
-        cancelarTrueque()
+       //cancelarTrueque() lo elimino porque hay un error raro, tengo que si o si recargar la pagina
+       window.location.reload()
       })
       .catch(error => {
         const errorData = JSON.parse(error.message)
@@ -169,6 +177,26 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   }, [truequeState])
 
 
+  const irArticulo= (articulo)=>{
+    if (location.pathname !== routes.pagPrincipal /*invitado*/){
+        localStorage.setItem('articulo',JSON.stringify(articulo))
+    }
+    setIrAUnArticulo(true)
+}
+
+useEffect(() => {
+    if (irAUnArticulo) navigate(routes.unArticulo)
+}, [irAUnArticulo])
+
+function redirectPerfil(user) {
+  if (user.dni == usuarioActual.dni) {
+    navigate(routes.perfil)
+  } else {
+    localStorage.setItem('userTercero', JSON.stringify(user));
+    navigate(routes.perfilTercero)
+  }
+}
+
   return (
     <div className='unTrueque'>
 
@@ -176,22 +204,22 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
         <div className='informacion-unTrueque'>
 
-          <div className='usuario-unTrueque'>
+          <div className='usuario-unTrueque' onClick={() => redirectPerfil(userPublica)}>
             <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userPublica.foto_perfil}`} />
             <p className='nombre-unTrueque'>{userPublica.nombre} </p>
           </div>
 
           <div className='art-unTrueque'>
-            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_publica.foto_articulo}`} />
+            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_publica.foto_articulo}`} onClick={() => irArticulo(trueque.articulo_publica)} />
           </div>
 
           <div className='divImagen-unTrueque'> <img src="truequeicono.avif" alt="" className='imagenTrueque-unTrueque' /></div>
 
           <div className='art-unTrueque'>
-            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_compra.foto_articulo}`} />
+            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_compra.foto_articulo}`} onClick={() => irArticulo(trueque.articulo_compra)}/>
           </div>
 
-          <div className='usuario-unTrueque'>
+          <div className='usuario-unTrueque' onClick={() => redirectPerfil(userCompra)}>
             <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userCompra.foto_perfil}`} />
             <p className='nombre-unTrueque'>{userCompra.nombre}</p>
           </div>
@@ -202,9 +230,9 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
           {pendiente
             ?
             truequeConfirmado
-              ?
+            ?
               <span>Confirmado para el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)} en {truequeState.sucursal.nombre}</span>
-              :
+            :
               truequeAceptado
                 ?
                 <span>Aceptado</span>
