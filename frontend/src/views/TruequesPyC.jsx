@@ -101,7 +101,7 @@ function TruequesPyC() {
       return trueques.filter(t => t.venta_confirmada == true)
     }
     return []
-  }*/
+  }
 
   const handleCancelarTrueque = () => {
     setEliminado(!eliminado)
