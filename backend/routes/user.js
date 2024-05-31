@@ -20,7 +20,7 @@ const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
-const { mandarMail } = require("./mail.js");
+const { MandarMail } = require("./mail.js");
 const { json } = require("body-parser");
 //const { Console, error } = require("console");
 const router = express.Router();
@@ -316,9 +316,9 @@ const login = async (req, res, next) => {
                 }); //tambien se deberia cambiar user por user._id
               }
             } else {
-              mandarMail(user.email, 1, user.code);
+              MandarMail(user.email, 1, user.code);
               console.log(
-                "falta crear bien el mandarMail, pero el codigo es:",
+                "falta crear bien el MandarMail, pero el codigo es:",
                 user.code
               );
               return res.status(401).json({

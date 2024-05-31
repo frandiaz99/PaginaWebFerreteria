@@ -176,7 +176,6 @@ intercambiar articulo ==> falta chequiear de no crear un trueque con articulos y
 faltan:
 ver mis trueques
 ver trueques completados
-registrar venta
 puntuar usuario
 
 

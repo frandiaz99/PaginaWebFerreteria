@@ -29,7 +29,7 @@ let msg = {
 };
 */
 /*  ANDA PERO ES BASICO FALTA ESTILO
-const mandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
+const MandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
   console.log(msg)
   msg.to = mailDestino;
   //msg = {text:  `${mailMensaje}` };
@@ -115,7 +115,7 @@ const MandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
 console.log ("comentar esto para que ande bien")
 const sendMail = async (req, res, next) => {
   const {para, tipo, mensaje} = req.body
-  mandarMail(para, tipo, mensaje)
+  MandarMail(para, tipo, mensaje)
   console.log ("termino la ejecucion");
   res.status(200).json("Termino la ejecucion");
 }
