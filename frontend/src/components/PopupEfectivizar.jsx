@@ -39,7 +39,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                 "Content-Type": "application/json",
                 //"Cookie": localStorage.getItem('jwt')
             },
-            body: JSON.stringify({ User: usuario, Ventas: ventas, Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
+            body: JSON.stringify({ Ventas: ventas, Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
             credentials: "include"
         })
             .then(response => {

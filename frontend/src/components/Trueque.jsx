@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import '../styles/Trueque.css'
 import Modal from '../components/Modal'
 import routes from '../routes'
@@ -23,7 +23,7 @@ function getTimeOnly(datetimeLocalString) {
 }
 
 function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
-  const navigate= useNavigate()
+  const navigate = useNavigate()
 
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
@@ -41,7 +41,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
   const [efectivizar, setEfectivizar] = useState(false);
 
-  const [irAUnArticulo, setIrAUnArticulo]= useState(false)
+  const [irAUnArticulo, setIrAUnArticulo] = useState(false)
   /*const [fechaSeleccionada, setFechaSeleccionada] = useState('');
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
   const [truequePendienteEspera, setTruequePendienteEspera] = useState(false);*/
@@ -136,8 +136,8 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         return response.json();
       })
       .then(data => {
-       //cancelarTrueque() lo elimino porque hay un error raro, tengo que si o si recargar la pagina
-       window.location.reload()
+        //cancelarTrueque() lo elimino porque hay un error raro, tengo que si o si recargar la pagina
+        window.location.reload()
       })
       .catch(error => {
         const errorData = JSON.parse(error.message)
@@ -177,25 +177,25 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   }, [truequeState])
 
 
-  const irArticulo= (articulo)=>{
-    if (location.pathname !== routes.pagPrincipal /*invitado*/){
-        localStorage.setItem('articulo',JSON.stringify(articulo))
+  const irArticulo = (articulo) => {
+    if (location.pathname !== routes.pagPrincipal /*invitado*/) {
+      localStorage.setItem('articulo', JSON.stringify(articulo))
     }
     setIrAUnArticulo(true)
-}
-
-useEffect(() => {
-    if (irAUnArticulo) navigate(routes.unArticulo)
-}, [irAUnArticulo])
-
-function redirectPerfil(user) {
-  if (user.dni == usuarioActual.dni) {
-    navigate(routes.perfil)
-  } else {
-    localStorage.setItem('userTercero', JSON.stringify(user));
-    navigate(routes.perfilTercero)
   }
-}
+
+  useEffect(() => {
+    if (irAUnArticulo) navigate(routes.unArticulo)
+  }, [irAUnArticulo])
+
+  function redirectPerfil(user) {
+    if (user.dni == usuarioActual.dni) {
+      navigate(routes.perfil)
+    } else {
+      localStorage.setItem('userTercero', JSON.stringify(user));
+      navigate(routes.perfilTercero)
+    }
+  }
 
   return (
     <div className='unTrueque'>
@@ -216,7 +216,7 @@ function redirectPerfil(user) {
           <div className='divImagen-unTrueque'> <img src="truequeicono.avif" alt="" className='imagenTrueque-unTrueque' /></div>
 
           <div className='art-unTrueque'>
-            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_compra.foto_articulo}`} onClick={() => irArticulo(trueque.articulo_compra)}/>
+            <img className='fotoArticulo-unTrueque' src={`http://localhost:5000/img/${trueque.articulo_compra.foto_articulo}`} onClick={() => irArticulo(trueque.articulo_compra)} />
           </div>
 
           <div className='usuario-unTrueque' onClick={() => redirectPerfil(userCompra)}>
@@ -230,9 +230,9 @@ function redirectPerfil(user) {
           {pendiente
             ?
             truequeConfirmado
-            ?
+              ?
               <span>Confirmado para el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)} en {truequeState.sucursal.nombre}</span>
-            :
+              :
               truequeAceptado
                 ?
                 <span>Aceptado</span>
@@ -279,9 +279,7 @@ function redirectPerfil(user) {
             }
           </div>
           :
-          <div className='divRegistrarVenta'>
-            <button className='botonUnTrueque'>Registrar venta</button>
-          </div>
+          <></>
         }
 
       </div>

@@ -34,10 +34,10 @@ const getTruequesCompletados = async (req, res, next) => {
       return res.status(200).json({ message: "Succesfully", data, status: 200 });
     } else {
       console.log("no tiene articulos");
-      return res.status(400).json({ message: "No hay trueques pendientes", status: 401 });
+      return res.status(400).json({ message: "No hay trueques completados", status: 401 });
     }
   }).catch((error) => {
-    return res.status(400).json({ message: "Error obteniendo trueques pendientes", status: 400 });
+    return res.status(400).json({ message: "Error obteniendo trueques completados", status: 400 });
   });
 }
 
@@ -219,7 +219,8 @@ const efectivizarTrueque = async (req, res, next) => {
   const User = body.Auth;
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
-  const { Efectivizar } = body.Trueque;
+  const Efectivizar = body.Efectivizar;
+
   /*
   if (User.rol == 1){
     return res.status(401).json({ message: "No posee permisos", status: 401 });

@@ -53,7 +53,7 @@ function TruequesPyC() {
       })
   }, [eliminado]);
 
-  /*useEffect(() => {
+  useEffect(() => {
     fetch("http://localhost:5000/trueque/getCompletados", {
       method: "GET",
       headers: { "Content-Type": "application/JSON" },
@@ -77,8 +77,8 @@ function TruequesPyC() {
         setTruequesCompletados([])
         setDataObtenida(true)
       })
-  }, [eliminado]);
-  */
+  }, []);
+
 
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
@@ -92,16 +92,6 @@ function TruequesPyC() {
     setVerPendientes(false)
   }
 
-
-  const obtenerCompletados = (trueques) => {
-    if (trueques) {
-      if (usuarioActual.rol == 2) {
-        return trueques.filter(t => t.venta_confirmada == true) //recordar lo de cada empleado ver trueques de su sucursal
-      }
-      return trueques.filter(t => t.venta_confirmada == true)
-    }
-    return []
-  }*/
 
   const handleCancelarTrueque = () => {
     setEliminado(!eliminado)
@@ -155,11 +145,10 @@ function TruequesPyC() {
           </div>
         </div>
 
-        {verPendientes == false && <div className='ganancia-principal_admin_emple'>
+        {/*verPendientes == false && <div className='ganancia-principal_admin_emple'>
           <h3 className='tituloGanancia'>Ganancia</h3>
           <h2 className='ganancia'>$1000</h2>
-        </div>}
-
+          </div>*/}
       </div>
     </main>
   )
