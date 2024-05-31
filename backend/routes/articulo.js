@@ -20,6 +20,11 @@ const crearArticulo = async (req, res, next) => {
   const usuario = req.body.Auth._id; //auth lo genero yo desde el middleware del back no necesito que me lo pasen
   const { nombre, descripcion, interesado } = articulo;
 
+  if (!nombre || !descripcion || !interesado){
+    console.log ("registrar articulo: faltan recibir parametros");
+    return res.status(400).json({message: "No se recibieron los campos 'nombre', 'interesado' o 'descripcion'", status: 402})
+  }
+
   //comprueba si subio foto, si no lo havce le asigna la defecto
   let File, filename;
   if (req.files.length == 0) {
@@ -200,6 +205,14 @@ const intercambiarArticulo = async (req, res, next) => {
     });
   }
 
+  if (miArticulo.vendido || suArticulo.vendido) {
+    return res.status(404).json({
+      message: "El articulo 'miArticulo' o 'suArticulo' ya fue vendido",
+      status: 408,
+    });
+  }
+
+
   if (miArticulo.usuario._id != User._id) {
     console.log(
       "El articulo no le pertenece al usuario",
@@ -240,7 +253,7 @@ const intercambiarArticulo = async (req, res, next) => {
       console.log(
         "Avisar al dueno suArticulo que se creo una nueva solicitud de trueque"
       );
-      res.status(200).json({ message: "Trueque creado", data });
+      res.status(200).json({ message: "Trueque creado", data, status: 200});
     })
     .catch((err) => {
       console.error("Eror creadn objeto de trueque", err);
@@ -258,8 +271,8 @@ const tasarArticulo = async (req, res, next) => {
     console.log("Variable '_id' o 'precio' en 'Articulo' no recibida ");
     return res.status(401).json({ message: "Consulta erronea, falta objeto '_id' y/o 'precio'", status: 402 });
   }
-  if (Art.precio < 1 || Art.precio > 5) {
-    return res.status(401).json({ message: "Consulta erronea, 'precio' debe estar entre 1 y 5 inclusive", status: 403 });
+  if (Art.precio < 1 || Art.precio > 10) {
+    return res.status(401).json({ message: "Consulta erronea, 'precio' debe estar entre 1 y 10 inclusive", status: 403 });
   }
 
   DataArticulo.findOneAndUpdate({ _id: Art._id }, { precio: Art.precio })
