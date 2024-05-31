@@ -93,6 +93,16 @@ function TruequesPyC() {
   }
 
 
+  const obtenerCompletados = (trueques) => {
+    if (trueques) {
+      if (usuarioActual.rol == 2) {
+        return trueques.filter(t => t.venta_confirmada == true) //recordar lo de cada empleado ver trueques de su sucursal
+      }
+      return trueques.filter(t => t.venta_confirmada == true)
+    }
+    return []
+  }
+
   const handleCancelarTrueque = () => {
     setEliminado(!eliminado)
   }
