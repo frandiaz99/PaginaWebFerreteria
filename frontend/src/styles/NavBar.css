@@ -15,8 +15,6 @@
 }
 
 .boton:hover {
-    text-decoration: underline;
-    text-decoration-color: black;
 }
 
 .navIzquierda {
@@ -40,5 +38,9 @@
 }
 
 .optionNav:hover {
-    text-decoration: underline;
+    color: #ffb700;
+}
+
+.optionNav:active{
+    color: #855f00;
 }

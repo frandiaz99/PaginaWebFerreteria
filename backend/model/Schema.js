@@ -22,9 +22,10 @@ const userSchema = mongoose.Schema({
   suscripto: { type: Boolean, default: false },
   foto_perfil: { type: String, required: true },
   rol: { type: Number, required: true, default: 1 }, //1 User, 2 Worker, 3 Admin
-  puntos: { type: Number, default: 0 },
+  puntos: { type: Number, default: 0 , required: true},
   intento_desbloqueo: { type: Number, default: 0 },
   code: { type: Number, default: 0 },
+  valoracion: { type: Number, default: 0 },
   //nombre y apellido, sucursal, fecha nacimiento
   //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
@@ -81,6 +82,7 @@ const articuloSchema = mongoose.Schema({
 const truequeSchema = mongoose.Schema({
   fecha_venta: { type: Date },
   venta_confirmada: { type: Boolean, default: false },
+  venta_cerrada: { type: Boolean, default: false },
 
   //user_publica: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, required: true},
   //user_compra: {type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true},
@@ -119,6 +121,18 @@ const truequeSchema = mongoose.Schema({
     autopopulate: true,
   },
 
+  producto_compra: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Venta",
+    autopopulate: true,
+  },
+
+  producto_publica: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Venta",
+    autopopulate: true,
+  },
+
   //User_Publica(FK):Usuario, User_Compra(FK)?:Usuario, Empleado_Cierra(FK)?:Empleado, Sucursal (FK)?, Articulo(FK), Opinion_Publica(FK)?, Opinion_Compra(FK)?
   trueque_aceptado: { type: Boolean, default: false }, //
   // dia
@@ -134,11 +148,15 @@ const promocionSchema = mongoose.Schema({
 });
 
 const ventaSchema = mongoose.Schema({
-  codigo_producto: { required: true, type: Number },
-  nombre_producto: { required: true, type: String },
-  precio_producto: { required: true, type: Number },
-
+  producto: { type: mongoose.Schema.Types.ObjectId, ref: "Producto", autopopulate: true, required: true },
+  cantidad: { required: true, type: Number },
   //Empleado(FK), Usuario(FK), Trueques(FK)?
+});
+
+const productoSchema = mongoose.Schema({
+  codigo: { required: true, type: Number, default: 99},
+  nombre: { required: true, type: String, },
+  precio: { required: true, type: Number, },
 });
 
 const valoracionSchema = mongoose.Schema({
@@ -181,6 +199,7 @@ truequeSchema.plugin(autopopulate);
 articuloSchema.plugin(autopopulate);
 promocionSchema.plugin(autopopulate);
 ventaSchema.plugin(autopopulate);
+productoSchema.plugin(autopopulate);
 valoracionSchema.plugin(autopopulate);
 notificacionSchema.plugin(autopopulate);
 
@@ -193,6 +212,7 @@ const DataTrueque = mongoose.model("Trueque", truequeSchema);
 const DataArticulo = mongoose.model("Articulo", articuloSchema);
 const DataPromocion = mongoose.model("Promocion", promocionSchema);
 const DataVenta = mongoose.model("Venta", ventaSchema);
+const DataProducto = mongoose.model("Producto", productoSchema);
 const DataValoracion = mongoose.model("Valoracion", valoracionSchema);
 const DataNotificacion = mongoose.model("Notificacion", notificacionSchema);
 
@@ -205,5 +225,6 @@ module.exports = {
   DataUser,
   DataValoracion,
   DataVenta,
+  DataProducto,
   DataNotificacion,
 };

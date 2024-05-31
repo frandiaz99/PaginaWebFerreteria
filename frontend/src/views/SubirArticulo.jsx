@@ -5,7 +5,10 @@ import '../styles/SubirArticulo.css'
 import Modal from '../components/Modal'
 
 function SubirArticulo() {
-  const [fotoSubida,setFotoSubida]= useState(false)
+  const [fotoSubida,setFotoSubida]= useState(null)
+  const [hayNombre, setHayNombre]= useState(null)
+  const [hayDescripcion, setHayDescripcion]= useState(null)
+  const [hayInteres, setHayInteres]= useState(null)
   const [artSubido, setArtSubido] = useState(false)
 
   const [datos, setDatos] = useState({
@@ -25,6 +28,20 @@ function SubirArticulo() {
 
   const fotos = [];
 
+  const handleBlurName= () =>{
+    if (datos.nombre == '') setHayNombre(false)
+    else setHayNombre(true)
+  }
+
+  const handleBlurDescripcion= () =>{
+    if (datos.descripcion == '') setHayDescripcion(false)
+    else setHayDescripcion(true)
+  }
+
+  const handleBlurInteres= () =>{
+    if (datos.interesado == '') setHayInteres(false)
+    else setHayInteres(true)
+  }
 
 
   const handleSubirArt = (event) => {
@@ -40,7 +57,7 @@ function SubirArticulo() {
     //console.log({ "Imagen": imagen.foto });
     console.log({ "form Data": formData });
     console.log({ "form Data imagen ": formData.Imagen });
-    if (fotoSubida){
+    if (fotoSubida && hayNombre && hayDescripcion && hayInteres){
       fetch("http://localhost:5000/articulo/crearArticulo", {
         method: "POST",
         body: formData,
@@ -69,10 +86,6 @@ function SubirArticulo() {
     window.location.reload();
   }
 
-  useEffect(() => {
-    if (imagen.foto.length == 0) setFotoSubida(false)
-    else setFotoSubida(true)
-  },[imagen])
 
   return (
     <main className='main' >
@@ -94,12 +107,17 @@ function SubirArticulo() {
 
               <div className='nombre-section1'>
                 <label className='label-subirArt' >Nombre</label>
-                <input autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange} />
+                <div className='conjunto_campo_obligatorio'>
+                  <input onBlur={handleBlurName} autoComplete="off" className='input-subirArt' type="text" id='nombreArt' name='nombre' maxLength={30} onChange={handleChange} />
+                  {hayNombre== false && <span className='campoObligatorio'>Campo obligatorio</span>}
+                </div>
               </div>
-
               <div className='descripcion-section1'>
                 <label className='label-subirArt' >Descripción</label>
-                <textarea className='textArea-subirArt' id='descripcionArt' name='descripcion' onChange={handleChange} />
+                <div classname='conjunto_campo_obligatorio'>
+                  <textarea onBlur={handleBlurDescripcion} className='textArea-subirArt' id='descripcionArt' name='descripcion' onChange={handleChange} />
+                 {hayDescripcion== false && <span className='campoObligatorio'>Campo obligatorio</span>}
+                </div>
               </div>
 
             </div>
@@ -113,7 +131,10 @@ function SubirArticulo() {
             </div>
 
             <div className='descripcion-section2'>
-              <input className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Martillo, llave inglesa, destornillador Phillips, linterna.' onChange={handleChange} autoComplete="off" />
+              <div className='conjunto_campo_obligatorio'>
+                <input onBlur={handleBlurInteres} className='input-subirArt' type="text" id='interesadoArt' name='interesado' placeholder='Martillo, llave inglesa, destornillador Phillips, linterna.' onChange={handleChange} autoComplete="off" />
+                {hayInteres== false && <span className='campoObligatorio'>Campo obligatorio</span>}
+              </div>
             </div>
           </div>
 
@@ -126,16 +147,17 @@ function SubirArticulo() {
 
             <div className='foto-section3'>
               <input id='fotoSubirArt' type="file" accept=".png, .jpg, .jpeg" multiple name="foto"
+                onFocus={() =>{
+                  if (imagen.foto.length == 0) setFotoSubida(false)
+                  else setFotoSubida(true)}}
                 onChange={e => {
-                  console.log({ "name": e.target.name })
-                  console.log("asdasd", e.target.files)
                   setImagen({ [e.target.name]: e.target.files })
-
                   fotos.push(Array.from(e.target.files));
+                  if (e.target.files.length == 0) setFotoSubida(false)
+                  else setFotoSubida(true)
                   console.log("fotos", fotos)
-
                 }} />
-                {!fotoSubida && <span style={{color:'red', fontSize:'15px'}}>*Es obligatorio que subas una imágen</span>}
+                {fotoSubida == false && <span className='campoObligatorio'>Campo obligatorio</span>}
               {/* <div className='verImagenes'>
 
               </div> */}

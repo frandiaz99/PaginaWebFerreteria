@@ -53,7 +53,6 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     font-size: 1rem;
-    margin-bottom: 20px;
 }
 
 /* Estilos para el contenedor de los botones */
@@ -123,3 +122,9 @@
 #fotoSubirArt {
     height: 100%;
 }
+
+.campoObligatorio{
+    color:#ff0000;
+    font-size:15px;
+}
+

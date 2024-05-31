@@ -41,6 +41,12 @@
     border: 0px;
 }
 
+.boton-registrarEmple:active{
+    height: 1.3rem;
+    width: 7.8rem;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
 .cuentasAdmin{
     display: flex;
     flex-direction: column;

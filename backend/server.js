@@ -112,6 +112,7 @@ app.use(express.static("imagenes"));
 
 //console.log ("comentar esto pa q ande bien")
 //app.use("/mail", require("./routes/mail"));
+//app.use("/producto", require("./routes/producto"));
 
 //app.use("/pay", require("./routes/pagar"))
 

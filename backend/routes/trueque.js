@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const { DataArticulo, DataTrueque, DataUser } = require("../model/Schema");
-const { mandarMail } = require("./mail.js");
-
+const { MandarMail } = require("./mail.js");
+const { CalcularPuntos } = require("./producto.js");
 const router = express.Router();
 
 
@@ -182,8 +182,8 @@ const setFecha = async (req, res, next) =>{
 
     DataTrueque.findByIdAndUpdate(Trueque._id, {sucursal: Trueque.sucursal, fecha_venta: Trueque.fecha_venta}, {new: true}).then((newTrueque) => {
       //console.log(`El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
-      mandarMail(newTrueque.articulo_publica.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
-      mandarMail(newTrueque.articulo_compra.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+      MandarMail(newTrueque.articulo_publica.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+      MandarMail(newTrueque.articulo_compra.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
       console.log("Faltaria hacer las notificaciones")
       return res.status(200).json({message: "La fecha y la sucursal se establecio correctamente", status:  200})
     }).catch((error) =>{
@@ -204,59 +204,104 @@ const efectivizarTrueque = async (req, res, next) =>{
   const User = body.Auth;
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
-  
+  const {Efectivizar} = body.Trueque;
+  /*
   if (User.rol == 1){
     return res.status(401).json({ message: "No posee permisos", status: 401 });
-  }
+  }*/
 
   if (!Trueque || !Trueque._id){
     console.log("No se recibio el objeto 'Trueque' y/o '_id'")
     return res.status(401).json({ message: "No se recibio el objeto 'trueque' con '_id'", status: 402 });
   }
 
-
   
   
-  DataTrueque.findById(Trueque._id).then((T) =>{
+  DataTrueque.findById(Trueque._id).then(async (T) =>{
     //console.log(T.fecha_venta, Date.now());
     if (!T){
       console.log("No se encontro el trueque recibido")
       return res.status(401).json({ message: "No se encontro el trueque", status: 404 });
     }
-    if (T.venta_confirmada){
+    if (T.venta_confirmada || T.venta_cerrada){
       console.log("El trueque recibido ya fue finalizado")
       return res.status(401).json({ message: "El trueque recibido ya fue finalizado", status: 403 });
     }
-    if (User.rol = 2 && T.sucursal != User.sucursal){
+    console.log(User)
+    if (User.rol == 2 && T.sucursal != User.sucursal){
       console.log("El trueque esta establecido para otra sucursal diferente ")
       return res.status(401).json({ message: "El trueque esta establecido para otra sucursal distinta", status: 406 });
     }
     //if (T.fecha_venta > Date.now()){
+      /*
     if (!T.fecha_venta || T.fecha_venta > Date.now()){
       console.log("Todavia falta para la fecha acordada para el trueque")
       return res.status(401).json({ message: "Falta para la fecha del intercambio", status: 405 });
+    }*/
+    
+    var puntos_compra = 0;
+    var puntos_publica = 0;  
+
+    var prod_publica;
+    try {
+      prod_publica = await CalcularPuntos(T.articulo_publica.usuario.dni, Ventas);
+      console.log("prodCompra: ", prod_publica);
+      if (prod_publica.Status != 200) {
+        return res.status(400).json({ message: "Error buscando codigo", status: prod_publica.Status, respuesta: prod_publica.Mensaje });
+      } else {
+        puntos_publica += prod_publica.Puntos;
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      return res.status(400).json({ message: "Error probable DB", status: 400});
     }
-    var puntos_compra = T.articulo_compra.precio * 10;
-    var puntos_publica = T.articulo_publica.precio * 10;
-    // ver si se registra alguan venta, a quien y sumarle los puntos
-    console.log("Falta calular bien los puntos");
 
-    mandarMail(T.articulo_compra.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a efectuado con exito y se te a sumado un total de ${puntos_compra} puntos`);
-    mandarMail(T.articulo_publica.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a efectuado con exito y se te a sumado un total de ${puntos_publica} puntos`);
 
-    DataUser.findByIdAndUpdate({_id: T.articulo_compra.usuario._id}, {$inc: {puntos: puntos_compra} }).catch((err) =>{
+    var prod_compra;
+    try {
+      prod_compra = await CalcularPuntos(T.articulo_compra.usuario.dni, Ventas);
+      console.log("prodCompra: ", prod_compra);
+      if (prod_compra.Status != 200) {
+        return res.status(400).json({ message: "Error buscando codigo", status: prod_compra.Status, respuesta: prod_compra.Mensaje });
+      } else {
+        puntos_compra += prod_compra.Puntos;
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      return res.status(400).json({ message: "Error probable DB", status: 400});
+    }
+    
+    
+
+    var tipo_operacion;
+    if (! Efectivizar){
+      tipo_operacion= "CANCELADO"
+      
+    } else{
+      tipo_operacion= "EFECTIVIZADO"
+      
+      puntos_compra += T.articulo_compra.precio * 10;
+      puntos_publica += T.articulo_publica.precio * 10;
+      
+      
+    }
+    
+    MandarMail(T.articulo_compra.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_compra} puntos`);
+    MandarMail(T.articulo_publica.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_publica} puntos`);
+    DataUser.findByIdAndUpdate({_id: T.articulo_compra.usuario._id}, {$inc: {puntos: puntos_compra}, $set:{vendido: Efectivizar} }).catch((err) =>{
       console.log (err);
       return res.status(400).json({message: "Error obteniendo los datos", status: 400});
     });
-    DataUser.findByIdAndUpdate({_id: T.articulo_publica.usuario._id}, {$inc: {puntos: puntos_publica} }).catch((err) =>{
+    DataUser.findByIdAndUpdate({_id: T.articulo_publica.usuario._id}, {$inc: {puntos: puntos_publica}, $set:{vendido: Efectivizar} }).catch((err) =>{
       console.log (err);
       return res.status(400).json({message: "Error obteniendo los datos", status: 400});
     });
-
-    DataTrueque.findByIdAndUpdate({_id: T._id},({venta_confirmada: true})).then().catch((err)=>{
+    DataTrueque.findByIdAndUpdate({_id: T._id},({venta_confirmada: Efectivizar, venta_cerrada: !Efectivizar, fecha_venta: Date.now(), empleado_cierra: User._id, producto_compra: prod_compra.Mensaje, producto_publica: prod_publica.Mensaje  })).then().catch((err)=>{
       console.log (err);
       return res.status(400).json({message: "Error obteniendo los datos", status: 400});
     })
+
+
     return res.status(200).json({message: "OK", status: 200}) ;
 
   }).catch ((err) => {
