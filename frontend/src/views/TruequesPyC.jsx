@@ -44,6 +44,7 @@ function TruequesPyC() {
         if (estaEnModoUser()) setTruequesPendientes(obtenerMisTrueques(data.data, usuarioActual))
         else setTruequesPendientes(obtenerTruequesConfirmados(data.data, usuarioActual))
         setDataObtenida(true)
+        console.log("trueques pendientes: ", data.data)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -52,7 +53,7 @@ function TruequesPyC() {
       })
   }, [eliminado]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetch("http://localhost:5000/trueque/getCompletados", {
       method: "GET",
       headers: { "Content-Type": "application/JSON" },
@@ -77,6 +78,7 @@ function TruequesPyC() {
         setDataObtenida(true)
       })
   }, [eliminado]);
+  */
 
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
@@ -101,7 +103,7 @@ function TruequesPyC() {
     return []
   }*/
 
-  const obtenerCompletados = (trueques) => {
+  /*const obtenerCompletados = (trueques) => {
     if (trueques) {
       if (usuarioActual.rol == 2) {
         return trueques.filter(t => t.venta_confirmada == true) //recordar lo de cada empleado ver trueques de su sucursal
@@ -109,7 +111,7 @@ function TruequesPyC() {
       return trueques.filter(t => t.venta_confirmada == true)
     }
     return []
-  }
+  }*/
 
   const handleCancelarTrueque = () => {
     setEliminado(!eliminado)

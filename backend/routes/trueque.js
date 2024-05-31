@@ -329,7 +329,7 @@ const efectivizarTrueque = async (req, res, next) => {
 
 
 router.route("/getPendientes").get(userAuth, getTruequesPendientes);
-router.route("/getCompleatados").get(userAuth, getTruequesCompletados);
+router.route("/getCompletados").get(userAuth, getTruequesCompletados);
 router.route("/responderOferta").post(userAuth, responderOferta);
 router.route("/cancelarTrueque").delete(userAuth, cancelarTrueque)
 router.route("/setFecha").post(userAuth, setFecha)
