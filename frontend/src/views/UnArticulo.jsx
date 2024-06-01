@@ -82,7 +82,7 @@ function UnArticulo() {
       document.getElementById("foto-articulo").src = path_fotos_articulo[0];
       document.getElementById("imagen-perfil").src = foto_perfil;
       document.getElementById("nombre-usuario").innerHTML = articuloSeleccionado.usuario.nombre;
-      localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos);
+      //localStorage.setItem('puntaje_usuario', articuloSeleccionado.usuario.puntos); que es esto ? asklfjaklfl
     }
   }, [articuloSeleccionado, path_fotos_articulo]); //Para ejecutarlo cuando cambie articuloSeleccionado o imagenes.
 
@@ -90,8 +90,9 @@ function UnArticulo() {
 
   function generarEstrellas() {
     var estrellas = [];
+    var puntuacion;
     //Ver tema de las imagenes y ver que hacer con el intercambiar.
-    var puntuacion = localStorage.getItem('puntaje_usuario');
+    if (articuloSeleccionado) puntuacion = articuloSeleccionado.usuario.valoracion;
     const estrellasCompletas = Math.floor(puntuacion);
     const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;
     const estrellasVacias = 5 - estrellasCompletas - (hayMediaEstrella ? 1 : 0);
@@ -135,7 +136,7 @@ function UnArticulo() {
   function redirectPerfil() {
     const userTercero = articuloSeleccionado.usuario;
     const user = JSON.parse(localStorage.getItem('user'))
-    if (user.dni == userTercero.dni) {
+    if (user.dni == userTercero.dni && user.rol !== 2) {
       navigate(routes.perfil)
     } else {
       localStorage.setItem('userTercero', JSON.stringify(userTercero));

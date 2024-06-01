@@ -102,7 +102,7 @@ function Perfil() {
                 usuario.rol < 3 && <div className='fila-email'>Sucursal: Selecciona una nueva sucursal</div>
               )}
               <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
-              <div className='fila-puntos'>{generarEstrellas(usuario.puntos)}</div>
+              {estaEnModoUser() && <div className='fila-puntos'>{generarEstrellas(usuario.valoracion)}</div>}
               {isOwnProfile && (
                 <div className='fila-boton'>
 
@@ -120,11 +120,11 @@ function Perfil() {
             </div>
           </div>
 
-          <div className='contenedor-perfil-2'>
+          {estaEnModoUser() && <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
               Trueques realizados: - -
             </div>
-          </div>
+          </div>}
         </div>
       ) : (
         <p>Cargando...</p>

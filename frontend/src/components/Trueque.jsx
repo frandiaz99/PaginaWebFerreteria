@@ -188,7 +188,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   }, [irAUnArticulo])
 
   function redirectPerfil(user) {
-    if (user.dni == usuarioActual.dni) {
+    if (user.dni == usuarioActual.dni && usuarioActual.rol !== 2) {
       navigate(routes.perfil)
     } else {
       localStorage.setItem('userTercero', JSON.stringify(user));
