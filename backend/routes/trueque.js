@@ -243,8 +243,8 @@ const efectivizarTrueque = async (req, res, next) => {
       console.log("El trueque recibido ya fue finalizado")
       return res.status(401).json({ message: "El trueque recibido ya fue finalizado", status: 403 });
     }
-    console.log(User)
-    /*if (User.rol == 2 && T.sucursal != User.sucursal) {
+    //console.log("USer", User, " sucursal", User.sucursal)
+    if (User.rol == 2 && T.sucursal._id != User.sucursal._id) {
       console.log("El trueque esta establecido para otra sucursal diferente ")
       return res.status(401).json({ message: "El trueque esta establecido para otra sucursal distinta", status: 406 });
     }*/ //descomentar cuando user.sucursal no sea null

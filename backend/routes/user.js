@@ -29,6 +29,20 @@ const password_min_leght = 6;
 //const venciminetoCookie = 3 * 60 * 60; //3 horas
 const venciminetoCookie = 20 * 24 * 60 * 60; //20 dias
 //const venciminetoCookie = 3; //3 dias
+const InstalarCookie = async (user, res) =>{
+  const token = jwt.sign(
+    { id: user._id, email: user.email, dni: user.dni, rol: user.rol, sucursal: user.sucursal },
+    jwtSecret,
+    { expiresIn: venciminetoCookie }
+  );
+
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    maxAge: venciminetoCookie * 1000,
+  });
+};
+
+
 
 const register = async (req, res, next) => {
   console.log("registrando usuario");
@@ -204,8 +218,9 @@ const register = async (req, res, next) => {
 
         if (!req.body.Auth) {
           //const maxAge = venciminetoCookie;
+          /*
           const token = jwt.sign(
-            { id: user._id, email: user.email, dni: user.dni, rol: user.rol },
+            { id: user._id, email: user.email, dni: user.dni, rol: user.rol, sucursal: user.sucursal },
             jwtSecret,
             { expiresIn: venciminetoCookie }
           );
@@ -214,6 +229,8 @@ const register = async (req, res, next) => {
             httpOnly: true,
             maxAge: venciminetoCookie * 1000,
           });
+          */
+          InstalarCookie (user, res);
         }
 
         //console.log("Enviando al fron confirmacion de creacion de usuario con cookie");
@@ -330,6 +347,7 @@ const login = async (req, res, next) => {
 
           //nuevo
           //const maxAge = venciminetoCookie;
+          /*
           const token = jwt.sign(
             { id: user._id, email: user.email, dni: user.dni, rol: user.rol },
             jwtSecret,
@@ -340,7 +358,8 @@ const login = async (req, res, next) => {
           res.cookie("jwt", token, {
             httpOnly: true,
             maxAge: venciminetoCookie * 1000, // 3hrs en ms
-          });
+          });*/
+          InstalarCookie (user, res)
 
           const notificaciones = getNotificacionesNuevas(user._id);
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
