@@ -247,7 +247,7 @@ const efectivizarTrueque = async (req, res, next) => {
     if (User.rol == 2 && T.sucursal._id != User.sucursal._id) {
       console.log("El trueque esta establecido para otra sucursal diferente ")
       return res.status(401).json({ message: "El trueque esta establecido para otra sucursal distinta", status: 406 });
-    }*/ //descomentar cuando user.sucursal no sea null
+    }
     //if (T.fecha_venta > Date.now()){
     /*
   if (!T.fecha_venta || T.fecha_venta > Date.now()){
