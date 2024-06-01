@@ -91,8 +91,8 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
 
 
     function confirmarSeleccion() {
-        setConfirmar(false)
         if (articuloSeleccionadoPropio){
+            setConfirmar(false)
             /*setArticulo({
                 ...articulo,
                 "miArticulo": articuloSeleccionadoPropio,

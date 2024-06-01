@@ -24,7 +24,6 @@ function getTimeOnly(datetimeLocalString) {
 
 function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
   const navigate = useNavigate()
-  console.log("averr", trueque)
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
@@ -257,7 +256,6 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
           ?
           <div className='cancelar_efectivizar'>
             <>
-            {console.log("truequeacepatdo asver", soyElQueAcepta)}
             {estaEnModoUser()
             ?
               truequeAceptado
