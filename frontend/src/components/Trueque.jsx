@@ -36,6 +36,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [showPopup, setShowPopup] = useState(false)
   const [popupSucursal, setPopupSucursal] = useState(false)
   const [sucursales, setSucursales] = useState([]);
+  const[noCancelarPorFecha,setNoCancelarPorFecha]= useState(false)
 
   const [efectivizar, setEfectivizar] = useState(false);
 
@@ -127,18 +128,18 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       })
       .then(response => {
         if (!response.ok) {
-          return response.json().then(data => {
-            throw new Error(JSON.stringify({ message: data.message }));
-          })
+           return response.json().then(data => {
+                throw new Error(JSON.stringify({message: data.message, status: data.status}));
+            });
         }
         return response.json();
-      })
+    })
       .then(data => {
         cancelarTrueque()
       })
       .catch(error => {
         const errorData = JSON.parse(error.message)
-        console.log(errorData.message)
+        if (errorData.status == 408) setNoCancelarPorFecha(true)
       });
   }
 
@@ -287,6 +288,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
       </div>
       <Modal texto={'¿Estás seguro que querés cancelar el trueque?'} confirmacion={modalCancelar} setConfirmacion={setModalCancelar} handleYes={handleYes} ok={false} />
+      <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24Hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
       <PopupEfectivizar
         show={showPopup}
         onClose={() => setShowPopup(false)}
