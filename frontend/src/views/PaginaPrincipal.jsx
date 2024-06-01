@@ -109,7 +109,7 @@ function PaginaPrincipal() {
                       <UltimoTrueque key={indice} ultimoT={ultimoT}/>
                     ))
                   :
-                    <p style={{marginTop:'10px'}}>No se realizó ningún trueque aún</p>
+                    <p style={{padding:'10px'}}>No se realizó ningún trueque aún</p>
                 :
                   'Cargando...'
                 }
