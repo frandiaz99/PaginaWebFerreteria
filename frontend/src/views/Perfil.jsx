@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react'
 import routes from '../routes.js'
 import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
-
-const estaEnModoUser = () => {
-  return (
-    location.pathname.startsWith('/user')
-  )
-}
+import {estaEnModoAdmin, estaEnModoUser} from '../helpers/estaEnModo.js'
 
 function Perfil() {
 
@@ -102,7 +97,7 @@ function Perfil() {
                 usuario.rol < 3 && <div className='fila-email'>Sucursal: Selecciona una nueva sucursal</div>
               )}
               <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
-              {estaEnModoUser() && <div className='fila-puntos'>{generarEstrellas(usuario.valoracion)}</div>}
+              {!estaEnModoAdmin() && <div className='fila-puntos'>{generarEstrellas(usuario.valoracion)}</div>}
               {isOwnProfile && (
                 <div className='fila-boton'>
 
@@ -120,7 +115,7 @@ function Perfil() {
             </div>
           </div>
 
-          {estaEnModoUser() && <div className='contenedor-perfil-2'>
+          {!estaEnModoAdmin() && <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
               Trueques realizados: - -
             </div>
