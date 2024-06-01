@@ -74,6 +74,8 @@ const MandarMail = async (mailDestino, mailTipo, mailMensaje) =>{
       msg.dynamicTemplateData = {
         Main: `${mailMensaje}`,
       }
+      console.log("sacar return en MandarMail")
+      return;             ///////////////////////////////////////sacar esto, es para que no mande tantos mail que llegamos al limite
   }
 
 
