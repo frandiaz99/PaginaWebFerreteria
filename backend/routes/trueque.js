@@ -93,6 +93,7 @@ const responderOferta = async (req, res, next) => {
   });
 }
 
+
 const cancelarTrueque = async (req, res, next) => {
   const body = req.body;
   const User = body.Auth;
@@ -121,22 +122,53 @@ const cancelarTrueque = async (req, res, next) => {
         .status(404)
         .json({ message: "Trueque not found", status: 404 });
     }
-    if (Publi.venta_confirmada) {
-      console.log("Este trueque ya fue efectivizado, no se puede cancelar ya")
-      return res.status(401).json({ message: "El trueque ya fue efectivizado", status: 407 });
-    }
-    if (!(User.rol >= 2)) {
-      console.log("No es empleado ni administrador");
-
-      if (!((Publi.articulo_compra.usuario._id = User._id) || (Publi.articulo_publica.usuario._id = User._id))) {
+    
+    //  if (!(User.rol >= 2)) {
+    //      console.log("No es empleado ni administrador");
+    
+     if (!((Publi.articulo_compra.usuario._id = User._id) || (Publi.articulo_publica.usuario._id = User._id))) {
         console.log("Tampoco es un usuario que participa en el trueque");
         return res.status(401).json({
           message: "No posee permisos para borrar el Trueque",
           status: 405,
         });
       }
+//}
+
+if (Publi.fecha_venta) {
+  var today = new Date();
+  var tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1)
+  
+  console.log ("fecha trueque", Publi.fecha_venta, "fecha dentro de un dia", tomorrow)
+  if (Publi.fecha_venta < tomorrow) {
+    console.log("Este trueque tiene fecha para dentro de menos de un dia")
+    return res.status(401).json({ message: "No se puede cancelar un trueque con fecha establecida paradentro de menos de 24Hs", status: 408 });
+  }
+}
+
+
+
+    if (Publi.venta_confirmada) {
+      console.log("Este trueque ya fue efectivizado, no se puede cancelar ya")
+      return res.status(401).json({ message: "El trueque ya fue efectivizado", status: 407 });
     }
-    console.log("Avisar a ambos usuarios de que se cancela el trueque por mail correo")
+    
+    
+    MandarMail(Publi.articulo_publica.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
+    MandarMail(Publi.articulo_compra.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
+
+
+    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_compra._id }, {$set: { reservado: false } }).catch((err) => {
+      console.log(err);
+      return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+    });
+    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_publica._id }, {$set: { reservado: false } }).catch((err) => {
+      console.log(err);
+      return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+    });
+
+
     await Publi.deleteOne().then((result) => {
       if (result) {
         console.log("Trueque successfully deleted");
@@ -146,7 +178,7 @@ const cancelarTrueque = async (req, res, next) => {
       } else {
         console.log("Erro borrando Trueque");
         return res
-          .status(200)
+          .status(400)
           .json({ message: "Error borrando Trueque", status: 406 });
       }
     });
@@ -304,14 +336,25 @@ const efectivizarTrueque = async (req, res, next) => {
 
     MandarMail(T.articulo_compra.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_compra} puntos`);
     MandarMail(T.articulo_publica.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_publica} puntos`);
-    DataUser.findByIdAndUpdate({ _id: T.articulo_compra.usuario._id }, { $inc: { puntos: puntos_compra }, $set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
+
+    DataUser.findByIdAndUpdate({ _id: T.articulo_compra.usuario._id }, { $inc: { puntos: puntos_compra } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
+    DataArticulo.findByIdAndUpdate({ _id: T.articulo_compra._id }, {$set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
+      console.log(err);
+      return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+    });
+
     DataUser.findByIdAndUpdate({ _id: T.articulo_publica.usuario._id }, { $inc: { puntos: puntos_publica }, $set: { vendido: Efectivizar, reservado: Efectivizar} }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
+    DataArticulo.findByIdAndUpdate({ _id: T.articulo_publica._id }, { $set: { vendido: Efectivizar, reservado: Efectivizar} }).catch((err) => {
+      console.log(err);
+      return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+    });
+
     DataTrueque.findByIdAndUpdate({ _id: T._id }, ({ venta_confirmada: Efectivizar, venta_cerrada: !Efectivizar, fecha_venta: Date.now(), empleado_cierra: User._id, producto_compra: prod_compra.Mensaje, producto_publica: prod_publica.Mensaje })).then().catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
