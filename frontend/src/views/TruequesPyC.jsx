@@ -70,12 +70,10 @@ function TruequesPyC() {
       .then(data => {
         if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data, usuarioActual))
         else setTruequesCompletados(obtenerTruequesConfirmados(data.data, usuarioActual))
-        setDataObtenida(true)
       })
       .catch(error => {
         console.error('Error:', error);
         setTruequesCompletados([])
-        setDataObtenida(true)
       })
   }, []);
 
@@ -92,17 +90,6 @@ function TruequesPyC() {
     setVerPendientes(false)
   }
 
-
-  const obtenerCompletados = (trueques) => {
-    if (trueques) {
-      if (usuarioActual.rol == 2) {
-        return trueques.filter(t => t.venta_confirmada == true) //recordar lo de cada empleado ver trueques de su sucursal
-      }
-      return trueques.filter(t => t.venta_confirmada == true)
-    }
-    return []
-  }
-
   const handleCancelarTrueque = () => {
     setEliminado(!eliminado)
   }
@@ -110,9 +97,6 @@ function TruequesPyC() {
   useEffect(() => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
     titulo_pendientes_ref.current.style.color = 'black'
-    //fetch para obtener todos los trueques
-    //setTruequesPendientes(obtenerPendientes(trueques)) //import json temporal
-    //setTruequesCompletados(obtenerCompletados(trueques))
   }, [])
 
   return (
@@ -128,23 +112,28 @@ function TruequesPyC() {
         <div className='filtros_y_trueques-principal_admin_emple'>
           {verPendientes ? <Buscador /> : <FiltroFecha />}
 
-          <div className='trueques'> {console.log("trueques", truequesPendientes)}
+          <div className='trueques'>
             {dataObtenida
               ?
               verPendientes
                 ?
                 truequesPendientes.length > 0
                   ?
-                  truequesPendientes.map((t, index) => (
-                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                  truequesPendientes.map((t) => (
+                    <>
+                    <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                    </>
                   ))
                   :
                   <p> No hay trueques pendientes</p>
                 :
                 truequesCompletados.length > 0
                   ?
-                  truequesCompletados.map((t, index) => (
-                    <Trueque key={index} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                  truequesCompletados.map((t) => (
+                    <>
+                    {console.log("trueuqes", t)}
+                    <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                    </>
                   ))
                   :
                   <p> No hay trueques completados</p>

@@ -173,7 +173,7 @@ function UnArticulo() {
       })
       .then((data) => {
         console.log("Articulo tasado", data);
-
+        navigate(routes.empleadoTasar)
       })
       .catch((error) => {
         const errorData = JSON.parse(error.message)

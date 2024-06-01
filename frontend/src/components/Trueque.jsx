@@ -24,7 +24,7 @@ function getTimeOnly(datetimeLocalString) {
 
 function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
   const navigate = useNavigate()
-
+  console.log("averr", trueque)
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
@@ -33,7 +33,6 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [modalCancelar, setModalCancelar] = useState(false)
   const [truequeState, setTruequeState] = useState(trueque) //solamente para actualizar este componente al elegir sucursal
   const [truequeAceptado, setTruequeAceptado] = useState(trueque.trueque_aceptado)
-  console.log('trueque: ', trueque._id, ' ', 'truequeAceptado', truequeAceptado)
   const [truequeConfirmado, setTruequeConfirmado] = useState(trueque.fecha_venta !== undefined)
   const [showPopup, setShowPopup] = useState(false)
   const [popupSucursal, setPopupSucursal] = useState(false)
@@ -136,8 +135,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         return response.json();
       })
       .then(data => {
-        //cancelarTrueque() lo elimino porque hay un error raro, tengo que si o si recargar la pagina
-        window.location.reload()
+        cancelarTrueque()
       })
       .catch(error => {
         const errorData = JSON.parse(error.message)
@@ -169,7 +167,8 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   }, [])
 
   const actualizarEstado = (t) => {
-    setTruequeState({ ...trueque, fecha_venta: t.fecha_venta, sucursal: t.sucursal })
+    //setTruequeState({ ...trueque, fecha_venta: t.fecha_venta, sucursal: t.sucursal })
+    window.location.reload()
   }
 
   useEffect(() => {
@@ -243,7 +242,10 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                   :
                   <span>Oferta de Trueque envíada | En espera</span>
             :
+            <>
+            {console.log("truequestate", truequeState)}
             <span>Realizado el {getDateOnly(truequeState.fecha_venta)}</span>
+            </>
           }
         </div>
 
@@ -254,29 +256,32 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         {pendiente
           ?
           <div className='cancelar_efectivizar'>
+            <>
+            {console.log("truequeacepatdo asver", soyElQueAcepta)}
             {estaEnModoUser()
+            ?
+              truequeAceptado
               ?
-              soyElQueAcepta
-                ?
-                truequeAceptado
-                  ?
-                  <>
-                    {!truequeConfirmado && <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>}
-                    <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
-                  </>
-                  :
-                  <>
-                    <button className='botonUnTrueque aceptarT' onClick={aceptarOfertaTrueque}>Aceptar</button>
-                    <button className='botonUnTrueque cancelar' onClick={rechazarOfertaTrueque}>Rechazar</button>
-                  </>
-                :
-                <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
+                <>
+                  {!truequeConfirmado && <button className='botonUnTrueque' onClick={handleElegirSucursal}>Elegir sucursal</button>}
+                  <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
+                </>
               :
+              soyElQueAcepta
+              ?
+                <>
+                  <button className='botonUnTrueque aceptarT' onClick={aceptarOfertaTrueque}>Aceptar</button>
+                  <button className='botonUnTrueque cancelar' onClick={rechazarOfertaTrueque}>Rechazar</button>
+                </>
+              :
+                <button className='botonUnTrueque cancelar' onClick={handleCancelar}>Cancelar</button>
+            :
               <>
                 <button className='botonUnTrueque' onClick={handleEfectivizar} >Efectivizar</button>
                 <button className='botonUnTrueque cancelar' onClick={handleCancelarEfectivizacion}>Cancelar</button>
               </>
             }
+            </>
           </div>
           :
           <></>

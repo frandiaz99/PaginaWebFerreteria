@@ -7,11 +7,16 @@ import Filtros from '../components/Filtros'
 import { useState, useEffect, useRef } from 'react'
 
 const articulosXPag = 5 //en cada pagina mostrar 5 articulos
-const ultimosTrueques = [{ num: 1 }, { num: 2 }, { num: 3 }, { num: 4 }, { num: 5 }]  //fetch para ultimosTrueques en useEffect
+
+function obtenerUltimos5(trueques){
+  return trueques.sort((t1,t2) => t2.fecha_venta - t1.fecha_venta).slice(0,5)
+}
 
 function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos] = useState([])
   const [articulosActuales, setArticulosActuales] = useState(totalArticulos) //aca se guardan los filtrados
+  const [ultimosTrueques, setUltimosTrueques]= useState([])
+  const [ultimosObtenido, setUltimosObtenido]= useState(false)
   const [pagActual, setPagActual] = useState(1);
   const [obtenido, setObtenido]= useState(false)
   const articulosRef = useRef(null)
@@ -60,6 +65,30 @@ function PaginaPrincipal() {
       });
   }, [])
 
+  useEffect(() => {
+    fetch("http://localhost:5000/trueque/getCompletados", {
+      method: "GET",
+      headers: { "Content-Type": "application/JSON" },
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+          })
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUltimosTrueques(obtenerUltimos5(data.data))
+        setUltimosObtenido(true)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setUltimosTrueques([])
+        setUltimosObtenido(true)
+      })
+  }, []);
 
   return (
     <>
@@ -72,9 +101,18 @@ function PaginaPrincipal() {
             </div>
             <div className='ultimosTrueques'>
               <div className='ultimosTrueques-lista'>
-                {ultimosTrueques.map((unTrueque, indice) => (
-                  <UltimoTrueque key={indice} />
-                ))}
+                {ultimosObtenido
+                ?
+                  ultimosTrueques.length > 0
+                  ?
+                    ultimosTrueques.map((ultimoT, indice) => (
+                      <UltimoTrueque key={indice} ultimoT={ultimoT}/>
+                    ))
+                  :
+                    <p style={{marginTop:'10px'}}>No se realizó ningún trueque aún</p>
+                :
+                  'Cargando...'
+                }
               </div>
             </div>
           </div>
