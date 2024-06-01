@@ -304,11 +304,11 @@ const efectivizarTrueque = async (req, res, next) => {
 
     MandarMail(T.articulo_compra.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_compra} puntos`);
     MandarMail(T.articulo_publica.usuario.email, 2, `El trueque entre el articulo ${T.articulo_compra.nombre} y el articulo ${T.articulo_publica.nombre} se a ${tipo_operacion} con exito y se te a sumado un total de ${puntos_publica} puntos`);
-    DataUser.findByIdAndUpdate({ _id: T.articulo_compra.usuario._id }, { $inc: { puntos: puntos_compra }, $set: { vendido: Efectivizar } }).catch((err) => {
+    DataUser.findByIdAndUpdate({ _id: T.articulo_compra.usuario._id }, { $inc: { puntos: puntos_compra }, $set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
-    DataUser.findByIdAndUpdate({ _id: T.articulo_publica.usuario._id }, { $inc: { puntos: puntos_publica }, $set: { vendido: Efectivizar } }).catch((err) => {
+    DataUser.findByIdAndUpdate({ _id: T.articulo_publica.usuario._id }, { $inc: { puntos: puntos_publica }, $set: { vendido: Efectivizar, reservado: Efectivizar} }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });

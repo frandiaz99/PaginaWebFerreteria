@@ -170,12 +170,12 @@ efectivizar trueque
 seleccionar sucursal
 
 cancelar trueque
+ver trueques completados
 
 intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
 
 faltan:
 ver mis trueques
-ver trueques completados
 puntuar usuario
 
 

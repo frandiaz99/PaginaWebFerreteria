@@ -205,6 +205,13 @@ const intercambiarArticulo = async (req, res, next) => {
     });
   }
 
+  if (miArticulo.reservado || suArticulo.reservado) {
+    return res.status(404).json({
+      message: "El articulo 'miArticulo' o 'suArticulo' ya fue reservado, cancelar / rechazar el trueque primero",
+      status: 409,
+    });
+  }
+
   if (miArticulo.vendido || suArticulo.vendido) {
     return res.status(404).json({
       message: "El articulo 'miArticulo' o 'suArticulo' ya fue vendido",
@@ -244,6 +251,15 @@ const intercambiarArticulo = async (req, res, next) => {
       status: 407,
     });
   }
+
+  DataArticulo.findByIdAndUpdate({ _id: miArticulo._id }, ({ reservado: true })).then().catch((err) => {
+    console.log(err);
+    return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+  })
+  DataArticulo.findByIdAndUpdate({ _id: suArticulo._id }, ({ reservado: true })).then().catch((err) => {
+    console.log(err);
+    return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
+  })
 
   DataTrueque.create({
     articulo_compra: miArticulo._id,

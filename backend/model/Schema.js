@@ -75,7 +75,7 @@ const articuloSchema = mongoose.Schema({
   vendido: { type: Boolean, default: false }, //en true cuando se relizo la vent
   promocionado: { type: Boolean, default: false },
   borrado: { type: Boolean, default: false },
-
+  reservado: { type: Boolean, default: false },
   //User (fk),    Cuando se arregla un trueque pasaria a estado de pendiente para que no se muestre
 });
 
