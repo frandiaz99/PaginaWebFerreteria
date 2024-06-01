@@ -57,7 +57,7 @@ function PaginaPrincipal() {
         return response.json();
       })
       .then(data => {
-        setTotalArticulos(data.filter(d => d.precio > 0 && d.usuario.intento_desbloqueo < 3))
+        setTotalArticulos(data.filter(d => d.precio > 0 && d.usuario.intento_desbloqueo < 3 && !d.reservado))
         setObtenido(true)
       })
       .catch(error => {

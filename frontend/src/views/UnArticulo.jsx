@@ -13,7 +13,7 @@ import PopupIntercambio from '../components/PopupIntercambio';
 function intercambiar(art) {
   const user = JSON.parse(localStorage.getItem('user'))
   if (user.rol == 1 || localStorage.getItem('cuentaActual') == 'usuario') {
-    if (user._id == art.usuario._id) return false
+    if (user._id == art.usuario._id || art.reservado) return false
     else return true
   } else return false
 }

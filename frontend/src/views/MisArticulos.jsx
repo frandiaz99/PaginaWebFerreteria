@@ -26,7 +26,7 @@ function MisArticulos() {
         return response.json();
       })
       .then(data => {
-        setArticulosTasados(data.filter(a => a.precio > 0))
+        setArticulosTasados(data.filter(a => a.precio > 0 && !a.vendido))
         setArticulosNOtasados(data.filter(a => a.precio == 0))
         setObtenido(true)
       })
@@ -52,7 +52,7 @@ function MisArticulos() {
           return response.json();
         })
         .then(data => {
-          setArticulosTasados(data.articulos.filter(a => a.precio > 0))
+          setArticulosTasados(data.articulos.filter(a => a.precio > 0 && !a.vendido))
           setArticulosNOtasados(data.articulos.filter(a => a.precio == 0))
           setObtenido(true)
         })

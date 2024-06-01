@@ -78,8 +78,9 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
                 })
                 .then(dataMisArticulos => {
                     var mismaCategoria=dataMisArticulos.articulos.filter(a => a.precio == articuloAIntercambiar.precio)
-                    if (articulosQueYaOfreci) setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
-                    else setArticulosMismaCategoria(mismaCategoria)    
+                    /*if (articulosQueYaOfreci) setArticulosMismaCategoria(mismaCategoria.filter(a => !articulosQueYaOfreci.some(ofrecido => ofrecido._id == a._id)))
+                    else setArticulosMismaCategoria(mismaCategoria)  */
+                    setArticulosMismaCategoria(mismaCategoria.filter(a => !a.reservado))  
                     setObtenido(true)
                 })
                 .catch(error => {
