@@ -21,7 +21,7 @@ html, body {
 .main{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /*justify-content: center;*/
   width: 100vw;
   min-width: 900px;
   height: -webkit-fill-available;
