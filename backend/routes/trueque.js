@@ -425,7 +425,7 @@ const valorarTrueque = async (req, res, next) => {
   } else {idOtro = Trueque.articulo_publica.usuario._id;}
 
 
-  await DataValoracion.create({opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro}).then ((V) =>{
+  await DataValoracion.create({opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro, de_usuario: User._id}).then ((V) =>{
     V.valoracion = parseInt(V.valoracion);
     Valoracion = V;
   }).catch (error => {

@@ -168,15 +168,17 @@ rechazar oferta de trueque
 aceptar oferta  de trueque
 efectivizar trueque
 seleccionar sucursal
+puntuar usuario
+
 
 cancelar trueque
 ver trueques completados
 
 intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
 
+
 faltan:
 ver mis trueques
-puntuar usuario
 
 
 efectivizar trueque 
