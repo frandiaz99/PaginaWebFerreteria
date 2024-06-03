@@ -160,17 +160,10 @@ const productoSchema = mongoose.Schema({
 });
 
 const valoracionSchema = mongoose.Schema({
-  nombre: { type: String, required: true, default: "Anonimo" },
+  //nombre: { type: String, required: false, default: "Anonimo" },
   opinion: { type: String, required: true },
   valoracion: { type: Number, required: true },
-
-  usuario: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "User",
-    autopopulate: true,
-    required: true,
-  },
-
+  sobre_usuario: { type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, },
   //Trueques(FK), Usuario(FK)
   //El Nombre_Usuario seria el nombre del que opina, no guardo su id xq me parece alp2 y no tiene por que. Se podria poner hasta que el que opina elija el nombre con el que aparecece
 });
