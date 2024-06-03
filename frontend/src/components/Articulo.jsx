@@ -1,31 +1,87 @@
-import { Link } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import '../styles/Articulo.css'
 import routes from '../routes'
+import Modal from './Modal.jsx'
+import { useEffect, useState } from 'react'
 
-function handleClickArticulo(articulo){
-    localStorage.setItem('articuloSeleccionado', JSON.stringify(articulo));
-    console.log(localStorage.getItem("articuloSeleccionado"));
-}
 
-function Articulo({ articulo }) {
-    var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo;
+function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")}) {
+    const navigate= useNavigate()
+    const [confirmacion, setConfirmacion]= useState(false)
+    const [irAUnArticulo, setIrAUnArticulo]= useState(false)
 
-    return (
+    const handleYes= () =>{
+        setConfirmacion(false)
+        console.log("artt_", articulo)
+        fetch('http://localhost:5000/articulo/borrarArticulo', 
+        {method: "DELETE", 
+        headers: { "Content-Type": "application/JSON"},
+        body: JSON.stringify({Articulo: articulo}),
+        credentials: "include"})
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(JSON.stringify({message: data.message}));
+            })
+          }
+          return response.json();
+        })
+        .then(data => {
+            eliminar()
+        })
+        .catch(error => {
+          const errorData= JSON.parse(error.message)
+          console.log(errorData.message)
+        });
+    }
 
-        <Link to={routes.unArticulo} className='link' onClick={() => handleClickArticulo(articulo)}>
-            <div className='articulo'>
+    const handleEliminarArt= (event) =>{
+        event.stopPropagation(); 
+        setConfirmacion(true)
+    }
+
+    const irArticulo= ()=>{
+        if (location.pathname !== routes.pagPrincipal /*invitado*/){
+            localStorage.setItem('articulo',JSON.stringify(articulo))
+        }
+        setIrAUnArticulo(true)
+    }
+
+    useEffect(() => {
+        if (irAUnArticulo) navigate(routes.unArticulo)
+    }, [irAUnArticulo])
+
+    var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo[articulo.foto_articulo.length-1];
+
+    if(!misArticulos) return (
+            <div className='articulo' onClick={irArticulo}>
                 <div className='divImagenArt'>
                     <img src={srcFotoArt} alt="" className='imagenArt' />
                 </div>
                 <div className='articulo-contenido'>
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
+                    <p>Categoria {articulo.precio}</p>
                     <p>Interesado en: ...</p>
-                    <span className='span'>${articulo.precio}</span>
                 </div>
             </div>
-        </Link>
-
+    )
+    else return(
+        <>
+            <div className='miArticulo' onClick={irArticulo}>
+                <div className='divImagenArt-miArticulo'>
+                    <img src={srcFotoArt} alt="" className='imagenMiArt' />
+                </div>
+                <div className='miArticulo-contenido'>
+                    <div className='miArticulo-contenido-contenido'>
+                        <h4 className='tituloArt'>{articulo.nombre}</h4>
+                       {articulo.precio >0 && <p>Categoria {articulo.precio}</p>}
+                    </div>
+                    <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Borrar articulo</button>
+                </div>
+            </div>
+            <Modal texto={'¿Estás seguro que querés eliminar este artículo?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={false}/>
+        </>
     )
 }
 

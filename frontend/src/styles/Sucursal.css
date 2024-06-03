@@ -1,48 +1,79 @@
+.main-sucursales {
+    display: inline-block
+}
+
+.principal-sucursales {
+    display: flex;
+    justify-content: center;
+    margin: 1%;
+    gap: 10px;
+    /*border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+}
+
+.agregarSucursal {
+    width: 7%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.boton_subirSucursal {
+    width: 4rem;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffb700;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 6px 9px;
+    font-weight: 600;
+    border: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .body-sucursales {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 5%;
-    margin: 0 5%;
-    height: 98%;
+    gap: 30px;
+    padding: 1%;
+    width: 85%;
+    justify-items: center;
 }
 
 /* Sucursal.css */
 
 .sucursal {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
+    border-radius: 10px;
     margin-bottom: 20px;
-    display: flex;
-    background-color: #f9f9f9;
-    flex-direction: column;
-    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    height: 20rem;
+    width: 16rem;
+    padding-bottom: 10px;
 }
-  
-.sucursal-contenido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-  
+
 .sucursal-img {
-    max-width: 100%;
-    border-radius: 5px 5px 0 0;
-    margin-bottom: 10px;
-}
-  
-.sucursal-nombre {
-    margin-top: 0;
-    text-align: center;
+    width: 100%;
+    height: 60%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .sucursal-datos {
-    font-family: Arial, sans-serif; /* Change font family for better typography */
-  }
-  
-.sucursal-datos p {
-    margin-bottom: 5px;
-    font-size: 16px; /* Improve font size */
+    padding: 1rem;
 }
-  
 
+.sucursal-nombre {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.sucursal-datos p {
+    margin-bottom: 0.5rem;
+
+}

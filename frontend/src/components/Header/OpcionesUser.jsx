@@ -1,49 +1,59 @@
 import React, { useState, useEffect, useRef } from 'react'
 import '../../styles/OpcionesUser.css'
-import { Link , useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import routes from '../../routes'
 import DropNotificaciones from './DropNotificaciones'
-
-const estaEnModoUser= () =>{ 
-  return (
-    location.pathname.startsWith('/user')
-    )
-}
-const estaEnModoEmpleado= () =>{
-  return (
-    location.pathname.startsWith('/empleado')
-    )
-}
+import { estaEnModoEmple, estaEnModoUser } from '../../helpers/estaEnModo'
 
 function OpcionesUser() {
-  const navigate= useNavigate()
-  const [dropCuentaOpen,setDropCuentaOpen]= useState(false)
-  const [dropNotificacionesOpen, setDropNotificacionesOpen]= useState(false)
-  const dropNotificacionesRef= useRef(null)
-  const dropCuentaRef= useRef(null)
+  const navigate = useNavigate()
+  const [dropCuentaOpen, setDropCuentaOpen] = useState(false)
+  const [dropNotificacionesOpen, setDropNotificacionesOpen] = useState(false)
+  const dropNotificacionesRef = useRef(null)
+  const dropCuentaRef = useRef(null)
+  const [user, setUser] = useState(null)
+  const [srcFotoPerfil, setSrcFotoPerfil] = useState("http://localhost:5000/img/" + JSON.parse(localStorage.getItem('user')).foto_perfil)
 
-  const user=JSON.parse(localStorage.getItem('user')) || null
-  var srcFotoPerfil = "http://localhost:5000/img/Imagen_user_default.png";
+  useEffect(() => {
+    fetch('http://localhost:5000/user/getSelf',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener el usuario');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("usuarioooo: ", data);
+        setSrcFotoPerfil("http://localhost:5000/img/" + data.User.foto_perfil)
+        localStorage.setItem('user', JSON.stringify(data.User))
+        setUser(data.User)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [])
 
-  if (user){  //esto es para no leer un null que solo pasa si borras el storage manualmente
-    srcFotoPerfil= ("http://localhost:5000/img/" + user.foto_perfil);
-  }
-
-  const handleHome = () =>{
-    if (estaEnModoUser()){
+  const handleHome = () => {
+    if (estaEnModoUser()) {
       navigate(routes.userPrincipal)
-    }else if (estaEnModoEmpleado() && user.rol == 2){
+    } else if (estaEnModoEmple() && user.rol == 2) {
       navigate(routes.empleadoPrincipal)
-    }else{
+    } else {
       navigate(routes.adminPrincipal)
     }
   }
 
-  const handleNotificaciones = () =>{
+  const handleNotificaciones = () => {
     setDropNotificacionesOpen(!dropNotificacionesOpen)
   }
 
-  const handleCuenta = () =>{
+  const handleCuenta = () => {
     setDropCuentaOpen(!dropCuentaOpen)
   }
 
@@ -59,118 +69,118 @@ function OpcionesUser() {
     }
   }
 
-  const cambiarAUsuario = () =>{
+  const cambiarAUsuario = () => {
     localStorage.setItem('cuentaActual', 'usuario')
     navigate(routes.userPrincipal)
   }
 
-  const cambiarAEmpleado = () =>{
+  const cambiarAEmpleado = () => {
     localStorage.setItem('cuentaActual', 'empleado')
     navigate(routes.empleadoPrincipal)
   }
+
   useEffect(() => { //Cerrar menu de cuenta al tocar fuera
     // Agrega el listener cuando el menú está abierto
     if (dropCuentaOpen) {
-        document.addEventListener('mousedown', handleClickOutsideCuenta);
+      document.addEventListener('mousedown', handleClickOutsideCuenta);
     }
 
     // Cleanup que remueve el listener
     return () => {
-        document.removeEventListener('mousedown', handleClickOutsideCuenta);
+      document.removeEventListener('mousedown', handleClickOutsideCuenta);
     };
   }, [dropCuentaOpen]);
 
-useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
-  // Agrega el listener cuando el menú está abierto
-  if (dropNotificacionesOpen) {
+  useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
+    // Agrega el listener cuando el menú está abierto
+    if (dropNotificacionesOpen) {
       document.addEventListener('mousedown', handleClickOutsideNotificaciones);
-  }
+    }
 
-  // Cleanup que remueve el listener
-  return () => {
+    // Cleanup que remueve el listener
+    return () => {
       document.removeEventListener('mousedown', handleClickOutsideNotificaciones);
-  };
+    };
   }, [dropNotificacionesOpen]);
 
   const handleCerrarSesion = () => {
+    localStorage.clear();
     fetch('http://localhost:5000/user/logout', {
       method: "POST",
       credentials: "include"
     })
-    .then(response => {
-      if (response.ok) {
-        console.log('La sesión se cerró correctamente');
-        localStorage.removeItem('user');
-        localStorage.removeItem('cuentaActual')
-        navigate(routes.pagPrincipal);
-      } else {
-        throw new Error('Hubo un problema al cerrar sesión');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(response => {
+        if (response.ok) {
+          console.log('La sesión se cerró correctamente');
+          navigate(routes.pagPrincipal);
+        } else {
+          throw new Error('Hubo un problema al cerrar sesión');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
-  
+
+  const irAPerfil = () => {
+    setDropCuentaOpen(false)
+    if (estaEnModoUser()) navigate(routes.perfil)
+    else navigate(routes.adminPerfil)
+  }
 
   return (
     <div className='opcionesUser'>
 
-        <div className='volver' onClick={handleHome}>
-            <ion-icon name="home-outline" size='small'></ion-icon>
-        </div>
+      <div className='volver' onClick={handleHome}>
+        <ion-icon name="home-outline" size='small'></ion-icon>
+      </div>
 
-        {estaEnModoUser() &&
-          <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} onClick={handleNotificaciones}>
+      {estaEnModoUser() &&
+        <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} /*onClick={handleNotificaciones}*/>
 
-              <div className='notificaciones'>
-                  <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
-              </div>
-
-          {dropNotificacionesOpen && <DropNotificaciones/>}
-
+          <div className='notificaciones'>
+            <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
           </div>
-        }
+
+          {dropNotificacionesOpen && <DropNotificaciones />}
+
+        </div>
+      }
 
         <div className='containersDrop' ref={dropCuentaRef}>
           <div className='cuenta' onClick={handleCuenta}>
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-            {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
           </div>
 
-          {dropCuentaOpen && 
+        {dropCuentaOpen &&
           <div className='dropCuenta'>
             <div className='dropCuenta__mail'>
 
                 <div className='cuenta'>
                   {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
-                  {!srcFotoPerfil && <ion-icon name="person-outline" size="large"></ion-icon>}
                 </div>
 
-                <div className='nombre_y_email'>
-                  <span>{user.nombre}</span>
-                  <p style={{fontSize:'10px', color:'#5A5D6C'}}>{user.email}</p>
-                </div>
+              <div className='nombre_y_email'>
+                <span>{user.nombre}</span>
+                <p style={{ fontSize: '10px', color: '#5A5D6C' }}>{user.email}</p>
+              </div>
 
             </div>
 
             <hr />
 
-            {estaEnModoUser() && 
-            <Link to={routes.perfil} className='link'>
-              <div className='dropCuenta__items'>
-                <ion-icon name="person-outline"></ion-icon>
-                <p>Ver perfil</p>
-              </div>            
-            </Link>}
+            {(estaEnModoUser() || user.rol == 3) && <div className='dropCuenta__items' onClick={irAPerfil}>
+              <ion-icon name="person-outline"></ion-icon>
+              <p>Ver perfil</p>
+            </div>}
 
-            {(estaEnModoUser()&& user.rol === 2) &&
+            {(estaEnModoUser() && user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAEmpleado}>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Empleado</p>
-            </div>}
+              </div>}
 
-            {(estaEnModoEmpleado() && user.rol === 2) &&
+            {(estaEnModoEmple() && user.rol === 2) &&
               <div className='dropCuenta__items' onClick={cambiarAUsuario}>
                 <ion-icon name="key-outline"></ion-icon>
                 <p>Cuenta Usuario</p>
@@ -185,7 +195,7 @@ useEffect(() => {   //Cerrar menu de notificaciones al tocar fuera
 
           </div>}
 
-        </div>
+      </div>
     </div>
   )
 }

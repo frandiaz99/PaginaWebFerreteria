@@ -1,158 +1,129 @@
-.formSubirArt{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    max-height: 80vh;
-    min-height: 80vh;
-    width: 70%;
-    padding: 8px;
+/* Estilos para el formulario */
+
+
+.formSubirArt {
+    display: inline-block;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    margin: 20px auto;
+    box-sizing: border;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
-.main-subirArt{
+
+/* Estilos para las secciones del formulario */
+.section1-subirArt,
+.section2-subirArt,
+.section3-subirArt {
+    margin-bottom: 20px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section3-subirArt {
+    height: 100%;
+
+}
+
+.nombre-section1 input,
+.descripcion-section2 input {
+    padding: 5px;
+}
+
+.titulo-section1-subirArt,
+.titulo-section2,
+.titulo-section3,
+.label-subirArt {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+/* Estilos para los campos de entrada y textarea */
+.textArea-subirArt {
+    resize: none;
+}
+
+.input-subirArt,
+.textArea-subirArt {
+    width: 100%;
+    padding-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+/* Estilos para el contenedor de los botones */
+.divBotonSubirArt {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Estilos para la sección de seleccionar foto */
+.foto-section3 {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+}
+
+.verImagenes {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 200px;
     width: 100%;
 }
 
-.titulo-subirArt{
-
-}
-
-.section1-subirArt{
-    background-color: #FFFFFFFF;
-    border-radius: 10px;
-    padding: 3px 8px;
-    padding-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;  
-}
-
-.titulo-section1-subirArt{
-
-}
-
-.nombreYdescripcion-section1{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-.nombre-section1{
-    display: flex;
-    flex-direction: column;
-    width: 43%;
-    gap: 5px;
-}
-
-.descripcion-section1{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-
-.section2-subirArt{
-    background-color: #FFFFFFFF;
-    border-radius: 10px;
-    padding: 4px 8px;
-    height: 8rem;
-}
-
-.titulo-section2{
-
-}
-
-.descripcion-section2{
-    display: flex;
-    flex-direction: column;
-    height: 85%;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.section3-subirArt{
-    display: flex;
-    flex-direction: column;
-    background-color: #FFFFFFFF;
-    border-radius: 10px;
-    padding: 4px;
-    height: 8rem;
-}
-
-.titulo-section3{
-
-}
-
-.divBotonSubirArt{
-    display: flex;
-    justify-content: center;
-}
-
-.boton-subirArt{
-    padding: 5px;
-    border-radius: 5px;
-    border: 2px solid #646464;
-    background-color: #ccc;
-    font-weight: 600;
+/* Estilos para los botones */
+.boton-subirArt {
+    padding: 10px 20px;
+    margin-top: 20px;
     margin-bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.boton-subirArt:hover{
-    background-color: #999999;
-}
-.boton-subirArt:active{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(1px) translateX(-1px);
-  }
-
-
-.label-subirArt{
-    font-weight: 500;
-}
-
-.input-subirArt{
-    border: 1px solid #ccc; 
-    border-radius: 5px;
-    outline: none;
-    font-size: 15px;
+.boton-cancelarArt {
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.input-subirArt[name="titulo"]{
-    max-width: 30%;
-}
-.input-subirArt[name="interesado"]{
-    width: 80%;
+.boton-subirArt:hover,
+.boton-cancelarArt:hover {
+    background-color: #0056b3;
 }
 
-.input-subirArt:focus{
-    border-color: #ffb700;
+/* Estilos para las líneas */
+.titulo-section3 hr {
+    background-color: #969696;
+    border-radius: 10px;
 }
 
-.textArea-subirArt{
-    padding: 3px; 
-    font-size: 16px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    resize: none; 
-    outline: none; 
-    font-family: system-ui;
+/* Estilos para el texto */
+.label-subirArt,
+.boton-subirArt,
+.boton-cancelarArt {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
 }
 
-textarea:focus {
-    border-color: #ffb700;
-  }
-
-
-.foto-section3{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#fotoSubirArt {
     height: 100%;
 }
 
-input[id="fotoSubirArt"]{
-    height: 50%;
+.campoObligatorio{
+    color:#ff0000;
+    font-size:15px;
 }
+

@@ -1,0 +1,83 @@
+.main-adminCuentas{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+
+.buscador-y-cuentasAdmin{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 90%;
+    gap: 20px;
+    padding-top: 20px;
+    align-items: center;
+}
+
+.buscador{
+    display: flex;
+    justify-content: center;
+}
+
+.registrarEmple{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.boton-registrarEmple{
+    width: 8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffb700;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 6px 9px;
+    font-weight: 600;
+    border: 0px;
+}
+
+.boton-registrarEmple:active{
+    height: 1.3rem;
+    width: 7.8rem;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cuentasAdmin{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    height: 65vh;
+    width: 100%;
+    min-width: 340px;
+    max-width: 900px;
+}
+
+.principal-registrarEmpleado{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: white;
+    padding: 20px;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.titulo-registrarEmpleado{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aclaracion-registrarEmpleado{
+    font-size: 16px;
+    color: grey;
+}

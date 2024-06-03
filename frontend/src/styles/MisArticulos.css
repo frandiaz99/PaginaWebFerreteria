@@ -1,0 +1,29 @@
+.misArticulosPrincipal{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    width: 88%;
+}
+
+.contenedor-misArticulos{
+    display: flex;
+    min-height: 335px;
+    align-items: center;
+    gap: 10px;
+}
+
+.misArticulos{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.tituloMisArticulos{
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}

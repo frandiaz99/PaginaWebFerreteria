@@ -1,0 +1,192 @@
+Status code:
+
+449 Retry With
+The server cannot honour the request because the user has not provided the required information.
+
+
+
+Error Code:
+
+
+
+
+
+
+
+STATUS PROPIOS DENTRO DEL BODY
+
+
+User.register status:
+  // 200 correcto
+  // 400 Error probable de DB
+  // 404 sucursal "sucursal._id" no encontrada
+
+User.login status:
+  // 200 correcto
+  // 205 correcto pero falta 'code' en 'User' con el codigo del mail
+  // 206 correcto pero el 'code' no es correcto.
+  // 402 object "User" no recibido
+  // 403 "password" o "dni" no recibido
+  // 404  "dni" de User no encontrado
+  // 405 contraseña incorrecta
+  // 406 contraseña incorrecta, bloqueado
+  // 407 previamente bloqueado
+
+User.getByDNI status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable 'dni' no recibida
+  //405 DNI,User not found
+
+User.getUser status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable '_id' no recibida
+  //405 id ,User not found  
+
+
+User.cambiarContrasena status:
+	//200 exitosa
+	//400 Error otro
+  //402 "User" no recibido
+  //403 Variable 'constrasena' o 'nuevaConstrasena' no recibida
+  //405 DNI,User not found DB
+  //406 contrasena nueva muy corta 
+  //407 contrasena nueva no cumple condicuiones
+  //408 contrasena vieja erronea
+  //409 error de lserver al guardar user
+
+user.setEmpleado
+  //200 exitoso
+  //400 error raro probable DB 
+  //401 El DNi ya es empelado o admin
+  //402 "body.dni" no recibido
+  //404 dni not found in DB
+
+
+User.bloquearUser
+  //200 exitoso bloqeuado
+  //400 error raro, probablemente de  DB
+  //401 "body" no recibido
+  //402 "_id" no recibido
+  //404 "_id" not encontrada en la DB
+
+User.desbloquearUser
+  //200 exitoso desbloqeuado
+  //400 error raro, probablemente de  DB
+  //401 "User" no recibido
+  //402 "dni" no recibido
+  //404 "DNI" not encontrada en la DB
+
+
+User.deleteEmpelado
+  //200 exitoso
+  //400 error raro, probablemente de  DB
+  //401 "body" no recibido
+  //402 "_id" no recibido
+  //404 "_id" not encontrada en la DB
+
+
+
+Articulo.borrarArticulo status code:
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
+
+
+Articulo.intercambiarArticulo
+  //200 exitoso
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' no recibido
+  //404 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' no encontrado
+  //405 Objeto 'miArticulo' o 'suArticulo' en 'Articulo' encontrados, pero borrados o vendidos
+  //406 Objeto 'miArticulo' no pertenece al usuario que mando la solicitud
+  //407 Objeto 'miArticulo' y 'suArticulo' en 'Articulo' no pertenecen a la misma categoria de precio
+  //408 Error creando objeto, error probabl de backend / DB
+
+Articulo.tasarArticulo
+  //200 exitosa
+  //400 Error otro
+  //401 Variable 'Articulo' no recibida
+  //402 Variable '_id' y/o 'precio' no recibida
+  //403 Variable 'precio' es menor a 1 o mayor a 5
+  //404 _id, Articulo not found
+
+
+Sucursal.setSucursal status:
+  //200 exitosa
+	//400 Error otro
+  //402 "Articulo" no recibido
+  //403 Variable 'nombre', 'provincia', 'ciudad', 'direccion' o 'telefono' no recibida
+
+
+
+
+trueques.getPendientes
+  //200 OK
+  //401 No hay truequews pendientes
+  //400 Error de la DB
+
+trueques.aceptarOferta  / trueque.rechazarOferta
+  //200 exitoso
+  //400 Error durante find, error probable de backend o DB
+  //401 Objeto 'Trueque' en 'body' no recibido
+  //402 Objeto '_id' en 'Trueque' no recibido
+  //403 No es el creador del articulo del trueque
+  //404 No se encontro el trueque conb el '_id' recibido
+  //405 Este trueque ya fue aceptado
+  //402 Objeto 'trueque_aceptado' en 'Trueque' no recibido
+
+trueques.cancelarTrueques:
+  //200 exitosa
+  //400 Error Raro
+  //402 Objeto 'Articulo' en 'body' no recibido
+  //403 "Objeto 'id' en 'Articulo' no recibido"
+  //404 Articulo not found
+  //405 No posee permisos para eliminar articulo
+  //406 Error borrando articulo, de parte de mongoose
+  //407 el trueque ya fue efectivizado
+
+
+
+
+Hechos:
+Bloquear usuario
+Intercambiar Articulo
+Ver usuarios
+Desbloquear usuario
+Tasar Articulo
+Ver perfil
+ver trueques pendientes
+rechazar oferta de trueque
+aceptar oferta  de trueque
+efectivizar trueque
+seleccionar sucursal
+
+cancelar trueque
+ver trueques completados
+
+intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
+
+faltan:
+ver mis trueques
+puntuar usuario
+
+
+efectivizar trueque 
+esta que se controla
+para empleado: que la sucursal del trueque sea la de el
+              que la fecha dl trueque este establecida a fecha actual o ya pasada
+
+para admin: qeu la fecha del trueque este establecida a actual o previa
+
+
+setFecha
+se puede setear una fecha y sucural una sola vez
+y cualquiera de los participantes, pero se puede modificar

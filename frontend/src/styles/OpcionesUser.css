@@ -1,37 +1,39 @@
-.opcionesUser{
+.opcionesUser {
     display: flex;
     align-items: center;
-    margin-right: 5px;
-    gap: 5px;
+    margin-right: 1%;
+    width: 12%;
+    justify-content: flex-end;
+    gap: 15px;
 }
 
-.cuenta{
+.cuenta {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     background-color: rgb(255, 255, 255);
-    border-radius: 50%; 
+    border-radius: 50%;
     overflow: clip;
 }
 
-.cuenta > ion-icon{
+.cuenta>ion-icon {
     height: 30px;
 }
 
-.fotoCuenta{
+.fotoCuenta {
     width: 100%;
     height: 100%;
 }
 
-.containersDrop{
+.containersDrop {
     display: flex;
     position: relative;
     cursor: pointer;
 }
 
-#containerNotificaciones{
+#containerNotificaciones {
     width: 2rem;
     height: 100%;
     display: flex;
@@ -39,54 +41,58 @@
     align-items: center;
 }
 
-#containerNotificaciones:hover{
-    background-color:#f3af04;
+#containerNotificaciones:hover {
+    background-color: #f3af04;
 }
 
-.dropCuenta{
+.dropCuenta {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     background-color: white;
     position: absolute;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    right: -37%;
+    border-radius: 5px;
+    right: -55%;
     top: 124%;
     width: 16rem;
     overflow: hidden;
-    padding: 5px 0px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 180px;
 }
 
-.dropCuenta__mail{
+.dropCuenta__mail {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    margin-left: 5px;
-    padding-bottom: 8px;
+    margin-left: 10px;
+    height: 100%;
 }
 
-.nombre_y_email{
+.nombre_y_email {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-.dropCuenta__items{
+.dropCuenta__items {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 5px;
-    margin-left: 5px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding-left: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     cursor: pointer;
+    height: 100%;
 }
 
-hr{
-    height: 1px;
-    border: none;
+.dropCuenta__items:hover {
+    background-color: #D9D9D9;
+}
+
+.dropCuenta hr {
     width: 100%;
-    background-color: #d7d7d7;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
 }

@@ -40,8 +40,8 @@ function Filtros({totalItems, actualizar}) {
     actualizar(resultadosFiltrados);
   }, [resultadosFiltrados]);
 
-  return (
-    <div className='orden-y-filtros'>
+  return ( null
+    /*<div className='orden-y-filtros'>
       
         <div className='orden'>
             <label htmlFor="ordenar">Ordenar por</label>
@@ -55,14 +55,14 @@ function Filtros({totalItems, actualizar}) {
             <label htmlFor='filtrar'>Filtros</label>
             <select data-select='filtros' name="selector" id="filtrar" onChange={handleFiltros}>
               <option value="todo">Sin filtros</option>
-              <option value="0-1000">$0-$1000</option> {/*Por ahora lo manejamos asi pero deberia ser value con una categoria */}
+              <option value="0-1000">$0-$1000</option> {/*Por ahora lo manejamos asi pero deberia ser value con una categoria 
               <option value="1000-10000">$1000-$10000</option>
               <option value="10000-50000">$10000-$50000</option>
               <option value="50000-100000">+$50000</option>
             </select>
           </div>
 
-    </div>
+    </div>*/
   )
 }
 

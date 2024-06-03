@@ -1,0 +1,16 @@
+.filtros-fecha{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.div_filtro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.label_filtro{
+}
+.input_filtro{
+
+}

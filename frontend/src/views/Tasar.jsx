@@ -1,11 +1,8 @@
 import React from 'react'
-
+import MisArticulos from './MisArticulos'
 function Tasar() {
   return (
-    <main className='main'>
-
-    <div>Tasar</div>
-    </main>
+    <MisArticulos/>
   )
 }
 

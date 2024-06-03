@@ -5,6 +5,7 @@ import routes from '../../routes.js'
 import CrearIniciar from './CrearIniciar'
 import OpcionesUser from './OpcionesUser.jsx'
 import NavBar from './NavBar.jsx'
+import { estaEnModoUser, estaEnModoEmple } from '../../helpers/estaEnModo.js'
 
 const esInvitado = () => {
   return (
@@ -12,17 +13,6 @@ const esInvitado = () => {
   )
 }
 
-const estaEnModoUser = () => {
-  return (
-    location.pathname.startsWith('/user')
-  )
-}
-
-const estaEnModoEmpleado = () => {
-  return (
-    location.pathname.startsWith('/empleado')
-  )
-}
 
 function Header() {
   const location = useLocation()
@@ -33,7 +23,7 @@ function Header() {
     if (user) {
       if (estaEnModoUser()) {
         navigate(routes.userPrincipal)
-      } else if (estaEnModoEmpleado() && user.rol == 2) {
+      } else if (estaEnModoEmple() && user.rol == 2) {
         navigate(routes.empleadoPrincipal)
       } else {
         navigate(routes.adminPrincipal)
@@ -62,7 +52,7 @@ function Header() {
       <div className='header__section2'> {/*Header parte gris*/}
 
         {esInvitado() ?
-          <Link to={routes.sucursales} className='link'><p className='boton'>Ver Sucursales</p></Link>
+          <Link to={routes.sucursales} className='link'><p className='optionNav'>Ver Sucursales</p></Link>
           :
           <NavBar />
         }

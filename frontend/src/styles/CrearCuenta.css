@@ -1,68 +1,95 @@
-
-.forms{
-    display: flex;
-    gap: 40px;
-    width: 55%;
-    max-width: 55%;
-    height: 92%;
-    justify-content: center;
-}
-
-.formPrincipal{
+.forms {
+    padding: 20px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    max-width: 300px;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
 }
 
-.divSubirFoto{
+.formPrincipal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    padding: 20px;
+    padding-bottom: 5px;
+    gap: 10px;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.divInputRegistro {
+    padding: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor-registro {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.texto-registro {
+    width: 92%;
+}
+
+.divSubirFoto {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.divRegistrarse{
+.divRegistrarse {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.registrarse{
-    background-color: #F9C615;
-    color: #000000;
-    padding: 8px 5px;
-    border-radius: 3px;
+.registrarse {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
     height: 2rem;
     font-family: revert-layer;
     font-weight: 600;
-    margin: 20px
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.registrarse:hover{
-    background-color: #f1cf52;
+
+.registrarse:hover {
+    background-color: #0056b3;
 }
 
-.divInputRegistro{
-    display: flex;
-    flex-direction: column;
-}
-
-.textoNoCumple{
+.textoNoCumple {
     font-size: 16px;
-    color: #ff0000d5;    
+    color: #ff0000d5;
 }
 
-.textoBajoLabelRegistro{
+.textoBajoLabelRegistro {
     font-size: small;
-    color: #777676d5; 
+    color: #777676d5;
 }
 
-.suscripcion{
+.suscripcion {
     display: flex;
     gap: 5px;
     font-size: small;
     color: #6d6d6dd5;
+    width: 92%;
 }
 
 /* Ocultar las flechas de los campos de tipo 'number' */
@@ -79,4 +106,8 @@ input[type="number"] {
 input[id="fotoRegistro"] {
     height: 100%;
     width: 111%;
+}
+
+select[name="sucursal"]{
+    width: 9.8rem;
 }

@@ -12,7 +12,7 @@ html, body {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  min-width: 750px;
+  min-width: 900px;
   height: 100vh;
   min-height: 460px;
   font-family: system-ui;
@@ -21,12 +21,13 @@ html, body {
 .main{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /*justify-content: center;*/
   width: 100vw;
-  min-width: 700px;
+  min-width: 900px;
   height: -webkit-fill-available;
   align-items: center;
   overflow-y: auto;
+  height: 100%;
 }
 
 .noHayItems{

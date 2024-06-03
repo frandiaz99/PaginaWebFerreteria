@@ -1,0 +1,19 @@
+[
+    {
+      "articulo_publica": {
+        "usuario":{
+          "dni": 1233212,
+          "nombre":"Nicolas Arditi"
+        },
+        "nombre":"Esto esta hardcodeado"
+      },
+      "articulo_compra": {
+        "usuario":{
+          "dni":123111,
+          "nombre":"Juan."
+        },
+        "nombre":"reemplazar cuando esten los compeltados del back"
+      },
+      "completado": true
+    }
+]

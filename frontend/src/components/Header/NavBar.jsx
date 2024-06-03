@@ -1,27 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 import '../../styles/NavBar.css'
 import routes from '../../routes'
-
-const estaEnModoUser= () =>{ 
-  return (
-    location.pathname.startsWith('/user')
-    )
-}
-
-const estaEnModoAdmin= () =>{
-  return (
-    location.pathname.startsWith('/admin')
-    )
-}
-
-const estaEnModoEmple= () =>{
-  return (
-    location.pathname.startsWith('/empleado')
-    )
-}
+import { estaEnModoUser, estaEnModoEmple } from '../../helpers/estaEnModo'
 
 function NavBar() {
+  const navigate= useNavigate()
   const user= JSON.parse(localStorage.getItem('user')) || null
   return (
     <>
@@ -46,9 +30,14 @@ function NavBar() {
       <Link className='boton' to={routes.subirArticulo}><span className='optionNav'>Subir Articulo</span></Link>
     </div>}
 
-    {(estaEnModoAdmin() || estaEnModoEmple()) &&
+    {(estaEnModoEmple() && user.rol == 2) &&
     <div className='subirArt nav'>
-      <Link className='boton' to={routes.empleadoTasar}><span className='optionNav'>Tasar Artículo</span></Link>
+      <span className='optionNav' style={{marginRight:'13rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
+    </div>
+    }
+    {user.rol == 3 &&
+    <div className='subirArt nav'>
+      <span className='optionNav' style={{marginRight:'10rem'}} onClick={ () => {navigate(routes.empleadoTasar)}}>Tasar Artículo</span>
     </div>
     }
 
@@ -64,14 +53,7 @@ function NavBar() {
       <Link className='boton' to={routes.adminUsuarios} ><span className='optionNav'>Usuarios</span></Link>
       <Link className='boton' to={routes.adminEmpleados} ><span className='optionNav'>Empleados</span></Link>
       </>}
-
-      
-      {(user.rol === 2 && estaEnModoEmple()) &&  //Esta es la mayor fisureada que se me ocurrio para centrar el tasar articulo
-      <>
-      <div className='relleno'></div>
-      </>}
     </div>
-
     </>
   )
 }
