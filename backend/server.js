@@ -118,7 +118,7 @@ app.use(express.static("imagenes"));
 
 ///prueba   esto esta para que cheken nada mas despues se borra
 const { DataUser } = require("./model/Schema");
-
+/*
 app.get("/home", (req, res) => {
   res.json({ hi: "there" });
 });
@@ -136,6 +136,6 @@ app.post("/create", (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal error" });
   }
-});
+});*/
 
 ///fin prueba
