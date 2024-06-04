@@ -25,7 +25,7 @@ const getUltimosTrueques = async (req, res, next) => {
 
 
 const getTruequesPendientes = async (req, res, next) => {
-  await DataTrueque.find({ venta_confirmada: false }).then((data) => {
+  await DataTrueque.find({ venta_confirmada: false, venta_cerrada: false}).then((data) => {
     //console.log(data);
     if (data[0]) {
       console.log("articulos obtenidos");
@@ -268,10 +268,11 @@ const efectivizarTrueque = async (req, res, next) => {
   const User = body.Auth;
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
-  let Efectivizar = JSON.parse(body.Efectivizar);
+  let Efectivizar = body.Efectivizar;
 
 
-  console.log("body ->", req.body)
+  //console.log("body ->", req.body)
+  console.log("Ventas ->", req.body.Ventas)
 
   /*
   if (User.rol == 1){
@@ -313,7 +314,7 @@ const efectivizarTrueque = async (req, res, next) => {
     var prod_publica;
     try {
       prod_publica = await CalcularPuntos(T.articulo_publica.usuario.dni, Ventas);
-      console.log("prodCompra: ", prod_publica);
+      console.log("prodPublica: ", prod_publica);
       if (prod_publica.Status != 200) {
         return res.status(400).json({ message: "Error buscando codigo", status: prod_publica.Status, respuesta: prod_publica.Mensaje });
       } else {
@@ -329,6 +330,7 @@ const efectivizarTrueque = async (req, res, next) => {
     try {
       prod_compra = await CalcularPuntos(T.articulo_compra.usuario.dni, Ventas);
       console.log("prodCompra: ", prod_compra);
+
       if (prod_compra.Status != 200) {
         return res.status(400).json({ message: "Error buscando codigo", status: prod_compra.Status, respuesta: prod_compra.Mensaje });
       } else {
@@ -338,7 +340,7 @@ const efectivizarTrueque = async (req, res, next) => {
       console.error("An error occurred:", error);
       return res.status(400).json({ message: "Error probable DB", status: 400 });
     }
-
+    
 
 
     var tipo_operacion;

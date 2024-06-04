@@ -12,7 +12,8 @@ const router = express.Router();
 
 const CalcularPuntos = async (dni, Ventas) => {
   let aux = 1;
-  Ventas = Ventas.filter(V => V.dni == dni);
+  console.log("en CalcularPuntos seria mejor recibir solo el V.dni")
+  Ventas = Ventas.filter(V => V.usuario.dni == dni);
 
   var codigos = Ventas.map(V => V.codigo);
   codigos = [...new Set(codigos)];
