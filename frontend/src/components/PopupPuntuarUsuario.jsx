@@ -13,6 +13,9 @@ function guardarDatos (trueque) {
         console.log("valoracion.estrellas: "+valoracion.valoracion);
         console.log("valoracion.opinion: "+valoracion.opinion);
 
+
+    //LO GUARDA. TOCA SEGUIR CON EL PROMEDIO DE LAS ESTRELLAS Y MOSTRARLAS. DESP EN VER PERFIL MOSTRAR LOS COMENTARIOS DE ESE USUARIO.
+
         fetch("http://localhost:5000/trueque/valorarTrueque", {
             method: "POST",
             headers: { "Content-Type": "application/JSON" },
