@@ -68,8 +68,8 @@ function TruequesPyC() {
         return response.json();
       })
       .then(data => {
-        if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data, usuarioActual))
-        else setTruequesCompletados(obtenerTruequesConfirmados(data.data, usuarioActual))
+        if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data.reverse(), usuarioActual))
+        else setTruequesCompletados(obtenerTruequesConfirmados(data.data.reverse(), usuarioActual))
       })
       .catch(error => {
         console.error('Error:', error);
