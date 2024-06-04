@@ -1,4 +1,4 @@
-const { DataUser, DataNotificacion, DataSucursal } = require("../model/Schema");
+const { DataUser, DataNotificacion, DataSucursal, DataValoracion } = require("../model/Schema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtSecret =
@@ -22,6 +22,7 @@ const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const { MandarMail } = require("./mail.js");
 const { json } = require("body-parser");
+const { AsyncLocalStorage } = require("async_hooks");
 //const { Console, error } = require("console");
 const router = express.Router();
 //
@@ -679,6 +680,52 @@ const cambiarContrasena = async (req, res, next) => {
   //409 error de lserver al guardar user
 };
 
+const getValoraciones = async (req, res, next) =>{
+  var User = req.body.User;
+
+  if (!User || !User._id ){
+    return res.status(400).json({message: "No se recibio las variables requeridas, 'User' 'User._id'", status: 401})
+  }
+  
+  try {
+    User = await DataUser.findById(User._id);
+    if (!User){
+      return res.status(400).json({message: "_id inexistente o no encontrada", status: 404});
+    }
+
+
+    var Valoraciones = await DataValoracion.find({sobre_usuario: User._id});
+    /*
+    var Valoraciones = await DataValoracion.find({sobre_usuario: User._id})
+    .populate({ path: 'de_usuario', select: 'nombre apellido foto_perfil'})
+    .select('opinion valoracion de_usuario');*/
+
+    Valoraciones = await Valoraciones.map(V => ({opinion: V.opinion, valoracion: V.valoracion, de_usuario: {nombre: V.de_usuario.nombre, apellido: V.de_usuario.apellido, foto_perfil: V.de_usuario.foto_perfil}}));
+    
+
+    
+
+    //console.log ("Valoraciones encontradas", Valoraciones);
+    if (Valoraciones.length == 0 ) {
+      return res.status(200).json({message: "No tiene valoraciones", status: 201})
+    }
+    return res.status(200).json({message: "OK", status: 200, Valoraciones});
+
+  } catch (error) {
+    console.log("error en getValoraciones", error)
+    return res.status(400).json({
+      message: "Error obteniendo las valoraciones",
+      status: 400,
+      error: error.message
+    });
+  }
+}
+
+
+
+
+
+
 const getByDNI = async (req, res, next) => {
   const User = req.body.User;
   if (!User) {
@@ -976,6 +1023,7 @@ router
   .route("/editarPerfil")
   .post(upload.single("Imagen"), userAuth, editarPerfil);
 router.route("/cambiarContrasena").post(userAuth, cambiarContrasena);
+router.route("/getValoraciones").post(userAuth, getValoraciones);
 
 //worker routes
 router.route("/getByDNI").get(workerAuth, getByDNI);

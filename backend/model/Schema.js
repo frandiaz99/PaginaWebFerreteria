@@ -164,6 +164,7 @@ const valoracionSchema = mongoose.Schema({
   opinion: { type: String, required: true },
   valoracion: { type: Number, required: true },
   sobre_usuario: { type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, },
+  de_usuario: { type: mongoose.Schema.Types.ObjectId, ref: "User", autopopulate: true, },
   //Trueques(FK), Usuario(FK)
   //El Nombre_Usuario seria el nombre del que opina, no guardo su id xq me parece alp2 y no tiene por que. Se podria poner hasta que el que opina elija el nombre con el que aparecece
 });

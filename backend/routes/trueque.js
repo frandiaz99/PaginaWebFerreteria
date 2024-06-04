@@ -8,7 +8,17 @@ const { error } = require("console");
 const router = express.Router();
 
 
+const getUltimosTrueques = async (req, res, next) => {
+  try{
+    let Trueque = await DataTrueque.find({venta_confirmada: true}).sort({fecha_venta: -1}).limit(5);
+    Trueque = await Trueque.map((T) => ({articulo_compra:{imagen_articulo: T.articulo_compra.foto_articulo[0], imagen_usuario: T.articulo_compra.usuario.foto_perfil}, articulo_publica:{imagen_articulo: T.articulo_publica.foto_articulo[0], imagen_usuario: T.articulo_publica.usuario.foto_perfil}, fecha: T.fecha_venta}))
+    return res.status(200).json({message: "OK", status: 200, Trueque});
+    
+  } catch (error) {
+    return res.status(400).json({message: "Error probable de la DB/server", status: 401, error: error.message});
+  }
 
+}
 
 
 
@@ -425,7 +435,7 @@ const valorarTrueque = async (req, res, next) => {
   } else {idOtro = Trueque.articulo_publica.usuario._id;}
 
 
-  await DataValoracion.create({opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro}).then ((V) =>{
+  await DataValoracion.create({opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro, de_usuario: User._id}).then ((V) =>{
     V.valoracion = parseInt(V.valoracion);
     Valoracion = V;
   }).catch (error => {
@@ -483,6 +493,8 @@ const valorarTrueque = async (req, res, next) => {
 
 }
 
+
+router.route("/getUltimosTrueques").get(getUltimosTrueques);
 
 router.route("/getPendientes").get(userAuth, getTruequesPendientes);
 router.route("/getCompletados").get(userAuth, getTruequesCompletados);

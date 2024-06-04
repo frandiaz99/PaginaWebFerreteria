@@ -168,25 +168,14 @@ rechazar oferta de trueque
 aceptar oferta  de trueque
 efectivizar trueque
 seleccionar sucursal
+puntuar usuario
+
 
 cancelar trueque
 ver trueques completados
 
 intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
 
+
 faltan:
 ver mis trueques
-puntuar usuario
-
-
-efectivizar trueque 
-esta que se controla
-para empleado: que la sucursal del trueque sea la de el
-              que la fecha dl trueque este establecida a fecha actual o ya pasada
-
-para admin: qeu la fecha del trueque este establecida a actual o previa
-
-
-setFecha
-se puede setear una fecha y sucural una sola vez
-y cualquiera de los participantes, pero se puede modificar
