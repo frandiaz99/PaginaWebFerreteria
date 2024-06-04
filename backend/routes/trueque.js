@@ -268,19 +268,8 @@ const efectivizarTrueque = async (req, res, next) => {
   const User = body.Auth;
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
-  let Efectivizar = body.Efectivizar;
-  console.log ("Efectivizar", Efectivizar)
+  let Efectivizar = JSON.parse(body.Efectivizar);
   
-  Efectivizar = Efectivizar.toUpperCase()
-  console.log ("Efectivizar", Efectivizar)
-  if (Efectivizar == "TRUE"){
-    Efectivizar = true
-  } else if (Efectivizar == "FALSE"){
-    Efectivizar = false
-  } else {
-    return res.status(400).json({message: "no se recibio la variable 'body.Efectivizar' o no tiene los valroes true/false", status: 401});
-  }
-  console.log ("Efectivizar", Efectivizar)
   
   
   
