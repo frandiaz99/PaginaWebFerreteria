@@ -1,43 +1,45 @@
 import '../styles/PopupPuntuarUsuario.css'
 
 
-function guardarDatos (trueque) {
-    let estrellas = document.getElementById("select-estrellas-popup");
-    let comentario = document.getElementById("comentario-popup");
-    if (estrellas.value != null && comentario.value != null){
-        const valoracion = {valoracion: estrellas, opinion: comentario};
-        console.log("id trueque: "+trueque._id);
-        console.log("valoracion.estrellas: "+valoracion.valoracion);
-        console.log("valoracion.opinion: "+valoracion.opinion);
-    }
-
-    fetch("http://localhost:5000/trueque/valorarTrueque", {
-        method: "POST",
-        headers: { "Content-Type": "application/JSON" },
-        body: JSON.stringify({
-            Trueque: trueque,
-            Valoracion: valoracion
-        }),
-        credentials: "include"
-    })
-    .then(response => {
-    if (!response.ok) {
-        return response.json().then(data => {
-        throw new Error(JSON.stringify({ message: data.message, status: data.status }));
-        })
-    }
-    return response.json();
-    })
-    .then(data => {
-    console.log("data :", data)
-    })
-    .catch(error => {
-    console.error('Error:', error);
-    })
-}
-
 const PuntuarUsuario = ({show, onClose, trueque}) => {
     if (!show) return null;
+
+    function guardarDatos (trueque) {
+        let estrellas = document.getElementById("select-estrellas-popup");
+        let comentario = document.getElementById("comentario-popup");
+        var valoracion
+        if (estrellas.value != null && comentario.value != null){
+            valoracion = {valoracion: estrellas, opinion: comentario};
+            console.log("id trueque: "+trueque._id);
+            console.log("valoracion.estrellas: "+valoracion.valoracion);
+            console.log("valoracion.opinion: "+valoracion.opinion);
+        }
+    
+        fetch("http://localhost:5000/trueque/valorarTrueque", {
+            method: "POST",
+            headers: { "Content-Type": "application/JSON" },
+            body: JSON.stringify({
+                Trueque: trueque,
+                Valoracion: valoracion
+            }),
+            credentials: "include"
+        })
+        .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+            })
+        }
+        return response.json();
+        })
+        .then(data => {
+        console.log("data :", data)
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        })
+    }
+
     return(
         <div className="popup-overlay">
             <div className="popup-content">
@@ -59,7 +61,7 @@ const PuntuarUsuario = ({show, onClose, trueque}) => {
                     </div>
                 </div>
                 <div className='container-botones-puntuar'>
-                    <button className="estilo-botones-puntuar" onClick={guardarDatos(trueque)}>Confirmar</button>
+                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos(trueque)}>Confirmar</button>
                     <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
                 </div>
             </div>
