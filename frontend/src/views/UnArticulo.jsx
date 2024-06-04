@@ -50,10 +50,10 @@ function UnArticulo() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    const articuloLocal = localStorage.getItem('articulo');
+    const articuloLocal = JSON.parse(localStorage.getItem('articulo'));
     if (articuloLocal) {
-      setArticuloSeleccionado(JSON.parse(articuloLocal));
-      //console.log(articuloSeleccionado);
+      setArticuloSeleccionado(articuloLocal);
+      console.log("asdas",articuloLocal);
     }
     boton_foto[0].style.display = "none";
 
@@ -151,6 +151,15 @@ function UnArticulo() {
     })
   }
 
+  useEffect(() =>{
+    if (articuloSeleccionado){
+      setNuevoArticulo({
+        ...articuloSeleccionado,
+        precio: 1,
+      })
+    }
+  },[articuloSeleccionado])
+
   function handleGuardar() {
     console.log(nuevoArticulo)
     fetch(
@@ -199,7 +208,18 @@ function UnArticulo() {
             <div className='div_categoria'>
               <h4>Categoria:</h4>
               {articuloSeleccionado && tasar(articuloSeleccionado) ? (
-                 <input type="text" name='precio' onChange={handleChange} />
+                 <select name='precio' onChange={handleChange} style={{marginLeft:'10px'}}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                 </select>
               ) : (
                 <p id='categoria-articulo' className='spacing'>{articuloSeleccionado && articuloSeleccionado.categoria}</p>
               )}

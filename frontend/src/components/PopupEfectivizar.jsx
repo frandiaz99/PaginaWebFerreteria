@@ -55,7 +55,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                 setConfirmado(true);
             })
             .catch(error => {
-                console.log("Error", error);
+                console.log("Error", error.message);
             });
     };
 
@@ -69,7 +69,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         confirmarSeleccion();
     };
 
-    const buttonText = efectivizar ? 'Registrar Venta / Efectivizar Trueque' : 'Registrar Venta / Cancelar Trueque';
+    const buttonText = efectivizar ? 'Confirmar' : 'Confirmar'; //xd hay que seguir la hu mirey
     const buttonClass = efectivizar ? 'aceptar' : 'cancelar';
 
     return (

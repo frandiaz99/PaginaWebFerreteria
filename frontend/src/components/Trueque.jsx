@@ -294,7 +294,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
       </div>
       <Modal texto={'¿Estás seguro que querés cancelar el trueque?'} confirmacion={modalCancelar} setConfirmacion={setModalCancelar} handleYes={handleYes} ok={false} />
-      <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24Hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
+      <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
       <PopupPuntuarUsuario
         show={popupPuntuarUsuario}
         onClose={() => setPopupPuntuarUsuario(false)}
