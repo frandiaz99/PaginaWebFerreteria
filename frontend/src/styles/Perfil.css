@@ -135,3 +135,16 @@
     font-size: 16px;
     padding: 10px;
 }
+
+#seccion-nombre, #seccion-estrella{
+    padding-bottom: 5px;
+}
+
+#seccion-comentario{
+    padding-bottom: 20px;
+    font-style: italic;
+}
+
+#seccion-nombre{
+    font-size: 18px;
+}

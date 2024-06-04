@@ -8,9 +8,6 @@ import { useState, useEffect, useRef } from 'react'
 
 const articulosXPag = 5 //en cada pagina mostrar 5 articulos
 
-function obtenerUltimos5(trueques){
-  return trueques.sort((t1,t2) => t2.fecha_venta - t1.fecha_venta).slice(0,5)
-}
 
 function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos] = useState([])
@@ -66,7 +63,7 @@ function PaginaPrincipal() {
   }, [])
 
   useEffect(() => {
-    fetch("http://localhost:5000/trueque/getCompletados", {
+    fetch("http://localhost:5000/trueque/getUltimosTrueques", {
       method: "GET",
       headers: { "Content-Type": "application/JSON" },
       credentials: "include"
@@ -80,7 +77,8 @@ function PaginaPrincipal() {
         return response.json();
       })
       .then(data => {
-        setUltimosTrueques(obtenerUltimos5(data.data))
+        console.log(data)
+        setUltimosTrueques(data.Trueque)
         setUltimosObtenido(true)
       })
       .catch(error => {

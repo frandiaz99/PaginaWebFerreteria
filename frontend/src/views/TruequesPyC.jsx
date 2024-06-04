@@ -68,8 +68,8 @@ function TruequesPyC() {
         return response.json();
       })
       .then(data => {
-        if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data, usuarioActual))
-        else setTruequesCompletados(obtenerTruequesConfirmados(data.data, usuarioActual))
+        if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data.reverse(), usuarioActual))
+        else setTruequesCompletados(obtenerTruequesConfirmados(data.data.reverse(), usuarioActual))
       })
       .catch(error => {
         console.error('Error:', error);
@@ -131,7 +131,6 @@ function TruequesPyC() {
                   ?
                   truequesCompletados.map((t) => (
                     <>
-                    {console.log("trueuqes", t)}
                     <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
                     </>
                   ))

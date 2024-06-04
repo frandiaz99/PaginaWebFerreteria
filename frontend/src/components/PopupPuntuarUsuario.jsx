@@ -1,50 +1,46 @@
 import '../styles/PopupPuntuarUsuario.css'
 
 
-function guardarDatos (trueque) {
-    let estrellas = document.getElementById("select-estrellas-popup");
-    let comentario = document.getElementById("comentario-popup");
-    if (estrellas.value != null && comentario.value != null){
-        const valoracion = {
-            valoracion: estrellas.value, 
-            opinion: comentario.value
-        };
-        console.log("id trueque: "+trueque._id);
-        console.log("valoracion.estrellas: "+valoracion.valoracion);
-        console.log("valoracion.opinion: "+valoracion.opinion);
-
-
-        //LO GUARDA. TOCA SEGUIR CON EL PROMEDIO DE LAS ESTRELLAS Y MOSTRARLAS. DESP EN VER PERFIL MOSTRAR LOS COMENTARIOS DE ESE USUARIO.
-
-        fetch("http://localhost:5000/trueque/valorarTrueque", {
-            method: "POST",
-            headers: { "Content-Type": "application/JSON" },
-            body: JSON.stringify({
-                Trueque: trueque,
-                Valoracion: valoracion,
-            }),
-            credentials: "include",
-        })
-        .then(response => {
-        if (!response.ok) {
-            return response.json().then(data => {
-            throw new Error(JSON.stringify({ message: data.message, status: data.status }));
-            })
-        }
-        return response.json();
-        })
-        .then(data => {
-        console.log("data :", data)
-        })
-        .catch(error => {
-        console.error('Error:', error);
-        })
-        
-    }
-}
-
 const PuntuarUsuario = ({show, onClose, trueque}) => {
     if (!show) return null;
+    function guardarDatos (trueque) {
+        let estrellas = document.getElementById("select-estrellas-popup");
+        let comentario = document.getElementById("comentario-popup");
+        if (estrellas.value != null && comentario.value != null){
+            const valoracion = {
+                valoracion: estrellas.value, 
+                opinion: comentario.value
+            };
+            console.log("id trueque: "+trueque._id);
+            console.log("valoracion.estrellas: "+valoracion.valoracion);
+            console.log("valoracion.opinion: "+valoracion.opinion);
+    
+            fetch("http://localhost:5000/trueque/valorarTrueque", {
+                method: "POST",
+                headers: { "Content-Type": "application/JSON" },
+                body: JSON.stringify({
+                    Trueque: trueque,
+                    Valoracion: valoracion,
+                }),
+                credentials: "include",
+            })
+            .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+                })
+            }
+            return response.json();
+            })
+            .then(data => {
+            console.log("data :", data)
+            onClose()
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            })
+        }
+    }
     return(
         <div className="popup-overlay">
             <div className="popup-content">

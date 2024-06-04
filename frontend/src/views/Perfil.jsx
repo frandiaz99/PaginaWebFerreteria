@@ -4,16 +4,21 @@ import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
 import {estaEnModoAdmin, estaEnModoUser} from '../helpers/estaEnModo.js'
 
+
+
 function Perfil() {
 
   const [usuario, setUsuario] = useState();
   const [isOwnProfile, setIsOwnProfile] = useState(false)
+  var userValoraciones;
   //const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     if (window.location.pathname === routes.perfilTercero) {
       const userTercero = JSON.parse(localStorage.getItem('userTercero'));
+      userValoraciones = userTercero;
       setUsuario(userTercero)
+      console.log("USUARIOOOOOO SELF EN IF: "+usuario);
       setIsOwnProfile(false)
       console.log('perfil tercero: ', userTercero)
     } else {
@@ -33,6 +38,8 @@ function Perfil() {
         .then(data => {
           console.log("usuariooo1234: ", data);
           setUsuario(data.User)
+          userValoraciones = data.User;
+          console.log("USUARIOOOOOO SELF: "+data.User);
           setIsOwnProfile(true)
         })
         .catch(error => {
@@ -40,6 +47,53 @@ function Perfil() {
         });
     }
   }, [location.pathname])
+
+  useEffect(() => {
+    setTimeout(function (){
+      fetch('http://localhost:5000/user/getValoraciones',
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/JSON",
+        }, 
+        body: JSON.stringify({
+          User: userValoraciones
+        }),
+        credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener los comentarios');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("data valoraciones: ", data);
+        var caja_comentarios = document.getElementById("caja-comentarios");
+        caja_comentarios.innerHTML = "";
+        data.Valoraciones.forEach(valoracionData => {
+          const seccion_nombre = document.createElement('div');
+          const seccion_estrellas = document.createElement('div');
+          const seccion_comentario = document.createElement('div');
+          seccion_nombre.id = "seccion-nombre";
+          seccion_estrellas.id = "seccion-estrella";
+          seccion_comentario.id = "seccion-comentario";
+          seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
+          seccion_estrellas.innerHTML = valoracionData.valoracion;
+          seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
+          console.log("seccion nombre: "+ seccion_nombre.textContent)
+          console.log("seccion estre: "+ seccion_estrellas.textContent)
+          console.log("seccion coment: "+ seccion_comentario.textContent)
+          caja_comentarios.appendChild(seccion_nombre);
+          caja_comentarios.appendChild(seccion_estrellas);
+          caja_comentarios.appendChild(seccion_comentario);
+        })
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }, 500);
+  }, [])
 
   function generarEstrellas(puntuacion) {
     const estrellas = [];
@@ -76,31 +130,6 @@ function Perfil() {
 
     return fechaFormateada;
 
-  }
-
-  function mostrarComentarios (){
-    //No encuentra el url, mirarlo
-    fetch('http://localhost:5000/user/getValoraciones',
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/JSON",
-      }, 
-      credentials: "include"
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Hubo un problema al obtener los comentarios');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("data valoraciones: ", data);
-      //Aca se muestran los comentarios
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
   }
 
 
@@ -145,8 +174,8 @@ function Perfil() {
             <div className='cantidad-trueques'>
               Trueques realizados: - -
             </div>
-            <div className="caja-comentarios">
-              {mostrarComentarios()}
+            <div className="caja-comentarios" id='caja-comentarios'>
+              
             </div>
           </div>}
         </div>

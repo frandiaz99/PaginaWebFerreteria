@@ -5,6 +5,8 @@ const { DataArticulo, DataTrueque, DataUser, DataValoracion } = require("../mode
 const { MandarMail } = require("./mail.js");
 const { CalcularPuntos } = require("./producto.js");
 const { error } = require("console");
+const { parse } = require("path");
+const { parseArgs } = require("util");
 const router = express.Router();
 
 
@@ -137,7 +139,7 @@ const cancelarTrueque = async (req, res, next) => {
     //  if (!(User.rol >= 2)) {
     //      console.log("No es empleado ni administrador");
     
-     if (!((Publi.articulo_compra.usuario._id = User._id) || (Publi.articulo_publica.usuario._id = User._id))) {
+     if (!((Publi.articulo_compra.usuario._id == User._id) || (Publi.articulo_publica.usuario._id == User._id))) {
         console.log("Tampoco es un usuario que participa en el trueque");
         return res.status(401).json({
           message: "No posee permisos para borrar el Trueque",
@@ -163,6 +165,10 @@ if (Publi.fecha_venta) {
     if (Publi.venta_confirmada) {
       console.log("Este trueque ya fue efectivizado, no se puede cancelar ya")
       return res.status(401).json({ message: "El trueque ya fue efectivizado", status: 407 });
+    }
+    if (Publi.venta_cerrada) {
+      console.log("Este trueque ya fue cancelado, no se puede cancelar ya")
+      return res.status(401).json({ message: "El trueque ya fue cancelado", status: 407 });
     }
     
     
@@ -262,8 +268,22 @@ const efectivizarTrueque = async (req, res, next) => {
   const User = body.Auth;
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
-  const Efectivizar = body.Efectivizar;
-
+  let Efectivizar = body.Efectivizar;
+  console.log ("Efectivizar", Efectivizar)
+  
+  Efectivizar = Efectivizar.toUpperCase()
+  console.log ("Efectivizar", Efectivizar)
+  if (Efectivizar == "TRUE"){
+    Efectivizar = true
+  } else if (Efectivizar == "FALSE"){
+    Efectivizar = false
+  } else {
+    return res.status(400).json({message: "no se recibio la variable 'body.Efectivizar' o no tiene los valroes true/false", status: 401});
+  }
+  console.log ("Efectivizar", Efectivizar)
+  
+  
+  
   /*
   if (User.rol == 1){
     return res.status(401).json({ message: "No posee permisos", status: 401 });
@@ -335,6 +355,7 @@ const efectivizarTrueque = async (req, res, next) => {
     var tipo_operacion;
     if (!Efectivizar) {
       tipo_operacion = "CANCELADO"
+      console.log("Canceladdddooo-------------------------------      ---------------------")
 
     } else {
       tipo_operacion = "EFECTIVIZADO"
