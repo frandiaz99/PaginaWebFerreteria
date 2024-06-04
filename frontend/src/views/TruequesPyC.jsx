@@ -131,7 +131,6 @@ function TruequesPyC() {
                   ?
                   truequesCompletados.map((t) => (
                     <>
-                    {console.log("trueuqes", t)}
                     <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
                     </>
                   ))
