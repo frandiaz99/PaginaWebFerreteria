@@ -15,6 +15,8 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         }]
     )
 
+    const [idIncorrecto, setIdIncorrecto] = useState(false)
+
     const handleInputChange = (index, e) => {
         const { name, value } = e.target;
         setVentas(prevVentas => {
@@ -26,6 +28,8 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
 
     const agregarProducto = () => {
         setVentas(prevVentas => [...prevVentas, { cantidad: '', codigo: '', dni: '' }]);
+
+        console.log("ventassssssssssssssssssssss - > ", ventas)
     };
 
     const eliminarProducto = (index) => {
@@ -55,7 +59,15 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                 setConfirmado(true);
             })
             .catch(error => {
-                console.log("Error", error.message);
+                const errorData = JSON.parse(error.message)
+                //console.error('Hubo un problema al guardar los cambios:', error);
+                switch (errorData.status) {
+                    case 400:
+                        setIdIncorrecto(true)
+                        break
+                    default:
+                        console.log(errorData.message)
+                }
             });
     };
 
@@ -122,6 +134,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                     handleYes={handleOk}
                     ok={true}
                 />
+                <Modal texto={'Id del produdcto inexistente'} confirmacion={idIncorrecto} setConfirmacion={setIdIncorrecto} ok={true} />
             </div>
         </div>
     );
