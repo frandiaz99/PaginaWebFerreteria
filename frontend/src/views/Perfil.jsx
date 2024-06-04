@@ -78,6 +78,32 @@ function Perfil() {
 
   }
 
+  function mostrarComentarios (){
+    //No encuentra el url, mirarlo
+    fetch('http://localhost:5000/user/getValoraciones',
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/JSON",
+      }, 
+      credentials: "include"
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Hubo un problema al obtener los comentarios');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("data valoraciones: ", data);
+      //Aca se muestran los comentarios
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+
 
   return (
     <main className='main'>
@@ -118,6 +144,9 @@ function Perfil() {
           {!estaEnModoAdmin() && <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
               Trueques realizados: - -
+            </div>
+            <div className="caja-comentarios">
+              {mostrarComentarios()}
             </div>
           </div>}
         </div>

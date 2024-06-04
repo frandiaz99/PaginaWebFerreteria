@@ -14,7 +14,7 @@ function guardarDatos (trueque) {
         console.log("valoracion.opinion: "+valoracion.opinion);
 
 
-    //LO GUARDA. TOCA SEGUIR CON EL PROMEDIO DE LAS ESTRELLAS Y MOSTRARLAS. DESP EN VER PERFIL MOSTRAR LOS COMENTARIOS DE ESE USUARIO.
+        //LO GUARDA. TOCA SEGUIR CON EL PROMEDIO DE LAS ESTRELLAS Y MOSTRARLAS. DESP EN VER PERFIL MOSTRAR LOS COMENTARIOS DE ESE USUARIO.
 
         fetch("http://localhost:5000/trueque/valorarTrueque", {
             method: "POST",
@@ -39,6 +39,7 @@ function guardarDatos (trueque) {
         .catch(error => {
         console.error('Error:', error);
         })
+        
     }
 }
 
@@ -47,7 +48,7 @@ const PuntuarUsuario = ({show, onClose, trueque}) => {
     return(
         <div className="popup-overlay">
             <div className="popup-content">
-                <h2 className='titulo-popup-puntuar'>Calificar usuario</h2>
+                <h2 className='titulo-popup-puntuar'>Calificar trueque</h2>
                 <div className='container-popup-puntuar'>
                     <div className="container-calificar">
                         Cantidad de estrellas: 
@@ -65,7 +66,7 @@ const PuntuarUsuario = ({show, onClose, trueque}) => {
                     </div>
                 </div>
                 <div className='container-botones-puntuar'>
-                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos(trueque)}>Confirmar</button>
+                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos(trueque)}>Puntuar</button>
                     <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
                 </div>
             </div>
