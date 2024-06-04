@@ -52,56 +52,62 @@ function Perfil() {
   //Vert porque mierda al recargar la pagina el div es null
 
   useEffect(() => {
-    var caja_comentarios = document.getElementById("caja-comentarios");
-    if (!hecho){
-      console.log("no esta hecho: "+hecho)
-      hecho = true;
-      setTimeout(function (){
-        fetch('http://localhost:5000/user/getValoraciones',
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/JSON",
-          }, 
-          body: JSON.stringify({
-            User: userValoraciones
-          }),
-          credentials: "include"
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Hubo un problema al obtener los comentarios');
-          }
-          return response.json();
-        })
-        .then(data => {
-          caja_comentarios.innerHTML = "";
-          console.log("data valoraciones: ", data);
-          data.Valoraciones.forEach(valoracionData => {
-            const seccion_nombre = document.createElement('div');
-            const seccion_estrellas = document.createElement('div');
-            const seccion_comentario = document.createElement('div');
-            seccion_nombre.id = "seccion-nombre";
-            seccion_estrellas.id = "seccion-estrella";
-            seccion_comentario.id = "seccion-comentario";
-            seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
-            seccion_estrellas.innerHTML = valoracionData.valoracion;
-            seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
-            console.log("seccion nombre: "+ seccion_nombre.textContent)
-            console.log("seccion estre: "+ seccion_estrellas.textContent)
-            console.log("seccion coment: "+ seccion_comentario.textContent)
-            caja_comentarios.appendChild(seccion_nombre);
-            caja_comentarios.appendChild(seccion_estrellas);
-            caja_comentarios.appendChild(seccion_comentario);
+    setTimeout(() => {
+      var caja_comentarios = document.getElementById("caja-comentarios");
+      if (!hecho){
+        console.log("no esta hecho: "+hecho)
+        hecho = true;
+        setTimeout(function (){
+          fetch('http://localhost:5000/user/getValoraciones',
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/JSON",
+            }, 
+            body: JSON.stringify({
+              User: userValoraciones
+            }),
+            credentials: "include"
           })
-        })
-        .catch(error => {      
-          console.error('Error:', error);
-        });
-      }, 500);
-    }else{
-      console.log("esta hecho: "+hecho)
-    }
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Hubo un problema al obtener los comentarios');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("data valoraciones: ", data);
+            if (data.status != 201){
+              caja_comentarios.innerHTML = "";
+              data.Valoraciones.forEach(valoracionData => {
+                const seccion_nombre = document.createElement('div');
+                const seccion_estrellas = document.createElement('div');
+                const seccion_comentario = document.createElement('div');
+                seccion_nombre.id = "seccion-nombre";
+                seccion_estrellas.id = "seccion-estrella";
+                seccion_comentario.id = "seccion-comentario";
+                seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
+                seccion_estrellas.innerHTML = valoracionData.valoracion;
+                seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
+                console.log("seccion nombre: "+ seccion_nombre.textContent)
+                console.log("seccion estre: "+ seccion_estrellas.textContent)
+                console.log("seccion coment: "+ seccion_comentario.textContent)
+                caja_comentarios.appendChild(seccion_nombre);
+                caja_comentarios.appendChild(seccion_estrellas);
+                caja_comentarios.appendChild(seccion_comentario);
+              })
+            }else{
+              caja_comentarios.innerHTML = "No hay valoraciones para mostrar.";
+            }
+          })
+          .catch(error => {      
+            console.error('Error:', error);
+          });
+        }, 500);
+      }else{
+        console.log("esta hecho: "+hecho)
+      }
+    }, 500);
   }, [])
 
   function generarEstrellas(puntuacion) {
@@ -184,7 +190,7 @@ function Perfil() {
               Trueques realizados: - -
             </div>
             <div className="caja-comentarios" id='caja-comentarios'>
-              
+              Cargando valoraciones...
             </div>
           </div>}
         </div>
