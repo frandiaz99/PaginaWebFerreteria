@@ -11,13 +11,13 @@ const router = express.Router();
 
 
 const getUltimosTrueques = async (req, res, next) => {
-  try{
-    let Trueque = await DataTrueque.find({venta_confirmada: true}).sort({fecha_venta: -1}).limit(5);
-    Trueque = await Trueque.map((T) => ({articulo_compra:{imagen_articulo: T.articulo_compra.foto_articulo[0], imagen_usuario: T.articulo_compra.usuario.foto_perfil}, articulo_publica:{imagen_articulo: T.articulo_publica.foto_articulo[0], imagen_usuario: T.articulo_publica.usuario.foto_perfil}, fecha: T.fecha_venta}))
-    return res.status(200).json({message: "OK", status: 200, Trueque});
-    
+  try {
+    let Trueque = await DataTrueque.find({ venta_confirmada: true }).sort({ fecha_venta: -1 }).limit(5);
+    Trueque = await Trueque.map((T) => ({ articulo_compra: { imagen_articulo: T.articulo_compra.foto_articulo[0], imagen_usuario: T.articulo_compra.usuario.foto_perfil }, articulo_publica: { imagen_articulo: T.articulo_publica.foto_articulo[0], imagen_usuario: T.articulo_publica.usuario.foto_perfil }, fecha: T.fecha_venta }))
+    return res.status(200).json({ message: "OK", status: 200, Trueque });
+
   } catch (error) {
-    return res.status(400).json({message: "Error probable de la DB/server", status: 401, error: error.message});
+    return res.status(400).json({ message: "Error probable de la DB/server", status: 401, error: error.message });
   }
 
 }
@@ -135,30 +135,30 @@ const cancelarTrueque = async (req, res, next) => {
         .status(404)
         .json({ message: "Trueque not found", status: 404 });
     }
-    
+
     //  if (!(User.rol >= 2)) {
     //      console.log("No es empleado ni administrador");
-    
-     if (!((Publi.articulo_compra.usuario._id == User._id) || (Publi.articulo_publica.usuario._id == User._id))) {
-        console.log("Tampoco es un usuario que participa en el trueque");
-        return res.status(401).json({
-          message: "No posee permisos para borrar el Trueque",
-          status: 405,
-        });
-      }
-//}
 
-if (Publi.fecha_venta) {
-  var today = new Date();
-  var tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1)
-  
-  console.log ("fecha trueque", Publi.fecha_venta, "fecha dentro de un dia", tomorrow)
-  if (Publi.fecha_venta < tomorrow) {
-    console.log("Este trueque tiene fecha para dentro de menos de un dia")
-    return res.status(401).json({ message: "No se puede cancelar un trueque con fecha establecida paradentro de menos de 24Hs", status: 408 });
-  }
-}
+    if (!((Publi.articulo_compra.usuario._id == User._id) || (Publi.articulo_publica.usuario._id == User._id))) {
+      console.log("Tampoco es un usuario que participa en el trueque");
+      return res.status(401).json({
+        message: "No posee permisos para borrar el Trueque",
+        status: 405,
+      });
+    }
+    //}
+
+    if (Publi.fecha_venta) {
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1)
+
+      console.log("fecha trueque", Publi.fecha_venta, "fecha dentro de un dia", tomorrow)
+      if (Publi.fecha_venta < tomorrow) {
+        console.log("Este trueque tiene fecha para dentro de menos de un dia")
+        return res.status(401).json({ message: "No se puede cancelar un trueque con fecha establecida paradentro de menos de 24Hs", status: 408 });
+      }
+    }
 
 
 
@@ -170,17 +170,17 @@ if (Publi.fecha_venta) {
       console.log("Este trueque ya fue cancelado, no se puede cancelar ya")
       return res.status(401).json({ message: "El trueque ya fue cancelado", status: 407 });
     }
-    
-    
+
+
     MandarMail(Publi.articulo_publica.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
     MandarMail(Publi.articulo_compra.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
 
 
-    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_compra._id }, {$set: { reservado: false } }).catch((err) => {
+    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_compra._id }, { $set: { reservado: false } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
-    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_publica._id }, {$set: { reservado: false } }).catch((err) => {
+    DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_publica._id }, { $set: { reservado: false } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
@@ -269,10 +269,10 @@ const efectivizarTrueque = async (req, res, next) => {
   const Trueque = body.Trueque;
   const Ventas = body.Ventas;
   let Efectivizar = JSON.parse(body.Efectivizar);
-  
-  
-  
-  
+
+
+  console.log("body ->", req.body)
+
   /*
   if (User.rol == 1){
     return res.status(401).json({ message: "No posee permisos", status: 401 });
@@ -362,16 +362,16 @@ const efectivizarTrueque = async (req, res, next) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
-    DataArticulo.findByIdAndUpdate({ _id: T.articulo_compra._id }, {$set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
+    DataArticulo.findByIdAndUpdate({ _id: T.articulo_compra._id }, { $set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
 
-    DataUser.findByIdAndUpdate({ _id: T.articulo_publica.usuario._id }, { $inc: { puntos: puntos_publica }, $set: { vendido: Efectivizar, reservado: Efectivizar} }).catch((err) => {
+    DataUser.findByIdAndUpdate({ _id: T.articulo_publica.usuario._id }, { $inc: { puntos: puntos_publica }, $set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
-    DataArticulo.findByIdAndUpdate({ _id: T.articulo_publica._id }, { $set: { vendido: Efectivizar, reservado: Efectivizar} }).catch((err) => {
+    DataArticulo.findByIdAndUpdate({ _id: T.articulo_publica._id }, { $set: { vendido: Efectivizar, reservado: Efectivizar } }).catch((err) => {
       console.log(err);
       return res.status(400).json({ message: "Error obteniendo los datos", status: 400 });
     });
@@ -396,110 +396,110 @@ const valorarTrueque = async (req, res, next) => {
   const User = req.body.Auth;
   var Trueque = req.body.Trueque;
   var Valoracion = req.body.Valoracion;
-  
-  
-  if (!Trueque || !Trueque._id){
-    return res.status(400).json({message: "Falta la variable 'Trueque._id' ", status: 401});
-  }
-  
-  if (!Valoracion || !Valoracion.opinion || !Valoracion.valoracion){
-    return res.status(400).json({message: "Falta la variable 'Valoracion.opinion' o 'Valoracion.valoracion'", status: 402});
-  }
-  if (Valoracion.valoracion < 1 || Valoracion.valoracion > 5){
-    return res.status(400).json({message: "El valor de valoracion debe encontrarse entre 1 y 5 inclusive", status: 407});
+
+
+  if (!Trueque || !Trueque._id) {
+    return res.status(400).json({ message: "Falta la variable 'Trueque._id' ", status: 401 });
   }
 
-  try{
+  if (!Valoracion || !Valoracion.opinion || !Valoracion.valoracion) {
+    return res.status(400).json({ message: "Falta la variable 'Valoracion.opinion' o 'Valoracion.valoracion'", status: 402 });
+  }
+  if (Valoracion.valoracion < 1 || Valoracion.valoracion > 5) {
+    return res.status(400).json({ message: "El valor de valoracion debe encontrarse entre 1 y 5 inclusive", status: 407 });
+  }
+
+  try {
     const T = await DataTrueque.findById(Trueque._id)
-    if (!T){
-      return res.status(400).json({message: "Error Articulo no encontrado", status: 404});
+    if (!T) {
+      return res.status(400).json({ message: "Error Articulo no encontrado", status: 404 });
     }
     Trueque = T
   } catch {
-    return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+    return res.status(400).json({ message: "Error Probable del server / DB", status: 400 });
   }
- 
-  if (!Trueque.venta_confirmada){
-    return res.status(400).json({message: "El trueque todavia no fue finalizado", status: 403});
+
+  if (!Trueque.venta_confirmada) {
+    return res.status(400).json({ message: "El trueque todavia no fue finalizado", status: 403 });
   }
 
 
   let publica;
-  if (Trueque.articulo_publica.usuario._id = User._id){
+  if (Trueque.articulo_publica.usuario._id = User._id) {
     publica = true;
   } else if (Trueque.articulo_compra.usuario._id = User._id) {
     publica = false;
   } else {
-    return res.status(400).json({message: "Usuario no autorizado para opinar en este articulo", status: 405});
+    return res.status(400).json({ message: "Usuario no autorizado para opinar en este articulo", status: 405 });
   }
-  
-  if (publica && Trueque.valoracion_publica){
-    return res.status(400).json({message: "Este usuario ya realizo su opinion de este trueque", status: 406});
-  } else if (Trueque.valoracion_compra){
-    return res.status(400).json({message: "Este usuario ya realizo su opinion de este trueque", status: 406});
+
+  if (publica && Trueque.valoracion_publica) {
+    return res.status(400).json({ message: "Este usuario ya realizo su opinion de este trueque", status: 406 });
+  } else if (Trueque.valoracion_compra) {
+    return res.status(400).json({ message: "Este usuario ya realizo su opinion de este trueque", status: 406 });
   }
 
   var idOtro;
-  if (publica){
+  if (publica) {
     idOtro = Trueque.articulo_compra.usuario._id;
-  } else {idOtro = Trueque.articulo_publica.usuario._id;}
+  } else { idOtro = Trueque.articulo_publica.usuario._id; }
 
 
-  await DataValoracion.create({opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro, de_usuario: User._id}).then ((V) =>{
+  await DataValoracion.create({ opinion: Valoracion.opinion, valoracion: Valoracion.valoracion, sobre_usuario: idOtro, de_usuario: User._id }).then((V) => {
     V.valoracion = parseInt(V.valoracion);
     Valoracion = V;
-  }).catch (error => {
-    return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+  }).catch(error => {
+    return res.status(400).json({ message: "Error Probable del server / DB", status: 400 });
   })
-  
-  if (publica){
-    await DataTrueque.findByIdAndUpdate(Trueque._id, {valoracion_publica: Valoracion }).then (T => {
+
+  if (publica) {
+    await DataTrueque.findByIdAndUpdate(Trueque._id, { valoracion_publica: Valoracion }).then(T => {
       Trueque = T;
-    } ).catch (error =>{
-      return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+    }).catch(error => {
+      return res.status(400).json({ message: "Error Probable del server / DB", status: 400 });
     })
-  } else{
-    await DataTrueque.findByIdAndUpdate(Trueque._id, {valoracion_compra: Valoracion }).then (T => {
+  } else {
+    await DataTrueque.findByIdAndUpdate(Trueque._id, { valoracion_compra: Valoracion }).then(T => {
       Trueque = T;
-    } ).catch (error =>{
-      return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+    }).catch(error => {
+      return res.status(400).json({ message: "Error Probable del server / DB", status: 400 });
     })
   }
-      /*
-    try {
-      
-      DataValoracion.find({sobre_usuario: idOtro})
+  /*
+try {
+  
+  DataValoracion.find({sobre_usuario: idOtro})
 
-      const result = await DataUser.findOneAndUpdate({ _id: User._id },
-         [{ $set: {valoracion: { $divide: [{ $add: ["$valoracion", Valoracion.valoracion] }, 2] }}}], { new: true }
-      );
-      res.status(200).json({message: "OK", status: 200});
-      
-    } catch (error) {
-      console.log(error)
-      return res.status(400).json({message: "Error Probable del server / DB", status: 400});
-    }*/
-    
-    
-    
-    try {
-      const result = await DataValoracion.aggregate([
-        {$match: { sobre_usuario: idOtro }},
-        {$group: { _id: null, totalValoracion: { $sum: '$valoracion' }, count: { $sum: 1 } }},
-        {$project: {_id: 0, averageValoracion: { $divide: ['$totalValoracion', '$count'] }}}
-      ]);
-      
-      if (result.length > 0) {
-        await DataUser.findOneAndUpdate({ _id: User._id },{ $set: {valoracion: result[0].averageValoracion}});
-        res.status(200).json({message: "OK", status: 200});
-      } else {
-        console.log(result)
-        res.status(400).json({message: "Erro geting valoracion", status: 400});
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+  const result = await DataUser.findOneAndUpdate({ _id: User._id },
+     [{ $set: {valoracion: { $divide: [{ $add: ["$valoracion", Valoracion.valoracion] }, 2] }}}], { new: true }
+  );
+  res.status(200).json({message: "OK", status: 200});
+  
+} catch (error) {
+  console.log(error)
+  return res.status(400).json({message: "Error Probable del server / DB", status: 400});
+}*/
+
+
+
+  try {
+    const result = await DataValoracion.aggregate([
+      { $match: { sobre_usuario: idOtro } },
+      { $group: { _id: null, totalValoracion: { $sum: '$valoracion' }, count: { $sum: 1 } } },
+      { $project: { _id: 0, averageValoracion: { $divide: ['$totalValoracion', '$count'] } } }
+    ]);
+
+    if (result.length > 0) {
+      await DataUser.findOneAndUpdate({ _id: User._id }, { $set: { valoracion: result[0].averageValoracion } });
+      res.status(200).json({ message: "OK", status: 200 });
+    } else {
+      console.log(result)
+      res.status(400).json({ message: "Erro geting valoracion", status: 400 });
     }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return res.status(400).json({ message: "Error Probable del server / DB", status: 400 });
+  }
 
 }
 

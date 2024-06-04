@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) => {
     if (!show) return null;
 
-    const [ventas, setVentas] = useState([{ cantidad: '', codigo: '', dni: '' }]);
+    const [ventas, setVentas] = useState([{ cantidad: '', codigo: '', usuario: null }]);
     const [confirmado, setConfirmado] = useState(false);
     const [usuario, setUsuario] = useState(
         [{
@@ -21,13 +21,18 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         const { name, value } = e.target;
         setVentas(prevVentas => {
             const newVentas = [...prevVentas];
-            newVentas[index][name] = value;
+            if (name === 'usuario') {
+                const selectedUsuario = JSON.parse(value);
+                newVentas[index][name] = selectedUsuario;
+            } else {
+                newVentas[index][name] = value;
+            }
             return newVentas;
         });
     };
 
     const agregarProducto = () => {
-        setVentas(prevVentas => [...prevVentas, { cantidad: '', codigo: '', dni: '' }]);
+        setVentas(prevVentas => [...prevVentas, { cantidad: '', codigo: '', usuario: null }]);
 
         console.log("ventassssssssssssssssssssss - > ", ventas)
     };
@@ -37,13 +42,19 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
     };
 
     const confirmarSeleccion = () => {
+
+        const ventasConUsuario = ventas.map(venta => ({
+            ...venta,
+            usuario: venta.usuario ? venta.usuario : null
+        }));
+
         fetch('http://localhost:5000/trueque/efectivizarTrueque', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 //"Cookie": localStorage.getItem('jwt')
             },
-            body: JSON.stringify({ Ventas: ventas, Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
+            body: JSON.stringify({ Ventas: ventasConUsuario, Trueque: truequeAEfectivizar, Efectivizar: efectivizar }),
             credentials: "include"
         })
             .then(response => {
@@ -108,15 +119,15 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                             />
                             <select
                                 name='usuario'
-                                value={venta.usuario}
+                                value={JSON.stringify(venta.usuario)}
                                 onChange={(e) => handleInputChange(index, e)}
                             >
                                 <option value="">Seleccione usuario</option>
-                                <option value={truequeAEfectivizar.articulo_compra.usuario.dni}>
-                                    {truequeAEfectivizar.articulo_compra.usuario.dni}
+                                <option value={JSON.stringify(truequeAEfectivizar.articulo_compra.usuario)}>
+                                    {truequeAEfectivizar.articulo_compra.usuario.dni}/{truequeAEfectivizar.articulo_compra.usuario.nombre}
                                 </option>
-                                <option value={truequeAEfectivizar.articulo_publica.usuario.dni}>
-                                    {truequeAEfectivizar.articulo_publica.usuario.dni}
+                                <option value={JSON.stringify(truequeAEfectivizar.articulo_publica.usuario)}>
+                                    {truequeAEfectivizar.articulo_publica.usuario.dni}/{truequeAEfectivizar.articulo_publica.usuario.nombre}
                                 </option>
                             </select>
                             <button type="button" className='remove-row' onClick={() => eliminarProducto(index)}>x</button>
