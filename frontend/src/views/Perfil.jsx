@@ -49,7 +49,20 @@ function Perfil() {
     }
   }, [location.pathname])
 
-  //Vert porque mierda al recargar la pagina el div es null
+  function cargarEstrellas (seccion, cantidad){
+    var cantEstrellasVacias = 5 - cantidad;
+    var star;
+    for (let i = 0; i < cantidad; i++){
+      star = document.createElement('ion-icon');
+      star.name = "star";
+      seccion.appendChild(star);
+    }
+    for (let i = 0; i < cantEstrellasVacias; i++){
+      star = document.createElement('ion-icon');
+      star.name = "star-outline";
+      seccion.appendChild(star);
+    }
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -87,7 +100,7 @@ function Perfil() {
                 seccion_estrellas.id = "seccion-estrella";
                 seccion_comentario.id = "seccion-comentario";
                 seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
-                seccion_estrellas.innerHTML = valoracionData.valoracion;
+                cargarEstrellas(seccion_estrellas, parseInt(valoracionData.valoracion));
                 seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
                 console.log("seccion nombre: "+ seccion_nombre.textContent)
                 console.log("seccion estre: "+ seccion_estrellas.textContent)
