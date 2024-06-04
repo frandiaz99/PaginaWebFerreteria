@@ -11,6 +11,7 @@ function Perfil() {
   const [usuario, setUsuario] = useState();
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   var userValoraciones;
+  var hecho = false;
   //const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
@@ -49,50 +50,66 @@ function Perfil() {
   }, [location.pathname])
 
   useEffect(() => {
-    setTimeout(function (){
-      fetch('http://localhost:5000/user/getValoraciones',
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/JSON",
-        }, 
-        body: JSON.stringify({
-          User: userValoraciones
-        }),
-        credentials: "include"
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Hubo un problema al obtener los comentarios');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("data valoraciones: ", data);
-        var caja_comentarios = document.getElementById("caja-comentarios");
-        caja_comentarios.innerHTML = "";
-        data.Valoraciones.forEach(valoracionData => {
-          const seccion_nombre = document.createElement('div');
-          const seccion_estrellas = document.createElement('div');
-          const seccion_comentario = document.createElement('div');
-          seccion_nombre.id = "seccion-nombre";
-          seccion_estrellas.id = "seccion-estrella";
-          seccion_comentario.id = "seccion-comentario";
-          seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
-          seccion_estrellas.innerHTML = valoracionData.valoracion;
-          seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
-          console.log("seccion nombre: "+ seccion_nombre.textContent)
-          console.log("seccion estre: "+ seccion_estrellas.textContent)
-          console.log("seccion coment: "+ seccion_comentario.textContent)
-          caja_comentarios.appendChild(seccion_nombre);
-          caja_comentarios.appendChild(seccion_estrellas);
-          caja_comentarios.appendChild(seccion_comentario);
+    var caja_comentarios = document.getElementById("caja-comentarios");
+    if (!hecho){
+      console.log("no esta hecho: "+hecho)
+      hecho = true;
+      setTimeout(function (){
+        caja_comentarios.innerHTML = "cargando...";
+        fetch('http://localhost:5000/user/getValoraciones',
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/JSON",
+          }, 
+          body: JSON.stringify({
+            User: userValoraciones
+          }),
+          credentials: "include"
         })
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    }, 500);
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Hubo un problema al obtener los comentarios');
+          }
+          return response.json();
+        })
+        .then(data => {
+          caja_comentarios.innerHTML = "";
+          console.log("data valoraciones: ", data);
+          data.Valoraciones.forEach(valoracionData => {
+            const seccion_nombre = document.createElement('div');
+            const seccion_estrellas = document.createElement('div');
+            const seccion_comentario = document.createElement('div');
+            seccion_nombre.id = "seccion-nombre";
+            seccion_estrellas.id = "seccion-estrella";
+            seccion_comentario.id = "seccion-comentario";
+            seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
+            seccion_estrellas.innerHTML = valoracionData.valoracion;
+            seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
+            console.log("seccion nombre: "+ seccion_nombre.textContent)
+            console.log("seccion estre: "+ seccion_estrellas.textContent)
+            console.log("seccion coment: "+ seccion_comentario.textContent)
+            caja_comentarios.appendChild(seccion_nombre);
+            caja_comentarios.appendChild(seccion_estrellas);
+            caja_comentarios.appendChild(seccion_comentario);
+          })
+        })
+        .catch(error => {
+          caja_comentarios.innerHTML = ""
+          const titulo = document.createElement('p');
+          const msj_sin_comentarios = document.createElement('p');
+          titulo.id = "titulo-valoraciones"
+          titulo.innerText = "Valoraciones";
+          msj_sin_comentarios.id = "msj-sin-comentarios";
+          msj_sin_comentarios.innerText = "A este usuario aún no le han hecho valoraciones.";
+          caja_comentarios.appendChild(titulo);
+          caja_comentarios.appendChild(msj_sin_comentarios);
+          console.error('Error:', error);
+        });
+      }, 500);
+    }else{
+      console.log("esta hecho: "+hecho)
+    }
   }, [])
 
   function generarEstrellas(puntuacion) {
