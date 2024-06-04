@@ -49,13 +49,14 @@ function Perfil() {
     }
   }, [location.pathname])
 
+  //Vert porque mierda al recargar la pagina el div es null
+
   useEffect(() => {
     var caja_comentarios = document.getElementById("caja-comentarios");
     if (!hecho){
       console.log("no esta hecho: "+hecho)
       hecho = true;
       setTimeout(function (){
-        caja_comentarios.innerHTML = "cargando...";
         fetch('http://localhost:5000/user/getValoraciones',
         {
           method: "POST",
@@ -94,16 +95,7 @@ function Perfil() {
             caja_comentarios.appendChild(seccion_comentario);
           })
         })
-        .catch(error => {
-          caja_comentarios.innerHTML = ""
-          const titulo = document.createElement('p');
-          const msj_sin_comentarios = document.createElement('p');
-          titulo.id = "titulo-valoraciones"
-          titulo.innerText = "Valoraciones";
-          msj_sin_comentarios.id = "msj-sin-comentarios";
-          msj_sin_comentarios.innerText = "A este usuario aún no le han hecho valoraciones.";
-          caja_comentarios.appendChild(titulo);
-          caja_comentarios.appendChild(msj_sin_comentarios);
+        .catch(error => {      
           console.error('Error:', error);
         });
       }, 500);
