@@ -145,7 +145,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                     handleYes={handleOk}
                     ok={true}
                 />
-                <Modal texto={'Id del produdcto inexistente'} confirmacion={idIncorrecto} setConfirmacion={setIdIncorrecto} ok={true} />
+                <Modal texto={'Id de producto inexistente'} confirmacion={idIncorrecto} setConfirmacion={setIdIncorrecto} ok={true} />
             </div>
         </div>
     );
