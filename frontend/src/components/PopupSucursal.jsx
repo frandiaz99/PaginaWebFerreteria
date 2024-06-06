@@ -5,7 +5,7 @@ import Modal from "../components/Modal";
 const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEstado }) => {
     if (!show) return null;
 
-    const [sucursalTemp, setSucursalTemp]= useState()
+    const [sucursalTemp, setSucursalTemp] = useState()
     const [datos, setDatos] = useState({
         _id: trueque._id,
         fecha_venta: '',
@@ -20,9 +20,9 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
             ...datos,
             sucursal: e.target.value
         });
-        const selectedOption = e.target.options[e.target.selectedIndex]; 
+        const selectedOption = e.target.options[e.target.selectedIndex];
         const selectedOptionContent = selectedOption.textContent;
-        setSucursalTemp({nombre: selectedOptionContent})  //guardo solo el nombre para actualizar el estado del trueque
+        setSucursalTemp({ nombre: selectedOptionContent })  //guardo solo el nombre para actualizar el estado del trueque
     };
 
     const handleChangeFecha = (e) => {
@@ -34,7 +34,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
 
     const handleOk = () => {
         setFechaYSucursal(false);
-        actualizarEstado({fecha_venta: datos.fecha_venta, sucursal: sucursalTemp})
+        actualizarEstado({ fecha_venta: datos.fecha_venta, sucursal: sucursalTemp })
         onClose();
     };
 
@@ -43,18 +43,18 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
             "http://localhost:5000/trueque/setFecha",
             {
                 method: "POST",
-                headers: { "Content-Type": "application/JSON"},
-                body: JSON.stringify({Trueque: datos }),
+                //headers: { "Content-Type": "application/JSON"},
+                body: JSON.stringify({ Trueque: datos }),
                 credentials: "include",
             }
         )
             .then((response) => {
                 if (!response.ok) {
                     return response.json().then(data => {
-                      throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+                        throw new Error(JSON.stringify({ message: data.message, status: data.status }));
                     })
-                  }
-                  return response.json();
+                }
+                return response.json();
             })
             .then((data) => {
                 console.log("fecha y sucursal: ", data)
@@ -78,11 +78,13 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
                     ))}
                 </select>
                 <input
-                    style={{marginLeft:'10px'}}
+                    style={{ marginLeft: '10px' }}
                     type="datetime-local"
                     onChange={handleChangeFecha}
                     name="fecha_hora"
                 />
+                {(new Date(datos.fecha_venta) < Date.now()) && <p className="textoNoCumple">La fecha es anterior a hoy</p>}
+
                 <div className='botones-sucursal'>
                     <button onClick={handleSeleccionar}>Aceptar</button>
                 </div>
@@ -94,6 +96,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
                 handleYes={handleOk}
                 ok={true}
             />
+
         </div>
     );
 };
