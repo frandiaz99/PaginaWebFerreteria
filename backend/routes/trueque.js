@@ -217,11 +217,12 @@ const cancelarTrueque = async (req, res, next) => {
 };
 
 
-const setFecha = async (req, res, next) => {
+const setFecha = async (req, res, next) => {  
   const { Auth, Trueque } = req.body;
+  console.log(req.body);
   if (!Trueque || !Trueque._id || !Trueque.sucursal || !Trueque.fecha_venta) {
     console.log("");
-    res.status(401).json({ message: "No se recibio el 'Trueque._id', 'Trueque.fecha_venta' o 'Trueque.sucursal' ", status: 401 })
+    return res.status(401).json({ message: "No se recibio el 'Trueque._id', 'Trueque.fecha_venta' o 'Trueque.sucursal' ", status: 401 })
   }
 
   DataTrueque.findById(Trueque._id).then((T) => {

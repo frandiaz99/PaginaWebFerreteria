@@ -43,7 +43,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
             "http://localhost:5000/trueque/setFecha",
             {
                 method: "POST",
-                //headers: { "Content-Type": "application/JSON"},
+                headers: { "Content-Type": "application/JSON"},
                 body: JSON.stringify({ Trueque: datos }),
                 credentials: "include",
             }
