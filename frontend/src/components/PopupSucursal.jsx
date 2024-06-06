@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/PopupSucursal.css';
 import Modal from "../components/Modal";
 
@@ -12,7 +12,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
         sucursal: ''
     });
 
-
+    const [isFormValid, setIsFormValid] = useState(false);
     const [fechaYSucursal, setFechaYSucursal] = useState(false);
 
     const handleChangeSucursal = (e) => {
@@ -43,7 +43,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
             "http://localhost:5000/trueque/setFecha",
             {
                 method: "POST",
-                headers: { "Content-Type": "application/JSON"},
+                headers: { "Content-Type": "application/JSON" },
                 body: JSON.stringify({ Trueque: datos }),
                 credentials: "include",
             }
@@ -66,17 +66,26 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
             });
     };
 
+    useEffect(() => {
+        const isFechaValida = datos.fecha_venta && new Date(datos.fecha_venta) >= new Date();
+        const isSucursalSeleccionada = datos.sucursal !== '';
+        setIsFormValid(isFechaValida && isSucursalSeleccionada);
+    }, [datos])
+
     return (
         <div className="popup-overlay-sucursal">
             <div className='popup-sucursal'>
                 <button className='cerrar-popup' onClick={onClose}>x</button>
                 <h2>Elegir Sucursal</h2>
+
                 <select name="sucursal" onChange={handleChangeSucursal}>
                     <option value="">Seleccione una sucursal</option>
                     {sucursales.map((s, index) => (
                         <option key={index} value={s._id}>{s.nombre}</option>
                     ))}
                 </select>
+                {(datos.sucursal == '') && <p className="textoNoCumple">No se ha seleccionado ninguna sucursal</p>}
+
                 <input
                     style={{ marginLeft: '10px' }}
                     type="datetime-local"
@@ -86,7 +95,7 @@ const PopupElegirSucursal = ({ show, onClose, sucursales, trueque, actualizarEst
                 {(new Date(datos.fecha_venta) < Date.now()) && <p className="textoNoCumple">La fecha es anterior a hoy</p>}
 
                 <div className='botones-sucursal'>
-                    <button onClick={handleSeleccionar}>Aceptar</button>
+                    <button onClick={handleSeleccionar} disabled={!isFormValid} className={!isFormValid ? 'disabled-button' : 'enable-button'}>Aceptar</button>
                 </div>
             </div>
             <Modal
