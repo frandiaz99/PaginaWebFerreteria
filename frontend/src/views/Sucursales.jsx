@@ -8,7 +8,7 @@ import { estaEnModoAdmin } from '../helpers/estaEnModo';
 function Sucursales() {
   const navigate = useNavigate()
   const [sucursales, setSucursales] = useState([]);
-  const [obtenido, setObtenido]= useState(false)
+  const [obtenido, setObtenido] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:5000/sucursal/getSucursales',
@@ -51,9 +51,9 @@ function Sucursales() {
             sucursales.map((sucursal, index) => (
               <Sucursal key={index} sucursal={sucursal} />
             ))
-          : <>
-            <p></p>
-            <p>Cargando sucursales...</p>
+            : <>
+              <p></p>
+              <p>Cargando sucursales...</p>
             </>
           }
         </div>

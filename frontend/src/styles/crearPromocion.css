@@ -1,0 +1,67 @@
+/* src/styles/SubirPromocion.css */
+.main {
+    padding: 20px;
+    text-align: center;
+}
+
+.formSubirPromocion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.divCampoObligatorio {
+    margin-bottom: 20px;
+}
+
+.campoObligatorio {
+    color: red;
+    font-size: 1.2em;
+}
+
+.div-subirpromocion-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.div-subirpromocion-fila {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.div-subirPromocion {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.inputSubirPromocion {
+    padding: 10px;
+    font-size: 1em;
+}
+
+.input-foto {
+    margin-top: 10px;
+}
+
+.div-botonSubirPromocion {
+    margin-top: 20px;
+}
+
+.boton-subir-promocion {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.boton-subir-promocion:hover {
+    background-color: #0056b3;
+}

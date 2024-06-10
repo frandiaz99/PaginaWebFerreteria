@@ -52,9 +52,12 @@
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: inline-block;
-    height: 20rem;
+    height: 26rem;
+    /* Aumenté la altura para asegurar espacio suficiente */
     width: 16rem;
-    padding-bottom: 10px;
+
+    overflow: hidden;
+    /* Asegura que el contenido no se desborde */
 }
 
 .sucursal-img {
@@ -66,6 +69,11 @@
 
 .sucursal-datos {
     padding: 1rem;
+    box-sizing: border-box;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .sucursal-nombre {
@@ -75,5 +83,22 @@
 
 .sucursal-datos p {
     margin-bottom: 0.5rem;
+}
 
+.sucursal-boton {
+    display: flex;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+.sucursal-boton-eliminar {
+    padding: 0.5rem 1rem;
+    background-color: #ffb700;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
 }
