@@ -1018,7 +1018,7 @@ router.route("/login").post(login);
 //router.route("/logout").post(userAuth, logout);
 router.route("/logout").post(logout);
 router.route("/getSelf").get(userAuth, getSelf);
-router.route("/getUser").get(userAuth, getUser);
+router.route("/getUser").post(userAuth, getUser);
 router
   .route("/editarPerfil")
   .post(upload.single("Imagen"), userAuth, editarPerfil);

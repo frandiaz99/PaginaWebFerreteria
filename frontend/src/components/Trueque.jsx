@@ -70,11 +70,6 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
     setShowPopup(true)
   }
 
-  const finalizarCalificacion= () =>{
-    setPopupPuntuarUsuario(false)
-    window.location.reload()
-  }
-
   const aceptarOfertaTrueque = () => {
     trueque.trueque_aceptado = true;
     fetch("http://localhost:5000/trueque/responderOferta", {
@@ -303,9 +298,9 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
       <PopupPuntuarUsuario
         show={popupPuntuarUsuario}
-        finalizar={finalizarCalificacion}
         onClose={() => setPopupPuntuarUsuario(false)}
         trueque={trueque}
+        yaPuntuo={() => setNoPuntuoTodavia(false)}
       />
       <PopupEfectivizar
         show={showPopup}
