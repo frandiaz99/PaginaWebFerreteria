@@ -18,7 +18,7 @@ function obtenerTruequesConfirmados(trueques, user) {
 
 function TruequesPyC() {
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
-  const [verPendientes, setVerPendientes] = useState(true)
+  const [verPendientes, setVerPendientes] = useState(JSON.parse(localStorage.getItem('verPendientes')))
   const [truequesPendientes, setTruequesPendientes] = useState([])
   const [truequesCompletados, setTruequesCompletados] = useState([])
   const [dataObtenida, setDataObtenida] = useState(false)
@@ -81,12 +81,14 @@ function TruequesPyC() {
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
     titulo_pendientes_ref.current.style.color = 'black'
+    localStorage.setItem('verPendientes', 'true')
     setVerPendientes(true)
   }
 
   const handleCompletados = () => {
     titulo_completados_ref.current.style.color = 'black'
     titulo_pendientes_ref.current.style.color = 'rgb(170, 170, 170)'
+    localStorage.setItem('verPendientes', 'false')
     setVerPendientes(false)
   }
 
@@ -95,8 +97,14 @@ function TruequesPyC() {
   }
 
   useEffect(() => {
-    titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
-    titulo_pendientes_ref.current.style.color = 'black'
+    if (verPendientes){
+      titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
+      titulo_pendientes_ref.current.style.color = 'black'
+    }
+    else{
+      titulo_completados_ref.current.style.color = 'black'
+      titulo_pendientes_ref.current.style.color = 'rgb(170, 170, 170)'
+    }
   }, [])
 
   return (

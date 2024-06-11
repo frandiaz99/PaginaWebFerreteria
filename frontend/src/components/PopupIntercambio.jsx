@@ -105,7 +105,7 @@ const PopupIntercambio = ({ show, onClose, articuloAIntercambiar }) => {
                         "Content-Type": "application/JSON",
                         //"Cookie": localStorage.getItem('jwt')
                     },
-                    body: JSON.stringify({ Articulo: {suArticulo :articuloAIntercambiar, miArticulo: articuloSeleccionadoPropio} }),
+                    body: JSON.stringify({ Articulo: {suArticulo: articuloAIntercambiar, miArticulo: articuloSeleccionadoPropio} }),
                     credentials: "include"
                 })
                 .then(response => {

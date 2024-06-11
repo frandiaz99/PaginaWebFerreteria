@@ -37,17 +37,18 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [showPopup, setShowPopup] = useState(false)
   const [popupSucursal, setPopupSucursal] = useState(false)
   const [sucursales, setSucursales] = useState([]);
-  const[noCancelarPorFecha,setNoCancelarPorFecha]= useState(false)
+  const [noCancelarPorFecha,setNoCancelarPorFecha]= useState(false)
   const [popupPuntuarUsuario, setPopupPuntuarUsuario] = useState(false);
+  const [noPuntuoTodavia, setNoPuntuoTodavia]= useState(false)
 
   const [efectivizar, setEfectivizar] = useState(false);
 
   const [irAUnArticulo, setIrAUnArticulo] = useState(false)
   
-  function noPuntuoTodavia(){
-    if (soyElQueAcepta) return trueque.valoracion_publica == null
-    else return trueque.valoracion_compra == null
-  }
+  useEffect(() =>{
+    if (soyElQueAcepta) setNoPuntuoTodavia(trueque.valoracion_publica == null)
+    else setNoPuntuoTodavia(trueque.valoracion_compra == null)
+  },[])
 
   const handleCancelar = (event) => {
     event.stopPropagation();
@@ -67,6 +68,11 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const handleCancelarEfectivizacion = () => {
     setEfectivizar(false)
     setShowPopup(true)
+  }
+
+  const finalizarCalificacion= () =>{
+    setPopupPuntuarUsuario(false)
+    window.location.reload()
   }
 
   const aceptarOfertaTrueque = () => {
@@ -247,7 +253,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                   <span>Oferta de Trueque envíada | En espera</span>
             :
             <>
-            <span>Realizado el {getDateOnly(truequeState.fecha_venta)}</span>
+            <span>Realizado el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)}</span>
             </>
           }
         </div>
@@ -288,7 +294,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
           </div>
           :
           <div className='container-calificarUsuario'>
-            {(estaEnModoUser() && noPuntuoTodavia()) && <button className='botonUnTrueque' onClick={() => setPopupPuntuarUsuario(true)}>Calificar trueque</button>}
+            {(estaEnModoUser() && noPuntuoTodavia) && <button className='botonUnTrueque' onClick={() => setPopupPuntuarUsuario(true)}>Calificar trueque</button>}
           </div>
         }
 
@@ -297,7 +303,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
       <PopupPuntuarUsuario
         show={popupPuntuarUsuario}
-        onClose={() => setPopupPuntuarUsuario(false)}
+        onClose={finalizarCalificacion}
         trueque={trueque}
       />
       <PopupEfectivizar

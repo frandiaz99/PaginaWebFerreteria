@@ -428,17 +428,19 @@ const valorarTrueque = async (req, res, next) => {
 
 
   let publica;
-  if (Trueque.articulo_publica.usuario._id = User._id) {
+  if (Trueque.articulo_publica.usuario._id == User._id) {
     publica = true;
-  } else if (Trueque.articulo_compra.usuario._id = User._id) {
+  } else if (Trueque.articulo_compra.usuario._id == User._id) {
     publica = false;
   } else {
     return res.status(400).json({ message: "Usuario no autorizado para opinar en este articulo", status: 405 });
   }
 
+  console.log("valor", publica)
+
   if (publica && Trueque.valoracion_publica) {
-    return res.status(400).json({ message: "Este usuario ya realizo su opinion de este trueque", status: 406 });
-  } else if (Trueque.valoracion_compra) {
+    return res.status(400).json({ message: "Este usuario ya realizo su opinion de este trueque ahora si", status: 406 });
+  } else if (!publica && Trueque.valoracion_compra) {
     return res.status(400).json({ message: "Este usuario ya realizo su opinion de este trueque", status: 406 });
   }
 
@@ -493,7 +495,7 @@ try {
     ]);
 
     if (result.length > 0) {
-      await DataUser.findOneAndUpdate({ _id: User._id }, { $set: { valoracion: result[0].averageValoracion } });
+      await DataUser.findOneAndUpdate({ _id: idOtro}, { $set: { valoracion: result[0].averageValoracion } });
       res.status(200).json({ message: "OK", status: 200 });
     } else {
       console.log(result)

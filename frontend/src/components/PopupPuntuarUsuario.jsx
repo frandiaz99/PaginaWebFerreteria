@@ -3,7 +3,8 @@ import '../styles/PopupPuntuarUsuario.css'
 
 const PuntuarUsuario = ({show, onClose, trueque}) => {
     if (!show) return null;
-    function guardarDatos (trueque) {
+    
+    function guardarDatos () {
         let estrellas = document.getElementById("select-estrellas-popup");
         let comentario = document.getElementById("comentario-popup");
         if (estrellas.value != null && comentario.value != null){
@@ -62,7 +63,7 @@ const PuntuarUsuario = ({show, onClose, trueque}) => {
                     </div>
                 </div>
                 <div className='container-botones-puntuar'>
-                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos(trueque)}>Puntuar</button>
+                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos()}>Puntuar</button>
                     <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
                 </div>
             </div>

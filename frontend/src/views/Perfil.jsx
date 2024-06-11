@@ -81,7 +81,8 @@ function Perfil() {
   }, [usuario])
 
   function generarEstrellas(puntuacion) {
-    const estrellas = [];
+    console.log("a ver la puntuacion", puntuacion)
+    const estrellas = []; 
 
     const estrellasCompletas = Math.floor(puntuacion);
     const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;

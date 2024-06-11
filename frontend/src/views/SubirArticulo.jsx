@@ -114,7 +114,7 @@ function SubirArticulo() {
               </div>
               <div className='descripcion-section1'>
                 <label className='label-subirArt' >Descripción</label>
-                <div classname='conjunto_campo_obligatorio'>
+                <div className='conjunto_campo_obligatorio'>
                   <textarea onBlur={handleBlurDescripcion} className='textArea-subirArt' id='descripcionArt' name='descripcion' onChange={handleChange} />
                  {hayDescripcion== false && <span className='campoObligatorio'>Campo obligatorio</span>}
                 </div>
