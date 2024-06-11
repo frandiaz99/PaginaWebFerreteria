@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Promociones from '../views/Promociones.jsx'
 import TruequesPyC from '../views/TruequesPyC.jsx'
 import EstadisticasArticulos from '../views/EstadisticasArticulos.jsx'
+import CrearPromocion from '../views/CrearPromocion.jsx'
 import Tasar from '../views/Tasar.jsx'
 import NotFound from '../views/NotFound.jsx'
 
@@ -29,7 +30,7 @@ function RutasEmpleado() {
         <Route path='promociones' element={<Promociones />} />
         <Route path='estadisticas' element={<EstadisticasArticulos />} />
         <Route path='tasar' element={<Tasar />} />
-        <Route path='crearPromocion' element={<crearPromocion />} />
+        <Route path='crearPromocion' element={<CrearPromocion />} />
         <Route path='*' element={<NotFound />} />
 
       </Routes>

@@ -1,6 +1,6 @@
 // src/components/SubirPromocion.jsx
 import React, { useEffect, useState } from 'react';
-import '../styles/SubirPromocion.css';
+//import '../styles/SubirPromocion.css';
 import Modal from '../components/Modal';
 import routes from '../routes';
 
@@ -23,7 +23,7 @@ function CrearPromocion() {
         });
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true);
         else setTodoCompleto(false);
     }, [datos]);
@@ -31,7 +31,7 @@ function CrearPromocion() {
     useEffect(() => {
         if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true);
         else setTodoCompleto(false);
-    }, [imagen]);
+    }, [imagen]);*/
 
     const handleSubirPromocion = (e) => {
         e.preventDefault();

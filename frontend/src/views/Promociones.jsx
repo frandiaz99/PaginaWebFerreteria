@@ -54,12 +54,12 @@ function Promociones({ isAdmin }) {
           <div className="no-promos">No hay promociones disponibles</div>
         )}
       </div>
-      {estaEnModoAdmin() || estaEnModoEmple && (
+      {(estaEnModoAdmin() || estaEnModoEmple()) &&
         <div className="admin-buttons">
           {promos.length > 0 && <button className="promocion-button">Eliminar Promoción</button>}
           <button className="promocion-button" onClick={handleCrearPromocion}>Subir Promoción</button>
         </div>
-      )}
+      }
     </main>
   );
 }
