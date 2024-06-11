@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/PopupEfectivizar.css';
 import routes from '../routes';
 import Modal from "../components/Modal";
@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) => {
     if (!show) return null;
 
-    const [ventas, setVentas] = useState([{ cantidad: '', codigo: '', usuario: null }]);
+    const [ventas, setVentas] = useState([]);
     const [confirmado, setConfirmado] = useState(false);
     const [usuario, setUsuario] = useState(
         [{
@@ -67,7 +67,8 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
             })
             .then(data => {
                 console.log('Respuesta del servidor:', data);
-                setConfirmado(true);
+                if (ventas.length > 0) setConfirmado(true)
+                else handleOk()
             })
             .catch(error => {
                 const errorData = JSON.parse(error.message)
@@ -92,7 +93,8 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         confirmarSeleccion();
     };
 
-    const buttonText = efectivizar ? 'Confirmar' : 'Confirmar'; //xd hay que seguir la hu mirey
+
+    const buttonText = efectivizar ? 'Confirmar' : 'Confirmar'; 
     const buttonClass = efectivizar ? 'aceptar' : 'cancelar';
 
     return (

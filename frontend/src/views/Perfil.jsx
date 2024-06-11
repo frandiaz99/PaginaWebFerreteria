@@ -3,6 +3,8 @@ import routes from '../routes.js'
 import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
 import {estaEnModoAdmin, estaEnModoUser} from '../helpers/estaEnModo.js'
+import Comentario from '../components/Comentario.jsx';
+import { useId } from 'react';
 
 
 
@@ -10,16 +12,14 @@ function Perfil() {
 
   const [usuario, setUsuario] = useState();
   const [isOwnProfile, setIsOwnProfile] = useState(false)
-  var userValoraciones;
-  var hecho = false;
+  const [comentarios, setComentarios]= useState([])
+  const [comentariosObtenidos, setComentariosObtenidos]= useState(false)
   //const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     if (window.location.pathname === routes.perfilTercero) {
       const userTercero = JSON.parse(localStorage.getItem('userTercero'));
-      userValoraciones = userTercero;
       setUsuario(userTercero)
-      console.log("USUARIOOOOOO SELF EN IF: "+usuario);
       setIsOwnProfile(false)
       console.log('perfil tercero: ', userTercero)
     } else {
@@ -39,8 +39,6 @@ function Perfil() {
         .then(data => {
           console.log("usuariooo1234: ", data);
           setUsuario(data.User)
-          userValoraciones = data.User;
-          console.log("USUARIOOOOOO SELF: "+data.User);
           setIsOwnProfile(true)
         })
         .catch(error => {
@@ -48,80 +46,39 @@ function Perfil() {
         });
     }
   }, [location.pathname])
-
-  function cargarEstrellas (seccion, cantidad){
-    var cantEstrellasVacias = 5 - cantidad;
-    var star;
-    for (let i = 0; i < cantidad; i++){
-      star = document.createElement('ion-icon');
-      star.name = "star";
-      seccion.appendChild(star);
-    }
-    for (let i = 0; i < cantEstrellasVacias; i++){
-      star = document.createElement('ion-icon');
-      star.name = "star-outline";
-      seccion.appendChild(star);
-    }
-  }
+  
 
   useEffect(() => {
-    setTimeout(() => {
-      var caja_comentarios = document.getElementById("caja-comentarios");
-      if (!hecho){
-        console.log("no esta hecho: "+hecho)
-        hecho = true;
-        setTimeout(function (){
-          fetch('http://localhost:5000/user/getValoraciones',
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/JSON",
-            }, 
-            body: JSON.stringify({
-              User: userValoraciones
-            }),
-            credentials: "include"
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Hubo un problema al obtener los comentarios');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log("data valoraciones: ", data);
-            if (data.status != 201){
-              caja_comentarios.innerHTML = "";
-              data.Valoraciones.forEach(valoracionData => {
-                const seccion_nombre = document.createElement('div');
-                const seccion_estrellas = document.createElement('div');
-                const seccion_comentario = document.createElement('div');
-                seccion_nombre.id = "seccion-nombre";
-                seccion_estrellas.id = "seccion-estrella";
-                seccion_comentario.id = "seccion-comentario";
-                seccion_nombre.innerHTML = "<b>"+valoracionData.de_usuario.nombre + " " + valoracionData.de_usuario.apellido+"<b>";
-                cargarEstrellas(seccion_estrellas, parseInt(valoracionData.valoracion));
-                seccion_comentario.innerHTML = '"'+valoracionData.opinion+'"';
-                console.log("seccion nombre: "+ seccion_nombre.textContent)
-                console.log("seccion estre: "+ seccion_estrellas.textContent)
-                console.log("seccion coment: "+ seccion_comentario.textContent)
-                caja_comentarios.appendChild(seccion_nombre);
-                caja_comentarios.appendChild(seccion_estrellas);
-                caja_comentarios.appendChild(seccion_comentario);
-              })
-            }else{
-              caja_comentarios.innerHTML = "No hay valoraciones para mostrar.";
-            }
-          })
-          .catch(error => {      
-            console.error('Error:', error);
-          });
-        }, 500);
-      }else{
-        console.log("esta hecho: "+hecho)
-      }
-    }, 500);
-  }, [])
+    if (usuario){
+
+      fetch('http://localhost:5000/user/getValoraciones',
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/JSON",
+          }, 
+          body: JSON.stringify({
+            User: usuario
+          }),
+          credentials: "include"
+        })
+        .then(response => {
+          if (!response.ok) {
+             return response.json().then(data => {
+                  throw new Error(JSON.stringify({message: data.message, status: data.status}));
+              });
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.status == 200) setComentarios(data.Valoraciones)
+          setComentariosObtenidos(true)
+        })
+        .catch(error => {
+          console.error('Error:', error.message);
+        });
+    }
+  }, [usuario])
 
   function generarEstrellas(puntuacion) {
     const estrellas = [];
@@ -203,7 +160,18 @@ function Perfil() {
               Trueques realizados: - -
             </div>
             <div className="caja-comentarios" id='caja-comentarios'>
-              Cargando valoraciones...
+                {comentariosObtenidos
+                ?
+                  comentarios.length > 0
+                  ?
+                    comentarios.map((c, index) => (
+                        <Comentario key={index} comentario={c} generarEstrellas={generarEstrellas}/>
+                    ))  
+                  :
+                  <p>No hay comentarios</p>
+                :
+                    <p>Cargando...</p>
+                }
             </div>
           </div>}
         </div>

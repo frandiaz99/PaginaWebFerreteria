@@ -1,0 +1,30 @@
+.caja_comentario{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffc227;
+    border-radius: 10px;
+}
+
+.usuarioComentando{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 6px;
+}
+
+.div_imagen_comentario{
+    height: 3rem;
+    width: 3rem;
+    overflow: clip;
+    padding: 0px 6px;
+    padding-top: 5px;
+}
+
+.imagen_comentario{
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+}
