@@ -13,7 +13,7 @@ function Sucursal({ sucursal, eliminar = () => console.log("nada") }) {
     const handleYes = () => {
         setConfirmacion(false)
         console.log("sucursal --> ", sucursal)
-        fetch('http://localhost:5000/sucursales/eliminarSucursal',
+        fetch('http://localhost:5000/sucursal/eliminarSucursal',
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/JSON" },
@@ -33,29 +33,7 @@ function Sucursal({ sucursal, eliminar = () => console.log("nada") }) {
             })
             .catch(error => {
                 const errorData = JSON.parse(error.message)
-                console.error('Hubo un problema al guardar los cambios:', error);
-                switch (errorData.status) {
-                    case 400:
-                        console.log("00")
-                        break
-                    case 402:
-                        console.log("02")
-                        break;
-                    case 403:
-                        console.log("03")
-                        break;
-                    case 404:
-                        console.log("04")
-                        break;
-                    case 405:
-                        console.log("05")
-                        break;
-                    case 406:
-                        console.log("06")
-                        break;
-                    default:
-                        console.log(errorData.message)
-                }
+                console.log(errorData.message)
             });
     }
 

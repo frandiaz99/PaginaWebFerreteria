@@ -9,6 +9,7 @@ function Sucursales() {
   const navigate = useNavigate()
   const [sucursales, setSucursales] = useState([]);
   const [obtenido, setObtenido] = useState(false)
+  const [eliminado, setEliminado]= useState(false)
 
   useEffect(() => {
     fetch('http://localhost:5000/sucursal/getSucursales',
@@ -32,7 +33,7 @@ function Sucursales() {
       .catch(error => {
         console.error('Error:', error);
       });
-  }, [])
+  }, [eliminado])
 
   const handleSubirSucursal = () => {
     navigate(routes.adminSubirSucursal)
@@ -49,7 +50,7 @@ function Sucursales() {
         <div className='body-sucursales'>
           {obtenido ?
             sucursales.map((sucursal, index) => (
-              <Sucursal key={index} sucursal={sucursal} />
+              <Sucursal key={index} sucursal={sucursal} eliminar={() => setEliminado(!eliminado)}/>
             ))
             : <>
               <p></p>
