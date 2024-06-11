@@ -1,7 +1,7 @@
 import '../styles/PopupPuntuarUsuario.css'
 
 
-const PuntuarUsuario = ({show, onClose, trueque}) => {
+const PuntuarUsuario = ({show, finalizar, onClose, trueque}) => {
     if (!show) return null;
     
     function guardarDatos () {
@@ -35,7 +35,7 @@ const PuntuarUsuario = ({show, onClose, trueque}) => {
             })
             .then(data => {
             console.log("data :", data)
-            onClose()
+            finalizar()
             })
             .catch(error => {
             console.error('Error:', error);

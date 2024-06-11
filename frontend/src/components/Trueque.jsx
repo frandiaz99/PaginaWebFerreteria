@@ -303,7 +303,8 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       <Modal texto={'No se puede cancelar un trueque con fecha establecida para dentro de menos de 24hs'} confirmacion={noCancelarPorFecha} setConfirmacion={setNoCancelarPorFecha} ok={true}/>
       <PopupPuntuarUsuario
         show={popupPuntuarUsuario}
-        onClose={finalizarCalificacion}
+        finalizar={finalizarCalificacion}
+        onClose={() => setPopupPuntuarUsuario(false)}
         trueque={trueque}
       />
       <PopupEfectivizar

@@ -52,6 +52,7 @@ function IniciarSesion() {
                     console.log("Inicio exitoso:", data)
                     if (data.User.rol == 2) localStorage.setItem('cuentaActual', 'empleado')
                     localStorage.setItem('user', JSON.stringify(data.User))
+                    localStorage.setItem('verPendientes', 'true')
                     navigate(routes.userPrincipal)
                 })
                 .catch(error => {
