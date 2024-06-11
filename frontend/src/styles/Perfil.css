@@ -2,15 +2,15 @@
     display: flex;
     flex-direction: column;
     margin-top: 50px;
+    align-items: center;
+    justify-content: center;
 }
 
 .contenedor-perfil {
-
-    margin-top: 20%;
+    margin-top: 20px;
     background-color: white;
     border-radius: 20px;
     padding: 20px;
-    width: 100%;
     max-width: 800px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
@@ -94,8 +94,7 @@
 .contenedor-perfil-2 {
     display: flex;
     flex-direction: column;
-    margin: 20px;
-
+    margin-bottom: 10px;
     align-items: center;
     width: 100%;
 }
@@ -119,9 +118,7 @@
     border-radius: 20px;
 }
 
-.contenedor-comentarios {
-    width: 100%;
-}
+
 
 /* Estilo para la caja de comentarios */
 .caja-comentarios {
@@ -130,10 +127,12 @@
     overflow-y: auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
-    width: 100%;
-    margin-top: 20px;
     font-size: 16px;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 20rem;
 }
 
 #seccion-nombre, #seccion-estrella{

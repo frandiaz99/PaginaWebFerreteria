@@ -4,9 +4,6 @@ import '../styles/Perfil.css'
 import { Link } from 'react-router-dom';
 import {estaEnModoAdmin, estaEnModoUser} from '../helpers/estaEnModo.js'
 import Comentario from '../components/Comentario.jsx';
-import { useId } from 'react';
-
-
 
 function Perfil() {
 
@@ -19,9 +16,28 @@ function Perfil() {
   useEffect(() => {
     if (window.location.pathname === routes.perfilTercero) {
       const userTercero = JSON.parse(localStorage.getItem('userTercero'));
-      setUsuario(userTercero)
-      setIsOwnProfile(false)
-      console.log('perfil tercero: ', userTercero)
+      fetch('http://localhost:5000/user/getUser',
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/JSON",
+          },
+          body: JSON.stringify({User: userTercero}),
+          credentials: "include"
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Hubo un problema al obtener los articulos');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setUsuario(data.user)
+          setIsOwnProfile(false)
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     } else {
       fetch('http://localhost:5000/user/getSelf',
         {
@@ -81,7 +97,8 @@ function Perfil() {
   }, [usuario])
 
   function generarEstrellas(puntuacion) {
-    const estrellas = [];
+    console.log("a ver la puntuacion", puntuacion)
+    const estrellas = []; 
 
     const estrellasCompletas = Math.floor(puntuacion);
     const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;

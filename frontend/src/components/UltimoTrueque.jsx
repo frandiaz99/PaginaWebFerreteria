@@ -6,7 +6,14 @@ function getDateOnly(datetimeLocalString) {
     const month = String(datetime.getMonth() + 1).padStart(2, '0');
     const day = String(datetime.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  }
+}
+
+function getTimeOnly(datetimeLocalString) {
+    const datetime = new Date(datetimeLocalString);
+    const hours = String(datetime.getHours()).padStart(2, '0');
+    const minutes = String(datetime.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
 
 function UltimoTrueque({ultimoT}) {
     const userPublica = ultimoT.articulo_publica.imagen_usuario;
@@ -26,7 +33,7 @@ function UltimoTrueque({ultimoT}) {
                         <img className='simbolo-ultimoTrueque' src="truequeicono.avif" alt="simbolTrueque" />
                         <img className='fotoArticulo-ultimoTrueque' src={`http://localhost:5000/img/${imagenCompra}`} alt="Art 2" />
                     </div>
-                    <p className='fechaTrueque-ultimoTrueque'>{getDateOnly(ultimoT.fecha)}</p>
+                    <p className='fechaTrueque-ultimoTrueque'>{getDateOnly(ultimoT.fecha)} {getTimeOnly(ultimoT.fecha)}</p>
                 </div>
                 <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userCompra}`} alt="User2" />
 

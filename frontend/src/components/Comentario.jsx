@@ -14,7 +14,7 @@ function Comentario({comentario, generarEstrellas}) {
         </div>
 
         <div className='contenido_comentario'>
-            <p className='contenido_comentario'>{comentario.opinion}</p>
+            <p className='comment'>{comentario.opinion}</p>
             <p className='contenido_valoracion'>{generarEstrellas(comentario.valoracion)}</p>
         </div>
     </div>
