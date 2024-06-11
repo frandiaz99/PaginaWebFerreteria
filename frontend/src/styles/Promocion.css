@@ -18,3 +18,13 @@
     font-size: 1.2em;
     margin: 10px 0;
 }
+
+.promocion-no-aprobada {
+    background-color: lightgray;
+}
+
+.promocion-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}

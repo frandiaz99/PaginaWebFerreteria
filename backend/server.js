@@ -107,6 +107,7 @@ app.use("/user", require("./routes/user.js"));
 app.use("/articulo", require("./routes/articulo"));
 app.use("/sucursal", require("./routes/sucursales"));
 app.use("/trueque", require("./routes/trueque"));
+app.use("/promocion", require("./routes/promocion"));
 app.use(express.static("imagenes"));
 
 
@@ -127,7 +128,7 @@ app.post("/create", (req, res) => {
   try {
     const body = req.body;
     console.log(body);
- 
+
     User = new DataUser({
       email: req.body.email,
     });

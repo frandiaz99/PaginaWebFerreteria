@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
   suscripto: { type: Boolean, default: false },
   foto_perfil: { type: String, required: true },
   rol: { type: Number, required: true, default: 1 }, //1 User, 2 Worker, 3 Admin
-  puntos: { type: Number, default: 0 , required: true},
+  puntos: { type: Number, default: 0, required: true },
   intento_desbloqueo: { type: Number, default: 0 },
   code: { type: Number, default: 0 },
   valoracion: { type: Number, default: 0 },
@@ -144,7 +144,7 @@ const promocionSchema = mongoose.Schema({
   aprobado: { type: Boolean, default: false },
   fecha: { type: Date, required: true },
   duracion: { type: Number, required: true },
-  //Promociones -> Imagen,
+  foto_promocion: { type: String, required: true },
 });
 
 const ventaSchema = mongoose.Schema({
@@ -154,7 +154,7 @@ const ventaSchema = mongoose.Schema({
 });
 
 const productoSchema = mongoose.Schema({
-  codigo: { required: true, type: Number, default: 99},
+  codigo: { required: true, type: Number, default: 99 },
   nombre: { required: true, type: String, },
   precio: { required: true, type: Number, },
 });

@@ -1,16 +1,20 @@
-// src/components/SubirPromocion.jsx
 import React, { useEffect, useState } from 'react';
 //import '../styles/SubirPromocion.css';
 import Modal from '../components/Modal';
 import routes from '../routes';
 
+function todosLosCamposCompletos(datos, imagen) {
+    return (imagen !== '' && imagen !== undefined) && datos.titulo !== '' && datos.texto !== '' && datos.fecha !== '' && datos.duracion !== '';
+}
 
 function CrearPromocion() {
     const [promocionRepetida, setPromocionRepetida] = useState(false);
     const [todoCompleto, setTodoCompleto] = useState(false);
     const [datos, setDatos] = useState({
         titulo: '',
-        descripcion: ''
+        texto: '',
+        fecha: '',
+        duracion: ''
     });
 
     const [subirPromocion, setSubirPromocion] = useState(false);
@@ -23,25 +27,25 @@ function CrearPromocion() {
         });
     };
 
-    /*useEffect(() => {
-        if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true);
-        else setTodoCompleto(false);
-    }, [datos]);
-
     useEffect(() => {
         if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true);
         else setTodoCompleto(false);
-    }, [imagen]);*/
+    }, [datos, imagen]);
 
     const handleSubirPromocion = (e) => {
         e.preventDefault();
+
+        console.log("datos --> ", datos);
 
         const formData = new FormData();
         formData.append('Promocion', JSON.stringify(datos));
         formData.append('Imagen', imagen.foto);
 
+        console.log("formData -->", formData);
+
         if (todoCompleto) {
-            fetch('http://localhost:5000/promocion/newPromocion', {
+            console.log("aaaaaaaaaaaaaaaaaaaa")
+            fetch('http://localhost:5000/promocion/crearPromocion', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',
@@ -52,14 +56,16 @@ function CrearPromocion() {
                             throw new Error(JSON.stringify({ message: data.message, status: data.status }));
                         });
                     }
+
                     return response.json();
                 })
                 .then((data) => {
+                    console.log("creacion exitosa: ", data);
                     setSubirPromocion(true);
                 })
                 .catch((error) => {
                     const errorData = JSON.parse(error.message);
-                    if (errorData.status == 400) {
+                    if (errorData.status === 400) {
                         setPromocionRepetida(true);
                     }
                     console.error('Error en la creación de la promoción:', errorData);
@@ -69,7 +75,7 @@ function CrearPromocion() {
 
     const handleOk = () => {
         setSubirPromocion(false);
-        window.location.href = routes.adminPromociones;
+        window.location.href = routes.promociones;
     };
 
     return (
@@ -87,8 +93,16 @@ function CrearPromocion() {
                             <input type='text' name='titulo' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
                         <div className='div-subirPromocion'>
-                            <label htmlFor='descripcion'>Descripción de la promoción</label>
-                            <input type='text' name='descripcion' className='inputSubirPromocion' onChange={handleChange} />
+                            <label htmlFor='texto'>Texto de la promoción</label>
+                            <input type='text' name='texto' className='inputSubirPromocion' onChange={handleChange} />
+                        </div>
+                        <div className='div-subirPromocion'>
+                            <label htmlFor='fecha'>Fecha de inicio</label>
+                            <input type='date' name='fecha' className='inputSubirPromocion' onChange={handleChange} />
+                        </div>
+                        <div className='div-subirPromocion'>
+                            <label htmlFor='duracion'>Duración (días)</label>
+                            <input type='number' name='duracion' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
                         <div className='div-subirPromocion'>
                             <label htmlFor='foto'>Foto de la promoción</label>

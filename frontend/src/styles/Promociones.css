@@ -1,18 +1,23 @@
-.promociones-container {
+.promociones-container,
+.promosPendientes {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
 }
 
 .no-promos {
-    font-size: 1.5em;
-    color: #888;
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
 }
 
 .admin-buttons {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .promocion-button {
@@ -20,11 +25,21 @@
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
     cursor: pointer;
-    margin: 0 10px;
+    font-size: 16px;
 }
 
 .promocion-button:hover {
     background-color: #0056b3;
+}
+
+.promocion-no-aprobada {
+    background-color: lightgray;
+    opacity: 0.8;
+}
+
+.promocion-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
 }
