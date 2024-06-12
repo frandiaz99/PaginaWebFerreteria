@@ -13,7 +13,7 @@ function CrearPromocion() {
     const [datos, setDatos] = useState({
         titulo: '',
         texto: '',
-        fecha: '',
+        fecha: new Date(),
         duracion: ''
     });
 
@@ -95,10 +95,6 @@ function CrearPromocion() {
                         <div className='div-subirPromocion'>
                             <label htmlFor='texto'>Texto de la promoción</label>
                             <input type='text' name='texto' className='inputSubirPromocion' onChange={handleChange} />
-                        </div>
-                        <div className='div-subirPromocion'>
-                            <label htmlFor='fecha'>Fecha de inicio</label>
-                            <input type='date' name='fecha' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
                         <div className='div-subirPromocion'>
                             <label htmlFor='duracion'>Duración (días)</label>
