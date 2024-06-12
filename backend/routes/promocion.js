@@ -148,9 +148,50 @@ const eliminarPromocion = async (req, res, next) => {
     //406 Error borrando articulo, de parte de mongoose
 };
 
+const aceptarPromocion = async (req, res, next) => {
+    const body = req.body;
+    if (!body.Promocion) {
+        return res.status(400).json({ message: "No se recibio el objeto 'Trueque'", status: 401 });
+    }
+    if (!body.Promocion._id) {
+        return res.status(400).json({ message: "No se recibio el objeto '_id' en 'Trueque'", status: 402 });
+    }
+    if (body.Promocion.aprobado == null) {
+        return res.status(400).json({ message: "No se recibio el objeto 'trueque_aceptado' en 'Trueque'", status: 406 });
+    }
+    body.Promocion.aprobado = JSON.parse(body.Promocion.aprobado);
+
+    await DataPromocion.findById(body.Promocion._id).then((Promocion) => {
+        console.log(Promocion);
+        if (!Promocion) {
+            return res.status(400).json({ message: "No se encontro el trueque conb el '_id' recibido", status: 404 });
+        }
+        if (Promocion.aprobado) {
+            return res.status(400).json({ message: "Este trueque ya fue aceptado", status: 405 });
+        }
+
+        if (body.Promocion.aprobado) {
+
+            DataPromocion.findByIdAndUpdate(Promocion._id, { aprobado: true }).then(() => {
+                return res.status(200).json({ message: "Trueque correctamente aceptado", status: 200 });
+            }).catch((error) => {
+                return res.status(400).json({ message: "Error aceptando trueque", error, status: 400 });
+            })
+
+        }
+
+
+    }).catch((error) => {
+        return res.status(400).json({ message: "Error obteniendo trueque", error, status: 400 });
+    });
+};
+
+
+
 //Direcciones
 router.route("/getPromociones").get(getPromociones);
 router.route("/getPromocionesPendientes").get(getPromocionesPendientes);
 router.route("/crearPromocion").post(upload.single("Imagen"), userAuth, crearPromocion);
 router.route("/eliminarPromocion").delete(workerAuth, eliminarPromocion);
+router.route("/aceptarPromocion").post(adminAuth, aceptarPromocion);
 module.exports = router;

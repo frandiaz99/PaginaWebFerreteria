@@ -76,7 +76,7 @@ function Promociones({ isAdmin }) {
       <div className="promociones-container">
         {promos.length > 0 ? (
           promos.map(promo => (
-            <Promocion key={promo.id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
+            <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
           ))
         ) : (
           <div className="no-promos">No hay promociones aceptadas disponibles</div>
@@ -85,10 +85,10 @@ function Promociones({ isAdmin }) {
       <div className="promosPendientes">
         {promosPendientes.length > 0 ? (
           promosPendientes.map(promo => (
-            <Promocion key={promo.id} promo={promo} isAdmin={isAdmin} hasPromos={promosPendientes.length > 0} />
+            <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promosPendientes.length > 0} />
           ))
         ) : (
-          <div className="no-promos">No hay promociones pendientes disponibles</div>
+          estaEnModoAdmin() && <div className="no-promos">No hay promociones pendientes disponibles</div>
         )}
       </div>
       {(estaEnModoAdmin() || estaEnModoEmple()) && (
