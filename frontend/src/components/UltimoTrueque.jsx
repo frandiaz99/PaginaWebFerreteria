@@ -20,8 +20,7 @@ function UltimoTrueque({ultimoT}) {
     const userCompra = ultimoT.articulo_compra.imagen_usuario;
     const imagenPublica=ultimoT.articulo_publica.imagen_articulo;
     const imagenCompra=ultimoT.articulo_compra.imagen_articulo;
-
-    console.log("aveerf,", ultimoT.fecha)
+    
     return (
         <>
             <div className='ultimoTrueque'>

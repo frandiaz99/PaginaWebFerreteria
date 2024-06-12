@@ -139,3 +139,10 @@
 .eliminarMiArticulo:hover{
     background-color: rgb(32, 32, 32);
 }
+
+.interesado_y_puntaje{
+    display: flex;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

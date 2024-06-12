@@ -3,6 +3,7 @@ import '../styles/Filtros.css'
 import { useState, useEffect } from 'react'
 
 function Filtros({totalItems, actualizar}) {
+
   const [filtro,setFiltro]= useState('todo')
   const[orden,setOrden]= useState('precio')
   const [resultadosFiltrados, setResultadosFiltrados] = useState([])
@@ -20,16 +21,13 @@ function Filtros({totalItems, actualizar}) {
 
     // Filtrar
     if (filtro !== 'todo') {
-      const partes = filtro.split('-');
-      const A = parseInt(partes[0]);
-      const B = parseInt(partes[1]);
-      resultados = resultados.filter(articulo => articulo.precio > A && articulo.precio <= B);
+      resultados = resultados.filter(articulo => articulo.precio == filtro);
     }
 
     // Ordenar 
     resultados.sort((a, b) => {
       if (orden === 'precio') return b.precio - a.precio
-      else if (orden === 'puntaje') return b.puntaje - a.puntaje
+      else if (orden === 'puntaje') return b.usuario.valoracion - a.usuario.valoracion
     });
 
     setResultadosFiltrados(resultados);
@@ -40,13 +38,13 @@ function Filtros({totalItems, actualizar}) {
     actualizar(resultadosFiltrados);
   }, [resultadosFiltrados]);
 
-  return ( null
-    /*<div className='orden-y-filtros'>
+  return ( 
+    <div className='orden-y-filtros'>
       
         <div className='orden'>
             <label htmlFor="ordenar">Ordenar por</label>
             <select data-select='filtros' name="selector" id="ordenar" onChange={handleOrden}>
-              <option value="precio">Mayor Tasación</option>
+              <option value="precio">Mayor Categoria</option>
               <option value="puntaje">Mayor puntaje</option>
             </select>
         </div>
@@ -55,14 +53,20 @@ function Filtros({totalItems, actualizar}) {
             <label htmlFor='filtrar'>Filtros</label>
             <select data-select='filtros' name="selector" id="filtrar" onChange={handleFiltros}>
               <option value="todo">Sin filtros</option>
-              <option value="0-1000">$0-$1000</option> {/*Por ahora lo manejamos asi pero deberia ser value con una categoria 
-              <option value="1000-10000">$1000-$10000</option>
-              <option value="10000-50000">$10000-$50000</option>
-              <option value="50000-100000">+$50000</option>
+              <option value="1">Categoria 1</option>
+              <option value="2">Categoria 2</option>
+              <option value="3">Categoria 3</option>
+              <option value="4">Categoria 4</option>
+              <option value="5">Categoria 5</option>
+              <option value="6">Categoria 6</option>
+              <option value="7">Categoria 7</option>
+              <option value="8">Categoria 8</option>
+              <option value="9">Categoria 9</option>
+              <option value="10">Categoria 10</option>
             </select>
           </div>
 
-    </div>*/
+    </div>
   )
 }
 

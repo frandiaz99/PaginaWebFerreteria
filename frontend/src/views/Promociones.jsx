@@ -79,7 +79,7 @@ function Promociones({ isAdmin }) {
             <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
           ))
         ) : (
-          <div className="no-promos">No hay promociones aceptadas disponibles</div>
+          <div className="no-promos">No hay promociones disponibles</div>
         )}
       </div>
       <div className="promosPendientes">

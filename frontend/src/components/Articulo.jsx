@@ -4,6 +4,27 @@ import routes from '../routes'
 import Modal from './Modal.jsx'
 import { useEffect, useState } from 'react'
 
+function generarEstrellas(puntuacion) {
+    const estrellas = []; 
+
+    const estrellasCompletas = Math.floor(puntuacion);
+    const hayMediaEstrella = puntuacion - estrellasCompletas >= 0.5;
+    const estrellasVacias = 5 - estrellasCompletas - (hayMediaEstrella ? 1 : 0);
+
+    for (let i = 0; i < estrellasCompletas; i++) {
+      estrellas.push(<ion-icon name="star"></ion-icon>);
+    }
+
+    if (hayMediaEstrella) {
+      estrellas.push(<ion-icon name="star-half"></ion-icon>);
+    }
+
+    for (let i = 0; i < estrellasVacias; i++) {
+      estrellas.push(<ion-icon name="star-outline"></ion-icon>);
+    }
+
+    return estrellas;
+  }
 
 function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")}) {
     const navigate= useNavigate()
@@ -62,7 +83,10 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                     <h2 className='tituloArt'>{articulo.nombre}</h2>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
                     <p>Categoria {articulo.precio}</p>
-                    <p>Interesado en: ...</p>
+                    <div className='interesado_y_puntaje'>
+                        <p>Interesado en: ...</p>
+                        <p>{generarEstrellas(articulo.usuario.valoracion)}</p>
+                    </div>
                 </div>
             </div>
     )
