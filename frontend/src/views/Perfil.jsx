@@ -97,7 +97,6 @@ function Perfil() {
   }, [usuario])
 
   function generarEstrellas(puntuacion) {
-    console.log("a ver la puntuacion", puntuacion)
     const estrellas = []; 
 
     const estrellasCompletas = Math.floor(puntuacion);

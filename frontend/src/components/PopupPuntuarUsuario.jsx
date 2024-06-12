@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import '../styles/PopupPuntuarUsuario.css'
 
 
 const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
     if (!show) return null;
     
+    const [acabaDePuntuar,setAcabaDePuntuar]= useState(false)
+
     function guardarDatos () {
+        setAcabaDePuntuar(true)
         let estrellas = document.getElementById("select-estrellas-popup");
         let comentario = document.getElementById("comentario-popup");
         if (estrellas.value != null && comentario.value != null){
@@ -36,10 +40,12 @@ const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
             .then(data => {
             console.log("data :", data)
             yaPuntuo()
+            setAcabaDePuntuar(false)
             onClose()
             })
             .catch(error => {
             console.error('Error:', error);
+            setAcabaDePuntuar(false)
             })
         }
     }
@@ -64,8 +70,15 @@ const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
                     </div>
                 </div>
                 <div className='container-botones-puntuar'>
-                    <button className="estilo-botones-puntuar" onClick={() => guardarDatos()}>Puntuar</button>
-                    <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
+                    {acabaDePuntuar 
+                    ?
+                        <p>Enviando calificación...</p>
+                    :
+                    <>
+                        <button className="estilo-botones-puntuar" onClick={() => guardarDatos()}>Puntuar</button>
+                        <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
+                    </>
+                    }
                 </div>
             </div>
         </div>
