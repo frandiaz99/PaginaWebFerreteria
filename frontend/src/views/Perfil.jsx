@@ -5,13 +5,17 @@ import { Link } from 'react-router-dom';
 import {estaEnModoAdmin, estaEnModoUser} from '../helpers/estaEnModo.js'
 import Comentario from '../components/Comentario.jsx';
 
+function obtenerMisTrueques(trueques, usuarioActual) {
+  return trueques.filter(t => usuarioActual._id == t.articulo_publica.usuario._id || usuarioActual._id == t.articulo_compra.usuario._id)
+}
+
 function Perfil() {
 
-  const [usuario, setUsuario] = useState();
+  const [usuario, setUsuario] = useState(null);
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   const [comentarios, setComentarios]= useState([])
   const [comentariosObtenidos, setComentariosObtenidos]= useState(false)
-  //const user = JSON.parse(localStorage.getItem('user'));
+  const [cantTruequesRealizados, setCantTruequesRealizados]= useState(null)
 
   useEffect(() => {
     if (window.location.pathname === routes.perfilTercero) {
@@ -63,6 +67,33 @@ function Perfil() {
     }
   }, [location.pathname])
   
+
+  useEffect(() => {
+    if (usuario){
+      fetch("http://localhost:5000/trueque/getCompletados", {
+        method: "GET",
+        headers: { "Content-Type": "application/JSON" },
+        credentials: "include"
+      })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+            })
+          }
+          return response.json();
+        })
+        .then(data => {
+          const misTrueques= obtenerMisTrueques(data.data.reverse(), usuario)
+          setCantTruequesRealizados(misTrueques.length)
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          setTruequesCompletados([])
+          setCantTruequesRealizados(0)
+        })
+    }
+  }, [usuario]);
 
   useEffect(() => {
     if (usuario){
@@ -173,7 +204,7 @@ function Perfil() {
 
           {!estaEnModoAdmin() && <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
-              Trueques realizados: - -
+              <p>Trueques realizados</p><h2 className='cant_trueques_user'> {cantTruequesRealizados}</h2>
             </div>
             <div className="caja-comentarios" id='caja-comentarios'>
                 {comentariosObtenidos

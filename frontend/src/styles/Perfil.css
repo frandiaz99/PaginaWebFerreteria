@@ -102,7 +102,6 @@
 .cantidad-trueques,
 .titulo-comentario {
     padding: 20px;
-
     max-width: 800px;
 
 }
@@ -110,6 +109,10 @@
 .cantidad-trueques {
     background-color: transparent;
     font-size: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .titulo-comentario {
