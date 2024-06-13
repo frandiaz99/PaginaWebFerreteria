@@ -57,7 +57,7 @@ function AdminCuentas() {
         .then(data => {
           setTotalCuentas(data.Users)
           setObtenido(true)
-          cuentasRef.current.style.display='block'
+          cuentasRef.current.style.display='flex'
         })
         .catch(error => {
           console.error('Error:', error);
@@ -79,7 +79,7 @@ function AdminCuentas() {
         .then(data => {
           setTotalCuentas(data.Empleados)
           setObtenido(true)
-          cuentasRef.current.style.display='block'
+          cuentasRef.current.style.display='flex'
         })
         .catch(error => {
           console.error('Error:', error);

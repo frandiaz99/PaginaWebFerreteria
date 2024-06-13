@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/PopupPuntuarUsuario.css'
 
 
@@ -6,6 +6,17 @@ const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
     if (!show) return null;
     
     const [acabaDePuntuar,setAcabaDePuntuar]= useState(false)
+    const [commentState, setCommentState]= useState('')
+    const [comentarioVacio, setComentarioVacio]= useState(true)
+
+    const handleComentario= (e) =>{
+        setCommentState(e.target.value)
+    }
+
+    useEffect(() =>{
+        if (commentState.length > 0) setComentarioVacio(false)
+        else setComentarioVacio(true)
+    },[commentState]);
 
     function guardarDatos () {
         setAcabaDePuntuar(true)
@@ -66,7 +77,8 @@ const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
                     </div>
                     <div className="container-comentario">
                         <label>Comentanos acerca del usuario</label>
-                        <textarea name="comentario-popup" id="comentario-popup" cols="50" rows="5"></textarea>
+                        <textarea name="comentario-popup" id="comentario-popup" cols="50" rows="5" onChange={handleComentario}></textarea>
+                        {comentarioVacio && <p className='textoNoCumple'>Comentar es obligatorio para envíar tu calificación</p>}
                     </div>
                 </div>
                 <div className='container-botones-puntuar'>
@@ -75,7 +87,7 @@ const PuntuarUsuario = ({show, onClose, trueque, yaPuntuo}) => {
                         <p>Enviando calificación...</p>
                     :
                     <>
-                        <button className="estilo-botones-puntuar" onClick={() => guardarDatos()}>Puntuar</button>
+                        {!comentarioVacio && <button className="estilo-botones-puntuar" onClick={() => guardarDatos()}>Puntuar</button>}
                         <button className="estilo-botones-puntuar" onClick={onClose}>Cancelar</button>
                     </>
                     }

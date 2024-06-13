@@ -152,7 +152,7 @@ function OpcionesUser() {
             {srcFotoPerfil && <img src={srcFotoPerfil} alt="" className='fotoCuenta' />}
           </div>
 
-        {dropCuentaOpen &&
+        {(dropCuentaOpen && user) &&
           <div className='dropCuenta'>
             <div className='dropCuenta__mail'>
 

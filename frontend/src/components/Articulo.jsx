@@ -85,7 +85,10 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                     <p>Categoria {articulo.precio}</p>
                     <div className='interesado_y_puntaje'>
                         <p>Interesado en: ...</p>
-                        <p>{generarEstrellas(articulo.usuario.valoracion)}</p>
+                        <div className='usuarioEnArticulo'>
+                            <p>{articulo.usuario.nombre}</p>
+                            <p>{generarEstrellas(articulo.usuario.valoracion)}</p>
+                        </div>
                     </div>
                 </div>
             </div>
