@@ -202,7 +202,7 @@ function Perfil() {
             </div>
           </div>
 
-          {!estaEnModoAdmin() && <div className='contenedor-perfil-2'>
+          {(!estaEnModoAdmin() || location.pathname == routes.perfilTercero )&& <div className='contenedor-perfil-2'>
             <div className='cantidad-trueques'>
               <p>Trueques realizados</p><h2 className='cant_trueques_user'> {cantTruequesRealizados}</h2>
             </div>

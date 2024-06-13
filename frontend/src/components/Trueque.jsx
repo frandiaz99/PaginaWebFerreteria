@@ -44,10 +44,54 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
   const [efectivizar, setEfectivizar] = useState(false);
 
   const [irAUnArticulo, setIrAUnArticulo] = useState(false)
+
+  const [gananciaPorTrueque, setGananciaPorTrueque]= useState(0)
   
   useEffect(() =>{
     if (soyElQueAcepta) setNoPuntuoTodavia(trueque.valoracion_publica == null)
     else setNoPuntuoTodavia(trueque.valoracion_compra == null)
+  },[])
+
+  useEffect(() => {
+    fetch('http://localhost:5000/sucursal/getSucursales',
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/JSON",
+          //"Cookie": localStorage.getItem('jwt')
+        }, credentials: "include"
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Hubo un problema al obtener las sucursales');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setSucursales(data.Sucursales)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [])
+
+  useEffect(() => {
+    if (irAUnArticulo) navigate(routes.unArticulo)
+  }, [irAUnArticulo])
+
+  useEffect(() => {
+    if (truequeState.fecha_venta && truequeState.sucursal) setTruequeConfirmado(true)
+  }, [truequeState])
+
+  useEffect(() => {
+      let total= 0;
+      if (trueque.producto_compra.length > 0){
+        total+= trueque.producto_compra.reduce((acumulador,p) => acumulador + (p.producto.precio * p.cantidad), 0)
+      }
+      if (trueque.producto_publica.length > 0){
+        total+= trueque.producto_publica.reduce((acumulador,p) => acumulador + (p.producto.precio * p.cantidad), 0)
+      }
+      setGananciaPorTrueque(total)
   },[])
 
   const handleCancelar = (event) => {
@@ -148,37 +192,13 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
       });
   }
 
-  useEffect(() => {
-    fetch('http://localhost:5000/sucursal/getSucursales',
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/JSON",
-          //"Cookie": localStorage.getItem('jwt')
-        }, credentials: "include"
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Hubo un problema al obtener las sucursales');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setSucursales(data.Sucursales)
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, [])
+
 
   const actualizarEstado = (t) => {
     //setTruequeState({ ...trueque, fecha_venta: t.fecha_venta, sucursal: t.sucursal })
     window.location.reload()
   }
 
-  useEffect(() => {
-    if (truequeState.fecha_venta && truequeState.sucursal) setTruequeConfirmado(true)
-  }, [truequeState])
 
 
   const irArticulo = (articulo) => {
@@ -188,9 +208,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
     setIrAUnArticulo(true)
   }
 
-  useEffect(() => {
-    if (irAUnArticulo) navigate(routes.unArticulo)
-  }, [irAUnArticulo])
+
 
   function redirectPerfil(user) {
     if (user.dni == usuarioActual.dni && usuarioActual.rol !== 2) {
@@ -201,6 +219,8 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
     }
   }
 
+
+
   return (
     <div className='unTrueque'>
 
@@ -210,7 +230,10 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
           <div className='usuario-unTrueque' onClick={() => redirectPerfil(userPublica)}>
             <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userPublica.foto_perfil}`} />
-            <p className='nombre-unTrueque'>{userPublica.nombre} </p>
+            <div className='infoUserTrueque'>
+              <p className='nombre-unTrueque'>{userPublica.nombre}</p>
+              {!estaEnModoUser() && <p style={{fontSize:'15px'}}>{userPublica.dni}</p>}
+           </div>
           </div>
 
           <div className='art-unTrueque'>
@@ -225,7 +248,10 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
 
           <div className='usuario-unTrueque' onClick={() => redirectPerfil(userCompra)}>
             <img className='fotoUser-ultimoTrueque' src={`http://localhost:5000/img/${userCompra.foto_perfil}`} />
-            <p className='nombre-unTrueque'>{userCompra.nombre}</p>
+           <div className='infoUserTrueque'>
+              <p className='nombre-unTrueque'>{userCompra.nombre}</p>
+              {!estaEnModoUser() && <p style={{fontSize:'15px'}}>{userCompra.dni}</p>}
+           </div>
           </div>
 
         </div>
@@ -288,8 +314,14 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
             </>
           </div>
           :
-          <div className='container-calificarUsuario'>
-            {(estaEnModoUser() && noPuntuoTodavia) && <button className='botonUnTrueque' onClick={() => setPopupPuntuarUsuario(true)}>Calificar trueque</button>}
+          <div>
+            {estaEnModoUser() 
+            ?
+              noPuntuoTodavia && <button className='botonUnTrueque' onClick={() => setPopupPuntuarUsuario(true)}>Calificar trueque</button>
+            :
+              <p className='gananciaPorTrueque'>${gananciaPorTrueque}</p>
+            }
+
           </div>
         }
 

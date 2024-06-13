@@ -113,3 +113,15 @@
 .cancelar:hover{
     background-color: rgb(255, 0, 0);
 }
+
+.infoUserTrueque{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gananciaPorTrueque{
+    color: rgb(0, 255, 0);
+    font-weight: 600;
+}

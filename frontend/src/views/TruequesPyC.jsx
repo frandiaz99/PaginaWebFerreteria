@@ -3,7 +3,6 @@ import '../styles/TruequesPyC.css'
 import Trueque from '../components/Trueque'
 import Buscador from '../components/Buscador'
 import FiltroFecha from '../components/FiltroFecha'
-import trueques from '../data/trueques.json'
 import { estaEnModoUser } from '../helpers/estaEnModo'
 
 function obtenerMisTrueques(trueques, usuarioActual) {
@@ -118,7 +117,7 @@ function TruequesPyC() {
 
 
         <div className='filtros_y_trueques-principal_admin_emple'>
-          {verPendientes ? <Buscador /> : <FiltroFecha />}
+          {verPendientes ? <Buscador /> : estaEnModoUser() ? null : <FiltroFecha />}
 
           <div className='trueques'>
             {dataObtenida
