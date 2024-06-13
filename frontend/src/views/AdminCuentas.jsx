@@ -91,17 +91,17 @@ function AdminCuentas() {
     setEliminado(!eliminado)
   }
 
+  const handleBuscar= (dni) => {
+    const cuentasFiltradas= totalCuentas.filter(c => String(c.dni).includes(dni))
+    setCuentasActuales(cuentasFiltradas)
+  }
+
   return (
     <main className='main'>
       <div className='main-adminCuentas'>
 
         <div className='buscador-y-cuentasAdmin'>
-        {(cuentasActuales.length > 0) 
-          ?
-          <Buscador/>
-          :
-          <div className='buscador'> </div>
-          }
+          <Buscador handleBuscar={handleBuscar} textoBoton={'Buscar'}/>
 
           <div className='cuentasAdmin' ref={cuentasRef}>
           {(totalCuentas.length == 0 || cuentasActuales.length == 0)

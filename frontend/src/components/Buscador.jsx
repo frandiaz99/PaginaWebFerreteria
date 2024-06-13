@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/Buscador.css'
 
-function Buscador({handleBuscar, textoBoton, dniValido = () => false, setDniValido= () => console.log()}) {
+function Buscador({handleBuscar, textoBoton}) {
+
   const [dni, setDni]= useState('')
   
 
@@ -9,16 +10,10 @@ function Buscador({handleBuscar, textoBoton, dniValido = () => false, setDniVali
     setDni(e.target.value)
   }
 
-  useEffect(() => {  //Verificar DNI valido
-    let dniCumple= false
-    if (dni.length == 0) dniCumple=null
-    else if (dni.length == 8) dniCumple= true
-    setDniValido(dniCumple);
-}, [dni])
 
   const handleSubmit= (e) =>{
     e.preventDefault()
-    if (dniValido) handleBuscar(dni)
+    handleBuscar(dni)
   }
   
   return (
