@@ -8,12 +8,9 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
 
     const [ventas, setVentas] = useState([]);
     const [confirmado, setConfirmado] = useState(false);
-    const [usuario, setUsuario] = useState(
-        [{
-            usuario_compra: truequeAEfectivizar.articulo_compra.usuario,
-            usuario_publica: truequeAEfectivizar.articulo_publica.usuario
-        }]
-    )
+    const [faltaId, setFaltaId]= useState(null)
+    const [faltaCant, setFaltaCant]= useState(null)
+    const [faltaUser, setFaltaUser]= useState(null)
 
     const [idIncorrecto, setIdIncorrecto] = useState(false)
 
@@ -22,10 +19,25 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         setVentas(prevVentas => {
             const newVentas = [...prevVentas];
             if (name === 'usuario') {
-                const selectedUsuario = JSON.parse(value);
-                newVentas[index][name] = selectedUsuario;
+                if (value == "default") {
+                    newVentas[index][name] = value;
+                    setFaltaUser(true)
+                }
+                else{
+                    const selectedUsuario = JSON.parse(value);
+                    newVentas[index][name] = selectedUsuario;
+                    setFaltaUser(false)
+                }
             } else {
                 newVentas[index][name] = value;
+                if (name == "codigo") {
+                    if (value == '' ) setFaltaId(true)
+                    else setFaltaId(false)
+                }
+                else{
+                    if (value == '' ) setFaltaCant(true)
+                    else setFaltaCant(false)
+                }
             }
             return newVentas;
         });
@@ -93,6 +105,9 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
         confirmarSeleccion();
     };
 
+    function todosLosCampos(){
+        return faltaId == false && faltaCant== false && faltaUser== false
+    }
 
     const buttonText = efectivizar ? 'Confirmar' : 'Confirmar'; 
     const buttonClass = efectivizar ? 'aceptar' : 'cancelar';
@@ -105,38 +120,47 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                 <form onSubmit={handleSubmit} className='inputs-venta'>
                     {ventas.map((venta, index) => (
                         <div className='input-row' key={index}>
-                            <input
-                                type="text"
-                                name='codigo'
-                                placeholder="Id producto venta"
-                                value={venta.codigo}
-                                onChange={(e) => handleInputChange(index, e)}
-                            />
-                            <input
-                                type="text"
-                                name='cantidad'
-                                placeholder="Cantidad"
-                                value={venta.cantidad}
-                                onChange={(e) => handleInputChange(index, e)}
-                            />
-                            <select
-                                name='usuario'
-                                value={JSON.stringify(venta.usuario)}
-                                onChange={(e) => handleInputChange(index, e)}
-                            >
-                                <option value="">Seleccione usuario</option>
-                                <option value={JSON.stringify(truequeAEfectivizar.articulo_compra.usuario)}>
-                                    {truequeAEfectivizar.articulo_compra.usuario.dni}/{truequeAEfectivizar.articulo_compra.usuario.nombre}
-                                </option>
-                                <option value={JSON.stringify(truequeAEfectivizar.articulo_publica.usuario)}>
-                                    {truequeAEfectivizar.articulo_publica.usuario.dni}/{truequeAEfectivizar.articulo_publica.usuario.nombre}
-                                </option>
-                            </select>
+                            <div className='campos_ventas'>
+                                <input
+                                    type="text"
+                                    name='codigo'
+                                    placeholder="Id producto venta"
+                                    value={venta.codigo}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {faltaId && <p className='campoObligatorio'>Campo obligatorio</p>}
+                            </div>
+                            <div className='campos_ventas'>
+                                <input
+                                    type="text"
+                                    name='cantidad'
+                                    placeholder="Cantidad"
+                                    value={venta.cantidad}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {faltaCant && <p className='campoObligatorio'>Campo obligatorio</p>}
+                            </div>
+                            <div className='campos_ventas'>
+                                <select
+                                    name='usuario'
+                                    value={JSON.stringify(venta.usuario)}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                >
+                                    <option value="default">Seleccione usuario</option>
+                                    <option value={JSON.stringify(truequeAEfectivizar.articulo_compra.usuario)}>
+                                        {truequeAEfectivizar.articulo_compra.usuario.dni}/{truequeAEfectivizar.articulo_compra.usuario.nombre}
+                                    </option>
+                                    <option value={JSON.stringify(truequeAEfectivizar.articulo_publica.usuario)}>
+                                        {truequeAEfectivizar.articulo_publica.usuario.dni}/{truequeAEfectivizar.articulo_publica.usuario.nombre}
+                                    </option>
+                                </select>
+                                {faltaUser && <p className='campoObligatorio'>Campo obligatorio</p>}
+                            </div>
                             <button type="button" className='remove-row' onClick={() => eliminarProducto(index)}>x</button>
                         </div>
                     ))}
                     <div className='botones-venta'>
-                        <button type='submit' className={buttonClass} onClick={confirmarSeleccion}>{buttonText}</button>
+                        {(todosLosCampos() || ventas.length == 0) && <button type='submit' className={buttonClass} onClick={confirmarSeleccion}>{buttonText}</button>}
                         <button type='button' className='agregar-producto' onClick={agregarProducto}>Agregar Producto</button>
                     </div>
                 </form>

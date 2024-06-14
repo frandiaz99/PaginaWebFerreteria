@@ -121,3 +121,14 @@
     /* Blue */
     color: white;
 }
+
+.campos_ventas{
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+}
+
+.campoObligatorio{
+    font-size: 10px;
+    color: red;
+}
