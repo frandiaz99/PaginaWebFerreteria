@@ -289,7 +289,7 @@ function CrearCuenta() {
                         </div>
 
                         <div className="divInputRegistro div-sucursal">
-                            <label htmlFor="sucursal">Sucursal</label> {/*Hay que cargar esto con las sucursales desde el back*/}
+                            <label htmlFor="sucursal">Sucursal</label>
                             <select name="sucursal" id="sucursal" onChange={changeSucursal}>
                                 {sucursales.map((s, index) => (<option key={index} value={s._id}>{s.nombre}</option>))}
                             </select>

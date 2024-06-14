@@ -92,10 +92,10 @@ function CrearPromocion() {
                             <label htmlFor='titulo'>Título de la promoción</label>
                             <input type='text' name='titulo' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
-                        <div className='div-subirPromocion'>
+                        {/*<div className='div-subirPromocion'>
                             <label htmlFor='texto'>Texto de la promoción</label>
                             <input type='text' name='texto' className='inputSubirPromocion' onChange={handleChange} />
-                        </div>
+                        </div> Lleva texto la promocion?*/}
                         <div className='div-subirPromocion'>
                             <label htmlFor='duracion'>Duración (días)</label>
                             <input type='number' name='duracion' className='inputSubirPromocion' onChange={handleChange} />

@@ -21,9 +21,11 @@ function TruequesPyC() {
   const [totalTruequesPendientes, setTotalTruequesPendientes]= useState([])
   const [truequesPendientes, setTruequesPendientes] = useState([])
   const [truequesCompletados, setTruequesCompletados] = useState([])
+  const [totalTruequesCompletados, setTotalTruequesCompletados]= useState([])
   const [dataObtenida, setDataObtenida] = useState(false)
   const [eliminado, setEliminado] = useState(false)
   const [gananciaTotal, setGananciaTotal]= useState(0)
+  const [verEstadisticas, setVerEstadisticas]= useState(false)
 
   const titulo_pendientes_ref = useRef(null)
   const titulo_completados_ref = useRef(null)
@@ -80,7 +82,11 @@ function TruequesPyC() {
       })
       .then(data => {
         if (estaEnModoUser()) setTruequesCompletados(obtenerMisTrueques(data.data.reverse(), usuarioActual))
-        else setTruequesCompletados(obtenerTruequesConfirmados(data.data.reverse(), usuarioActual))
+        else{
+          const t= obtenerTruequesConfirmados(data.data.reverse(), usuarioActual)
+          setTruequesCompletados(t)
+          setTotalTruequesCompletados(t)
+        } 
       })
       .catch(error => {
         console.error('Error:', error);
@@ -91,7 +97,6 @@ function TruequesPyC() {
 
   const sumarGanancias= (ganancia) =>{
     setGananciaTotal(prevGananciaTotal => prevGananciaTotal + ganancia)
-    console.log("aver", gananciaTotal)
   }
 
   const handlePendientes = () => {
@@ -133,6 +138,11 @@ function TruequesPyC() {
     setTruequesPendientes(truequesBuscados)
   }
 
+  const actualizarTruequesCompletados= (t) =>{
+    setTruequesCompletados(t)
+    setVerEstadisticas(true)
+  }
+
   return (
     <main className='main'>
       <div className='principal_admin_emple'>
@@ -144,7 +154,7 @@ function TruequesPyC() {
 
 
         <div className='filtros_y_trueques-principal_admin_emple'>
-          {verPendientes ? <Buscador handleBuscar={estaEnModoUser() ? handleBuscarPorTrueque : handleBuscar} textoBoton={'Buscar'}/> : estaEnModoUser() ? null : <FiltroFecha />}
+          {verPendientes ? <Buscador handleBuscar={estaEnModoUser() ? handleBuscarPorTrueque : handleBuscar} textoBoton={'Buscar'}/> : estaEnModoUser() ? null : <FiltroFecha totalItems={totalTruequesCompletados} actualizar={actualizarTruequesCompletados}/>}
 
           <div className='trueques'>
             {dataObtenida
@@ -169,7 +179,11 @@ function TruequesPyC() {
                     </>
                   ))
                   :
-                  <p> No hay trueques completados</p>
+                    verEstadisticas 
+                    ?
+                      <p>No se realizaron trueques entre esas fechas</p>
+                    :
+                      <p> No hay trueques completados</p>
               :
               <p>Cargando Trueques...</p>
             }
