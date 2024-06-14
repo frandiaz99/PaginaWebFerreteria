@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/Buscador.css'
+import { estaEnModoUser } from '../helpers/estaEnModo'
 
 function Buscador({handleBuscar, textoBoton}) {
 
-  const [dni, setDni]= useState('')
+  const [contenidoBuscador, setContenidoBuscador]= useState('')
   
 
-  const handleDni= (e) =>{
-    setDni(e.target.value)
+  const escribir= (e) =>{
+    setContenidoBuscador(e.target.value)
   }
 
 
   const handleSubmit= (e) =>{
     e.preventDefault()
-    handleBuscar(dni)
+    handleBuscar(contenidoBuscador)
   }
   
   return (
     <form className='buscador' onSubmit={handleSubmit}>
-      <input type="number" name='dni' placeholder='DNI 22222222' onChange={handleDni}/>
+      {estaEnModoUser()
+      ?
+        <input type="text" name='contenidoBuscador' placeholder='Articulo x' onChange={escribir}/>
+      :
+        <input type="number" name='contenidoBuscador' placeholder='DNI 22222222' onChange={escribir}/>
+      }
       <input type="submit" value={textoBoton} className='boton-buscador'/>
     </form>
   )

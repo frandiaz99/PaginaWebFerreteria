@@ -23,7 +23,7 @@ function getTimeOnly(datetimeLocalString) {
   return `${hours}:${minutes}`;
 }
 
-function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada") }) {
+function Trueque({ trueque, pendiente, cancelarTrueque = () => null, sumarGanancias= () => null }) {
   const navigate = useNavigate()
   const userPublica = trueque.articulo_publica.usuario;
   const userCompra = trueque.articulo_compra.usuario;
@@ -92,6 +92,12 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
         total+= trueque.producto_publica.reduce((acumulador,p) => acumulador + (p.producto.precio * p.cantidad), 0)
       }
       setGananciaPorTrueque(total)
+      sumarGanancias(total)
+
+       // Cleanup function to subtract the gain when component unmounts
+       return () => {
+         sumarGanancias(-total);
+        };
   },[])
 
   const handleCancelar = (event) => {
@@ -274,7 +280,7 @@ function Trueque({ trueque, pendiente, cancelarTrueque = () => console.log("nada
                   <span>Oferta de Trueque envíada | En espera</span>
             :
             <>
-            <span>Realizado el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)}</span>
+            <span>Realizado el {getDateOnly(truequeState.fecha_venta)} a las {getTimeOnly(truequeState.fecha_venta)} en {truequeState.sucursal.nombre}</span>
             </>
           }
         </div>

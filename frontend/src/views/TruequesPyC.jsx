@@ -18,10 +18,13 @@ function obtenerTruequesConfirmados(trueques, user) {
 function TruequesPyC() {
   const usuarioActual = JSON.parse(localStorage.getItem('user'))
   const [verPendientes, setVerPendientes] = useState(JSON.parse(localStorage.getItem('verPendientes')))
+  const [totalTruequesPendientes, setTotalTruequesPendientes]= useState([])
   const [truequesPendientes, setTruequesPendientes] = useState([])
   const [truequesCompletados, setTruequesCompletados] = useState([])
   const [dataObtenida, setDataObtenida] = useState(false)
   const [eliminado, setEliminado] = useState(false)
+  const [gananciaTotal, setGananciaTotal]= useState(0)
+
   const titulo_pendientes_ref = useRef(null)
   const titulo_completados_ref = useRef(null)
 
@@ -40,14 +43,23 @@ function TruequesPyC() {
         return response.json();
       })
       .then(data => {
-        if (estaEnModoUser()) setTruequesPendientes(obtenerMisTrueques(data.data, usuarioActual))
-        else setTruequesPendientes(obtenerTruequesConfirmados(data.data, usuarioActual))
+        if (estaEnModoUser()) {
+            const t= obtenerMisTrueques(data.data, usuarioActual)
+            setTruequesPendientes(t)
+            setTotalTruequesPendientes(t)
+        }
+        else {
+          const t=obtenerTruequesConfirmados(data.data, usuarioActual)
+          setTruequesPendientes(t)
+          setTotalTruequesPendientes(t)
+        }
         setDataObtenida(true)
         console.log("trueques pendientes: ", data.data)
       })
       .catch(error => {
         console.error('Error:', error);
         setTruequesPendientes([])
+        setTotalTruequesPendientes([])
         setDataObtenida(true)
       })
   }, [eliminado]);
@@ -76,6 +88,11 @@ function TruequesPyC() {
       })
   }, []);
 
+
+  const sumarGanancias= (ganancia) =>{
+    setGananciaTotal(prevGananciaTotal => prevGananciaTotal + ganancia)
+    console.log("aver", gananciaTotal)
+  }
 
   const handlePendientes = () => {
     titulo_completados_ref.current.style.color = 'rgb(170, 170, 170)'
@@ -106,6 +123,16 @@ function TruequesPyC() {
     }
   }, [])
 
+  const handleBuscar= (dni) => {
+    const truequesBuscados= totalTruequesPendientes.filter(t => String(t.articulo_compra.usuario.dni).includes(dni) || String(t.articulo_publica.usuario.dni).includes(dni))
+    setTruequesPendientes(truequesBuscados)
+  }
+
+  const handleBuscarPorTrueque= (nombre) =>{
+    const truequesBuscados= totalTruequesPendientes.filter(t => String(t.articulo_compra.nombre).includes(nombre) || String(t.articulo_publica.nombre).includes(nombre))
+    setTruequesPendientes(truequesBuscados)
+  }
+
   return (
     <main className='main'>
       <div className='principal_admin_emple'>
@@ -117,7 +144,7 @@ function TruequesPyC() {
 
 
         <div className='filtros_y_trueques-principal_admin_emple'>
-          {verPendientes ? <Buscador /> : estaEnModoUser() ? null : <FiltroFecha />}
+          {verPendientes ? <Buscador handleBuscar={estaEnModoUser() ? handleBuscarPorTrueque : handleBuscar} textoBoton={'Buscar'}/> : estaEnModoUser() ? null : <FiltroFecha />}
 
           <div className='trueques'>
             {dataObtenida
@@ -138,7 +165,7 @@ function TruequesPyC() {
                   ?
                   truequesCompletados.map((t) => (
                     <>
-                    <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} />
+                    <Trueque key={t._id} trueque={t} pendiente={verPendientes} cancelarTrueque={handleCancelarTrueque} sumarGanancias={sumarGanancias} />
                     </>
                   ))
                   :
@@ -150,10 +177,10 @@ function TruequesPyC() {
           </div>
         </div>
 
-        {/*verPendientes == false && <div className='ganancia-principal_admin_emple'>
-          <h3 className='tituloGanancia'>Ganancia</h3>
-          <h2 className='ganancia'>$1000</h2>
-          </div>*/}
+        {(verPendientes == false && !estaEnModoUser() )&& <div className='ganancia-principal_admin_emple'>
+          <h3 className='tituloGanancia'>Ganancia Total</h3>
+          <h2 className='ganancia'>${gananciaTotal}</h2>
+          </div>}
       </div>
     </main>
   )
