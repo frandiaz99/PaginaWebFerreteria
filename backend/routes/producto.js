@@ -66,9 +66,23 @@ const RegistrarProducto = async (req, res, next) =>{
 };
 
 
-router.route("/registrarProducto").post(RegistrarProducto);
+const GetProductos = async  (req, res, next)=>{
+  try {
+    const productos = await DataProducto.find({}, "-_id -__v");
+    //console.log (productos)
+    res.status(200).json({Productos: productos})
+  } catch (err){
+    console.log(err);
+    res.status(401).json({message: "Erro probable del server"});
+  }
+
+}
+
+
+router.route("/registrarProducto").post(adminAuth, RegistrarProducto);
+router.route("/getProductos").get(workerAuth, GetProductos);
 //router.route("/calcularPuntos").post(CalcularPuntos);
 
 
-//module.exports = router;
-module.exports = {CalcularPuntos};
+//module.exports = ;
+module.exports = {router, CalcularPuntos};
