@@ -108,6 +108,7 @@ app.use("/articulo", require("./routes/articulo"));
 app.use("/sucursal", require("./routes/sucursales"));
 app.use("/trueque", require("./routes/trueque"));
 app.use("/promocion", require("./routes/promocion"));
+app.use("/pagar", require("./routes/pagar"));
 app.use(express.static("imagenes"));
 
 

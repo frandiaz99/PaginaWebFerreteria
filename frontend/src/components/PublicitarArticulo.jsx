@@ -95,15 +95,145 @@ export { useCardPaymentBrick };
 
 
 import React from 'react';
-import { initMercadoPago } from '@mercadopago/sdk-react';
-initMercadoPago('YOUR_PUBLIC_KEY');
+import { useState } from 'react';
 
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+//initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622', {locale: "es-AR"});
+//initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622');
+initMercadoPago('TEST-d26767aa-ba98-4c84-aa23-5a3be7e05309', {locale: "es-AR"});
 
-import { CardPayment } from '@mercadopago/sdk-react';
-
-
+//import { CardPayment } from '@mercadopago/sdk-react';
 function Pagar (){
+  const [preferenceId, setPreferenceId] = useState(null);
+  // Poner form para camvbiar los datos
+  const orden = {
+    cantidad: 4,
+    precio: 200,
+  };
+  const [cantidadDias, setCantidadDias] = useState(1);
   
+  const initialization = {
+    preferenceId: '<PREFERENCE_ID>',
+  }
+  
+  const customization = {
+    texts: {
+     valueProp: 'smart_option',
+    },
+  }
+  
+  const onSubmit = async (formData) => {
+    // callback called when clicking on Wallet Brick
+    // this is possible because Brick is a button
+    console.log("onSubmit", formData);
+  };
+  
+  const onError = async (error) => {
+    // callback called for all Brick error cases
+    console.log("error", error);
+  };
+  
+  const onReady = async () => {
+    // Callback called when Brick is ready.
+    // Here, you can hide loadings on your website, for example.  
+    console.log("onReady");
+  };
+  
+  
+  /*<Wallet
+  initialization={initialization}
+  customization={customization}
+  onSubmit={onSubmit}
+  onReady={onReady}
+  onError={onError}
+  />*/
+  
+  
+  
+  const crearPedido = async () => {
+    fetch(
+      "http://localhost:5000/pagar/crearPedido",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/JSON" },
+        body: JSON.stringify({Promocion:{Duracion: cantidadDias }}),
+        credentials: "include",
+      }
+    )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw new Error(JSON.stringify({ message: data.message, status: data.status }));
+        })
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      //createCheckoutButton(data.id);
+      if (window.checkoutButton) window.checkoutButton.unmount();
+      setPreferenceId(data.id)
+      return
+    })
+    .catch((error) => {
+      console.error("Hubo al generar pedido", error);
+    });
+  }
+  /*
+  const createCheckoutButton = (id) => {
+  if (window.checkoutButton) window.checkoutButton.unmount();
+  <Wallet initialization={{ preferenceId: id }} customization={{ texts:{ valueProp: 'smart_option'}}} />
+  
+  }*/
+ 
+ 
+ const [promocionandoArticulo, setPromocionandoArticulo] = useState(true);
+ const cambiarCantidadDias = (e) =>{
+    setCantidadDias(e.target.value)
+  }
+
+/*
+{ promocionandoArticulo && <button >Promocionar</button>}
+*/
+return (
+  
+  
+  <div>
+    {/* <button onClick={promocionarArticulo}>Promocionar</button> */}
+
+    {/* :<button onClick={crearPedido}>Confirmar</button> */ }
+  
+
+      { promocionandoArticulo ? <button className="boton-intercambiar" onClick={() =>{setPromocionandoArticulo(false)}}>Promocionar</button>
+       :(<><input type="numer" name="contenidoBuscador" placeholder="dias" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido}>Confirmar</button></>)}
+
+    
+    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />}
+
+
+
+  {/* <Wallet initialization={{ preferenceId: "267438622-44a4b84e-5605-41dc-903c-78cc35fd0203" }} customization={{ texts:{ valueProp: 'smart_option'}}} /> */}
+    {/* <div id="walletBrick_container"></div> */}
+  </div>
+);
+
+  } 
+  
+  export default Pagar;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /*
   
   //window.cardPaymentBrickController.unmount() borra la instancia de la compra
   
@@ -158,10 +288,9 @@ function Pagar (){
   onReady={onReady}
   onError={onError}
   />
-
+ 
   );
-
-
-} 
-
-export default Pagar;
+  
+  
+  
+  */

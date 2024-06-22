@@ -3,7 +3,7 @@ import routes from '../routes.js'
 //import Pagar from '../components/Pagar'
 //<Pagar/>
 //import { CardPayment } from '@mercadopago/sdk-react';
-import Pagar from '../components/Pagar';
+import Pagar from '../components/PublicitarArticulo.jsx';
 import '../styles/UnArticulo.css'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
@@ -229,10 +229,10 @@ function UnArticulo() {
               <p id="descripcion-interesado-en"></p>
             </div>
             <div id="container-buttons" className="spacing">
-              {(articuloSeleccionado && intercambiar(articuloSeleccionado)) &&
+              {(articuloSeleccionado && intercambiar(articuloSeleccionado))?
                 <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
-                </button>
+                </button>: <Pagar/>
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
@@ -260,7 +260,6 @@ function UnArticulo() {
         </div>
       </div>
 
-      {/*<Pagar/>  */}
       {articuloSeleccionado && (
         <PopupIntercambio
           show={showPopup}
