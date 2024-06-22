@@ -157,25 +157,26 @@ trueques.cancelarTrueques:
 
 
 Hechos:
-Bloquear usuario
-Intercambiar Articulo
-Ver usuarios
-Desbloquear usuario
-Tasar Articulo
-Ver perfil
-ver trueques pendientes
-rechazar oferta de trueque
-aceptar oferta  de trueque
-efectivizar trueque
-seleccionar sucursal
-puntuar usuario
-
-
-cancelar trueque
-ver trueques completados
+get usuario por DNI (Buscar Cunta)
 
 intercambiar articulo ==> falta chequiear de no crear un trueque con articulos ya creados
 
 
 faltan:
-ver mis trueques
+pagar por publicitar articulo
+ver promociones
+subir promociones
+rechazar promociones
+acpetar promociones
+eliminar promociones
+elminiar sucursal
+ver estadisticas de trueques
+ver estadisticasde ariticulso destacados
+
+
+
+
+van por fuera de HU
+crear schema de notificacion
+crear notificaciones  -> para toda accion quye requeira notificacion crear una
+mandar notificacion ,deberia ir directo en el ususario
