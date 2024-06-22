@@ -1,3 +1,10 @@
+.promociones {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
 .promociones-container,
 .promosPendientes {
     display: flex;
@@ -9,6 +16,16 @@
     margin-bottom: 20px;
 }
 
+.promociones-disponibles {
+    display: flex;
+    flex-direction: row;
+}
+
+.cartel-promociones {
+    display: flex;
+    align-items: center;
+}
+
 .no-promos {
     text-align: center;
     font-size: 18px;
@@ -17,7 +34,7 @@
 }
 
 .admin-buttons {
-    margin-top: 20px;
+    padding: 20px;
 }
 
 .promocion-button {
@@ -27,6 +44,7 @@
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 10px;
 }
 
 .promocion-button:hover {
@@ -39,6 +57,8 @@
 }
 
 .promocion-actions {
+    align-items: center;
+    justify-content: center;
     display: flex;
     gap: 10px;
     margin-bottom: 10px;

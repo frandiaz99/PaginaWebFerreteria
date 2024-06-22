@@ -57,7 +57,7 @@ const crearPromocion = async (req, res, next) => {
         console.log("Variable 'Promocion no recibida ");
         return res.status(401).json({ message: "Consulta erronea, falta objeto", status: 402 });
     }
-    if (!Promocion.titulo || !Promocion.texto || !Promocion.fecha || !Promocion.duracion) {
+    if (!Promocion.titulo || !Promocion.fecha || !Promocion.duracion) {
         console.log("Variable no recibida");
         return res.status(401).json({ message: "Consulta erronea, faltan parametros", status: 403 });
     }

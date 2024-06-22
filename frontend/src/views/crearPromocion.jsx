@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-//import '../styles/SubirPromocion.css';
+import '../styles/crearPromocion.css';
 import Modal from '../components/Modal';
 import routes from '../routes';
 
 function todosLosCamposCompletos(datos, imagen) {
-    return (imagen !== '' && imagen !== undefined) && datos.titulo !== '' && datos.texto !== '' && datos.fecha !== '' && datos.duracion !== '';
+    return (imagen !== '' && imagen !== undefined) && datos.texto !== '' && datos.fecha !== '' && datos.duracion !== '';
 }
 
 function CrearPromocion() {
@@ -12,7 +12,6 @@ function CrearPromocion() {
     const [todoCompleto, setTodoCompleto] = useState(false);
     const [datos, setDatos] = useState({
         titulo: '',
-        texto: '',
         fecha: new Date(),
         duracion: ''
     });
@@ -42,7 +41,7 @@ function CrearPromocion() {
         formData.append('Imagen', imagen.foto);
 
         console.log("formData -->", formData);
-
+        console.log("ta o no ta --> ", todoCompleto)
         if (todoCompleto) {
             console.log("aaaaaaaaaaaaaaaaaaaa")
             fetch('http://localhost:5000/promocion/crearPromocion', {
@@ -92,10 +91,6 @@ function CrearPromocion() {
                             <label htmlFor='titulo'>Título de la promoción</label>
                             <input type='text' name='titulo' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
-                        {/*<div className='div-subirPromocion'>
-                            <label htmlFor='texto'>Texto de la promoción</label>
-                            <input type='text' name='texto' className='inputSubirPromocion' onChange={handleChange} />
-                        </div> Lleva texto la promocion?*/}
                         <div className='div-subirPromocion'>
                             <label htmlFor='duracion'>Duración (días)</label>
                             <input type='number' name='duracion' className='inputSubirPromocion' onChange={handleChange} />

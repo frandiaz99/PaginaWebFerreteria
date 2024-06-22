@@ -73,23 +73,39 @@ function Promociones({ isAdmin }) {
 
   return (
     <main className="main">
-      <div className="promociones-container">
-        {promos.length > 0 ? (
-          promos.map(promo => (
-            <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
-          ))
-        ) : (
-          <div className="no-promos">No hay promociones disponibles</div>
-        )}
-      </div>
-      <div className="promosPendientes">
-        {promosPendientes.length > 0 ? (
-          promosPendientes.map(promo => (
-            <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promosPendientes.length > 0} />
-          ))
-        ) : (
-          estaEnModoAdmin() && <div className="no-promos">No hay promociones pendientes disponibles</div>
-        )}
+      <div className='promociones'>
+        <div className='promociones-disponibles'>
+          <div className='cartel-promociones'>
+            <p>Promociones disponibles</p>
+          </div>
+          <div className="promociones-container">
+
+            {promos.length > 0 ? (
+              promos.map(promo => (
+                <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
+              ))
+            ) : (
+              <div className="no-promos">No hay promociones disponibles</div>
+            )}
+          </div>
+        </div>
+        <></>
+        <div className='promociones-disponibles'>
+          <div className='cartel-promociones'>
+            <p>Promociones pendientes</p>
+          </div>
+          <div className="promosPendientes">
+
+            {promosPendientes.length > 0 ? (
+              promosPendientes.map(promo => (
+                <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promosPendientes.length > 0} />
+              ))
+            ) : (
+              estaEnModoAdmin() && <div className="no-promos">No hay promociones pendientes disponibles</div>
+            )}
+          </div>
+
+        </div>
       </div>
       {(estaEnModoAdmin() || estaEnModoEmple()) && (
         <div className="admin-buttons">
