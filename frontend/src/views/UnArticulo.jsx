@@ -9,6 +9,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 //import { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 
 import PopupIntercambio from '../components/PopupIntercambio';
+import { estaEnModoUser } from '../helpers/estaEnModo.js';
 
 function intercambiar(art) {
   const user = JSON.parse(localStorage.getItem('user'))
@@ -232,7 +233,7 @@ function UnArticulo() {
               {(articuloSeleccionado && intercambiar(articuloSeleccionado))?
                 <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
-                </button>: <Pagar/>
+                </button> : estaEnModoUser() && <Pagar/>
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
