@@ -7,6 +7,7 @@ const { CalcularPuntos } = require("./producto.js");
 const { error } = require("console");
 const { parse } = require("path");
 const { parseArgs } = require("util");
+const { NuevaNotificacion } = require("./notificacion.js");
 const router = express.Router();
 
 
@@ -84,17 +85,19 @@ const responderOferta = async (req, res, next) => {
     const hol = false;
     console.log(body.Trueque.trueque_aceptado, hol)
     if (body.Trueque.trueque_aceptado) {
-      console.log("CREAR NOTIFICACION Y AVISAR AL SEGUNDO USUARIO QUE SE ACEPTO LA OFERTA");
+      //console.log("CREAR NOTIFICACION Y AVISAR AL SEGUNDO USUARIO QUE SE ACEPTO LA OFERTA");
       DataTrueque.findByIdAndUpdate(Trueque._id, { trueque_aceptado: true }).then(() => {
+        NuevaNotificacion(Trueque.articulo_compra.usuario._id, 1, Trueque._id);
         return res.status(200).json({ message: "Trueque correctamente aceptado", status: 200 });
       }).catch((error) => {
         return res.status(400).json({ message: "Error aceptando trueque", error, status: 400 });
       })
-
+      
     } else {
       console.log("borrando trueque");
-      console.log("CREAR NOTIFICACION Y AVISAR AL SEGUNDO USUARIO QUE SE RECHAZO LA OFERTA");
+      //console.log("CREAR NOTIFICACION Y AVISAR AL SEGUNDO USUARIO QUE SE RECHAZO LA OFERTA");
       DataTrueque.findOneAndDelete({ _id: Trueque._id }).then(() => {
+        NuevaNotificacion(Trueque.articulo_compra.usuario._id, 2, Trueque._id);
         return res.status(200).json({ message: "Trueque correctamente borrado", status: 200 });
       }).catch((error) => {
         return res.status(400).json({ message: "Error borrando trueque", error, status: 400 });
@@ -174,7 +177,8 @@ const cancelarTrueque = async (req, res, next) => {
 
     MandarMail(Publi.articulo_publica.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
     MandarMail(Publi.articulo_compra.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
-
+    NuevaNotificacion(Trueque.articulo_compra.usuario._id, 3, Trueque._id);
+    NuevaNotificacion(Trueque.articulo_publica.usuario._id, 3, Trueque._id);
 
     DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_compra._id }, { $set: { reservado: false } }).catch((err) => {
       console.log(err);
@@ -247,9 +251,16 @@ const setFecha = async (req, res, next) => {
 
     DataTrueque.findByIdAndUpdate(Trueque._id, { sucursal: Trueque.sucursal, fecha_venta: Trueque.fecha_venta }, { new: true }).then((newTrueque) => {
       //console.log(`El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
-      MandarMail(newTrueque.articulo_publica.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
-      MandarMail(newTrueque.articulo_compra.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
-      console.log("Faltaria hacer las notificaciones")
+      
+      if (T.articulo_compra.usuario._id == Auth._id){
+        MandarMail(newTrueque.articulo_publica.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+        NuevaNotificacion(T.articulo_publica.usuario._id, 4, T._id);
+
+      } else {
+        MandarMail(newTrueque.articulo_compra.usuario.email, 2, `El trueque de ${newTrueque.articulo_publica.nombre} y ${newTrueque.articulo_compra.nombre}, se establecio para el dia ${newTrueque.fecha_venta} en la sucursal ${newTrueque.sucursal.nombre}`);
+        NuevaNotificacion(T.articulo_compra.usuario._id, 4, T._id);
+      }
+
       return res.status(200).json({ message: "La fecha y la sucursal se establecio correctamente", status: 200 })
     }).catch((error) => {
       console.log(error);

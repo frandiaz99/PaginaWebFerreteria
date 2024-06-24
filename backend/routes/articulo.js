@@ -1,11 +1,11 @@
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
 const { DataArticulo, DataTrueque } = require("../model/Schema");
-
 const router = express.Router();
 
 const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
+const { NuevaNotificacion } = require("./notificacion.js");
 
 const crearArticulo = async (req, res, next) => {
   const articulo = JSON.parse(req.body.Articulo);
@@ -269,6 +269,7 @@ const intercambiarArticulo = async (req, res, next) => {
       console.log(
         "Avisar al dueno suArticulo que se creo una nueva solicitud de trueque"
       );
+      NuevaNotificacion(data.articulo_publica.usuario._id, 6, data._id);
       res.status(200).json({ message: "Trueque creado", data, status: 200});
     })
     .catch((err) => {
@@ -294,6 +295,7 @@ const tasarArticulo = async (req, res, next) => {
   DataArticulo.findOneAndUpdate({ _id: Art._id }, { precio: Art.precio })
     .then((Articulo) => {
       if (Articulo) {
+        NuevaNotificacion(Articulo.usuario._id, 5, Articulo._id);
         return res.status(200).json({ message: "Articulo encontrado y actualizado", status: 200, Articulo, });
       } else return res.status(401).json({ message: "Articulo NO encontrado", status: 404 });
 

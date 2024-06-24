@@ -5,10 +5,11 @@ const {adminAuth, workerAuth, userAuth} = require ("../middleware/auth");
 //const {DataArticulo} = require ("../model/Schema");
 
 
-const{ MercadoPagoConfig, Preference} = require ("mercadopago");
+const{ MercadoPagoConfig, Preference, Payment} = require ("mercadopago");
 const { stringify } = require("querystring");
-const access_token= "TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622";
-//TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622
+//const access_token= "TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622";
+const access_token= "TEST-7775389848646119-062317-c7d5926f797e6bd1570d69bf943e89b0-267438622";
+
 const client = new MercadoPagoConfig({ accessToken: access_token},{locale: "es-AR"});
 //const client = new MercadoPagoConfig({ accessToken: access_token});
 
@@ -61,14 +62,22 @@ console.log("Chekera que se pide cantidad")
 					quantity: duracionPromocion,
 					unit_price: 2000
 				}
-			],
+			],/*
 			back_urls: {
 				success: "http://localhost:5173/user/mis_articulos",
 				failure: "http://localhost:5173/user/mis_articulos",
 				pending: "http://localhost:5173/user/mis_articulos",
-			}
-		}, auto_return: "approved"});
-		console.log(result.id);
+			},*//*
+			back_urls: {
+				success: "https://www.youtube.com",
+				failure: "https://www.youtube.com",
+				pending: "https://www.youtube.com",
+			},*/
+			//}, auto_return: "approved"});
+		//auto_return: "approved", external_reference: "663e3e869b61809067cfb16d"}});
+	//	auto_return: "approved"
+	}});
+		console.log(result);
 
 		res.status(200).json({"id": result.id});
 	} catch (err){
@@ -79,9 +88,38 @@ console.log("Chekera que se pide cantidad")
 };
 
 
+const ComprobarEstadoPago = async (req, res, next) =>{
+	console.log("Entrando")
+	//const client = await new MercadoPago({ accessToken: access_token });
+  const payment =  new Payment(client);
+  
+  payment.get({
+		id: '1324227007',
+				//	267438622
+  }).then(console.log).catch(console.log);
+	return res.status(200).json();
+}
 
 
+const BuscarPagos = async (req, res, next) =>{
+	const payment = new Payment(client);
 
+payment.search({ options: {
+	    //external_reference: '267438622-688212ef-7820-48b4-9098-f07f0d2a1ac9',
+	    sort: 'date_created',
+	    criteria: 'desc',
+	    range: 'date_created',
+	    begin_date: 'NOW-30DAYS',
+	     end_date: 'NOW',
+	     offset: 0,
+	     limit: 50,
+} })
+	.then((data)=>{
+		return res.status(200).json(data)
+	}).catch((err)=>{
+		return res.status(401).json(err)
+	});
+}
 
 
 
@@ -90,6 +128,8 @@ console.log("Chekera que se pide cantidad")
 
 
 router.route("/crearPedido").post(userAuth, crearPedido);
+router.route("/comprobarEstadoPago").get(ComprobarEstadoPago);
+router.route("/buscarPagos").get(BuscarPagos);
 
 module.exports = router
 

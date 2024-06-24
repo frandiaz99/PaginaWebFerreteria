@@ -101,6 +101,7 @@ import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 //initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622', {locale: "es-AR"});
 //initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622');
 initMercadoPago('TEST-d26767aa-ba98-4c84-aa23-5a3be7e05309', {locale: "es-AR"});
+//initMercadoPago('TEST-596e3943-6d51-40ca-b28f-0895e4d0619a', {locale: "es-AR"});
 
 //import { CardPayment } from '@mercadopago/sdk-react';
 function Pagar (){
@@ -133,10 +134,10 @@ function Pagar (){
     console.log("error", error);
   };
   
-  const onReady = async () => {
+  const onReady = async (R) => {
     // Callback called when Brick is ready.
     // Here, you can hide loadings on your website, for example.  
-    console.log("onReady");
+    console.log("onReady", R);
   };
   
   
@@ -208,7 +209,8 @@ return (
        :(<><input type="numer" name="contenidoBuscador" placeholder="dias" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido}>Confirmar</button></>)}
 
     
-    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />}
+    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />}
+    {/* {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />} */}
 
 
 

@@ -16,7 +16,7 @@ const shortNumericId = () => {
   return number;
 };
 
-const { getNotificacionesNuevas } = require("./notificacion");
+//const { getNotificacionesNuevas } = require("./notificacion");
 //
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
@@ -362,7 +362,7 @@ const login = async (req, res, next) => {
           });*/
           InstalarCookie (user, res)
 
-          const notificaciones = getNotificacionesNuevas(user._id);
+          //const notificaciones = getNotificacionesNuevas(user._id);
           //const resp = {"_id": user._id, "rol": user.rol, "email": user.email, "nombre": user.nombre, "foto": user.foto, "notificaciones": notificaciones };
           //fin nuevo
           console.log("Correct password");

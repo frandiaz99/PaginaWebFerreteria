@@ -26,6 +26,11 @@ const userSchema = mongoose.Schema({
   intento_desbloqueo: { type: Number, default: 0 },
   code: { type: Number, default: 0 },
   valoracion: { type: Number, default: 0 },
+  notificaciones: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Notificacion",
+    autopopulate: true,
+  },
   //nombre y apellido, sucursal, fecha nacimiento
   //articulos: {type: [mongoose.Schema.Types.ObjectId], ref: "Articulo", autopopulate: true},
 
@@ -171,13 +176,14 @@ const valoracionSchema = mongoose.Schema({
 
 const notificacionSchema = mongoose.Schema({
   usuario: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  objeto: { type: [mongoose.Schema.Types.ObjectId], required: true },
+  objeto: { type: mongoose.Schema.Types.ObjectId },
   tipo: { type: Number, required: true },
   visto: { type: Boolean, default: false },
+  texto: {type: String, required: true}
 });
 //notificacion
 

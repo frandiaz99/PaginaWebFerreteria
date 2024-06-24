@@ -5,7 +5,7 @@ const router = express.Router();
 
 //const upload = require("../imagenes/imagen.js");
 
-const { getNotificacionesNuevas } = require("./notificacion");
+//const { getNotificacionesNuevas } = require("./notificacion");
 //
 //
 //const SENDGRID_API_KEY = "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";

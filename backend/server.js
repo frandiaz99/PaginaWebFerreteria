@@ -117,6 +117,10 @@ app.use(express.static("imagenes"));
 const {router: productoRouter} = require ("./routes/producto.js");
 app.use("/producto", productoRouter);
 
+const {router: notificacionRouter} = require ("./routes/notificacion.js");
+app.use("/notificacion", notificacionRouter);
+
+
 //app.use("/pay", require("./routes/pagar"))
 
 ///prueba   esto esta para que cheken nada mas despues se borra
