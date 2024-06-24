@@ -3,9 +3,11 @@ import '../styles/Promocion.css';
 import Modal from './Modal.jsx';
 import routes from '../routes';
 import { estaEnModoAdmin, estaEnModoEmple } from '../helpers/estaEnModo.js';
+import { useNavigate } from 'react-router-dom';
 
 function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("nada") }) {
 
+    const navigate = useNavigate();
     const foto = ("http://localhost:5000/img/" + promo.foto_promocion);
 
     const [confirmacion, setConfirmacion] = useState(false);
@@ -32,7 +34,7 @@ function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("na
                 })
                 .then(data => {
                     eliminar();
-                    window.location.href = routes.promociones;
+                    navigate(routes.promociones);
                 })
                 .catch(error => {
                     try {
@@ -63,7 +65,7 @@ function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("na
                 .then(data => {
                     setAprobado(true); // Update the local state to reflect the new approval status
                     eliminar();
-                    window.location.href = routes.promociones;
+                    navigate(routes.promociones);
                 })
                 .catch(error => {
                     try {
@@ -81,31 +83,37 @@ function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("na
         event.stopPropagation();
         setAccion('eliminar');
         setConfirmacion(true);
+
     };
 
     const handleAceptarPromocion = (event) => {
         event.stopPropagation();
         setAccion('aceptar');
         setConfirmacion(true);
+
     };
 
     const handleRechazarPromocion = (event) => {
         event.stopPropagation();
         setAccion('rechazar');
         setConfirmacion(true);
+
     };
 
     return (
         <div className={`promocion ${!aprobado ? 'promocion-no-aprobada' : ''}`}>
             <img src={foto} alt={promo.titulo} className="promocion-image" />
             <h3 className="promocion-title">{promo.titulo}</h3>
-            {aprobado == false && (
+            {aprobado === false && (
                 <div className="promocion-actions">
                     <button className="promocion-button" onClick={handleAceptarPromocion}>Aceptar</button>
                     <button className="promocion-button" onClick={handleRechazarPromocion}>Rechazar</button>
                 </div>
             )}
-            {(estaEnModoAdmin() || estaEnModoEmple()) && <button className="promocion-button" onClick={handleEliminarPromocion}>Eliminar Promoción</button>}
+            {aprobado != false && (estaEnModoAdmin() || estaEnModoEmple()) && (
+                <button className="promocion-button" onClick={handleEliminarPromocion}>Eliminar Promoción</button>
+            )}
+
 
             <Modal
                 texto={`¿Estás seguro que querés ${accion} la promocion?`}
