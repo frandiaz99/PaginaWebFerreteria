@@ -174,11 +174,13 @@ const cancelarTrueque = async (req, res, next) => {
       return res.status(401).json({ message: "El trueque ya fue cancelado", status: 407 });
     }
 
-
-    MandarMail(Publi.articulo_publica.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
-    MandarMail(Publi.articulo_compra.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
-    NuevaNotificacion(Trueque.articulo_compra.usuario._id, 3, Trueque._id);
-    NuevaNotificacion(Trueque.articulo_publica.usuario._id, 3, Trueque._id);
+    if (Publi.articulo_compra.usuario._id == User._id) {
+      MandarMail(Publi.articulo_publica.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
+      NuevaNotificacion(Publi.articulo_publica.usuario._id, 3, Publi._id);
+    } else {
+      MandarMail(Publi.articulo_compra.usuario.email, 2, `El trueque de ${Publi.articulo_publica.nombre} y ${Publi.articulo_compra.nombre}, fue CANCELADO`);
+      NuevaNotificacion(Publi.articulo_compra.usuario._id, 3, Publi._id);
+    }
 
     DataArticulo.findByIdAndUpdate({ _id: Publi.articulo_compra._id }, { $set: { reservado: false } }).catch((err) => {
       console.log(err);

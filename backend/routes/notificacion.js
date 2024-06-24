@@ -11,14 +11,14 @@ const multer = require("multer");
 //
 const express = require("express");
 const { constrainedMemory } = require("process");
+const mongoose  = require("mongoose");
 const router = express.Router();
 
 
 
 
-
 const getNotificacionesNuevas  = async (req, res, next) => {
-  await DataNotificacion.find({_id: req.body.Auth._id, visto: false})
+  await DataNotificacion.find({usuario: req.body.Auth._id, visto: false})
   //, -usuario se le podri poner para no remandarle el id del user
   .then((Notificaciones) =>{
      return res.status(200).json(Notificaciones);
@@ -29,7 +29,8 @@ const getNotificacionesNuevas  = async (req, res, next) => {
 };
 
 const getNotificaciones  = async (req, res, next) => {
-  await DataNotificacion.find({_id: req.body.Auth._id})
+  //console.log(req.body.Auth._id);
+  await DataNotificacion.find({usuario: req.body.Auth._id})
   //, -usuario se le podri poner para no remandarle el id del user
   .then((Notificaciones) =>{
     return res.status(200).json(Notificaciones);
@@ -44,18 +45,27 @@ const verNotificacion = async (req, res, next) => {
   if ((!req.body.Notificacion) || (!req.body.Notificacion._id)){
     return res.status(400).json({message: "'_id' en 'Notificacion' no encontrado", status: 401});
   }
-
-  DataNotificacion.findOneAndUpdate({_id: req.body.Notificacion._id, usuario: req.body.Auth._id},{$set: {visto: true}}).then((N) => {
-    console.log(N)
+  const user = req.body.Auth;
+  const notificacion = req.body.Notificacion;
+  DataNotificacion.findOneAndUpdate({_id: notificacion._id, usuario: user._id},{$set: {visto: true}}, {new : true}).then(async (N)  => {
     if (!N){ 
       return res.status(400).json({message:"Notificacion para usuario no encontrada"})
     }
-    return res.status(200);
+    DataUser.findOneAndUpdate({ _id: user._id },{ $pull: { notificaciones: N._id } }, {new: true}).then(user => {
+      if (user) {
+
+        return res.status(200).json("OK");
+      } else {
+        console.log("Usuario no encontrado");
+      }
+    }).catch((err =>{
+      console.log(err);
+      res.status(401).json("probable error del back");
+    }))
   }).catch((err) =>{
     console.log(err)
     return res.status(401).json({message: "Error obteniendo la notificacion"})
   })
-
 }
   
 
@@ -89,7 +99,7 @@ const NuevaNotificacion = async (id_usuario, tipo, id_objeto) =>{
 
   DataNotificacion.create({usuario: id_usuario, objeto: id_objeto, tipo: tipo, texto: texto}).then((notificacion) => {
     console.log(notificacion)
-    DataUser.findOneAndUpdate({_id: id_usuario}, {$add: {notificaciones: notificacion._id}})
+    DataUser.findOneAndUpdate({_id: id_usuario}, {$push: {notificaciones: notificacion._id}}).then().catch(err => console.log(err));
   }).catch((err) => {
     console.log(err);
   });
