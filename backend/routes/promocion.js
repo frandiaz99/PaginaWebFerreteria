@@ -70,6 +70,7 @@ const crearPromocion = async (req, res, next) => {
         fecha: Promocion.fecha,
         duracion: Promocion.duracion,
         foto_promocion: File.filename,
+        aprobado: Promocion.aprobado
     })
         .then((Promocion) => {
             res.status(200).json(Promocion);

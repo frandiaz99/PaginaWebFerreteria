@@ -34,7 +34,6 @@ function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("na
                 })
                 .then(data => {
                     eliminar();
-                    navigate(routes.promociones);
                 })
                 .catch(error => {
                     try {
@@ -65,7 +64,6 @@ function Promocion({ promo, isAdmin, hasPromos, eliminar = () => console.log("na
                 .then(data => {
                     setAprobado(true); // Update the local state to reflect the new approval status
                     eliminar();
-                    navigate(routes.promociones);
                 })
                 .catch(error => {
                     try {

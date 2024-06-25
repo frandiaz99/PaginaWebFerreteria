@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/crearPromocion.css';
 import Modal from '../components/Modal';
 import routes from '../routes';
+import { estaEnModoAdmin } from '../helpers/estaEnModo';
 
 function todosLosCamposCompletos(datos, imagen) {
     return (imagen !== '' && imagen !== undefined) && datos.texto !== '' && datos.fecha !== '' && datos.duracion !== '';
 }
 
 function CrearPromocion() {
+    const navigate= useNavigate()
     const [promocionRepetida, setPromocionRepetida] = useState(false);
     const [todoCompleto, setTodoCompleto] = useState(false);
     const [datos, setDatos] = useState({
         titulo: '',
         fecha: new Date(),
-        duracion: ''
+        duracion: '',
+        aprobado: estaEnModoAdmin()
     });
 
     const [subirPromocion, setSubirPromocion] = useState(false);
@@ -43,7 +47,6 @@ function CrearPromocion() {
         console.log("formData -->", formData);
         console.log("ta o no ta --> ", todoCompleto)
         if (todoCompleto) {
-            console.log("aaaaaaaaaaaaaaaaaaaa")
             fetch('http://localhost:5000/promocion/crearPromocion', {
                 method: 'POST',
                 body: formData,
@@ -74,7 +77,7 @@ function CrearPromocion() {
 
     const handleOk = () => {
         setSubirPromocion(false);
-        window.location.href = routes.promociones;
+        navigate(routes.empleadoPromociones)
     };
 
     return (

@@ -2,16 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import Promocion from '../components/Promocion';
 import '../styles/Promociones.css';
-import { estaEnModoAdmin, estaEnModoEmple } from '../helpers/estaEnModo';
+import { estaEnModoAdmin, estaEnModoEmple, estaEnModoUser } from '../helpers/estaEnModo';
 import routes from '../routes';
 import { useNavigate } from 'react-router-dom';
 
-function Promociones({ isAdmin }) {
+function Promociones() {
   const navigate = useNavigate();
   const [promos, setPromos] = useState([]);
   const [promosPendientes, setPromosPendientes] = useState([]);
   const [obtenido, setObtenido] = useState(false);
   const [subirPromocion, setSubirPromocion] = useState(false);
+  const [eliminado, setEliminado]= useState(false)
 
   useEffect(() => {
     fetch('http://localhost:5000/promocion/getPromociones', {
@@ -37,7 +38,7 @@ function Promociones({ isAdmin }) {
         const errorData = JSON.parse(error.message);
         console.log(errorData.message);
       });
-  }, []);
+  }, [eliminado]);
 
   useEffect(() => {
     fetch('http://localhost:5000/promocion/getPromocionesPendientes', {
@@ -65,49 +66,52 @@ function Promociones({ isAdmin }) {
         const errorData = JSON.parse(error.message);
         console.log(errorData.message);
       });
-  }, []);
+  }, [eliminado]);
 
   const handleCrearPromocion = () => {
     navigate(routes.crearPromocion);
   };
 
+  const eliminarPromo= () =>{
+    setEliminado(!eliminado)
+  }
+
   return (
     <main className="main">
       <div className='promociones'>
         <div className='promociones-disponibles'>
-          <div className='cartel-promociones'>
+          {!estaEnModoUser() && <div className='cartel-promociones'>
             <p>Promociones disponibles</p>
-          </div>
+          </div>}
           <div className="promociones-container">
 
             {promos.length > 0 ? (
               promos.map(promo => (
-                <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promos.length > 0} />
+                <Promocion key={promo._id} promo={promo} isAdmin={estaEnModoAdmin()} hasPromos={promos.length > 0} eliminar={eliminarPromo} />
               ))
             ) : (
               <div className="no-promos">No hay promociones disponibles</div>
             )}
           </div>
         </div>
-        <></>
-        <div className='promociones-disponibles'>
+        {estaEnModoAdmin() && <div className='promociones-disponibles'>
           <div className='cartel-promociones'>
             <p>Promociones pendientes</p>
           </div>
-          <div className="promosPendientes">
+          <div className="promociones-container">
 
             {promosPendientes.length > 0 ? (
               promosPendientes.map(promo => (
-                <Promocion key={promo._id} promo={promo} isAdmin={isAdmin} hasPromos={promosPendientes.length > 0} />
+                <Promocion key={promo._id} promo={promo} isAdmin={estaEnModoAdmin()} hasPromos={promosPendientes.length > 0} eliminar={eliminarPromo} />
               ))
             ) : (
               estaEnModoAdmin() && <div className="no-promos">No hay promociones pendientes disponibles</div>
             )}
           </div>
 
-        </div>
+        </div>}
       </div>
-      {(estaEnModoAdmin() || estaEnModoEmple()) && (
+      {!estaEnModoUser() && (
         <div className="admin-buttons">
           <button className="promocion-button" onClick={handleCrearPromocion}>Subir Promoción</button>
         </div>
