@@ -107,10 +107,7 @@ initMercadoPago('TEST-d26767aa-ba98-4c84-aa23-5a3be7e05309', {locale: "es-AR"});
 function Pagar (){
   const [preferenceId, setPreferenceId] = useState(null);
   // Poner form para camvbiar los datos
-  const orden = {
-    cantidad: 4,
-    precio: 200,
-  };
+
   const [cantidadDias, setCantidadDias] = useState(1);
   
   const initialization = {
@@ -126,7 +123,8 @@ function Pagar (){
   const onSubmit = async (formData) => {
     // callback called when clicking on Wallet Brick
     // this is possible because Brick is a button
-    console.log("onSubmit", formData);
+    
+    if (window.checkoutButton) window.checkoutButton.unmount();
   };
   
   const onError = async (error) => {
@@ -152,12 +150,14 @@ function Pagar (){
   
   
   const crearPedido = async () => {
+    console.log("Cambiar el id del articulo por uno posta")
+    if (window.checkoutButton) window.checkoutButton.unmount();
     fetch(
       "http://localhost:5000/pagar/crearPedido",
       {
         method: "POST",
         headers: { "Content-Type": "application/JSON" },
-        body: JSON.stringify({Promocion:{Duracion: cantidadDias }}),
+        body: JSON.stringify({Articulo: {_id: "6678ceb189e1a384783bd36a"},Promocion:{Duracion: cantidadDias }}),
         credentials: "include",
       }
     )
@@ -172,7 +172,6 @@ function Pagar (){
     .then((data) => {
       console.log(data)
       //createCheckoutButton(data.id);
-      if (window.checkoutButton) window.checkoutButton.unmount();
       setPreferenceId(data.id)
       return
     })
@@ -193,9 +192,7 @@ function Pagar (){
     setCantidadDias(e.target.value)
   }
 
-/*
-{ promocionandoArticulo && <button >Promocionar</button>}
-*/
+
 return (
   
   
@@ -209,13 +206,10 @@ return (
        :(<><input type="numer" name="contenidoBuscador" placeholder="dias" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido}>Confirmar</button></>)}
 
     
-    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />}
-    {/* {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />} */}
+    {/* {preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />} */}
+    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />} 
 
 
-
-  {/* <Wallet initialization={{ preferenceId: "267438622-44a4b84e-5605-41dc-903c-78cc35fd0203" }} customization={{ texts:{ valueProp: 'smart_option'}}} /> */}
-    {/* <div id="walletBrick_container"></div> */}
   </div>
 );
 

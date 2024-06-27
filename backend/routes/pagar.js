@@ -6,33 +6,48 @@ const {adminAuth, workerAuth, userAuth} = require ("../middleware/auth");
 
 
 const{ MercadoPagoConfig, Preference, Payment} = require ("mercadopago");
+//const{ MercadoPagoConfig, Preference} = require ("mercadopago");
 const { stringify } = require("querystring");
+const { DataPromocionado, DataArticulo } = require("../model/Schema");
 //const access_token= "TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622";
 const access_token= "TEST-7775389848646119-062317-c7d5926f797e6bd1570d69bf943e89b0-267438622";
 
-const client = new MercadoPagoConfig({ accessToken: access_token},{locale: "es-AR"});
-//const client = new MercadoPagoConfig({ accessToken: access_token});
+//const client = new MercadoPagoConfig({ accessToken: access_token},{locale: "es-AR"});
+const client = new MercadoPagoConfig({ accessToken: access_token});
 
 const router = express.Router();
 
 
-
-
+const ListaEspera = [];
 
 const crearPedido = async (req, res, next) =>{
 	
 console.log("Chekera que se pide cantidad")
 
-	try {
-		if ((!req.body) || (!req.body.Promocion) || (!req.body.Promocion.Duracion)) {
-			return res.status(400).json({message: "Error de parametros mandados", status: 401});
-		}
-		
+try {
+	if ((!req.body) || (!req.body.Promocion) || (!req.body.Promocion.Duracion) || (!req.body.Articulo._id)) {
+		return res.status(400).json({message: "Error de parametros mandados", status: 401});
+	}
+		let Articulo = req.body.Articulo;
+	
 		const duracionPromocion = parseInt(req.body.Promocion.Duracion);
 		console.log("Cantidad dias: ", duracionPromocion );
 		if (isNaN(duracionPromocion)){
 			return res.status(400).json({message: "El valor recibido no es un numero"});
 		}
+
+
+		Articulo = await DataArticulo.findById(req.body.Articulo._id); // Espera la resolución de la promesa
+    if (!Articulo) {
+      return res.status(404).json({ message: "Artículo no encontrado" });
+    }
+    if (Articulo.promocionado && Articulo.promocionado.aprobado) {
+      let fechaFin = new Date(Articulo.promocionado.fecha);
+      fechaFin.setDate(fechaFin.getDate() + 5);
+      if (fechaFin > new Date()) {
+        return res.status(400).json({ message: "El artículo ya está promocionado", status: 403 });
+      }
+    }
 /*
 		let body = {
 			items:[ {
@@ -55,6 +70,9 @@ console.log("Chekera que se pide cantidad")
 		//body = JSON.stringify(body)
 		//console.log(body);
 
+		const promocion = await DataPromocionado.create({fecha: Date.now(), duracion: duracionPromocion});
+		DataArticulo.findOneAndUpdate({_id: Articulo._id}, {promocionado: promocion}).then();
+
 		const result = await preference.create({body: {
 			items: [
 				{
@@ -72,20 +90,64 @@ console.log("Chekera que se pide cantidad")
 				success: "https://www.youtube.com",
 				failure: "https://www.youtube.com",
 				pending: "https://www.youtube.com",
-			},*/
-			//}, auto_return: "approved"});
-		//auto_return: "approved", external_reference: "663e3e869b61809067cfb16d"}});
-	//	auto_return: "approved"
+			}, */
+			//auto_return: "approved",
+			 external_reference: promocion._id
 	}});
-		console.log(result);
+		//console.log(result);
+		ListaEspera.push(promocion._id.toString());
+		CheckearPorNuevoPago();
 
 		res.status(200).json({"id": result.id});
 	} catch (err){
 		console.log({"Error": err})
+	
 		res.status(401).json({message: "Error probable del back", status: 401});
 	}
 
 };
+
+
+const CheckearPorNuevoPago = async ()  => {
+	const payment = new Payment(client);
+	console.log("Checkeando por un pago nuevo")
+
+	try{
+	var lista = await payment.search({ options: {
+		sort: 'date_created',
+		criteria: 'desc',
+		range: 'date_created',
+		begin_date: 'NOW-10DAYS',
+		 end_date: 'NOW',
+		 offset: 0,
+		 limit: 30,
+	} });
+	lista = lista.results
+	console.log (ListaEspera);
+	var lista = lista.filter(L => (L.external_reference != null && ListaEspera.includes(L.external_reference.toString()) && L.status==="approved"))
+	//console.log(lista)
+	console.log(lista.map(L => L.external_reference))
+	for (let i = 0; i < lista.length; i++) {
+		const Pago = lista[i];
+		const Promocion = await DataPromocionado.findOneAndUpdate({_id:Pago.external_reference}, {aprobado: true}, {new: true});
+
+		const index = ListaEspera.indexOf(Pago.external_reference);
+		console.log("Borrando", ListaEspera[index])
+		ListaEspera.splice(index, 1);
+		
+	}
+	
+	//console.log(ListaEspera)
+	if (ListaEspera[0]){
+		console.log("Entra")
+		setTimeout(CheckearPorNuevoPago, (60 * 1000))
+	}
+	
+	console.log("Nos fuimos")
+} catch (err) {
+	console.log(err)
+}
+}
 
 
 const ComprobarEstadoPago = async (req, res, next) =>{
@@ -109,12 +171,13 @@ payment.search({ options: {
 	    sort: 'date_created',
 	    criteria: 'desc',
 	    range: 'date_created',
-	    begin_date: 'NOW-30DAYS',
+	    begin_date: 'NOW-1DAYS',
 	     end_date: 'NOW',
 	     offset: 0,
-	     limit: 50,
+	     limit: 30,
 } })
 	.then((data)=>{
+		console.log("Hola", data);
 		return res.status(200).json(data)
 	}).catch((err)=>{
 		return res.status(401).json(err)
@@ -124,12 +187,9 @@ payment.search({ options: {
 
 
 
-
-
-
-router.route("/crearPedido").post(userAuth, crearPedido);
 router.route("/comprobarEstadoPago").get(ComprobarEstadoPago);
 router.route("/buscarPagos").get(BuscarPagos);
+router.route("/crearPedido").post(userAuth, crearPedido);
 
 module.exports = router
 

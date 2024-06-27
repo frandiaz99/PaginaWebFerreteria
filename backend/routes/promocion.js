@@ -1,6 +1,6 @@
 const express = require("express");
 const { adminAuth, workerAuth, userAuth } = require("../middleware/auth");
-const { DataPromocion } = require("../model/Schema");
+const { DataPublicidad } = require("../model/Schema");
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const upload = require("../imagenes/imagen.js");
 const multer = require("multer");
 
 const getPromociones = async (req, res, next) => {
-    await DataPromocion.find(
+    await DataPublicidad.find(
         { aprobado: true },
         "-aprobado -duracion"
     )
@@ -24,7 +24,7 @@ const getPromociones = async (req, res, next) => {
 };
 
 const getPromocionesPendientes = async (req, res, next) => {
-    await DataPromocion.find(
+    await DataPublicidadd.find(
         { aprobado: false },
     )
         .then((Promociones) => {
@@ -64,7 +64,7 @@ const crearPromocion = async (req, res, next) => {
 
 
 
-    await DataPromocion.create({
+    await DataPublicidadd.create({
         titulo: Promocion.titulo,
         texto: Promocion.texto,
         fecha: Promocion.fecha,
@@ -105,7 +105,7 @@ const eliminarPromocion = async (req, res, next) => {
     }
 
     try {
-        const Publi = await DataPromocion.findById(Promocion._id);
+        const Publi = await DataPublicidad.findById(Promocion._id);
         if (!Publi) {
             console.log("Sucursal not found");
             return res
@@ -162,7 +162,7 @@ const aceptarPromocion = async (req, res, next) => {
     }
     body.Promocion.aprobado = JSON.parse(body.Promocion.aprobado);
 
-    await DataPromocion.findById(body.Promocion._id).then((Promocion) => {
+    await DataPublicidad.findById(body.Promocion._id).then((Promocion) => {
         console.log(Promocion);
         if (!Promocion) {
             return res.status(400).json({ message: "No se encontro el trueque conb el '_id' recibido", status: 404 });
@@ -173,7 +173,7 @@ const aceptarPromocion = async (req, res, next) => {
 
         if (body.Promocion.aprobado) {
 
-            DataPromocion.findByIdAndUpdate(Promocion._id, { aprobado: true }).then(() => {
+            DataPublicidad.findByIdAndUpdate(Promocion._id, { aprobado: true }).then(() => {
                 return res.status(200).json({ message: "Trueque correctamente aceptado", status: 200 });
             }).catch((error) => {
                 return res.status(400).json({ message: "Error aceptando trueque", error, status: 400 });

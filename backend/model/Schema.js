@@ -78,7 +78,7 @@ const articuloSchema = mongoose.Schema({
   fecha: { type: Date }, //debe recibir JS date (yyyy-mm-dd) es decir (2024-12-31) se le puede poner hora tambien
   precio: { type: Number, default: 0 },
   vendido: { type: Boolean, default: false }, //en true cuando se relizo la vent
-  promocionado: { type: Boolean, default: false },
+  promocionado: {type: mongoose.Schema.Types.ObjectId, ref: "Promocionado", autopopulate: true,},
   borrado: { type: Boolean, default: false },
   reservado: { type: Boolean, default: false },
   //User (fk),    Cuando se arregla un trueque pasaria a estado de pendiente para que no se muestre
@@ -143,13 +143,19 @@ const truequeSchema = mongoose.Schema({
   // dia
 });
 
-const promocionSchema = mongoose.Schema({
+const publicidadSchema = mongoose.Schema({
   titulo: { type: String, required: true },
   texto: { type: String },
   aprobado: { type: Boolean, default: false },
   fecha: { type: Date, required: true },
   duracion: { type: Number, required: true },
   foto_promocion: { type: String, required: true },
+});
+
+const promocionadoSchema = mongoose.Schema({
+  aprobado: { type: Boolean, default: false },
+  fecha: { type: Date, required: true },
+  duracion: { type: Number, required: true },
 });
 
 const ventaSchema = mongoose.Schema({
@@ -197,7 +203,7 @@ empleadoSchema.plugin(autopopulate);
 sucursalSchema.plugin(autopopulate);
 truequeSchema.plugin(autopopulate);
 articuloSchema.plugin(autopopulate);
-promocionSchema.plugin(autopopulate);
+publicidadSchema.plugin(autopopulate);
 ventaSchema.plugin(autopopulate);
 productoSchema.plugin(autopopulate);
 valoracionSchema.plugin(autopopulate);
@@ -210,7 +216,8 @@ const DataEmpleado = mongoose.model("Empleado", empleadoSchema);
 const DataSucursal = mongoose.model("Sucursal", sucursalSchema);
 const DataTrueque = mongoose.model("Trueque", truequeSchema);
 const DataArticulo = mongoose.model("Articulo", articuloSchema);
-const DataPromocion = mongoose.model("Promocion", promocionSchema);
+const DataPublicidad = mongoose.model("Publicidad", publicidadSchema);
+const DataPromocionado = mongoose.model("Promocionado", promocionadoSchema);
 const DataVenta = mongoose.model("Venta", ventaSchema);
 const DataProducto = mongoose.model("Producto", productoSchema);
 const DataValoracion = mongoose.model("Valoracion", valoracionSchema);
@@ -218,7 +225,8 @@ const DataNotificacion = mongoose.model("Notificacion", notificacionSchema);
 
 module.exports = {
   DataEmpleado,
-  DataPromocion,
+  DataPublicidad,
+  DataPromocionado,
   DataArticulo,
   DataSucursal,
   DataTrueque,
