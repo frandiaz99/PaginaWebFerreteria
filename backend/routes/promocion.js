@@ -23,8 +23,8 @@ const getPromociones = async (req, res, next) => {
         });
 };
 
-const getPromocionesPendientes = async (req, res, next) => {
-    await DataPublicidadd.find(
+const getPromocionesPendientes = async (req, res, next) =>  {
+    await DataPublicidad.find(
         { aprobado: false },
     )
         .then((Promociones) => {
