@@ -41,6 +41,18 @@ const newSucursal = async (req, res, next) => {
     return res.status(401).json({ message: "Consulta erronea, faltan parametros", status: 403 });
   }
 
+  try{
+    const S= await DataSucursal.findOne({nombre: Sucursal.nombre})
+    console.log(S);
+    if (S) {
+        return res.status(401).json({message: `El nombre '${Sucursal.nombre}' ya pertenece a una sucursal`, status: 405});
+    }
+  } catch (err) {
+    console.log (err); 
+    return res.status(401).json(err)
+  }
+  
+
   Sucursal.foto = "Imagen_sucursal_default.jpg";
 
   await DataSucursal.create({
