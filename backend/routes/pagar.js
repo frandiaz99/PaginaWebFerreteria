@@ -45,8 +45,11 @@ try {
       let fechaFin = new Date(Articulo.promocionado.fecha);
       fechaFin.setDate(fechaFin.getDate() + 5);
       if (fechaFin > new Date()) {
+				console.log("El articulo ya esta promocionado")
         return res.status(400).json({ message: "El artículo ya está promocionado", status: 403 });
       }
+
+			console.log ("Borrar instancaia vieja de promocionado, para evitar trash")
     }
 /*
 		let body = {
@@ -80,18 +83,18 @@ try {
 					quantity: duracionPromocion,
 					unit_price: 2000
 				}
-			],/*
+			],
 			back_urls: {
 				success: "http://localhost:5173/user/mis_articulos",
 				failure: "http://localhost:5173/user/mis_articulos",
 				pending: "http://localhost:5173/user/mis_articulos",
-			},*//*
+			},/*
 			back_urls: {
 				success: "https://www.youtube.com",
 				failure: "https://www.youtube.com",
 				pending: "https://www.youtube.com",
 			}, */
-			//auto_return: "approved",
+			auto_return: "approved",
 			 external_reference: promocion._id
 	}});
 		//console.log(result);
@@ -123,27 +126,26 @@ const CheckearPorNuevoPago = async ()  => {
 		 limit: 30,
 	} });
 	lista = lista.results
-	console.log (ListaEspera);
+	//console.log (ListaEspera);
 	var lista = lista.filter(L => (L.external_reference != null && ListaEspera.includes(L.external_reference.toString()) && L.status==="approved"))
 	//console.log(lista)
-	console.log(lista.map(L => L.external_reference))
+	//console.log(lista.map(L => L.external_reference))
 	for (let i = 0; i < lista.length; i++) {
 		const Pago = lista[i];
 		const Promocion = await DataPromocionado.findOneAndUpdate({_id:Pago.external_reference}, {aprobado: true}, {new: true});
 
 		const index = ListaEspera.indexOf(Pago.external_reference);
-		console.log("Borrando", ListaEspera[index])
+		console.log("BORRANDO", ListaEspera[index])
 		ListaEspera.splice(index, 1);
 		
 	}
 	
 	//console.log(ListaEspera)
 	if (ListaEspera[0]){
-		console.log("Entra")
-		setTimeout(CheckearPorNuevoPago, (60 * 1000))
-	}
-	
-	console.log("Nos fuimos")
+		console.log("DE vuelta, falta checkear:", ListaEspera)
+		setTimeout(CheckearPorNuevoPago, (20 * 1000))
+	} else {console.log ("TODOS LOS PAGOS FUERON CHECKEADOS.")}
+
 } catch (err) {
 	console.log(err)
 }
