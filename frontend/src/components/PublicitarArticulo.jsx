@@ -123,7 +123,8 @@ function Pagar (){
   const onSubmit = async (formData) => {
     // callback called when clicking on Wallet Brick
     // this is possible because Brick is a button
-    
+    console.log("OnSUbmit", formData)
+    alert("chekear consola")
     if (window.checkoutButton) window.checkoutButton.unmount();
   };
   
@@ -206,8 +207,8 @@ return (
        :(<><input type="numer" name="contenidoBuscador" placeholder="dias" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido}>Confirmar</button></>)}
 
     
-    {/* {preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />} */}
-    {preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />} 
+    {preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />}
+    {/*preferenceId && <Wallet initialization={{preferenceId: preferenceId}} customization={{ texts:{ valueProp: 'smart_option'}}} />*/} 
 
 
   </div>
