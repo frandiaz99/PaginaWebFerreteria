@@ -80,7 +80,11 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                     <img src={srcFotoArt} alt="" className='imagenArt' />
                 </div>
                 <div className='articulo-contenido'>
-                    <h2 className='tituloArt'>{articulo.nombre}</h2>
+                    <div className='tituloYicon'>
+                        <h2 className='tituloArt'>{articulo.nombre}</h2>
+                        {articulo.promocionado && <ion-icon name="cash-outline"></ion-icon>
+                        }
+                    </div>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
                     <p>Categoria {articulo.precio}</p>
                     <div className='interesado_y_puntaje'>
@@ -104,7 +108,12 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                         <h4 className='tituloArt'>{articulo.nombre}</h4>
                        {articulo.precio >0 && <p>Categoria {articulo.precio}</p>}
                     </div>
+                    <div className='buttonYicon'>
+                    <div className='iconMiArt'>
+                        {articulo.promocionado && <ion-icon name="cash-outline"></ion-icon>}
+                    </div>
                     <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Borrar articulo</button>
+                    </div>
                 </div>
             </div>
             <Modal texto={'¿Estás seguro que querés eliminar este artículo?'} confirmacion={confirmacion} setConfirmacion={setConfirmacion} handleYes={handleYes} ok={false}/>

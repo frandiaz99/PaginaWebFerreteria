@@ -106,8 +106,27 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
 
     function mostrarProducto(codigo){
         const producto= productos.filter(p => p.codigo == codigo)
-        if (producto.length > 0) return producto[0].nombre
+        if (producto.length > 0) return producto[0].nombre + " $"+ producto[0].precio
         else return '-'
+    }
+
+    function mostrarTotal(codigo,cantidad){
+        const producto= productos.filter(p => p.codigo == codigo)
+        if (producto.length > 0) return "Total $"+ producto[0].precio * cantidad
+        else return 'Total 0'
+    }
+
+    function mostrarTotalFinal(){
+        var total= 0;
+        console.log("aver", ventas)
+        console.log(" ", productos)
+        ventas.forEach(venta => {
+            const producto = productos.find(p => p.codigo == venta.codigo);
+            if (producto) {
+              total += venta.cantidad * producto.precio;
+            }
+        })
+        return total
     }
 
 
@@ -168,14 +187,21 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                             <div className='contenedorInputProducto'>
                                 <div className='campos_ventas'>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name='cantidad'
                                         placeholder="Cantidad"
                                         //value={venta.cantidad}
                                         onChange={(e) => handleInputChange(index, e)}
                                     />
                                 </div>
-                                {venta.cantidad == '' && <p className='campoObligatorio'>Campo obligatorio</p>}
+                                {venta.cantidad == '' 
+                                 ? 
+                                    <p className='campoObligatorio'>Campo obligatorio</p>
+                                 :
+                                    venta.cantidad == null ? null
+                                    :
+                                        <p className='productoMostrado'>{mostrarTotal(venta.codigo, venta.cantidad)}</p>
+                                }
                             </div>
 
                             <div className='contenedorInputProducto'>
@@ -200,6 +226,7 @@ const PopupEfectivizar = ({ show, onClose, truequeAEfectivizar, efectivizar }) =
                         </div>
                     ))}
                     <div className='botones-venta'>
+                        <p className='totalVenta'>Total ${mostrarTotalFinal()}</p>
                         {(todosLosCampos || ventas.length == 0) && <button type='submit' className={buttonClass} onClick={confirmarSeleccion}>{buttonText}</button>}
                         <button type='button' className='agregar-producto' onClick={agregarProducto}>Agregar Producto</button>
                     </div>

@@ -133,7 +133,7 @@
     color: white;
     border-top: 1px solid black;
     padding: 2px 4px;
-    width: 32%;
+    width: 100%;
 }
 
 .eliminarMiArticulo:hover{
@@ -152,4 +152,24 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.tituloYicon{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.buttonYicon{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.iconMiArt{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
 }

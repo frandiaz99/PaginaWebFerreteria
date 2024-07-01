@@ -204,6 +204,9 @@ function UnArticulo() {
             <button className='boton-foto' onClick={() => cambiarImagen('siguiente')}><ion-icon name="arrow-forward-outline"></ion-icon></button>
           </div>
           <div id='container-info'>
+            <div className='iconPagado'>
+              <ion-icon name="cash-outline" size="large"></ion-icon> 
+            </div>
             <h2 id='nombre-articulo' className='spacing'></h2>
             <p id='descripcion-articulo' className='spacing'></p>
             <div className='div_categoria'>
@@ -233,7 +236,7 @@ function UnArticulo() {
               {(articuloSeleccionado && intercambiar(articuloSeleccionado))?
                 <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
-                </button> : estaEnModoUser() && <Pagar/>
+                </button> : (estaEnModoUser() && articuloSeleccionado && !articuloSeleccionado.promocionado) && <Pagar/>
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&

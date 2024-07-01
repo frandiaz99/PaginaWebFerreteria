@@ -6,15 +6,24 @@ import Paginacion from '../components/Paginacion'
 import Filtros from '../components/Filtros'
 import { useState, useEffect, useRef } from 'react'
 
-const articulosXPag = 5 //en cada pagina mostrar 5 articulos
+const articulosXPag = 10//en cada pagina mostrar 5 articulos
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 function PaginaPrincipal() {
   const [totalArticulos, setTotalArticulos] = useState([])
   const [articulosActuales, setArticulosActuales] = useState(totalArticulos) //aca se guardan los filtrados
+  const [articulosActualesReal, setArticulosActualesReal]= useState([]) //para mostrar los promocionados
   const [ultimosTrueques, setUltimosTrueques]= useState([])
   const [ultimosObtenido, setUltimosObtenido]= useState(false)
   const [pagActual, setPagActual] = useState(1);
+  const [articulosPromocionados, setArticulosPromocionados]= useState([])
   const [obtenido, setObtenido]= useState(false)
   const articulosRef = useRef(null)
 
@@ -27,10 +36,11 @@ function PaginaPrincipal() {
     setArticulosActuales(resultado)
   }
 
-  function mostrarArticulos() {
-    const ultimoarticulo = pagActual * articulosXPag
-    const primerArticulo = ultimoarticulo - articulosXPag
-    return articulosActuales.slice(primerArticulo, ultimoarticulo)
+ 
+  function mostrarArticulos() { 
+    const ultimoarticulo = pagActual * (articulosXPag)
+    const primerArticulo = ultimoarticulo - (articulosXPag)
+    return articulosActualesReal.slice(primerArticulo, ultimoarticulo)
   }
 
   useEffect(() => {
@@ -54,7 +64,9 @@ function PaginaPrincipal() {
         return response.json();
       })
       .then(data => {
-        setTotalArticulos(data.filter(d => d.precio > 0 && d.usuario.intento_desbloqueo < 3 && !d.reservado))
+        const articulosTotales= data.filter(d => d.precio > 0 && d.usuario.intento_desbloqueo < 3 && !d.reservado);
+        setArticulosPromocionados(articulosTotales.filter(a => a.promocionado))
+        setTotalArticulos(articulosTotales)
         setObtenido(true)
       })
       .catch(error => {
@@ -87,6 +99,12 @@ function PaginaPrincipal() {
         setUltimosObtenido(true)
       })
   }, []);
+
+  useEffect(() =>{
+    let randomPromocionados = shuffle(articulosPromocionados).slice(0, 3);
+    const articulosSinPromocionados= articulosActuales.filter(a => !randomPromocionados.some(p => p._id == a._id))
+    setArticulosActualesReal(randomPromocionados.concat(articulosSinPromocionados))
+  },[articulosActuales])
 
   return (
     <>
