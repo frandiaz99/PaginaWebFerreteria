@@ -28,22 +28,25 @@ try {
 	if ((!req.body) || (!req.body.Promocion) || (!req.body.Promocion.Duracion) || (!req.body.Articulo._id)) {
 		return res.status(400).json({message: "Error de parametros mandados", status: 401});
 	}
-		let Articulo = req.body.Articulo;
-	
-		const duracionPromocion = parseInt(req.body.Promocion.Duracion);
-		console.log("Cantidad dias: ", duracionPromocion );
-		if (isNaN(duracionPromocion)){
-			return res.status(400).json({message: "El valor recibido no es un numero"});
-		}
+	let Articulo = req.body.Articulo;
+
+	const duracionPromocion = parseInt(req.body.Promocion.Duracion);
+	console.log("Cantidad dias: ", duracionPromocion );
+	if (isNaN(duracionPromocion)){
+		return res.status(400).json({message: "El valor recibido no es un numero"});
+	}
 
 
-		Articulo = await DataArticulo.findById(req.body.Articulo._id); // Espera la resolución de la promesa
+	Articulo = await DataArticulo.findById(req.body.Articulo._id); // Espera la resolución de la promesa
     if (!Articulo) {
       return res.status(404).json({ message: "Artículo no encontrado" });
     }
     if (Articulo.promocionado && Articulo.promocionado.aprobado) {
       let fechaFin = new Date(Articulo.promocionado.fecha);
       fechaFin.setDate(fechaFin.getDate() + 5);
+	  console.log("Articulo en pagar: "+Articulo)
+	  console.log("Fecha fin: "+fechaFin)
+	  console.log("Fecha actual: "+new Date())
       if (fechaFin > new Date()) {
 				console.log("El articulo ya esta promocionado")
         return res.status(400).json({ message: "El artículo ya está promocionado", status: 403 });

@@ -1,7 +1,19 @@
 import React from 'react'
 import '../../styles/UnaNotificacion.css'
+import {useNavigate } from 'react-router-dom'
+import routes from '../../routes.js'
+
+
 
 function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back cada vez que se abra el drop o q onda
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+        if(contenido.tipo == 5){
+            navigate(routes.misArticulos)
+        }else{
+            navigate(routes.misTrueques)
+        }
+    }
     const tipos={
         'noti1': 'quiere intercambiarte un artículo.',
         'noti2': 'aceptó tu artículo, tienen un trueque pendiente. Revisá tu mail para ponerte en contacto.',
@@ -12,7 +24,6 @@ function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back
     return (
         <div className='unaNotificacion'>
             <hr />
-
             {contenido.tipo !== 'noti4' && 
             <div className='fotoNotificacion'>
                 <img src={contenido.foto} style={{width:'100%', height:'100%'}}/>
@@ -23,7 +34,7 @@ function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back
 
             {contenido.tipo === 'noti4' && <p>{tipos[contenido.tipo]}</p>}
 
-            <button>Ver</button>
+            <button onClick={handleRedirect}>Ver</button>
 
         </div>
     )

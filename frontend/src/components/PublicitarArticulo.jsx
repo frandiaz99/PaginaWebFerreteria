@@ -151,14 +151,15 @@ function Pagar (){
   
   
   const crearPedido = async () => {
-    console.log("Cambiar el id del articulo por uno posta")
+    var articuloLocal = JSON.parse(localStorage.getItem("articulo"));
+    console.log(articuloLocal._id)
     if (window.checkoutButton) window.checkoutButton.unmount();
     fetch(
       "http://localhost:5000/pagar/crearPedido",
       {
         method: "POST",
         headers: { "Content-Type": "application/JSON" },
-        body: JSON.stringify({Articulo: {_id: "6678ceb189e1a384783bd36a"},Promocion:{Duracion: cantidadDias }}),
+        body: JSON.stringify({Articulo: articuloLocal,Promocion:{Duracion: cantidadDias }}),
         credentials: "include",
       }
     )
