@@ -6,7 +6,7 @@ import routes from '../routes';
 import { estaEnModoAdmin } from '../helpers/estaEnModo';
 
 function todosLosCamposCompletos(datos, imagen) {
-    return (imagen !== '' && imagen !== undefined) && datos.texto !== '' && datos.fecha !== '' && datos.duracion !== '';
+    return (imagen !== '' && imagen !== undefined) && datos.texto !== '' && datos.fecha !== ''
 }
 
 function CrearPromocion() {
@@ -16,7 +16,7 @@ function CrearPromocion() {
     const [datos, setDatos] = useState({
         titulo: '',
         fecha: new Date(),
-        duracion: '',
+        duracion: 10, //deberia borrarse de la base de datos la duracion porque ya no sirve
         aprobado: estaEnModoAdmin()
     });
 
@@ -70,7 +70,8 @@ function CrearPromocion() {
                     if (errorData.status === 405) {
                         setPromocionRepetida(true);
                     }
-                    console.error('Error en la creación de la promoción:', errorData);
+                    console.log("status", errorData.status)
+                    console.error('Error en la creación de la promoción:', errorData.message);
                 });
         }
     };
@@ -93,10 +94,6 @@ function CrearPromocion() {
                         <div className='div-subirPromocion'>
                             <label htmlFor='titulo'>Título de la promoción</label>
                             <input type='text' name='titulo' className='inputSubirPromocion' onChange={handleChange} />
-                        </div>
-                        <div className='div-subirPromocion'>
-                            <label htmlFor='duracion'>Duración (días)</label>
-                            <input type='number' name='duracion' className='inputSubirPromocion' onChange={handleChange} />
                         </div>
                         <div className='div-subirPromocion'>
                             <label htmlFor='foto'>Foto de la promoción</label>
