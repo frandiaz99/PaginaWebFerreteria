@@ -49,3 +49,7 @@ input{
 select{
   height: 25px;
 }
+
+ion-icon{
+  contain:none;
+}
