@@ -12,7 +12,7 @@ function Promociones() {
   const [promosPendientes, setPromosPendientes] = useState([]);
   const [obtenido, setObtenido] = useState(false);
   const [subirPromocion, setSubirPromocion] = useState(false);
-  const [eliminado, setEliminado]= useState(false)
+  const [eliminado, setEliminado] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:5000/promocion/getPromociones', {
@@ -72,7 +72,7 @@ function Promociones() {
     navigate(routes.crearPromocion);
   };
 
-  const eliminarPromo= () =>{
+  const eliminarPromo = () => {
     setEliminado(!eliminado)
   }
 
@@ -94,6 +94,9 @@ function Promociones() {
             )}
           </div>
         </div>
+
+        <hr className='hr-promociones' />
+
         {estaEnModoAdmin() && <div className='promociones-disponibles'>
           <div className='cartel-promociones'>
             <p>Promociones pendientes</p>

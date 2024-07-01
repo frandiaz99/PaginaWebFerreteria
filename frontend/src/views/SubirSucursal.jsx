@@ -3,14 +3,14 @@ import '../styles/SubirSucursal.css'
 import Modal from "../components/Modal";
 import routes from "../routes";
 
-function todosLosCamposCompletos(datos, imagen){
-  console.log("datos",imagen)
+function todosLosCamposCompletos(datos, imagen) {
+  console.log("datos", imagen)
   return (imagen !== '' && imagen !== undefined) && datos.nombre !== '' && datos.provincia !== '' && datos.ciudad !== '' && datos.direccion !== '' && datos.telefono !== ''
 }
 
 function SubirSucursal() {
-  const [sucursalRepetida, setSucursalRepetida]= useState(false)
-  const [todoCompleto, setTodoCompleto]= useState(false)
+  const [sucursalRepetida, setSucursalRepetida] = useState(false)
+  const [todoCompleto, setTodoCompleto] = useState(false)
   const [datos, setDatos] = useState({
     nombre: '',
     provincia: '',
@@ -29,13 +29,13 @@ function SubirSucursal() {
     })
   }
 
-  useEffect(() =>{
-    if (todosLosCamposCompletos(datos,imagen.foto)) setTodoCompleto(true)
+  useEffect(() => {
+    if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true)
     else setTodoCompleto(false)
-  },[datos])
+  }, [datos])
 
-  useEffect(() =>{
-    if (todosLosCamposCompletos(datos,imagen.foto)) setTodoCompleto(true)
+  useEffect(() => {
+    if (todosLosCamposCompletos(datos, imagen.foto)) setTodoCompleto(true)
     else setTodoCompleto(false)
   }, [imagen])
 
@@ -46,7 +46,7 @@ function SubirSucursal() {
     formData.append("Sucursal", JSON.stringify(datos));
     formData.append("Imagen", imagen.foto)
     console.log({ "formDara": formData });
-    if (todoCompleto){
+    if (todoCompleto) {
 
       fetch("http://localhost:5000/sucursal/newSucursal", {
         method: "POST",
@@ -68,7 +68,7 @@ function SubirSucursal() {
         })
         .catch(error => {
           const errorData = JSON.parse(error.message)
-          if (errorData.status == 400){ //Chequear que sea el mismo codigo cuando el back lo devuelva, lo dejo asi por ajhora
+          if (errorData.status == 405) { //Chequear que sea el mismo codigo cuando el back lo devuelva, lo dejo asi por ajhora
             setSucursalRepetida(true)
           }
           console.error("Error en la creacion de sucursal:", errorData);
@@ -129,7 +129,7 @@ function SubirSucursal() {
       </form>
       <Modal texto={'La sucursal se ha creado con exito.'}
         confirmacion={subirSucursal} setConfirmacion={setSubirSucursal} handleYes={handleOk} ok={true} />
-      <Modal texto={'No se pudo efectivizar el registro de la sucursal porque ya existe una sucursal con ese nombre'} confirmacion={sucursalRepetida} setConfirmacion={setSucursalRepetida} ok={true}/>
+      <Modal texto={'No se pudo efectivizar el registro de la sucursal porque ya existe una sucursal con ese nombre'} confirmacion={sucursalRepetida} setConfirmacion={setSucursalRepetida} ok={true} />
     </main>
   )
 }

@@ -10,7 +10,7 @@ function todosLosCamposCompletos(datos, imagen) {
 }
 
 function CrearPromocion() {
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const [promocionRepetida, setPromocionRepetida] = useState(false);
     const [todoCompleto, setTodoCompleto] = useState(false);
     const [datos, setDatos] = useState({
@@ -67,7 +67,7 @@ function CrearPromocion() {
                 })
                 .catch((error) => {
                     const errorData = JSON.parse(error.message);
-                    if (errorData.status === 400) {
+                    if (errorData.status === 405) {
                         setPromocionRepetida(true);
                     }
                     console.error('Error en la creación de la promoción:', errorData);

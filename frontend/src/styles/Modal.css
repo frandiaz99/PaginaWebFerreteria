@@ -1,4 +1,4 @@
-.confirmacion{
+.confirmacion {
     position: fixed;
     top: 30%;
     left: 35%;
@@ -14,15 +14,18 @@
     gap: 12px;
     font-weight: 500;
     overflow-wrap: anywhere;
+    max-width: 90%;
+    width: 450px;
+    max-height: 80vh;
 }
 
-.botonesConfirm{
+.botonesConfirm {
     display: flex;
     width: 70%;
     justify-content: space-evenly;
 }
 
-.botonConfirm{
+.botonConfirm {
     width: 80px;
     border-radius: 4px;
     height: 1.5rem;

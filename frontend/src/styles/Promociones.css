@@ -1,15 +1,34 @@
 .promociones {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 98%;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.hr-promociones {
+    width: 100%;
+    border-color: lightgray;
+    margin: 20px;
+    padding: 0;
+}
+
+.promociones-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.promociones-container .promocion {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .promociones-container,
 .promosPendientes {
-    display: flex;
-    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     width: 100%;

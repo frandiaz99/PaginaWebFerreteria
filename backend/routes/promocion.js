@@ -23,7 +23,7 @@ const getPromociones = async (req, res, next) => {
         });
 };
 
-const getPromocionesPendientes = async (req, res, next) =>  {
+const getPromocionesPendientes = async (req, res, next) => {
     await DataPublicidad.find(
         { aprobado: false },
     )
@@ -62,9 +62,20 @@ const crearPromocion = async (req, res, next) => {
         return res.status(401).json({ message: "Consulta erronea, faltan parametros", status: 403 });
     }
 
+    try {
+        const P = await DataPublicidad.findOne({ titulo: Promocion.titulo })
+        console.log(P);
+        if (P) {
+            return res.status(401).json({ message: `El nombre '${Promocion.titulo}' ya pertenece a una promocion`, status: 405 });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(401).json(err)
+    }
 
 
-    await DataPublicidadd.create({
+
+    await DataPublicidad.create({
         titulo: Promocion.titulo,
         texto: Promocion.texto,
         fecha: Promocion.fecha,
