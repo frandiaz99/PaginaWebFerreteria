@@ -27,7 +27,8 @@ function tasar(art) {
 }
 
 function promocionar(articuloSeleccionado){
-  return articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.reservado && !articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado))
+  console.log("aver", articuloSeleccionado)
+  return articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.reservado && (!articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado)))
 }
 
 function UnArticulo() {
