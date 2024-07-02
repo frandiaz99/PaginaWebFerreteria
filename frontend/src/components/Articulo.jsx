@@ -26,7 +26,7 @@ function generarEstrellas(puntuacion) {
     return estrellas;
   }
 
-function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")}) {
+function Articulo({numArt = 0, articulo, misArticulos, eliminar = () => console.log("nada")}) {
     const navigate= useNavigate()
     const [confirmacion, setConfirmacion]= useState(false)
     const [irAUnArticulo, setIrAUnArticulo]= useState(false)
@@ -82,7 +82,7 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                 <div className='articulo-contenido'>
                     <div className='tituloYicon'>
                         <h2 className='tituloArt'>{articulo.nombre}</h2>
-                        {(articulo.promocionado && articulo.promocionado.aprobado) && <ion-icon name="cash-outline"></ion-icon>
+                        {(articulo.promocionado && articulo.promocionado.aprobado && numArt <= 2) && <ion-icon name="cash-outline"></ion-icon>
                         }
                     </div>
                     <p className='descripcionArt'>{articulo.descripcion}</p>

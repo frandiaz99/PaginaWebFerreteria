@@ -91,7 +91,6 @@ function PaginaPrincipal() {
         return response.json();
       })
       .then(data => {
-        console.log(data)
         setUltimosTrueques(data.Trueque)
         setUltimosObtenido(true)
       })
@@ -145,7 +144,7 @@ function PaginaPrincipal() {
                   {obtenido ? 'No hay articulos disponibles aún' : 'Cargando artículos...'}
                 </div> //Podria ser un componente
                 :
-                mostrarArticulos().map((art, index) => (<Articulo key={index} articulo={art} misArticulos={false} />))
+                mostrarArticulos().map((art, index) => (<Articulo key={index} numArt={index} articulo={art} misArticulos={false} />))
               }
             </div>
 
