@@ -10,11 +10,10 @@ function EstadisticasArticulos() {
 
   if (location.pathname == routes.empleadoEstadisticas){
     useEffect(() => {
-      fetch('http://localhost:5000/promocion/getPromociones', 
+      fetch('http://localhost:5000/articulo/getArticulos', 
       {method: "GET", 
       headers: {
-        "Content-Type": "application/JSON",
-        //"Cookie": localStorage.getItem('jwt')
+        "Content-Type": "application/json",
       },credentials: "include"})
       .then(response => {
         if (!response.ok) {
@@ -26,7 +25,8 @@ function EstadisticasArticulos() {
       })
       .then(data => {
         console.log(data)
-        setArticulosDestacados(data.filter(a => a.aprobado))
+        setArticulosDestacados(data.filter(a => a.promocionado && a.promocionado.aprobado))
+        console.log(articulosDestacados.length)
         setObtenido(true)
       })
       .catch(error => {
@@ -50,8 +50,7 @@ function EstadisticasArticulos() {
           </div>
           {articulosDestacados.length == 0 ? 
             <div className='noHayItems'>
-              {obtenido ? location.pathname == routes.empleadoEstadisticas ? 'No hay artículos destacados' : 'mensaje 2'
-              : 'Cargando artículos destacados...'}
+              No hay articulos destacados.
             </div> //Podria ser un componente
           :
           <div className='misArticulos'>
