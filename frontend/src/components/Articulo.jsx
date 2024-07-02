@@ -82,7 +82,7 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                 <div className='articulo-contenido'>
                     <div className='tituloYicon'>
                         <h2 className='tituloArt'>{articulo.nombre}</h2>
-                        {articulo.promocionado && <ion-icon name="cash-outline"></ion-icon>
+                        {(articulo.promocionado && articulo.promocionado.aprobado) && <ion-icon name="cash-outline"></ion-icon>
                         }
                     </div>
                     <p className='descripcionArt'>{articulo.descripcion}</p>
@@ -110,7 +110,7 @@ function Articulo({ articulo, misArticulos, eliminar = () => console.log("nada")
                     </div>
                     <div className='buttonYicon'>
                     <div className='iconMiArt'>
-                        {articulo.promocionado && <ion-icon name="cash-outline"></ion-icon>}
+                        {(articulo.promocionado && articulo.promocionado.aprobado) && <ion-icon name="cash-outline"></ion-icon>}
                     </div>
                     <button className='eliminarMiArticulo' onClick={handleEliminarArt}>Borrar articulo</button>
                     </div>

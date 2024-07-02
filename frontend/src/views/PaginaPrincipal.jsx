@@ -65,7 +65,9 @@ function PaginaPrincipal() {
       })
       .then(data => {
         const articulosTotales= data.filter(d => d.precio > 0 && d.usuario.intento_desbloqueo < 3 && !d.reservado);
-        setArticulosPromocionados(articulosTotales.filter(a => a.promocionado))
+        setArticulosPromocionados(articulosTotales.filter(a => a.promocionado && a.promocionado.aprobado))
+        console.log("aa", data)
+        console.log("aver", articulosTotales)
         setTotalArticulos(articulosTotales)
         setObtenido(true)
       })
