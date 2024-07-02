@@ -26,6 +26,10 @@ function tasar(art) {
   } else return false
 }
 
+function promocionar(articuloSeleccionado){
+  return articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.reservado && !articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado))
+}
+
 function UnArticulo() {
   const navigate = useNavigate();
   //MercadoPagoInstance.publicKey = 'TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622';
@@ -238,7 +242,7 @@ function UnArticulo() {
               {(articuloSeleccionado && intercambiar(articuloSeleccionado))?
                 <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
-                </button> : (estaEnModoUser() && articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado))) && <Pagar/>
+                </button> : (estaEnModoUser() && promocionar(articuloSeleccionado)) && <Pagar/>
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
