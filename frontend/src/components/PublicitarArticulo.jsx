@@ -109,6 +109,8 @@ function Pagar (){
   // Poner form para camvbiar los datos
 
   const [cantidadDias, setCantidadDias] = useState(1);
+  const [clickeado, setClickeado]= useState(false)
+  const [aguardar, setAguardar]= useState(true)
   
   const initialization = {
     preferenceId: '<PREFERENCE_ID>',
@@ -151,6 +153,7 @@ function Pagar (){
   
   
   const crearPedido = async () => {
+    setClickeado(true)
     var articuloLocal = JSON.parse(localStorage.getItem("articulo"));
     console.log(articuloLocal._id)
     if (window.checkoutButton) window.checkoutButton.unmount();
@@ -175,10 +178,12 @@ function Pagar (){
       console.log(data)
       //createCheckoutButton(data.id);
       setPreferenceId(data.id)
+      setAguardar(false)
       return
     })
     .catch((error) => {
       console.error("Hubo al generar pedido", error);
+      setClickeado(false)
     });
   }
   /*
@@ -205,7 +210,8 @@ return (
   
 
       { promocionandoArticulo ? <button className="boton-intercambiar" onClick={() =>{setPromocionandoArticulo(false)}}>Promocionar</button>
-       :(<><input type="numer" name="contenidoBuscador" placeholder="Ingresa la duracion de días" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido} className='botonConfirmarDuracion'>Confirmar</button></>)}
+       :(<><input type="numer" name="contenidoBuscador" placeholder="Ingresa la duracion de días" onChange={cambiarCantidadDias}></input>   
+          {!clickeado ? <button onClick={crearPedido} className='botonConfirmarDuracion'>Confirmar</button> : aguardar && <p style={{fontSize:'15px'}}>Aguarda un momento...</p>}</>)}
 
     
     {/*preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />*/}
