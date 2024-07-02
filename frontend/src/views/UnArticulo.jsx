@@ -238,7 +238,7 @@ function UnArticulo() {
               {(articuloSeleccionado && intercambiar(articuloSeleccionado))?
                 <button className="boton-intercambiar" onClick={() => setShowPopup(true)}>
                   Intercambiar
-                </button> : (estaEnModoUser() && articuloSeleccionado && (!articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado))) && <Pagar/>
+                </button> : (estaEnModoUser() && articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado))) && <Pagar/>
               }
 
               {(articuloSeleccionado && tasar(articuloSeleccionado)) &&
