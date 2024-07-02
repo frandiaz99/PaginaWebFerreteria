@@ -96,7 +96,7 @@ export { useCardPaymentBrick };
 
 import React from 'react';
 import { useState } from 'react';
-
+import '../styles/PublicitarArticulo.css'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 //initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622', {locale: "es-AR"});
 //initMercadoPago('TEST-5927481826006053-041716-b330d25407c1fe4b73d7e41b9e193bc8-267438622');
@@ -198,14 +198,14 @@ function Pagar (){
 return (
   
   
-  <div>
+  <div className='divPago'>
     {/* <button onClick={promocionarArticulo}>Promocionar</button> */}
 
     {/* :<button onClick={crearPedido}>Confirmar</button> */ }
   
 
       { promocionandoArticulo ? <button className="boton-intercambiar" onClick={() =>{setPromocionandoArticulo(false)}}>Promocionar</button>
-       :(<><input type="numer" name="contenidoBuscador" placeholder="dias" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido}>Confirmar</button></>)}
+       :(<><input type="numer" name="contenidoBuscador" placeholder="Ingresa la duracion de días" onChange={cambiarCantidadDias}></input>       <button onClick={crearPedido} className='botonConfirmarDuracion'>Confirmar</button></>)}
 
     
     {/*preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />*/}

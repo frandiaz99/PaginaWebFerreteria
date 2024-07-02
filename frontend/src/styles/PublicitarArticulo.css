@@ -1,0 +1,11 @@
+.divPago{
+    width: 12rem;
+}
+
+.botonConfirmarDuracion{
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 3px 10px;
+}
