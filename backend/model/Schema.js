@@ -156,6 +156,7 @@ const promocionadoSchema = mongoose.Schema({
   aprobado: { type: Boolean, default: false },
   fecha: { type: Date, required: true },
   duracion: { type: Number, required: true },
+  articulo: { type: mongoose.Schema.Types.ObjectId, ref: "Articulo", required: true },
 });
 
 const ventaSchema = mongoose.Schema({
