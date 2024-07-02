@@ -10,7 +10,7 @@
     margin-top: 20px;
     background-color: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px 20px;
     max-width: 800px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
@@ -47,6 +47,7 @@
 .fila-boton {
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
 }
 
 .fila-boton button {
@@ -149,4 +150,15 @@
 
 #seccion-nombre{
     font-size: 18px;
+}
+
+.divPuntaje{
+    display: flex;
+    width: 34%;
+    justify-content: center;
+    align-items: center;
+}
+
+.realPuntaje{
+    font-size: 16px;
 }

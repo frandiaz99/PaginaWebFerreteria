@@ -184,7 +184,14 @@ function Perfil() {
                 usuario.rol < 3 && <div className='fila-email'>Sucursal: Selecciona una nueva sucursal</div>
               )}
               <div className='fila-nacimiento'>{getFecha(usuario.fecha_nacimiento)}</div>
-              {!estaEnModoAdmin() && <div className='fila-puntos'>{generarEstrellas(usuario.valoracion)}</div>}
+              {!estaEnModoAdmin() && 
+                <div>
+                  <div className='fila-puntos'>{generarEstrellas(usuario.valoracion)} ({comentarios.length})</div>
+                  <div className='divPuntaje'>
+                    <p className='realPuntaje'>{usuario.valoracion.toFixed(1)} </p>
+                  </div>
+                </div>
+              }
               {isOwnProfile && (
                 <div className='fila-boton'>
 
