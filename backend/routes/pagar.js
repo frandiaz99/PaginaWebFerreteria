@@ -75,8 +75,7 @@ try {
 		console.log(preference)
 		//body = JSON.stringify(body)
 		//console.log(body);
-
-		const promocion = await DataPromocionado.create({fecha: Date.now(), duracion: duracionPromocion});
+		const promocion = await DataPromocionado.create({fecha: Date.now(), duracion: duracionPromocion, articulo: Articulo});
 		DataArticulo.findOneAndUpdate({_id: Articulo._id}, {promocionado: promocion}).then();
 
 		const result = await preference.create({body: {
@@ -192,9 +191,22 @@ payment.search({ options: {
 
 
 
+const getPagos = async (req, res, next) =>{
+	try{
+		const pagos = await DataPromocionado.find({aprobado: true});
+		res.status(200).json(pagos)
+
+	} catch (err) {
+		console.log(err)
+		res.status(401).json({message: "Error probable del backend"})
+	}
+};
+
+
 router.route("/comprobarEstadoPago").get(ComprobarEstadoPago);
 router.route("/buscarPagos").get(BuscarPagos);
 router.route("/crearPedido").post(userAuth, crearPedido);
+router.route("/getPagosCompletados").get(workerAuth, getPagos);
 
 module.exports = router
 
