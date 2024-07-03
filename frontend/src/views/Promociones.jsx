@@ -95,7 +95,7 @@ function Promociones() {
           </div>
         </div>
 
-        <hr className='hr-promociones' />
+        {!estaEnModoUser() && <hr className='hr-promociones' />}
 
         {estaEnModoAdmin() && <div className='promociones-disponibles'>
           <div className='cartel-promociones'>
