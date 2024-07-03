@@ -4,7 +4,8 @@
     align-items: center;
     position: absolute;
     background: rgb(241, 241, 241);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     border-radius: 5px;
     top: 100%;
     right: -140%;
