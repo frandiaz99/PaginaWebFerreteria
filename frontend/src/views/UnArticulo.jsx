@@ -27,7 +27,6 @@ function tasar(art) {
 }
 
 function promocionar(articuloSeleccionado){
-  console.log("aver", articuloSeleccionado)
   return articuloSeleccionado && (articuloSeleccionado.precio > 0 && !articuloSeleccionado.reservado && (!articuloSeleccionado.promocionado || (articuloSeleccionado.promocionado && !articuloSeleccionado.promocionado.aprobado)))
 }
 
@@ -59,7 +58,6 @@ function UnArticulo() {
     const articuloLocal = JSON.parse(localStorage.getItem('articulo'));
     if (articuloLocal) {
       setArticuloSeleccionado(articuloLocal);
-      console.log("asdas",articuloLocal);
     }
     boton_foto[0].style.display = "none";
 
