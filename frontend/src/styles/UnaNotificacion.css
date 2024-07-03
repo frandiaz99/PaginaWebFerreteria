@@ -1,10 +1,13 @@
 .unaNotificacion{
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px;
     font-size: 15px;
     width: 100%;
     height: 100%;
+    background: rgb(211, 211, 211);
+    border-radius: 10px;
 }
 .contenido-notificacion{
     display: flex;
@@ -22,10 +25,10 @@
 
 #boton-ver{
     width: 20%;
-    padding: 5px;
+    padding: 1px 1px;
     background-color: rgb(36, 149, 255);
     border: 1px solid rgb(23, 93, 158);
-    border-radius: 8px;
+    border-radius: 5px;
     color: white;
     cursor: pointer;
 }

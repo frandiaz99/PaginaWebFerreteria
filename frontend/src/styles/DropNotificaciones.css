@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     position: absolute;
-    background: rgb(241, 241, 241);
+    background: rgb(255, 255, 255);
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 5px;
@@ -14,6 +14,14 @@
     height: 200px;
     cursor: default;
     padding: 12px;
+}
+
+
+.divNotificaciones{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
 }
 
 .dropNotificaciones hr {

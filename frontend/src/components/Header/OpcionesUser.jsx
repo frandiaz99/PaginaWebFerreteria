@@ -12,6 +12,7 @@ function OpcionesUser() {
   const dropNotificacionesRef = useRef(null)
   const dropCuentaRef = useRef(null)
   const [user, setUser] = useState(null)
+  const [nuevaNoti, setNuevaNoti]= useState(false)
   const [srcFotoPerfil, setSrcFotoPerfil] = useState("http://localhost:5000/img/" + JSON.parse(localStorage.getItem('user')).foto_perfil)
 
   useEffect(() => {
@@ -38,6 +39,34 @@ function OpcionesUser() {
         console.error('Error:', error);
       });
   }, [])
+
+  useEffect(() =>{
+          //obtener notificaciones nuevas
+          fetch('http://localhost:5000/notificacion/getNotificaciones',
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/JSON",
+              }, credentials: "include"
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Hubo un problema al obtener las notificaciones');
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log(data)
+              const nuevasNotis=data.filter(notis => !notis.visto)
+              console.log("awdead", nuevasNotis)
+              localStorage.setItem('notificaciones',JSON.stringify(nuevasNotis))
+              if (nuevasNotis.length > 0) setNuevaNoti(true)
+              else setNuevaNoti(false)
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+  },[location.pathname])
 
   const handleHome = () => {
     if (estaEnModoUser()) {
@@ -139,10 +168,10 @@ function OpcionesUser() {
         <div className='containersDrop' id='containerNotificaciones' ref={dropNotificacionesRef} onClick={handleNotificaciones}>
 
           <div className='notificaciones'>
-            <ion-icon name="chatbubbles-outline" size='small'></ion-icon>
+            <ion-icon name={nuevaNoti ? "chatbubbles" :"chatbubbles-outline"} size='small'></ion-icon>
           </div>
 
-          {dropNotificacionesOpen && <DropNotificaciones />}
+          {dropNotificacionesOpen && <DropNotificaciones setNuevaNoti={setNuevaNoti}/>}
 
         </div>
       }
