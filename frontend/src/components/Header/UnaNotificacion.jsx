@@ -14,30 +14,15 @@ function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back
             navigate(routes.misTrueques)
         }
     }
-    const tipos={
-        'noti1': 'quiere intercambiarte un artículo.',
-        'noti2': 'aceptó tu artículo, tienen un trueque pendiente. Revisá tu mail para ponerte en contacto.',
-        'noti3': 'rechazó tu artículo.',
-        'noti4': 'Se canceló el trueque que tenías pendiente.',
-        'noti5': 'Tu artículo fue tasado, ya está disponible para realizar trueques.'
-    }
     return (
         <div className='unaNotificacion'>
-            <hr />
-            {contenido.tipo !== 'noti4' && 
-            <div className='fotoNotificacion'>
-                <img src={contenido.foto} style={{width:'100%', height:'100%'}}/>
-            </div>}
-
-            {contenido.tipo !== 'noti4' && 
-            <p>{contenido.nombre} {tipos[contenido.tipo]}</p>}
-
-            {contenido.tipo === 'noti4' && <p>{tipos[contenido.tipo]}</p>}
-
-            <button onClick={handleRedirect}>Ver</button>
-
+            <div className='contenido-notificacion'>
+                <p>{contenido.texto}</p>
+            </div>
+            <button onClick={handleRedirect} id='boton-ver'>Ver</button>
         </div>
     )
+    //<img src={contenido.usuario.foto_perfil} id='foto-notificacion'/>
 }
 
 export default UnaNotificacion
