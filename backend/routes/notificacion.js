@@ -74,19 +74,19 @@ const NuevaNotificacion = async (id_usuario, tipo, id_objeto) =>{
   let texto;
   switch (tipo) {
     case 1:
-      texto = "Tu oferta de intercambio fue ACEPTADA";
+      texto = "Una de tus ofertas de intercambio fue aceptada.";
       break;
   case 2:
-      texto = "Tu oferta de intercambio fue RECHAZADA";
+      texto = "Una de tus ofertas de intercambio fue rechazada.";
   break;
   case 3:
-      texto = "Un trueque fue cancelado";
+      texto = "Uno de tus trueques fue cancelado";
   break;
   case 4:
-      texto = "Se establecio una fecha para el trueque";
+      texto = "Se establecio una fecha para uno de tus trueques";
   break;
   case 5:
-      texto = "Tu articulo fue tasado";
+      texto = "Uno de tus articulos fue tasado";
   break;
   case 6:
       texto = "Tenes una nueva oferta de intercambio";
