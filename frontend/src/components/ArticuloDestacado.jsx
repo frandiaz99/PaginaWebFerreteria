@@ -22,7 +22,7 @@ function ArticuloDestacado({articulo, misArticulos}) {
     var srcFotoArt = "http://localhost:5000/img/" + articulo.foto_articulo[articulo.foto_articulo.length-1];
 
     if(!misArticulos) return (
-        <div className='articulo' id='articulo-destacado' onClick={irArticulo}>
+        <div className='articuloDestacado' onClick={irArticulo}>
             <div className='divImagenArt'>
                 <img src={srcFotoArt} alt="" className='imagenArt' id='img-destacado'/>
             </div>

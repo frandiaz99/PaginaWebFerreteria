@@ -4,6 +4,14 @@ import routes from '../routes'
 import Modal from './Modal.jsx'
 import { useEffect, useState } from 'react'
 
+function getDateOnly(datetimeLocalString) {
+    const datetime = new Date(datetimeLocalString);
+    const year = datetime.getFullYear();
+    const month = String(datetime.getMonth() + 1).padStart(2, '0');
+    const day = String(datetime.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
 function generarEstrellas(puntuacion) {
     const estrellas = []; 
 
@@ -88,7 +96,14 @@ function Articulo({numArt = 0, articulo, misArticulos, eliminar = () => console.
                     <p className='descripcionArt'>{articulo.descripcion}</p>
                     <p>Categoria {articulo.precio}</p>
                     <div className='interesado_y_puntaje'>
-                        <p>Interesado en: ...</p>
+                        {location.pathname == routes.empleadoEstadisticas 
+                        ?   
+                            <div className='divInfoDestacado'>
+                                <p>Destacado el {getDateOnly(articulo.promocionado.fecha)} durante {articulo.promocionado.duracion} días</p>
+                                <p className='totalDestacado'>Total ${articulo.promocionado.duracion * 2000}</p>
+                            </div>
+                        :   
+                            <p>Interesado en: ...</p>}
                         <div className='usuarioEnArticulo'>
                             <p>{articulo.usuario.nombre}</p>
                             <p>{generarEstrellas(articulo.usuario.valoracion)}</p>
