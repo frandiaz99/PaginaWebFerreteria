@@ -23,6 +23,18 @@ function FiltroFecha({totalItems, actualizar}) {
   const [fecha2, setFecha2]= useState(null)
   const [sucursales, setSucursales]= useState(null)
   const [sucursalElegida, setSucursalElegida]= useState(null)
+  const [rangoCorrecto, setRangoCorrecto]= useState(true)
+
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+  
+    const anio = hoy.getFullYear();
+    let mes = (hoy.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11, por eso se suma 1 y se asegura de que tenga dos dígitos
+    let dia = hoy.getDate().toString().padStart(2, '0'); // Se asegura de que el día tenga dos dígitos
+  
+    return `${anio}-${mes}-${dia}`;
+  };
+  var fechaActual = obtenerFechaActual()
 
   const handleFecha1= (e) =>{
     setFecha1(e.target.value)
@@ -37,14 +49,18 @@ function FiltroFecha({totalItems, actualizar}) {
   }
 
   useEffect(() =>{
-    console.log(fecha1)
-    console.log(new Date(fecha1))
+
     var itemsFiltrados= totalItems
+
     if (fecha1 && fecha2){
-      itemsFiltrados= totalItems.filter(i => isDateBetween(i.fecha_venta, fecha1, fecha2))
-      if (location.pathname !== routes.adminPrincipal) actualizar(itemsFiltrados)  //para el admin se actualiza luego de elegir una sucursal
+      if ((fecha1 < fecha2 || fecha1 == fecha2) && (fecha1 <= fechaActual && fecha2 <= fechaActual)){
+        setRangoCorrecto(true)
+        itemsFiltrados= totalItems.filter(i => isDateBetween(i.fecha_venta, fecha1, fecha2))
+        if (location.pathname !== routes.adminPrincipal) actualizar(itemsFiltrados)  //para el admin se actualiza luego de elegir una sucursal
+      }
+      else setRangoCorrecto(false)
     }
-    if (sucursalElegida) {
+    if (sucursalElegida && rangoCorrecto) {
       if (sucursalElegida !== 'default') itemsFiltrados= itemsFiltrados.filter(i => i.sucursal._id == sucursalElegida)
       actualizar(itemsFiltrados)
     }
@@ -72,23 +88,28 @@ function FiltroFecha({totalItems, actualizar}) {
 
   return (
     <div className='filtros-fecha'>
-        <div className='div_filtro'>
-            <label htmlFor="inputfilter1" className='label_filtro'>Desde</label>
-            <input type="date" className='input_filtro' id='inputfilter1' onChange={handleFecha1}/>
-        </div>
+      <div className='filtrosSinAviso'>
+          <div className='div_filtro'>
+              <label htmlFor="inputfilter1" className='label_filtro'>Desde</label>
+              <input type="date" className='input_filtro' id='inputfilter1' onChange={handleFecha1}/>
+          </div>
 
-        <div className='div_filtro'>
-            <label htmlFor="inputfilter2" className='label_filtro'>Hasta</label>
-            <input type="date" className='input_filtro' id='inputfilter2' onChange={handleFecha2}/>
-        </div>
+          <div className='div_filtro'>
+              <label htmlFor="inputfilter2" className='label_filtro'>Hasta</label>
+              <input type="date" className='input_filtro' id='inputfilter2' onChange={handleFecha2}/>
+          </div>
 
-        {location.pathname == routes.adminPrincipal && <div className='div_filtro'>
-          <label htmlFor="sucursal">Sucursal</label>
-          {sucursales && <select name="sucursal" id="sucursal" onChange={changeSucursal}>
-            <option key={'todasLasSucursales'} value={'default'}>Todas las sucursales</option>
-            {sucursales.map((s, index) => (<option key={s._id} value={s._id}>{s.nombre}</option>))}
-          </select>}
-        </div>}
+          {location.pathname == routes.adminPrincipal && <div className='div_filtro'>
+            <label htmlFor="sucursal">Sucursal</label>
+            {sucursales && <select name="sucursal" id="sucursal" onChange={changeSucursal}>
+              <option key={'todasLasSucursales'} value={'default'}>Todas las sucursales</option>
+              {sucursales.map((s, index) => (<option key={s._id} value={s._id}>{s.nombre}</option>))}
+            </select>}
+          </div>}
+      </div>
+      <div className='campoObligatorio'>
+        {!rangoCorrecto && <p>El rango establecido es incorrecto.</p>}            
+      </div>
     </div>
   )
 }

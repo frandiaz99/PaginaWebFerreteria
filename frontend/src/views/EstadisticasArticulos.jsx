@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/EstadisticasArticulos.css'
-import ArticuloDestacado from '../components/ArticuloDestacado';
+import Articulo from '../components/Articulo';
 import routes from '../routes';
 import FiltroFechaDestacados from '../components/FiltroFechaDestacados';
 
@@ -8,7 +8,6 @@ import FiltroFechaDestacados from '../components/FiltroFechaDestacados';
 function EstadisticasArticulos() {
   const [articulosDestacados, setArticulosDestacados]= useState([])
   const [articulosDestacadosFiltro, setArticulosDestacadosFiltro]= useState([])
-  const [eliminado, setEliminado]= useState(false)
   const actualizarArticulosDestacados = (a) =>{
     setArticulosDestacadosFiltro(a)
   }
@@ -59,9 +58,6 @@ function EstadisticasArticulos() {
     }, [articulosDestacadosFiltro])
   }
 
-  const reinicarArts= () =>{
-    setEliminado(!eliminado)
-  }
 
   return (
     <main className='main'>
@@ -76,13 +72,8 @@ function EstadisticasArticulos() {
               No se destacaron art&iacute;culos.
             </div> //Podria ser un componente
             :
-            <div className='misArticulos'>
-              {articulosDestacadosFiltro.slice(0, 3).map((art, index) =>(<ArticuloDestacado key={index} articulo={art} misArticulos={false} eliminar={reinicarArts}/>))}
-              {articulosDestacadosFiltro.length > 3 && (
-                <div className='misArticulos-overflow'>
-                  {articulosDestacadosFiltro.slice(3).map((art, index) =>(<ArticuloDestacado key={index + 3} articulo={art} misArticulos={false} eliminar={reinicarArts}/>))}
-                </div>
-              )}
+            <div className='misArticulosEA'>
+              {articulosDestacadosFiltro.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={false} />))}
             </div>}
           <div className='ganancia-principal_admin_emple'>
             <h3 className='tituloGanancia'>Ganancia Total</h3>

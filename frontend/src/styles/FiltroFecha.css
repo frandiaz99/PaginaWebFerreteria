@@ -1,8 +1,8 @@
 .filtros-fecha{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .div_filtro{
@@ -17,5 +17,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+}
+
+.filtrosSinAviso{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     text-align: center;
 }

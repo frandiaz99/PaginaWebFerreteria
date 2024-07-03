@@ -46,7 +46,7 @@ function FiltroFechaDestacados({totalItems, actualizar}) {
     var itemsFiltrados= totalItems
 
     if (fecha1 && fecha2){
-      if ((fecha1 < fecha2 || fecha1 == fecha2) && (fecha1 <= fechaActual || fecha2 <= fechaActual)){
+      if ((fecha1 < fecha2 || fecha1 == fecha2) && (fecha1 <= fechaActual && fecha2 <= fechaActual)){
         itemsFiltrados= totalItems.filter(i => isDateBetween(i.promocionado.fecha, fecha1, fecha2))
         if (location.pathname !== routes.adminPrincipal) {
           actualizar(itemsFiltrados)  //para el admin se actualiza luego de elegir una sucursal
