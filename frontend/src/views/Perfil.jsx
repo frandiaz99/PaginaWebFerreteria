@@ -89,8 +89,8 @@ function Perfil() {
         })
         .catch(error => {
           console.error('Error:', error);
-          setTruequesCompletados([])
           setCantTruequesRealizados(0)
+          setTruequesCompletados([])
         })
     }
   }, [usuario]);
@@ -222,7 +222,9 @@ function Perfil() {
                         <Comentario key={index} comentario={c} generarEstrellas={generarEstrellas}/>
                     ))  
                   :
-                  <p>No hay comentarios</p>
+                  <div className='divNoComments'>
+                    <p>No hay comentarios</p>
+                  </div>
                 :
                     <p>Cargando...</p>
                 }
