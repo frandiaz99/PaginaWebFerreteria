@@ -4,7 +4,7 @@
     align-items: center;
     position: absolute;
     background: white;
-    overflow: hidden;
+    overflow: auto;
     border-radius: 5px;
     top: 100%;
     right: -140%;

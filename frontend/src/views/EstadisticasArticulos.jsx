@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import '../styles/MisArticulos.css'
-import Articulo from '../components/Articulo';
+import '../styles/EstadisticasArticulos.css'
+import ArticuloDestacado from '../components/ArticuloDestacado';
 import routes from '../routes';
+import FiltroFechaDestacados from '../components/FiltroFechaDestacados';
+
 
 function EstadisticasArticulos() {
   const [articulosDestacados, setArticulosDestacados]= useState([])
+  const [articulosDestacadosFiltro, setArticulosDestacadosFiltro]= useState([])
   const [eliminado, setEliminado]= useState(false)
-  const [obtenido, setObtenido]= useState(false)
+  const actualizarArticulosDestacados = (a) =>{
+    setArticulosDestacadosFiltro(a)
+  }
+  const [totalGanancias, setTotalGanancias] = useState(0)
 
   if (location.pathname == routes.empleadoEstadisticas){
     useEffect(() => {
@@ -33,7 +39,24 @@ function EstadisticasArticulos() {
         const errorData= JSON.parse(error.message)
         console.log(errorData.message)
       });
-    }, [eliminado])
+    }, [location.pathname])
+
+    useEffect(() => {
+      setArticulosDestacadosFiltro(articulosDestacados)
+    }, [articulosDestacados])
+
+    useEffect(() => {
+      var ganancias = 0;
+      for (let i = 0; i < articulosDestacadosFiltro.length; i++) {
+        ganancias += articulosDestacadosFiltro[i].promocionado.duracion * 2000;
+      }
+      setTotalGanancias(ganancias)
+    }, [articulosDestacadosFiltro])
+
+    useEffect(() => {
+      console.log("que tiene el filtro: ")
+      console.log(articulosDestacadosFiltro)
+    }, [articulosDestacadosFiltro])
   }
 
   const reinicarArts= () =>{
@@ -43,22 +66,29 @@ function EstadisticasArticulos() {
   return (
     <main className='main'>
       <div className='misArticulosPrincipal'>
-
-        <div className='contenedor-misArticulos'>    {/*Aca irian los tasados*/}
+        <FiltroFechaDestacados totalItems={articulosDestacados} actualizar={actualizarArticulosDestacados}/>
+        <div className='contenedor-misArticulos'>
           <div className='tituloMisArticulos'>
             <h3>Art&iacute;culos destacados</h3>
           </div>
-          {articulosDestacados.length == 0 ? 
+          {articulosDestacadosFiltro.length == 0 ? 
             <div className='noHayItems'>
-              No hay articulos destacados.
+              No se destacaron art&iacute;culos.
             </div> //Podria ser un componente
-          :
-          <div className='misArticulos'>
-            {articulosDestacados.map((art, index) =>(<Articulo key={index} articulo={art} misArticulos={false} eliminar={reinicarArts}/>))}
+            :
+            <div className='misArticulos'>
+              {articulosDestacadosFiltro.slice(0, 3).map((art, index) =>(<ArticuloDestacado key={index} articulo={art} misArticulos={false} eliminar={reinicarArts}/>))}
+              {articulosDestacadosFiltro.length > 3 && (
+                <div className='misArticulos-overflow'>
+                  {articulosDestacadosFiltro.slice(3).map((art, index) =>(<ArticuloDestacado key={index + 3} articulo={art} misArticulos={false} eliminar={reinicarArts}/>))}
+                </div>
+              )}
+            </div>}
+          <div className='ganancia-principal_admin_emple'>
+            <h3 className='tituloGanancia'>Ganancia Total</h3>
+            <h2 className='ganancia'>${totalGanancias}</h2>
           </div>
-          }
         </div>
-
       </div>
     </main>
   )

@@ -1,0 +1,16 @@
+#img-destacado{
+    height: 100px
+}
+
+#articulo-destacado{
+    text-align: center;
+    align-items: center;
+}
+
+#articulo-contenido-destacado{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}

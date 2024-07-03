@@ -13,6 +13,10 @@
     gap: 10px;
 }
 
+.contenedor-misArticulos .ganancia-principal_admin_emple{
+    margin-left: auto;
+}
+
 .misArticulos{
     display: flex;
     gap: 10px;

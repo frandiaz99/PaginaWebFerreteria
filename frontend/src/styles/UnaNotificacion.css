@@ -1,6 +1,5 @@
 .unaNotificacion{
     display: flex;
-    flex-direction: column;
 }
 .fotoNotificacion{
     width: 25px;
