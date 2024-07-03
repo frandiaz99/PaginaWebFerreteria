@@ -209,9 +209,19 @@ return (
     {/* :<button onClick={crearPedido}>Confirmar</button> */ }
   
 
-      { promocionandoArticulo ? <button className="boton-intercambiar" onClick={() =>{setPromocionandoArticulo(false)}}>Promocionar</button>
-       :(<><input type="numer" name="contenidoBuscador" placeholder="Ingresa la duracion de días" onChange={cambiarCantidadDias}></input>   
-          {!clickeado ? <button onClick={crearPedido} className='botonConfirmarDuracion'>Confirmar</button> : aguardar && <p style={{fontSize:'15px'}}>Aguarda un momento...</p>}</>)}
+      { promocionandoArticulo
+       ? 
+       <button className="boton-intercambiar" onClick={() =>{setPromocionandoArticulo(false)}}>Promocionar</button>
+       :
+       !clickeado ? 
+       <>
+        <input type="numer" name="contenidoBuscador" placeholder="Ingresa la duracion de días" onChange={cambiarCantidadDias}></input>
+        <p style={{fontSize:'15px'}}>1 día de promocion = $2000 AR</p> 
+        <button onClick={crearPedido} className='botonConfirmarDuracion'>Confirmar</button> 
+        </>
+        :
+         aguardar && <p style={{fontSize:'15px'}}>Aguarda un momento...</p>
+       }
 
     
     {/*preferenceId && <Wallet initialization={{preferenceId: preferenceId, redirectMode: 'modal'}} customization={{ texts:{ valueProp: 'smart_option'}}} onSubmit={onSubmit} onReady={onReady} onError={onError} />*/}
