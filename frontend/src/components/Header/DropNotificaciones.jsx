@@ -50,7 +50,7 @@ console.log("noti: ", notificaciones)
           <div className='divNotificaciones'>
           
            { notificaciones.map((noti) =>(
-              <UnaNotificacion contenido={noti}/>
+              <UnaNotificacion contenido={noti} soyLaUltima={notificaciones.length == 1} setNuevaNoti={setNuevaNoti}/>
             ))}
           </div>
           :

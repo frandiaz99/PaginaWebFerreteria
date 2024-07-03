@@ -5,7 +5,7 @@ import routes from '../../routes.js'
 
 
 
-function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back cada vez que se abra el drop o q onda
+function UnaNotificacion({contenido, soyLaUltima, setNuevaNoti}) {  //Despues ver si hay que llamar al back cada vez que se abra el drop o q onda
     const navigate = useNavigate();
     const handleRedirect = () => {
         fetch("http://localhost:5000/notificacion/verNotificacion", {
@@ -29,6 +29,7 @@ function UnaNotificacion({contenido}) {  //Despues ver si hay que llamar al back
                 const errorData = JSON.parse(error.message)
                 console.log(errorData)                    
             });
+        if (soyLaUltima) setNuevaNoti(false)
         if(contenido.tipo == 5){
             navigate(routes.misArticulos)
         }else{

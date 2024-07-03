@@ -58,7 +58,6 @@ function OpcionesUser() {
             .then(data => {
               console.log(data)
               const nuevasNotis=data.filter(notis => !notis.visto)
-              console.log("awdead", nuevasNotis)
               localStorage.setItem('notificaciones',JSON.stringify(nuevasNotis))
               if (nuevasNotis.length > 0) setNuevaNoti(true)
               else setNuevaNoti(false)
