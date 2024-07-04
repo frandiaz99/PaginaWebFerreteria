@@ -144,9 +144,8 @@ const CheckearPorNuevoPago = async ()  => {
 	
 	//console.log(ListaEspera)
 	if (ListaEspera[0]){
-		console.log("DE vuelta, falta checkear:", ListaEspera)
 		setTimeout(CheckearPorNuevoPago, (20 * 1000))
-	} else {console.log ("TODOS LOS PAGOS FUERON CHECKEADOS.")}
+	}
 
 } catch (err) {
 	console.log(err)
