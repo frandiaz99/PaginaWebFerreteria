@@ -46,6 +46,7 @@ const sucursalSchema = mongoose.Schema({
   direccion: { type: String, required: true },
   telefono: { type: String, required: true },
   foto: { type: String, required: true },
+  borrado: {type: Boolean, default: false}
 
   //Empleados[(FK)], direccion: String(link maps), Trueques[(FK)]
 });

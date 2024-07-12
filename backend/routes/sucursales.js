@@ -13,7 +13,7 @@ const router = express.Router();
 const getSucursales = async (req, res, next) => {
   console.log("get sucursales");
   try {
-    DataSucursal.find().then((Sucursales) => {
+    DataSucursal.find({borrado: "false"}).then((Sucursales) => {
       return res.status(200).json({ message: "Consulta exitosa", Sucursales });
     });
   } catch (err) {
@@ -92,24 +92,25 @@ const eliminarSucursal = async (req, res, next) => {
       .status(401)
       .json({ message: "Objeto 'id' en 'Sucursal' no recibido", status: 403 });
   }
+  
+  if (!(User.rol >= 2)) {
+    return res.status(401).json({
+      message: "No posee permisos para borrar el articulo",
+      status: 405,
+    });
+  }
 
   try {
-    const Publi = await DataSucursal.findById(Sucursal._id);
+    //const Publi = await DataSucursal.find(Sucursal._id);
+    const Publi = await DataSucursal.findOneAndUpdate({"_id": Sucursal._id}, {"borrado": true});
     if (!Publi) {
       console.log("Sucursal not found");
       return res
         .status(404)
         .json({ message: "Sucursal not found", status: 404 });
     }
-    if (!(User.rol >= 2)) {
-
-      return res.status(401).json({
-        message: "No posee permisos para borrar el articulo",
-        status: 405,
-      });
-    }
     //es el creador del articulo
-    await Publi.deleteOne().then((result) => {
+    /*await Publi.deleteOne().then((result) => {
       if (result) {
         console.log("Sucursal successfully deleted");
         return res
@@ -121,7 +122,8 @@ const eliminarSucursal = async (req, res, next) => {
           .status(200)
           .json({ message: "Error borrando sucursal", status: 406 });
       }
-    });
+    });*/
+    res.status(200).json({message: "Sucursal borrada exitosamente"});
   } catch (err) {
     console.error("An error occurred", err);
     return res
