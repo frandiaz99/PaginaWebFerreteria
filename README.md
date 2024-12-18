@@ -26,7 +26,7 @@ Sigue estos pasos para inicializar el proyecto localmente:
 ### **Instrucciones**  
 1. **Clonar el repositorio:**  
    ```bash
-   git clone git@github.com:frandiaz99/PaginaWebFerreteria.git
+   git clone https://github.com/frandiaz99/PaginaWebFerreteria.git
    cd proyecto-is2
    ```
 
